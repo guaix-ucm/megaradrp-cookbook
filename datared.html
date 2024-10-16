@@ -1,0 +1,1758 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data reduction &mdash; megara-cookbook v1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=e160b93e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="MEGARA Tools" href="megaratools.html" />
+    <link rel="prev" title="Data description" href="datadesc.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            megara-cookbook
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="megaradrp.html">MEGARA Data Reduction Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">DRP installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datadesc.html">Data description</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Data reduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-organization">Data organization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-a-recipe">Running a recipe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-reduction-process">Data reduction process</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bias-image">Bias image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dark-image">Dark image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bad-pixels-mask">Bad-pixels Mask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#slit-flat-correction">Slit Flat correction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tracing-fibers">Tracing fibers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#trace-map">Trace map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#model-map">Model map</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#wavelength-calibration">Wavelength Calibration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flat-field-correction">Flat-field correction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#illumination-correction">Illumination correction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flux-calibration">Flux calibration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lcb-ifu-mos-scientific-observation">LCB IFU/MOS scientific observation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="megaratools.html">MEGARA Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="issues.html">Known ISSUES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acronyms.html">Acronyms</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">megara-cookbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Data reduction</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/datared.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="data-reduction">
+<h1>Data reduction<a class="headerlink" href="#data-reduction" title="Link to this heading"></a></h1>
+<section id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h2>
+<p>The first step to start the data reduction is to activate your
+environment (see details in section <a class="reference internal" href="install.html#drp-installation"><span class="std std-ref">DRP installation</span></a>).</p>
+<p>The next step is to download the data employed in this cookbook:
+<a class="reference external" href="https://guaix.fis.ucm.es/data/megaradrp/megara-cookbook-v2.tar.gz">megara-cookbook-v2.tar.gz</a></p>
+<p>If you find any trouble trying to download the previous file, try with the
+following command line:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>curl<span class="w"> </span>-O<span class="w"> </span>https://guaix.fis.ucm.es/data/megaradrp/megara-cookbook-v2.tar.gz
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please be aware that this file has been updated as of September 2024.  This
+change has been motivated by the need to adapt the structure of the
+<code class="docutils literal notranslate"><span class="pre">control.yaml</span></code> file to facilitate the EMIR reduction pipeline in handling
+data obtained with a detector different from the one originally installed.
+This type of change requires the use of specific calibration files for the
+particular detector used at any given time. Once this file is modified for
+EMIR, MEGARA also inherits the same change (the different pipelines use the
+same Python package <strong>numina</strong> as the reduction launcher). The modification
+of the control.yaml file is not backward compatible, so it is necessary to
+have a recent version of megaradrp installed.</p>
+</div>
+<p>It is advisable to decompress the previous file in a pristine directory where
+you can comfortably start the reduction of the data:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>tar<span class="w"> </span>zxvf<span class="w"> </span>megara-cookbook-v2.tar.gz
+<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>megara-cookbook-v2
+<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>INSTALL.sh
+</pre></div>
+</div>
+<p>The last command simply replaces the second line of the file
+<code class="docutils literal notranslate"><span class="pre">MEGARA/control.yaml</span></code> to set the proper directory where the cookbook data
+have been deployed.</p>
+</section>
+<section id="data-organization">
+<h2>Data organization<a class="headerlink" href="#data-organization" title="Link to this heading"></a></h2>
+<p>MEGARA DRP uses its own data organization to work.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>tree<span class="w"> </span>-L<span class="w"> </span><span class="m">2</span>
+<span class="go">.</span>
+<span class="go">├── INSTALL.sh</span>
+<span class="go">└── MEGARA</span>
+<span class="go">    ├── M15_LCB_HR-R</span>
+<span class="go">    ├── M71_MOS_LR-R</span>
+<span class="go">    ├── ca3558e3-e50d-4bbc-86bd-da50a0998a48</span>
+<span class="go">    └── control.yaml</span>
+</pre></div>
+</div>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">tree</span></code> command shown above might not be available in certain
+unix distributions (you can use <cite>ls</cite> instead).</p>
+<p>Under the <code class="docutils literal notranslate"><span class="pre">MEGARA/</span></code> directory we need to have the calibration tree with
+the specific name <code class="docutils literal notranslate"><span class="pre">ca3558e3-e50d-4bbc-86bd-da50a0998a48/</span></code>, which is the
+string that uniquely identifies the instrument configuration (a
+different name was, for example, used during laboratory integration at
+LICA-UCM). Under the <code class="docutils literal notranslate"><span class="pre">MEGARA/</span></code> directory we can also have the requirements
+file named <code class="docutils literal notranslate"><span class="pre">control.yaml</span></code> needed to run the pipeline (see section
+<a class="reference internal" href="#running-a-recipe"><span class="std std-ref">Running a recipe</span></a>).</p>
+<p>The requirements file <code class="docutils literal notranslate"><span class="pre">control.yaml</span></code> contains the path for your <code class="docutils literal notranslate"><span class="pre">MEGARA/</span></code>
+directory (second line of this file; keyword <code class="docutils literal notranslate"><span class="pre">rootdir</span></code>),
+and useful information for performing the wavelength calibration of each
+VPH, including the number of arc lines and
+degree of polynomial fit to be used by the wavelength calibration
+recipe. In this file you can also specify the name for the extinction
+curve file used for the flux calibration recipe. This is simply an ASCII
+file with two space-separated columns, one with the wavelength in
+Angstroms and another with the magnitudes of extinction per unit airmass
+at the corresponding wavelength, i.e. the same format used for
+extinction curves within IRAF. We strongly recommend to use the standard
+extinction curve of the Roque de los Muchachos Observatory (file
+<code class="docutils literal notranslate"><span class="pre">extinction_LP.txt</span></code> under the <code class="docutils literal notranslate"><span class="pre">data</span></code> subdirectory; see below).</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="linenos"> 2</span><span class="nt">rootdir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/Users/janedoe/megara-cookbook-v2</span>
+<span class="linenos"> 3</span><span class="nt">products</span><span class="p">:</span>
+<span class="linenos"> 4</span><span class="w">  </span><span class="nt">MEGARA</span><span class="p">:</span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="nt">ca3558e3-e50d-4bbc-86bd-da50a0998a48</span><span class="p">:</span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="nt"> type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;ReferenceExtinctionTable&#39;</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;extinction_LP.txt&#39;</span><span class="p p-Indicator">}</span>
+<span class="linenos"> 7</span><span class="nt">requirements</span><span class="p">:</span>
+<span class="linenos"> 8</span><span class="w">  </span><span class="nt">MEGARA</span><span class="p">:</span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="nt">ca3558e3-e50d-4bbc-86bd-da50a0998a48</span><span class="p">:</span>
+<span class="linenos">10</span><span class="w">      </span><span class="nt">default</span><span class="p">:</span>
+<span class="linenos">11</span><span class="w">        </span><span class="nt">MegaraArcCalibration</span><span class="p">:</span>
+<span class="linenos">12</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">LR-U</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">LCB</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">25</span><span class="p p-Indicator">,</span><span class="nv">25</span><span class="p p-Indicator">]}</span>
+<span class="linenos">13</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">LR-U</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">MOS</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">25</span><span class="p p-Indicator">,</span><span class="nv">25</span><span class="p p-Indicator">]}</span>
+<span class="linenos">14</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">LR-B</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">LCB</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">10</span><span class="p p-Indicator">,</span><span class="nv">10</span><span class="p p-Indicator">,</span><span class="nv">15</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+<span class="linenos">15</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">LR-B</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">MOS</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">10</span><span class="p p-Indicator">,</span><span class="nv">10</span><span class="p p-Indicator">,</span><span class="nv">15</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+<span class="linenos">16</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">LR-V</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">LCB</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">15</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">,</span><span class="nv">10</span><span class="p p-Indicator">,</span><span class="nv">7</span><span class="p p-Indicator">]}</span>
+<span class="linenos">17</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">LR-V</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">MOS</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">15</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">,</span><span class="nv">10</span><span class="p p-Indicator">,</span><span class="nv">7</span><span class="p p-Indicator">]}</span>
+<span class="linenos">18</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">LR-R</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">LCB</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">14</span><span class="p p-Indicator">,</span><span class="nv">7</span><span class="p p-Indicator">]}</span>
+<span class="linenos">19</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">LR-R</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">MOS</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">14</span><span class="p p-Indicator">,</span><span class="nv">7</span><span class="p p-Indicator">]}</span>
+<span class="linenos">20</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">LR-I</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">LCB</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">14</span><span class="p p-Indicator">]}</span>
+<span class="linenos">21</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">LR-I</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">MOS</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">14</span><span class="p p-Indicator">]}</span>
+<span class="linenos">22</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">LR-Z</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">LCB</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">14</span><span class="p p-Indicator">,</span><span class="nv">9</span><span class="p p-Indicator">]}</span>
+<span class="linenos">23</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">LR-Z</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">MOS</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">14</span><span class="p p-Indicator">,</span><span class="nv">9</span><span class="p p-Indicator">]}</span>
+<span class="linenos">24</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-U</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">LCB</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">8</span><span class="p p-Indicator">,</span><span class="nv">10</span><span class="p p-Indicator">]}</span>
+<span class="linenos">25</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-U</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">MOS</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">8</span><span class="p p-Indicator">,</span><span class="nv">10</span><span class="p p-Indicator">]}</span>
+<span class="linenos">26</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-UB</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">LCB</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">20</span><span class="p p-Indicator">]}</span>
+<span class="linenos">27</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-UB</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">MOS</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">20</span><span class="p p-Indicator">]}</span>
+<span class="linenos">28</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-B</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">LCB</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">11</span><span class="p p-Indicator">]}</span>
+<span class="linenos">29</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-B</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">MOS</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">11</span><span class="p p-Indicator">]}</span>
+<span class="linenos">30</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-G</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">LCB</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">10</span><span class="p p-Indicator">,</span><span class="nv">10</span><span class="p p-Indicator">,</span><span class="nv">8</span><span class="p p-Indicator">]}</span>
+<span class="linenos">31</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-G</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">MOS</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">10</span><span class="p p-Indicator">,</span><span class="nv">10</span><span class="p p-Indicator">,</span><span class="nv">8</span><span class="p p-Indicator">]}</span>
+<span class="linenos">32</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-V</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">LCB</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">13</span><span class="p p-Indicator">,</span><span class="nv">8</span><span class="p p-Indicator">]}</span>
+<span class="linenos">33</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-V</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">MOS</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">13</span><span class="p p-Indicator">,</span><span class="nv">8</span><span class="p p-Indicator">]}</span>
+<span class="linenos">34</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-VR</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">LCB</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">14</span><span class="p p-Indicator">]}</span>
+<span class="linenos">35</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-VR</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">MOS</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">14</span><span class="p p-Indicator">]}</span>
+<span class="linenos">36</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-R</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">LCB</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">9</span><span class="p p-Indicator">]}</span>
+<span class="linenos">37</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-R</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">MOS</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">9</span><span class="p p-Indicator">]}</span>
+<span class="linenos">38</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-RI</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">LCB</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">7</span><span class="p p-Indicator">]}</span>
+<span class="linenos">39</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-RI</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">MOS</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">7</span><span class="p p-Indicator">]}</span>
+<span class="linenos">40</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-I</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">LCB</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">5</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+<span class="linenos">41</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-I</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">MOS</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">5</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+<span class="linenos">42</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-Z</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">LCB</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">,</span><span class="nv">3</span><span class="p p-Indicator">]}</span>
+<span class="linenos">43</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-Z</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">MOS</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">,</span><span class="nv">3</span><span class="p p-Indicator">]}</span>
+<span class="linenos">44</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">HR-R</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">LCB</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+<span class="linenos">45</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">HR-R</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">MOS</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+<span class="linenos">46</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">HR-I</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">LCB</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">10</span><span class="p p-Indicator">]}</span>
+<span class="linenos">47</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">nlines</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">HR-I</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">,</span><span class="nt"> insmode</span><span class="p">:</span><span class="w"> </span><span class="nv">MOS</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">10</span><span class="p p-Indicator">]}</span>
+<span class="linenos">48</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">polynomial_degree</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">LR-U</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+<span class="linenos">49</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">polynomial_degree</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">LR-B</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">5</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+<span class="linenos">50</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">polynomial_degree</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">LR-V</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">5</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+<span class="linenos">51</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">polynomial_degree</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">LR-R</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+<span class="linenos">52</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">polynomial_degree</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">LR-I</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+<span class="linenos">53</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">polynomial_degree</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">LR-Z</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+<span class="linenos">54</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">polynomial_degree</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-U</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+<span class="linenos">55</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">polynomial_degree</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-UB</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+<span class="linenos">56</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">polynomial_degree</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-B</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+<span class="linenos">57</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">polynomial_degree</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-G</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+<span class="linenos">58</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">polynomial_degree</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-V</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThAr</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+<span class="linenos">59</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">polynomial_degree</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-VR</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+<span class="linenos">60</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">polynomial_degree</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-R</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="nv">3</span><span class="p p-Indicator">]}</span>
+<span class="linenos">61</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">polynomial_degree</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-RI</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="nv">3</span><span class="p p-Indicator">]}</span>
+<span class="linenos">62</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">polynomial_degree</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-I</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+<span class="linenos">63</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">polynomial_degree</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">MR-Z</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="nv">3</span><span class="p p-Indicator">]}</span>
+<span class="linenos">64</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">polynomial_degree</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">HR-R</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+<span class="linenos">65</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="nv">polynomial_degree</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">vph</span><span class="p">:</span><span class="w"> </span><span class="nv">HR-I</span><span class="p p-Indicator">,</span><span class="nt"> speclamp</span><span class="p">:</span><span class="w"> </span><span class="nv">ThNe</span><span class="p p-Indicator">},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3</span><span class="p p-Indicator">,</span><span class="nv">5</span><span class="p p-Indicator">]}</span>
+</pre></div>
+</div>
+<p>Another fundamental function of the calibration tree
+(<code class="docutils literal notranslate"><span class="pre">ca3558e3-e50d-4bbc-86bd-da50a0998a48/</span></code>) is to host the calibration
+products that will be used by the corresponding recipes, such as the
+<strong>MasterBias</strong>, <strong>MasterFiberFlat</strong>, <strong>MasterSensitivity</strong>, etc. Thus, once the
+files for these calibrations are generated, they should be copied under
+this calibration tree according structure below. Since the DRP would
+read the first file in alphabetical order inside the corresponding
+folder, we recommend to place only one file in each folder.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>tree<span class="w"> </span>-L<span class="w"> </span><span class="m">2</span><span class="w"> </span>ca3558e3-e50d-4bbc-86bd-da50a0998a48
+<span class="go">ca3558e3-e50d-4bbc-86bd-da50a0998a48</span>
+<span class="go">├── LinesCatalog</span>
+<span class="go">│   ├── ThAr</span>
+<span class="go">│   └── ThNe</span>
+<span class="go">├── MasterBPM</span>
+<span class="go">│   └── master_bpm.fits</span>
+<span class="go">├── MasterBias</span>
+<span class="go">├── MasterFiberFlat</span>
+<span class="go">│   ├── LCB</span>
+<span class="go">│   └── MOS</span>
+<span class="go">├── MasterSensitivity</span>
+<span class="go">│   ├── LCB</span>
+<span class="go">│   └── MOS</span>
+<span class="go">├── MasterSlitFlat</span>
+<span class="go">├── MasterTwilightFlat</span>
+<span class="go">│   ├── LCB</span>
+<span class="go">│   └── MOS</span>
+<span class="go">├── ModelMap</span>
+<span class="go">│   ├── LCB</span>
+<span class="go">│   └── MOS</span>
+<span class="go">├── TraceMap</span>
+<span class="go">│   ├── LCB</span>
+<span class="go">│   └── MOS</span>
+<span class="go">└── WavelengthCalibration</span>
+<span class="go">    ├── LCB</span>
+<span class="go">    └── MOS</span>
+</pre></div>
+</div>
+<p>The content for the LinesCatalog/ is specific for each VPH (line lists
+for all VPHs can be found at
+<a class="reference external" href="https://zenodo.org/record/2270518">https://zenodo.org/record/2270518</a>). In the following
+example the calibration files for the HR-R (LCB observing mode) and LR-R
+(MOS observing mode) VPHs are shown. When other VPHs are used, the user
+just needs to create the corresponding folders. It is recommended to
+have only one file in each calibration directory. For example, for the
+same VPH you can have several <code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> files with the
+information to trace the fibers light through the detector at the same
+day but at different ambient temperatures.</p>
+<p>Different files can be stored at the same directory, but the DRP is
+going to use the first file it encounters in alphabetical order. The
+user can name the desired file with prefix <code class="docutils literal notranslate"><span class="pre">00_</span></code> (e.g.
+<code class="docutils literal notranslate"><span class="pre">00_master_traces.json</span></code>) to be sure this is the file to be used by the
+DRP. Note that the sorting of files named <code class="docutils literal notranslate"><span class="pre">00_</span></code> and <code class="docutils literal notranslate"><span class="pre">000_</span></code> might
+be different for the operative system and for the MEGARA DRP, so avoid
+making abusive use of these prefixes.</p>
+<p>An example of calibration tree with some additional calibration files is the
+following:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>tree<span class="w"> </span>ca3558e3-e50d-4bbc-86bd-da50a0998a48/<span class="w"> </span>-L<span class="w"> </span><span class="m">4</span>
+<span class="go">ca3558e3-e50d-4bbc-86bd-da50a0998a48/</span>
+<span class="go">├── LinesCatalog</span>
+<span class="go">│   ├── ThAr</span>
+<span class="go">│   │   ├── LR-R</span>
+<span class="go">│   │   │   └── LR-R_ThAr.lis</span>
+<span class="go">│   │   .</span>
+<span class="go">│   │   .</span>
+<span class="go">│   │   .</span>
+<span class="go">│   └── ThNe</span>
+<span class="go">│       ├── HR-R</span>
+<span class="go">│       │   └── HR-R_ThNe.lis</span>
+<span class="go">│       .</span>
+<span class="go">│       .</span>
+<span class="go">│       .</span>
+<span class="go">├── MasterBPM</span>
+<span class="go">│   └── master_bpm.fits</span>
+<span class="go">├── MasterBias</span>
+<span class="go">│   └── master_bias.fits</span>
+<span class="go">├── MasterFiberFlat</span>
+<span class="go">│   ├── LCB</span>
+<span class="go">│   │   └── HR-R</span>
+<span class="go">│   │       └── master_fiberflat.fits</span>
+<span class="go">│   └── MOS</span>
+<span class="go">│       └── LR-R</span>
+<span class="go">│           └── master_fiberflat.fits</span>
+<span class="go">├── MasterSensitivity</span>
+<span class="go">│   ├── LCB</span>
+<span class="go">│   │   └── HR-R</span>
+<span class="go">│   │       └── master_sensitivity.fits</span>
+<span class="go">│   └── MOS</span>
+<span class="go">│       └── LR-R</span>
+<span class="go">│           └── master_sensitivity.fits</span>
+<span class="go">├── MasterSlitFlat</span>
+<span class="go">│</span>
+<span class="go">├── MasterTwilightFlat</span>
+<span class="go">│   └── LCB</span>
+<span class="go">│       └── HR-R</span>
+<span class="go">│           └── master_twilightflat.fits</span>
+<span class="go">├── ModelMap</span>
+<span class="go">│   ├── LCB</span>
+<span class="go">│   │   └── HR-R</span>
+<span class="go">│   │       └── master_model.json</span>
+<span class="go">│   └── MOS</span>
+<span class="go">│       └── LR-R</span>
+<span class="go">│           └── master_model.json</span>
+<span class="go">├── TraceMap</span>
+<span class="go">│   ├── LCB</span>
+<span class="go">│   │   └── HR-R</span>
+<span class="go">│   │       └── master_traces.json</span>
+<span class="go">│   └── MOS</span>
+<span class="go">│       └── LR-R</span>
+<span class="go">│           └── master_traces.json</span>
+<span class="go">└── WavelengthCalibration</span>
+<span class="go">    ├── LCB</span>
+<span class="go">    │   └── HR-R</span>
+<span class="go">    │       └── master_wlcalib.json</span>
+<span class="go">    └── MOS</span>
+<span class="go">        └── LR-R</span>
+<span class="go">            └── master_wlcalib.json</span>
+</pre></div>
+</div>
+<p>Furthermore, the user’s <code class="docutils literal notranslate"><span class="pre">MEGARA/</span></code> directory can contain data for your
+targets under different directories (in this example our targets are the
+M15 and M71 globular clusters). <strong>Your raw data should always be
+included in a subdirectory named</strong> <code class="docutils literal notranslate"><span class="pre">data/</span></code> within each working target
+directory (M15, M71, etc.). Images could be stored gzipped but then the
+observation-result files should list the images with the .gz extension.
+The different observation-result files (<code class="docutils literal notranslate"><span class="pre">*.yaml</span></code>) used during the data
+reduction process should be also located within each target directory as
+they will be different for each target. In this example, the
+observation-result files in YAML format are named with a first number
+related in which order they are run.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>tree<span class="w"> </span>M15_LCB_HR-R
+<span class="go">M15_LCB_HR-R</span>
+<span class="go">├── 0_bias.yaml</span>
+<span class="go">├── 1_tracemap.yaml</span>
+<span class="go">├── 2_modelmap.yaml</span>
+<span class="go">├── 3_wavecalib.yaml</span>
+<span class="go">├── 4_fiberflat.yaml</span>
+<span class="go">├── 5_twilight.yaml</span>
+<span class="go">├── 6_Lcbadquisition.yaml</span>
+<span class="go">├── 7_Standardstar.yaml</span>
+<span class="go">├── 8_reduce_LCB.yaml</span>
+<span class="go">└── data</span>
+<span class="go">    ├── 0001251794-20170626-MEGARA-MegaraLCBImage.fits</span>
+<span class="go">    ├── 0001251795-20170626-MEGARA-MegaraLCBImage.fits</span>
+<span class="go">    ├── ...</span>
+<span class="go">    ├── 0001312250-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="go">    ├── 0001312251-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="go">    ├── extinction_LP.txt</span>
+<span class="go">    └── mbd284211_stis.dat</span>
+</pre></div>
+</div>
+</section>
+<section id="running-a-recipe">
+<span id="id1"></span><h2>Running a recipe<a class="headerlink" href="#running-a-recipe" title="Link to this heading"></a></h2>
+<p>The MEGARA DRP is run through a command line interface provided by
+<strong>numina</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Remember that the <code class="docutils literal notranslate"><span class="pre">numina</span></code> script is the interface with GTC pipelines.
+In order to execute <strong>megaradrp</strong> recipes you should type something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(megara) $ numina run &lt;observation_result_file.yaml&gt; -r &lt;requirements_file.yaml&gt;
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">&lt;observation_result_file.yaml&gt;</span></code> is an observation result file in
+YAML format, and <code class="docutils literal notranslate"><span class="pre">&lt;requirements_files.yaml&gt;</span></code> is a requirements file, also
+in YAML format (this file is named <code class="docutils literal notranslate"><span class="pre">control.yaml</span></code>).</p>
+<p>YAML is a human-readable data serialization language (for details see
+<a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html">YAML Syntax</a>)</p>
+</div>
+<p>The run mode of <code class="docutils literal notranslate"><span class="pre">numina</span></code> requires:</p>
+<ul class="simple">
+<li><p>An observation-result file in YAML format.</p></li>
+<li><p>A requirements file in YAML format (<code class="docutils literal notranslate"><span class="pre">control.yaml</span></code>).</p></li>
+<li><p>The raw images obtained as part of the user’s observing block.</p></li>
+<li><p>The calibrations required by the recipe.</p></li>
+</ul>
+<p>The observation-result file and the requirements file are created by the
+user. This is an example of the observation result file to compute the
+fibers traces <code class="docutils literal notranslate"><span class="pre">1_tracemap.yaml</span></code> under the subdirectory <code class="docutils literal notranslate"><span class="pre">M15_LCB-HR-R</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1_HR-R</span>
+<span class="linenos">2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraTraceMap</span>
+<span class="linenos">3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="linenos">4</span><span class="nt">frames</span><span class="p">:</span>
+<span class="linenos">5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312246-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos">6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312247-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos">7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312248-20170831-MEGARA-MegaraSuccess.fits</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">id:</span></code> is an identifier of the observing block. The DRP will
+create two directories with the products of the recipe (<code class="docutils literal notranslate"><span class="pre">obsid&lt;id&gt;_work/</span></code> and
+<code class="docutils literal notranslate"><span class="pre">obsid&lt;id&gt;_results/</span></code>) using the <code class="docutils literal notranslate"><span class="pre">id</span></code> identifier as an arbitray label to
+identify
+the corresponding processing block. The <code class="docutils literal notranslate"><span class="pre">mode:</span></code> is the name of the
+instrument observing mode as returned by numina show-modes. In
+<code class="docutils literal notranslate"><span class="pre">frames:</span></code> a list of the names of the images obtained as part of the
+observation should be included.</p>
+<p>Using the same YAML file the user can process sequentially different sets of
+files with the same recipe. For that purpose, the <code class="docutils literal notranslate"><span class="pre">enabled:</span></code> parameter can be
+set to <em>True</em> (or <em>False</em>) to process (or not) a specific block of files. In
+this case, do not forget the separation line <code class="docutils literal notranslate"><span class="pre">---</span></code> between blocks (otherwise
+the pipeline will not recognize where one block ends and the next one begins).
+This separation line must not appear after the last block.
+Note that the user can add comments to these YAML files by adding lines
+preceded with a hash sign (<code class="docutils literal notranslate"><span class="pre">#</span></code>).</p>
+<p>An example of an observation-result file with two blocks is the following:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>more<span class="w"> </span>1_tracemap.yaml
+<span class="go">id: 1_HR-R</span>
+<span class="go">mode: MegaraTraceMap</span>
+<span class="go">instrument: MEGARA</span>
+<span class="go">frames:</span>
+<span class="go"> - 0001312246-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="go"> - 0001312247-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="go"> - 0001312248-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="go">enabled: True</span>
+<span class="go">---</span>
+<span class="go">id: 1_HR-R_d29jun</span>
+<span class="go">mode: MegaraTraceMap</span>
+<span class="go">instrument: MEGARA</span>
+<span class="go">frames:</span>
+<span class="go"> - 0001252371-20170629-MEGARA-MegaraFiberFlatImage.fits</span>
+<span class="go"> - 0001252372-20170629-MEGARA-MegaraFiberFlatImage.fits</span>
+<span class="go"> - 0001252373-20170629-MEGARA-MegaraFiberFlatImage.fits</span>
+<span class="go">enabled: True</span>
+</pre></div>
+</div>
+<p>In the directory of our target M15 we have already defined several
+observation-result files (<code class="docutils literal notranslate"><span class="pre">*.yaml</span></code>):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span><span class="nb">pwd</span>
+<span class="go">/Users/janedoe/megara-cookbook-v2/MEGARA/M15_LCB_HR-R</span>
+<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls
+<span class="go">0_bias.yaml            4_fiberflat.yaml       8_reduce_LCB.yaml</span>
+<span class="go">1_tracemap.yaml        5_twilight.yaml        data/</span>
+<span class="go">2_modelmap.yaml        6_Lcbadquisition.yaml</span>
+<span class="go">3_wavecalib.yaml       7_Standardstar.yaml</span>
+</pre></div>
+</div>
+<p>If we want to run the recipe <strong>MegaraTraceMap</strong> using the observing-result file
+<code class="docutils literal notranslate"><span class="pre">1_tracemap.yaml</span></code>, with the requirements file <code class="docutils literal notranslate"><span class="pre">control.yaml</span></code> (the latter
+located in the directory above the current one), we should execute:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>1_tracemap.yaml<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+</pre></div>
+</div>
+<p>When disk space is an issue, it is possible to execute <code class="docutils literal notranslate"><span class="pre">numina</span></code> indicating
+that links (instead of actual copies of the original raw files) must be placed
+in the <code class="docutils literal notranslate"><span class="pre">obsid&lt;id&gt;_work/</span></code> subdirectory. This behaviour is set using the
+parameter <code class="docutils literal notranslate"><span class="pre">--link-files</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>1_tracemap.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+</pre></div>
+</div>
+<p>Other useful <strong>numina</strong> commands include:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>show-modes
+
+<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>show-recipes
+
+<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>show-recipes<span class="w"> </span>-m<span class="w"> </span>&lt;obs<span class="w"> </span>mode&gt;
+
+<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>-h
+
+<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>1_tracemap.yaml<span class="w"> </span>-r<span class="w"> </span>../control.yaml<span class="w"> </span>–enable<span class="w"> </span>&lt;block_id&gt;
+</pre></div>
+</div>
+</section>
+<section id="data-reduction-process">
+<span id="id2"></span><h2>Data reduction process<a class="headerlink" href="#data-reduction-process" title="Link to this heading"></a></h2>
+<p>In the following sections the different steps to produce the target
+wavelength and flux calibrated row-stacked spectra (RSS) are detailed. The
+examples are illustrated making use of the cookbook data available for the
+target M15:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span><span class="nb">pwd</span>
+<span class="go">/Users/janedoe/megara-cookbook-v2/MEGARA/M15_LCB_HR-R</span>
+</pre></div>
+</div>
+<p>You can easily examine the header of the FITS images using the astropy utility
+<code class="docutils literal notranslate"><span class="pre">fitsheader</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>fitsheader<span class="w"> </span>-k<span class="w"> </span>VPH<span class="w"> </span>-k<span class="w"> </span>INSMODE<span class="w"> </span>-k<span class="w"> </span>OBJECT<span class="w"> </span>-k<span class="w"> </span>SPECLAMP<span class="w"> </span>-k<span class="w"> </span>EXPTIME<span class="w"> </span>-k<span class="w"> </span>DATE-OBS<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>-f<span class="w"> </span>-e<span class="w"> </span><span class="m">0</span><span class="w"> </span>*.fits
+<span class="go">                         filename                          VPH  INSMODE  OBJECT SPECLAMP EXPTIME        DATE-OBS</span>
+<span class="go">--------------------------------------------------------- ----- ------- ------- -------- ------- ----------------------</span>
+<span class="go">      data/0001251794-20170626-MEGARA-MegaraLCBImage.fits  HR-R     LCB             NONE    60.0 2017-06-27T06:09:11.24</span>
+<span class="go">      data/0001251795-20170626-MEGARA-MegaraLCBImage.fits  HR-R     LCB             NONE    60.0 2017-06-27T06:11:59.96</span>
+<span class="go">      data/0001251796-20170626-MEGARA-MegaraLCBImage.fits  HR-R     LCB             NONE    60.0 2017-06-27T06:14:58.28</span>
+<span class="go">      data/0001286973-20170724-MEGARA-MegaraLcbImage.fits  HR-R     LCB    BD28     NONE   200.0 2017-07-25T03:50:28.63</span>
+<span class="go">      data/0001286974-20170724-MEGARA-MegaraLcbImage.fits  HR-R     LCB    BD28     NONE   200.0 2017-07-25T03:55:02.94</span>
+<span class="go">      data/0001286975-20170724-MEGARA-MegaraLcbImage.fits  HR-R     LCB    BD28     NONE   200.0 2017-07-25T03:59:37.22</span>
+<span class="go">data/0001309955-20170822-MEGARA-MegaraLcbAcquisition.fits  HR-R     LCB     M15     NONE    60.0 2017-08-23T00:05:33.93</span>
+<span class="go">data/0001309956-20170822-MEGARA-MegaraLcbAcquisition.fits  HR-R     LCB     M15     NONE    60.0 2017-08-23T00:07:49.18</span>
+<span class="go">data/0001309957-20170822-MEGARA-MegaraLcbAcquisition.fits  HR-R     LCB     M15     NONE    60.0 2017-08-23T00:10:03.43</span>
+<span class="go">     data/0001310880-20170827-MEGARA-MegaraBiasImage.fits MR-RI     LCB    Bias     NONE     0.0 2017-08-27T17:10:39.54</span>
+<span class="go">     data/0001310881-20170827-MEGARA-MegaraBiasImage.fits MR-RI     LCB    Bias     NONE     0.0 2017-08-27T17:11:53.93</span>
+<span class="go">     data/0001310882-20170827-MEGARA-MegaraBiasImage.fits MR-RI     LCB    Bias     NONE     0.0 2017-08-27T17:13:08.24</span>
+<span class="go">     data/0001310883-20170827-MEGARA-MegaraBiasImage.fits MR-RI     LCB    Bias     NONE     0.0 2017-08-27T17:14:22.58</span>
+<span class="go">     data/0001310884-20170827-MEGARA-MegaraBiasImage.fits MR-RI     LCB    Bias     NONE     0.0 2017-08-27T17:15:36.89</span>
+<span class="go">     data/0001310885-20170827-MEGARA-MegaraBiasImage.fits MR-RI     LCB    Bias     NONE     0.0 2017-08-27T17:16:51.23</span>
+<span class="go">     data/0001310886-20170827-MEGARA-MegaraBiasImage.fits MR-RI     LCB    Bias     NONE     0.0 2017-08-27T17:18:05.53</span>
+<span class="go">     data/0001310887-20170827-MEGARA-MegaraBiasImage.fits MR-RI     LCB    Bias     NONE     0.0 2017-08-27T17:19:19.83</span>
+<span class="go">     data/0001310888-20170827-MEGARA-MegaraBiasImage.fits MR-RI     LCB    Bias     NONE     0.0 2017-08-27T17:20:34.16</span>
+<span class="go">       data/0001312246-20170831-MEGARA-MegaraSuccess.fits  HR-R     LCB Halogen     NONE     5.0 2017-08-31T18:09:14.73</span>
+<span class="go">       data/0001312247-20170831-MEGARA-MegaraSuccess.fits  HR-R     LCB Halogen     NONE     5.0 2017-08-31T18:10:34.05</span>
+<span class="go">       data/0001312248-20170831-MEGARA-MegaraSuccess.fits  HR-R     LCB Halogen     NONE     5.0 2017-08-31T18:11:53.38</span>
+<span class="go">       data/0001312249-20170831-MEGARA-MegaraSuccess.fits  HR-R     LCB Halogen     ThNe    30.0 2017-08-31T18:13:38.10</span>
+<span class="go">       data/0001312250-20170831-MEGARA-MegaraSuccess.fits  HR-R     LCB Halogen     ThNe    30.0 2017-08-31T18:15:22.38</span>
+<span class="go">       data/0001312251-20170831-MEGARA-MegaraSuccess.fits  HR-R     LCB Halogen     ThNe    30.0 2017-08-31T18:17:06.67</span>
+</pre></div>
+</div>
+<p>The data available include bias exposures (the VPH is not relevant here),
+halogen exposures (for tracing and flatfielding), ThNe arc exposures (for
+wavelength calibration), and target exposures.</p>
+<section id="bias-image">
+<h3>Bias image<a class="headerlink" href="#bias-image" title="Link to this heading"></a></h3>
+<p>Before the Analog-to-Digital conversion is performed a pedestal
+(electronic) level is added to all images obtained with the MEGARA CCD.
+This is a standard procedure in CCD imaging and spectroscopy
+applications for Astronomy and is intended to minimize the ADC errors
+produced when very low analog values are converted to DUs. To calibrate
+this pedestal level of the detectors, bias images are taking with null
+integration time. We note the user that in the case of the MEGARA CCD (a
+4k x 4k pixels CCD231-84 E2V chip), since the detector is always read
+using two diagonally-opposed amplifiers (to speed up the reading process
+while minimizing electronic cross-talk), the bias is slightly different
+in the upper and bottom halves of the image. Note that the Readout Noise
+(RoN) should be around 2 e<sup>–</sup> in all cases.</p>
+<p>This recipe processes a set of bias images obtained in Bias Image
+instrument mode. Images are corrected from overscan and trimmed to the
+physical size of the detector. Then, they are corrected from Bad-pixels
+Mask, if the BPM is available and finally, images are stacked using the
+median.</p>
+<p>The content of the file <code class="docutils literal notranslate"><span class="pre">0_bias.yaml</span></code> for the M15 data is the following:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0_bias_test</span>
+<span class="linenos"> 2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraBiasImage</span>
+<span class="linenos"> 3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="linenos"> 4</span><span class="nt">frames</span><span class="p">:</span>
+<span class="linenos"> 5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001310880-20170827-MEGARA-MegaraBiasImage.fits</span>
+<span class="linenos"> 6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001310881-20170827-MEGARA-MegaraBiasImage.fits</span>
+<span class="linenos"> 7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001310882-20170827-MEGARA-MegaraBiasImage.fits</span>
+<span class="linenos"> 8</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001310883-20170827-MEGARA-MegaraBiasImage.fits</span>
+<span class="linenos"> 9</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001310884-20170827-MEGARA-MegaraBiasImage.fits</span>
+<span class="linenos">10</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001310885-20170827-MEGARA-MegaraBiasImage.fits</span>
+<span class="linenos">11</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001310886-20170827-MEGARA-MegaraBiasImage.fits</span>
+<span class="linenos">12</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001310887-20170827-MEGARA-MegaraBiasImage.fits</span>
+<span class="linenos">13</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001310888-20170827-MEGARA-MegaraBiasImage.fits</span>
+</pre></div>
+</div>
+<p>The recipe is run as follows,</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>0_bias.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+</pre></div>
+</div>
+<p>and the products are stored in the directory <code class="docutils literal notranslate"><span class="pre">obsid0_bias_test_results/</span></code>,
+including the <code class="docutils literal notranslate"><span class="pre">master_bias.fits</span></code> file (see <strong>Figure 4</strong>).</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid0_bias_test_work/
+<span class="go">0001310880-20170827-MEGARA-MegaraBiasImage.fits@</span>
+<span class="go">0001310881-20170827-MEGARA-MegaraBiasImage.fits@</span>
+<span class="go">0001310882-20170827-MEGARA-MegaraBiasImage.fits@</span>
+<span class="go">0001310883-20170827-MEGARA-MegaraBiasImage.fits@</span>
+<span class="go">0001310884-20170827-MEGARA-MegaraBiasImage.fits@</span>
+<span class="go">0001310885-20170827-MEGARA-MegaraBiasImage.fits@</span>
+<span class="go">0001310886-20170827-MEGARA-MegaraBiasImage.fits@</span>
+<span class="go">0001310887-20170827-MEGARA-MegaraBiasImage.fits@</span>
+<span class="go">0001310888-20170827-MEGARA-MegaraBiasImage.fits@</span>
+<span class="go">index.pkl</span>
+<span class="go">master_bpm.fits@</span>
+
+<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid0_bias_test_results/
+<span class="go">master_bias.fits  processing.log    result.json       task.json</span>
+</pre></div>
+</div>
+<p>Note that the data files in the <code class="docutils literal notranslate"><span class="pre">obsid0_bias_test_work</span></code> subdirectory are shown
+with a suffix <code class="docutils literal notranslate"><span class="pre">&#64;</span></code>, indicating that these files are actually links the the
+original files (stored under the <code class="docutils literal notranslate"><span class="pre">data</span></code> subdirectory).</p>
+<a class="reference internal image-reference" href="_images/image11.png"><img alt="A close up of a logo Description automatically generated" src="_images/image11.png" style="width: 3.64097in; height: 3.53681in;" />
+</a>
+<p><strong>Figure 4:</strong> Example of a MEGARA master bias as created by the
+<strong>MegaraBiasImage</strong> recipe. Note that this image was obtained with the
+MEGARA DRP ver. 0.9. Later versions fit a spline to the overscan regions of
+both amplifiers (instead of adopting a constant value) so the resulting image
+is typically flatter than the example shown here.</p>
+<p>The user needs to copy the file <code class="docutils literal notranslate"><span class="pre">master_bias.fits</span></code> to the calibration tree at
+<code class="docutils literal notranslate"><span class="pre">ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterBias/</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>cp<span class="w"> </span>obsid0_bias_test_results/master_bias.fits<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>../ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterBias
+</pre></div>
+</div>
+</section>
+<section id="dark-image">
+<h3>Dark image<a class="headerlink" href="#dark-image" title="Link to this heading"></a></h3>
+<p>The potential wells in CCD detectors spontaneously generate electron-ion
+pairs at a rate that is a function of temperature. For very long
+exposures this translates into a current that is associated with no
+light source and that is commonly referred to as dark current. Different
+tests during AIV activities have shown MEGARA detector´s dark current
+has very low values &lt; 2 e<sup>-</sup>/h/pixel, therefore in our data
+reduction dark images are neither needed nor used.</p>
+</section>
+<section id="bad-pixels-mask">
+<h3>Bad-pixels Mask<a class="headerlink" href="#bad-pixels-mask" title="Link to this heading"></a></h3>
+<p>Although science-grade CCD detectors show very few bad pixels / bad
+columns there will be a number of pixels (among the ~17 Million pixels
+in the MEGARA CCD) whose response could not be corrected by means of
+using calibration images such as dark frames or flat-field images. These
+pixels, commonly called either dead or hot pixels, should be identified
+and masked so their expected signal could be derived using dithered
+images or, alternatively, locally interpolated. The user is provided
+with a Bad-Pixels Mask (BPM) named <code class="docutils literal notranslate"><span class="pre">master_bpm.fits</span></code> and located at
+<code class="docutils literal notranslate"><span class="pre">ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterBPM/</span></code> that was generated as
+part of the AIV activities by processing a set of defocused continuum
+flat images. This image can be also found at
+<a class="reference external" href="https://zenodo.org/record/2270518">https://zenodo.org/record/2270518</a>. Currently, MEGARA
+presents only one (partial) bad column of 120 pixels in length.</p>
+</section>
+<section id="slit-flat-correction">
+<h3>Slit Flat correction<a class="headerlink" href="#slit-flat-correction" title="Link to this heading"></a></h3>
+<p>In the case of fiber-fed spectrographs the correction for the detector
+pixel-to-pixel variation of the sensibility is usually carried out using
+data from laboratory, where the change in efficiency of the detector at
+different wavelengths is computed and then used to correct for this
+effect for each specific instrument configuration (VPH setup in the case
+of MEGARA).</p>
+<p>The quality of present-day CCDs leads to a rather small impact of these
+pixel-to-pixel variations in sensitivity on either the flux calibration
+and the cosmetics of the scientific images, especially considering that
+not one but a number of pixels along the spatial direction are extracted
+for each fiber and at each wavelength. In the case of MEGARA, the
+pseudo-slit has been offset from its optical focus position to ensure
+that the gaps between fibers are also illuminated when a continuum
+(halogen) lamp at the ICM is used. The results of the analysis of the
+pixel-to-pixel variations in sensitivity show that this correction is
+actually not needed although this recipe is implemented in the MEGARA
+DRP.</p>
+</section>
+<section id="tracing-fibers">
+<span id="id3"></span><h3>Tracing fibers<a class="headerlink" href="#tracing-fibers" title="Link to this heading"></a></h3>
+<section id="trace-map">
+<h4>Trace map<a class="headerlink" href="#trace-map" title="Link to this heading"></a></h4>
+<p>The next processing step combine a series of fiber-flats to generate a
+master trace map. The fiber-flats are obtained by illuminating the
+instrument focal plane with a continuum (halogen) lamp that is part of
+the GTC Instrument Calibration Module (ICM).</p>
+<p>This step produces the tracing information required to extract the flux
+of the fibers. The result is stored in a file named
+<code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code>.</p>
+<p>An example of the observation result file <code class="docutils literal notranslate"><span class="pre">1_tracemap.yaml</span></code> to trace the
+fibers is the following:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1_HR-R</span>
+<span class="linenos">2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraTraceMap</span>
+<span class="linenos">3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="linenos">4</span><span class="nt">frames</span><span class="p">:</span>
+<span class="linenos">5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312246-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos">6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312247-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos">7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312248-20170831-MEGARA-MegaraSuccess.fits</span>
+</pre></div>
+</div>
+<p>Then the recipe is run by doing:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>1_tracemap.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+</pre></div>
+</div>
+<p>Images listed in the observation-result file are trimmed and corrected
+from overscan, bad-pixel mask (if <code class="docutils literal notranslate"><span class="pre">master_bpm.fits</span></code> is present in the
+calibration tree), bias and
+dark current (if <code class="docutils literal notranslate"><span class="pre">master_dark.fits</span></code> is present). Images thus corrected are
+then median stacked. The result of the combination is saved as an
+intermediate result that is named <code class="docutils literal notranslate"><span class="pre">reduced_image.fits</span></code>. This
+combined image is also returned in the field <code class="docutils literal notranslate"><span class="pre">reduced_image</span></code> of the
+recipe result and will be used for doing some quality control on the
+tracing of the fibers.</p>
+<p>The fibers are then grouped in packs of different numbers of fibers. To
+match the traces in the image with the corresponding fibers, the DRP
+uses the information provided by the instrument configuration to know
+how fibers are packed and where the different groups of fibers appear in
+the detector. Using the column reference 2000, peaks are detected (using
+an average of 7 columns) and matched to the layout of fibers. Fibers
+without a matching peak are counted and their ids stored in the final
+<code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> file. Once the peaks in the reference column are
+found, each one is traced until the border of the image is reached. The
+trace may be lost before reaching the border. In all cases, the
+beginning and the end of the trace are stored.</p>
+<p>The Y position of the trace is fitted to a polynomial of degree
+polynomial_degree set to 5 by default. The coefficients of the
+polynomial are stored in the final <code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> file.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid1_HR-R_work/
+<span class="go">0001312246-20170831-MEGARA-MegaraSuccess.fits@</span>
+<span class="go">0001312247-20170831-MEGARA-MegaraSuccess.fits@</span>
+<span class="go">0001312248-20170831-MEGARA-MegaraSuccess.fits@</span>
+<span class="go">cut_col2000_00_8b.png</span>
+<span class="go">cut_col2000_01_7b.png</span>
+<span class="go">cut_col2000_02_6b.png</span>
+<span class="go">cut_col2000_03_5b.png</span>
+<span class="go">cut_col2000_04_4b.png</span>
+<span class="go">cut_col2000_05_3b.png</span>
+<span class="go">cut_col2000_06_2b.png</span>
+<span class="go">cut_col2000_07_1b.png</span>
+<span class="go">cut_col2000_08_0.png</span>
+<span class="go">cut_col2000_09_1a.png</span>
+<span class="go">cut_col2000_10_2a.png</span>
+<span class="go">cut_col2000_11_3a.png</span>
+<span class="go">cut_col2000_12_4a.png</span>
+<span class="go">cut_col2000_13_5a.png</span>
+<span class="go">cut_col2000_14_6a.png</span>
+<span class="go">cut_col2000_15_7a.png</span>
+<span class="go">cut_col2000_16_8a.png</span>
+<span class="go">ds9.reg</span>
+<span class="go">ds9_raw.reg</span>
+<span class="go">frontiers_between_pseudoslits.png</span>
+<span class="go">index.pkl</span>
+<span class="go">master_bias.fits@</span>
+<span class="go">master_bpm.fits@</span>
+<span class="go">offset_borders_cross.png</span>
+<span class="go">reduced_image.fits</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid1_HR-R_results
+<span class="go">master_traces.json  reduced_image.fits  result.json</span>
+<span class="go">processing.log      reduced_rss.fits    task.json</span>
+</pre></div>
+</div>
+<p>The position of the fibers traces at the detector are shifted depending
+on the ambient temperature. It is recommended to have continuum halogen
+exposures near in time to the observation of the scientific target. If
+this is not the case, the traces can be shifted easily when processing
+the target (see below).</p>
+<p>The traces generated by this task can be visualized both on the raw or
+the processed images and can be also shifted to consider possible
+offsets between these traces and the position in the fibers in other
+images (twilight flats, standard star or scientific target observations,
+etc.). The visualization of the traces and an underlying reduced image
+can be done by executing:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaradrp-overplot_traces<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>obsid1_HR-R_results/reduced_image.fits<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>obsid1_HR-R_results/master_traces.json
+</pre></div>
+</div>
+<p>It is also possible to overplot the traces in the original raw data, making
+using of the additional parameter <code class="docutils literal notranslate"><span class="pre">--rawimage</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaradrp-overplot_traces<span class="w"> </span>--rawimage<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>data/0001312246-20170831-MEGARA-MegaraSuccess.fits<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>obsid1_HR-R_results/master_traces.json
+</pre></div>
+</div>
+<p>respectively for the reduced and raw images. Another way to check the
+tracing is by overplotting the <strong>ds9</strong> region files created by the DRP for
+the traces on top of this <code class="docutils literal notranslate"><span class="pre">reduced_image.fits</span></code> by doing (syntax might vary):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ds9<span class="w"> </span>obsid1_HR-R_results/reduced_image.fits<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>-regions<span class="w"> </span>load<span class="w"> </span>obsid1_HR-R_work/ds9.reg
+</pre></div>
+</div>
+<p>The same syntax can be used to check the offset between these traces and
+the position of the fibers in other images (arc-lamp, twilight, standard
+star and object images).</p>
+<p>Finally, the user needs to copy this <code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> to the
+corresponding place at the calibration tree. In this case, this trace map
+corresponds to the VPH HR-R (LCB mode):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>cp<span class="w"> </span>obsid1_HR-R_results/master_traces.json<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>../ca3558e3-e50d-4bbc-86bd-da50a0998a48/TraceMap/LCB/HR-R
+</pre></div>
+</div>
+</section>
+<section id="model-map">
+<h4>Model map<a class="headerlink" href="#model-map" title="Link to this heading"></a></h4>
+<p>This recipe processes a set of continuum flat images obtained in <em>Trace
+Map</em> or <em>Fiber Flat</em> modes and returns the fiber profile information
+required to perform <strong>advanced</strong> fiber extraction in other recipes.</p>
+<p>The set of files listed in the observation-result file <code class="docutils literal notranslate"><span class="pre">2_modelmap.yaml</span></code>
+is the same one used for the Trace Map.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2_HR-R</span>
+<span class="linenos">2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraModelMap</span>
+<span class="linenos">3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="linenos">4</span><span class="nt">frames</span><span class="p">:</span>
+<span class="linenos">5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312246-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos">6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312247-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos">7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312248-20170831-MEGARA-MegaraSuccess.fits</span>
+</pre></div>
+</div>
+<p>Then the recipe is run by doing:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>2_modelmap.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+</pre></div>
+</div>
+<p>This processing step might take several minutes (from 10-40 min.)
+depending on the hardware used. When a model map is used the running
+times of the subsequent processing steps also increase by 2-5 minutes.</p>
+<p>The images are processed as in the Trace Map recipe. In this case, the
+approximate central position of the fibers is obtained from the
+previously computed <code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code>. Then, for every 100 columns of
+the reduced image, a vertical cut in the image is fitted to a sum of
+fiber profiles, being the profile a gaussian convolved with a square.
+After the columns are fitted, the profiles (central position and sigma)
+are interpolated to all columns using splines (see <strong>Figure 5</strong>). The
+coefficients of the resulting splines are stored in the final
+<code class="docutils literal notranslate"><span class="pre">master_model.json</span></code> file.</p>
+<p><a class="reference internal" href="_images/image12.png"><img alt="image8" src="_images/image12.png" style="width: 3in; height: 2.25in;" /></a><a class="reference internal" href="_images/image13.png"><img alt="image9" src="_images/image13.png" style="width: 3.04167in; height: 2.28056in;" /></a></p>
+<p><strong>Figure 5:</strong> Mean position (left) and sigma (right) in pixels for fiber
+#310 along the spectral axis shown as blue points. The red line shows
+the spline fit. Plots for all the fibers are stored in the
+<code class="docutils literal notranslate"><span class="pre">obsid2_HR-R_work/</span></code> subdirectory.</p>
+<p>The recipe also returns the RSS obtained by applying this advanced
+extraction to <em>reduced_image</em>. As an intermediate result, the recipe
+produces DS9 region files with the position of the center of the
+profiles, that can be used with raw and reduced images (see <strong>Figure
+6</strong>).</p>
+<a class="reference internal image-reference" href="_images/image14.png"><img alt="_images/image14.png" src="_images/image14.png" style="width: 6.7375in; height: 2.30278in;" />
+</a>
+<p>Figure 6: MEGARA LCB HR-R continuum halogen exposure (left) and a region
+of the raw image (right) with the <code class="docutils literal notranslate"><span class="pre">ds9_raw.reg</span></code> tracing the fibers’ path
+shown on top.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid2_HR-R_work/
+<span class="go">0001312246-20170831-MEGARA-MegaraSuccess.fits@</span>
+<span class="go">0001312247-20170831-MEGARA-MegaraSuccess.fits@</span>
+<span class="go">0001312248-20170831-MEGARA-MegaraSuccess.fits@</span>
+<span class="go">ds9.reg</span>
+<span class="go">ds9_raw.reg</span>
+<span class="go">fib_001_mean.png</span>
+<span class="go">fib_001_std.png</span>
+<span class="go">fib_002_mean.png</span>
+<span class="go">fib_002_std.png</span>
+<span class="go">...</span>
+<span class="go">...</span>
+<span class="go">fib_622_mean.png</span>
+<span class="go">fib_622_std.png</span>
+<span class="go">index.pkl</span>
+<span class="go">master_bias.fits@</span>
+<span class="go">master_bpm.fits@</span>
+<span class="go">reduced_image.fits</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid2_HR-R_results/
+<span class="go">master_model.json   reduced_image.fits  result.json</span>
+<span class="go">processing.log      reduced_rss.fits    task.json</span>
+</pre></div>
+</div>
+<p>The user needs to copy this <code class="docutils literal notranslate"><span class="pre">master_model.json</span></code> to the corresponding
+place at the calibration tree.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>cp<span class="w"> </span>obsid2_HR-R_results/master_model.json<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>../ca3558e3-e50d-4bbc-86bd-da50a0998a48/ModelMap/LCB/HR-R
+</pre></div>
+</div>
+</section>
+</section>
+<section id="wavelength-calibration">
+<span id="id4"></span><h3>Wavelength Calibration<a class="headerlink" href="#wavelength-calibration" title="Link to this heading"></a></h3>
+<p>In this processing step the wavelength solution for each fiber is
+created using recipe <strong>MegaraArcCalibration</strong>. To create the dispersion
+solution the recipe needs raw arc-lamp frames as input (see <strong>Figure 7</strong>). Note
+that although the term used is “arc-lamps” these are ThAr and ThNe
+Hollow-Cathode Lamps (HCL).</p>
+<a class="reference internal image-reference" href="_images/image15.png"><img alt="_images/image15.png" src="_images/image15.png" style="width: 5.0in;" />
+</a>
+<p><strong>Figure 7:</strong> MEGARA LCB ThNe arc-lamp exposure obtained with the HR-R
+VPH.</p>
+<p>The user needs to check if the traces already computed in the previous step are
+appropriate to do the extraction in the arc-lamp exposures. If the continuum
+halogen used to generate the traces and the arc-lamp images were obtained near
+in time there no offset should be applied to the traces. By taking the images
+close in time user ensures that temperature remains constant so no offset is
+present. The offsets are estimated to be ~1 pixel per ºC/K of change in
+temperature. No offset in the spectral direction has been reported.</p>
+<p>The user can check this and evaluate the actual offset
+by plotting the <code class="docutils literal notranslate"><span class="pre">ds9_raw.reg</span></code> regions file on top of the arc-lamp raw
+image using DS9. If the traces (regions in <code class="docutils literal notranslate"><span class="pre">ds9_raw.reg</span></code>) are above the
+fiber as seen in the raw image, then the offset is a negative number and
+it is measured in pixels, while if the traces are below then the offset
+is a positive number. This offset is given in the <code class="docutils literal notranslate"><span class="pre">requirements</span></code>
+section in the observation-result file using the <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code>
+parameter.</p>
+<p>In this case, the observation-result file is called <code class="docutils literal notranslate"><span class="pre">3_wavecalib.yaml</span></code>.
+In the example below, three frames for arc lamp exposures are included
+and the offset for the extraction is set to 0 pixels:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3_HR-R</span>
+<span class="linenos"> 2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraArcCalibration</span>
+<span class="linenos"> 3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="linenos"> 4</span><span class="nt">frames</span><span class="p">:</span>
+<span class="linenos"> 5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312249-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos"> 6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312250-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos"> 7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312251-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos"> 8</span><span class="nt">requirements</span><span class="p">:</span>
+<span class="linenos"> 9</span><span class="w"> </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0</span><span class="p p-Indicator">]</span>
+<span class="linenos">10</span><span class="w"> </span><span class="nt">store_pdf_with_refined_fits</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</pre></div>
+</div>
+<p>Then the recipe is run by doing:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>3_wavecalib.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+</pre></div>
+</div>
+<p>Images provided in <code class="docutils literal notranslate"><span class="pre">3_wavecalib.yaml</span></code> are trimmed and corrected from
+overscan, bad-pixel mask (if <code class="docutils literal notranslate"><span class="pre">master_bpm.fits</span></code> is present in the calibration
+tree), bias and dark
+current (if <code class="docutils literal notranslate"><span class="pre">master_dark.fits</span></code> is present). The corrected images are then
+stacked using a median. The result of the combination of these images is
+saved as an intermediate result, named <code class="docutils literal notranslate"><span class="pre">reduced_image.fits</span></code>. The
+apertures in the 2D image are extracted, using the information in
+<code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (or in the <code class="docutils literal notranslate"><span class="pre">model_map.json</span></code> if this file is present
+at the calibration tree) and the <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> parameter set in
+the <code class="docutils literal notranslate"><span class="pre">3_wavecalib.yaml</span></code>. The result of the extraction is saved as an
+intermediate result named <code class="docutils literal notranslate"><span class="pre">reduced_rss.fits</span></code>. The requirement file
+<code class="docutils literal notranslate"><span class="pre">control.yaml</span></code> has useful information for the wavelength calibration.
+For each fiber in the reduced RSS, the peaks are detected and sorted by
+peak intensity. Then, a total of <em>nlines</em> as listed in the
+<code class="docutils literal notranslate"><span class="pre">control.yaml</span></code> file are used to select the brightest peaks. If it is a
+list, then the peaks are divided, by their position, in as many groups
+as elements in the list, and <code class="docutils literal notranslate"><span class="pre">nlines[0]</span></code> peaks are selected in the first
+group, <code class="docutils literal notranslate"><span class="pre">nlines[1]</span></code> peaks in the second, etc. The selected peaks are then
+matched against the catalog of lines located in the calibration tree at
+<code class="docutils literal notranslate"><span class="pre">ca3558e3-e50d-4bbc-86bd-da50a0998a48/LinesCatalog/</span></code>. The wavelengths of
+the matched features are fitted to a polynomial of degree equal to
+<code class="docutils literal notranslate"><span class="pre">polynomial_degree</span></code>. The matched lines, the quality of the match and
+other relevant information such as the coefficients of the polynomial
+are stored in the final <code class="docutils literal notranslate"><span class="pre">master_wlcalib.json</span></code> for each fiber.</p>
+<p>Finally, the recipe returns different products. At the <code class="docutils literal notranslate"><span class="pre">obsid3_HR-R_work/</span></code>
+directory the files <code class="docutils literal notranslate"><span class="pre">wavecal_iter1.pdf</span></code> (for the initial wavelength
+calibration) and <code class="docutils literal notranslate"><span class="pre">wavecal_iter2.pdf</span></code> (for the final iteration) contain a
+graphical representation for the wavelength calibration for each fiber.
+For example, in <code class="docutils literal notranslate"><span class="pre">wavecal_iter2.pdf</span></code> the total number of lines used for
+the refined wavelength calibration and the root mean square for each fit
+is plotted depending on the fiber number. In the same PDF file, the
+linear approximation for CRVAL1 and CDELT1 is plotted and also a graph
+for each coefficient (typically of 5<sup>th</sup> degree) of the
+polynomial fit used for the refined wavelength calibration is shown (see
+<strong>Figure 8</strong>).</p>
+<p>After the previous procedure, a refinement of the wavelength calibration is
+performed by fitting a polynomial to the variation of each coefficient of the
+wavelength calibration polynomial against the fiber number. Fibers whose
+wavelength calibration polynomial does not fit the expected smooth variation of
+the coefficients are automatically detected. In such cases, an interpolated
+polynomial is used, which provides very good results. The results of this
+refinment are graphically stored in the file <code class="docutils literal notranslate"><span class="pre">wavecal_refine_iter1.pdf</span></code>.</p>
+<a class="reference internal image-reference" href="_images/image16.png"><img alt="_images/image16.png" src="_images/image16.png" style="width: 5.91667in; height: 4.14792in;" />
+</a>
+<p><strong>Figure 8:</strong> Some of the plots included in the <code class="docutils literal notranslate"><span class="pre">wavecalib_iter2.pdf</span></code> file
+generated with the <strong>MegaraArcCalibration</strong> recipe.</p>
+<p>Should the user set the <code class="docutils literal notranslate"><span class="pre">store_pdf_with_refined_fits</span></code> parameter to
+<code class="docutils literal notranslate"><span class="pre">store_pdf_with_refined_fits:</span> <span class="pre">1</span></code> at the <code class="docutils literal notranslate"><span class="pre">3_wavecalib.yaml</span></code>, the recipe
+will create the subdirectory <code class="docutils literal notranslate"><span class="pre">obsid3_HR-R_work/refined_wavecal/</span></code> where a
+collection of PDF files (one for each fiber) is created with graphical
+information about the refined wavelength calibration (see <strong>Figure 9</strong>).</p>
+<a class="reference internal image-reference" href="_images/image17.png"><img alt="_images/image17.png" src="_images/image17.png" style="width: 5.41667in; height: 3.83125in;" />
+</a>
+<p><strong>Figure 9:</strong> Example of the refined wavelength calibration result for
+fiber #310. This kind of file (<code class="docutils literal notranslate"><span class="pre">310.pdf</span></code> at <code class="docutils literal notranslate"><span class="pre">refined_wavecalib/</span></code> in this
+case) is generated when the parameter <code class="docutils literal notranslate"><span class="pre">store_pdf_with_refined_fits</span></code> is
+set to 1. This requirement should be set to 0 for a faster execution of
+this recipe.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid3_HR-R_work/
+<span class="go">0001312249-20170831-MEGARA-MegaraSuccess.fits@</span>
+<span class="go">0001312250-20170831-MEGARA-MegaraSuccess.fits@</span>
+<span class="go">0001312251-20170831-MEGARA-MegaraSuccess.fits@</span>
+<span class="go">index.pkl</span>
+<span class="go">initial_master_wlcalib.json</span>
+<span class="go">master_bias.fits@</span>
+<span class="go">master_bpm.fits@</span>
+<span class="go">reduced_image.fits</span>
+<span class="go">reduced_rss.fits</span>
+<span class="go">refined_wavecal/</span>
+<span class="go">wavecal_iter1.pdf</span>
+<span class="go">wavecal_iter2.pdf</span>
+<span class="go">wavecal_refine_iter1.pdf</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid3_HR-R_results/
+<span class="go">fwhm_image.fits      reduced_image.fits   task.json</span>
+<span class="go">master_wlcalib.json  reduced_rss.fits</span>
+<span class="go">processing.log       result.json</span>
+</pre></div>
+</div>
+<p>The user needs to copy the <code class="docutils literal notranslate"><span class="pre">master_wlcalib.json</span></code> at the obsid_result/
+directory to the corresponding place at the calibration tree:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>cp<span class="w"> </span>obsid3_HR-R_results/master_wlcalib.json<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>../ca3558e3-e50d-4bbc-86bd-da50a0998a48/WavelengthCalibration/LCB/HR-R
+</pre></div>
+</div>
+</section>
+<section id="flat-field-correction">
+<h3>Flat-field correction<a class="headerlink" href="#flat-field-correction" title="Link to this heading"></a></h3>
+<p>Each optical fiber in MEGARA behaves like a different optical system,
+and therefore, its optical transmission is different and individual,
+with different wavelength dependence.</p>
+<p>The recipe <strong>MegaraFiberFlatImage</strong> computes the <code class="docutils literal notranslate"><span class="pre">master_fiberflat.fits</span></code>
+to correct for the global variations in transmission in between fibers
+and as a function of wavelength in MEGARA. A fiber-flat image should be
+used to perform this correction. These images are obtained by means of
+illuminating the instrument focal plane with a flat spectral source
+(typically a halogen lamp) that is installed as part of the GTC
+Instrument Calibration Module (ICM).</p>
+<p>In this case, we called the observation result file <code class="docutils literal notranslate"><span class="pre">4_fiberflat.yaml</span></code>,
+where a total of three continuum halogen exposures are included:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4_HR-R</span>
+<span class="linenos">2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraFiberFlatImage</span>
+<span class="linenos">3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="linenos">4</span><span class="nt">frames</span><span class="p">:</span>
+<span class="linenos">5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312246-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos">6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312247-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos">7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312248-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos">8</span><span class="nt">requirements</span><span class="p">:</span>
+<span class="linenos">9</span><span class="w"> </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<p>If the inputs frames are the same used to trace the fiber spectra on the
+detector for the same specific spectral setup, the <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code>
+parameter should be set to 0 pixels. If that is note the case the offset should
+be evaluated and computed as detailed in Section <a class="reference internal" href="#wavelength-calibration"><span class="std std-ref">Wavelength Calibration</span></a>.</p>
+<p>Then the recipe is run by doing:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>4_fiberflat.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+</pre></div>
+</div>
+<p>All images listed in the observation-result file are trimmed and corrected from
+overscan, bad pixel mask (if <code class="docutils literal notranslate"><span class="pre">master_bpm.fits</span></code> is present in the calibration
+tree), bias and dark current (if <code class="docutils literal notranslate"><span class="pre">master_dark.fits</span></code> is present) and corrected
+from pixel-to-pixel flat if <code class="docutils literal notranslate"><span class="pre">master_slitflat.fits</span></code> is provided. The corrected
+images are then stacked using a median. The result of the combination is saved
+as an intermediate result, named <code class="docutils literal notranslate"><span class="pre">reduced_image.fits</span></code>.</p>
+<p>The apertures in the 2D image are extracted, using the information in
+<code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (or in the <code class="docutils literal notranslate"><span class="pre">model_map.json</span></code> if this file is present
+at the calibration tree) and the <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> parameter set in
+the <code class="docutils literal notranslate"><span class="pre">4_fiberflat.yaml</span></code>, and then it is resampled according to the
+wavelength calibration in <code class="docutils literal notranslate"><span class="pre">master_wlcalib.json</span></code>. The resulting RSS is
+saved as an itnermediate result named <code class="docutils literal notranslate"><span class="pre">reduced_rss.fits</span></code>. To normalize
+the <code class="docutils literal notranslate"><span class="pre">master_fiberflat</span></code>, each fiber is divided by the best-fitting spline
+to the average of all valid fibers (see <strong>Figure 10</strong>). The RSS image
+<code class="docutils literal notranslate"><span class="pre">master_fiberflat.fits</span></code> is returned as a recipe result (see <strong>Figure
+11</strong>).</p>
+<a class="reference internal image-reference" href="_images/image18.png"><img alt="_images/image18.png" src="_images/image18.png" style="width: 3.41597in; height: 2.56042in;" />
+</a>
+<p><strong>Figure 10:</strong> Example of the <code class="docutils literal notranslate"><span class="pre">collapsed_smooth.png</span></code> file generated as part
+of the <strong>MegaraFiberFlatImage</strong> recipe, which is located at the
+<code class="docutils literal notranslate"><span class="pre">obsid4_HR-R_work/</span></code> directory. The green line is a spline fit to the average
+of all valid fibers, which is then used to normalize the extracted spectral in
+order to generate the normalized master_fiberflat image.</p>
+<p><a class="reference internal" href="_images/image19.png"><img alt="image10" src="_images/image19.png" style="width: 6.69306in; height: 1.28472in;" /></a></p>
+<p><strong>Figure 11:</strong> Example of the <code class="docutils literal notranslate"><span class="pre">master_fiberflat.fits</span></code> file
+generated for MEGARA LCB HR-R mode.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid4_HR-R_work/
+<span class="go">0001312246-20170831-MEGARA-MegaraSuccess.fits@</span>
+<span class="go">0001312247-20170831-MEGARA-MegaraSuccess.fits@</span>
+<span class="go">0001312248-20170831-MEGARA-MegaraSuccess.fits@</span>
+<span class="go">collapse.txt</span>
+<span class="go">collapsed_smooth.png</span>
+<span class="go">index.pkl</span>
+<span class="go">mask_noinfo.txt</span>
+<span class="go">master_bias.fits@</span>
+<span class="go">master_bpm.fits@</span>
+<span class="go">reduced_image.fits</span>
+<span class="go">reduced_rss.fits</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid4_HR-R_results/
+<span class="go">master_fiberflat.fits  reduced_image.fits     result.json</span>
+<span class="go">processing.log         reduced_rss.fits       task.json</span>
+</pre></div>
+</div>
+<p>The user needs to copy the <code class="docutils literal notranslate"><span class="pre">master_fiberflat.fits</span></code>
+to the corresponding place at the calibration tree:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>cp<span class="w"> </span>obsid4_HR-R_results/master_fiberflat.fits<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>../ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterFiberFlat/LCB/HR-R
+</pre></div>
+</div>
+</section>
+<section id="illumination-correction">
+<h3>Illumination correction<a class="headerlink" href="#illumination-correction" title="Link to this heading"></a></h3>
+<p>Blank twilight-sky exposures are to be used to calibrate the global
+change in response introduced by the fiber flat. This is called the
+illumination correction and it is due to the fact that the GTC ICM does
+not produce a perfectly uniform illumination of the field and that the
+fraction and shape of the pupil that is seen by the MEGARA fibers during
+the observation of a specific target does not coincide with that seen
+during the acquisition of the fiber-flat images with the ICM.</p>
+<p>The twilight sky exposure can safely assume to homogeneously illuminate
+the entire MEGARA field of view (3.5 arcmin x 3.5 arcmin for MOS mode
+and 12.5 x 11.3 sq. arcsec for LCB mode). However, since the telescope
+pupil is not circular and the alignment of the image of the pupil on top
+fibers by the microlenses is not identical for all fibers, in order to
+do this correction properly, the Rotator Angle of the FC-F rotator
+(ROTANG keyword in the raw image) and the Elevation of the telescope
+(ELEVAT keyword), and ideally also the temperature, should have the same
+values as the ones for the scientific observation. Furthermore, in case
+of MOS observing mode, the twilight sky exposures should be done with
+the robotic positioners placed at the same positions as for the targets’
+configuration.</p>
+<p>The recipe <strong>MegaraTwilightFlatImage</strong> process a set of continuum blank
+twilight sky images and returns the master twilight flat product. In
+this case, we named observation result file as <code class="docutils literal notranslate"><span class="pre">5_twilight.yaml</span></code>, where
+three frames for continuum blank twilight sky exposures being listed in
+the file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5_HR-R</span>
+<span class="linenos"> 2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraTwilightFlatImage</span>
+<span class="linenos"> 3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="linenos"> 4</span><span class="nt">frames</span><span class="p">:</span>
+<span class="linenos"> 5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001251794-20170626-MEGARA-MegaraLCBImage.fits</span>
+<span class="linenos"> 6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001251795-20170626-MEGARA-MegaraLCBImage.fits</span>
+<span class="linenos"> 7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001251796-20170626-MEGARA-MegaraLCBImage.fits</span>
+<span class="linenos"> 8</span><span class="nt">requirements</span><span class="p">:</span>
+<span class="linenos"> 9</span><span class="w">  </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+2.5</span><span class="p p-Indicator">]</span>
+<span class="linenos">10</span><span class="w">  </span><span class="nt">normalize_region</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1550</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1700</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> parameter can be computed as
+detailed in section <a class="reference internal" href="#wavelength-calibration"><span class="std std-ref">Wavelength Calibration</span></a> (see <strong>Figure 12</strong>).</p>
+<a class="reference internal image-reference" href="_images/image20.png"><img alt="_images/image20.png" src="_images/image20.png" style="width: 5.10903in; height: 2.375in;" />
+</a>
+<p><strong>Figure 12:</strong> Example of a region in the raw blank twilight sky image
+(LCB, HR-R) with the computed traces (<code class="docutils literal notranslate"><span class="pre">ds9_raw.reg</span></code> file) on top. In this
+case a <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> of +2.5 pixels was needed.</p>
+<p>Then the recipe is run by doing:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>5_twilight.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+</pre></div>
+</div>
+<p>Images provided in the observation-result file are trimmed and corrected
+from overscan, bad pixel mask (if <code class="docutils literal notranslate"><span class="pre">master_bpm</span></code> is present), bias and
+dark current (if <code class="docutils literal notranslate"><span class="pre">master_dark</span></code> is present) and corrected from
+pixel-to-pixel flat if <code class="docutils literal notranslate"><span class="pre">master_slitflat</span></code> is provided. The corrected
+images are then stacked using a median. The result of the combination is
+saved as an intermediate result, named <code class="docutils literal notranslate"><span class="pre">reduced_image.fits</span></code>.</p>
+<p>The apertures in the 2D image are extracted, using the information in
+<code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (or in the <code class="docutils literal notranslate"><span class="pre">model_map.json</span></code> if this file is present
+at the calibration tree) and the <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> parameter set in
+the <code class="docutils literal notranslate"><span class="pre">5_twilight.yaml</span></code>, and then it is resampled according to the
+wavelength calibration in <code class="docutils literal notranslate"><span class="pre">master_wlcalib.json</span></code>. Then, the result is
+divided by the <code class="docutils literal notranslate"><span class="pre">master_fiberflat</span></code>. The resulting RSS is saved as an
+intermediate result named <code class="docutils literal notranslate"><span class="pre">reduced_rss.fits</span></code>. To normalize the
+<code class="docutils literal notranslate"><span class="pre">master_twilightflat</span></code> (see <strong>Figure 13</strong>), each fiber is divided by
+the average of the column range given in <code class="docutils literal notranslate"><span class="pre">normalize_region</span></code>
+parameter in <code class="docutils literal notranslate"><span class="pre">5_twilight.yaml</span></code>. In those cases where the observation of
+an object includes a bright sky line, this <code class="docutils literal notranslate"><span class="pre">normalize_region</span></code>
+parameter can be used to obtain a twilight flat image from these science
+observations, especially if twilight frames of the same ROTANG, ELEVAT
+and temperature values are not available. In that case, the user can
+also make use of the parameter <code class="docutils literal notranslate"><span class="pre">continuum_region</span></code> to previously
+subtract the sky continuum under the bright sky line of interest. Note
+that the pixels used in the <code class="docutils literal notranslate"><span class="pre">normalize_region</span></code> and the
+<code class="docutils literal notranslate"><span class="pre">continuum_region</span></code> requirements correspond to those of the x-axis
+of the <code class="docutils literal notranslate"><span class="pre">reduced_rss.fits</span></code> image.</p>
+<p><a class="reference internal" href="_images/image21.png"><img alt="image11" src="_images/image21.png" style="width: 6.69306in; height: 1.27917in;" /></a></p>
+<p><strong>Figure 13:</strong> Example of the master_twilightflat.fits file
+generated for MEGARA LCB HR-R mode.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>tree<span class="w"> </span>obsid5_HR-R_work/<span class="w"> </span>obsid5_HR-R_results/<span class="w"> </span>-L<span class="w"> </span><span class="m">2</span>
+<span class="go">obsid5_HR-R_work/</span>
+<span class="go">├── 0001251794-20170626-MEGARA-MegaraLCBImage.fits</span>
+<span class="go">├── 0001251795-20170626-MEGARA-MegaraLCBImage.fits</span>
+<span class="go">├── 0001251796-20170626-MEGARA-MegaraLCBImage.fits</span>
+<span class="go">├── index.pkl</span>
+<span class="go">├── master_bias.fits</span>
+<span class="go">├── master_bpm.fits</span>
+<span class="go">├── master_fiberflat.fits</span>
+<span class="go">├── reduced_image.fits</span>
+<span class="go">└── reduced_rss.fits</span>
+<span class="go">obsid5_HR-R_results/</span>
+<span class="go">├── master_twilightflat.fits</span>
+<span class="go">├── processing.log</span>
+<span class="go">├── reduced_image.fits</span>
+<span class="go">├── reduced_rss.fits</span>
+<span class="go">├── result.yaml</span>
+<span class="go">└── task.yaml</span>
+</pre></div>
+</div>
+<p>The user needs to copy the <code class="docutils literal notranslate"><span class="pre">master_twilightflat.fits</span></code> at the
+<code class="docutils literal notranslate"><span class="pre">obsid5_HR-R_results/</span></code> directory to the corresponding place at the
+calibration tree:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>cp<span class="w"> </span>obsid5_HR-R_results/master_twilightflat.fits<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>../ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterTwilightFlat/LCB/HR-R
+</pre></div>
+</div>
+</section>
+<section id="flux-calibration">
+<h3>Flux calibration<a class="headerlink" href="#flux-calibration" title="Link to this heading"></a></h3>
+<p>The flux calibration is performed by observing one or several
+spectrophotometric stars with the same instrument configuration that for
+the scientific observations. Depending on the number of standard stars
+observed and on the weather conditions (mainly transparency) two
+different types of calibration could be achieved:</p>
+<ul class="simple">
+<li><p>Absolute-flux calibration: The weather conditions during the night
+should be photometric and a number of spectrophotometric standard
+stars at different airmasses should be observed. This allows to fully
+correct from DUs per CCD pixel to energy surface density (typically
+in AB magnitudes, Jankys or erg s<sup>-1</sup> cm<sup>-2</sup>
+Å<sup>-1</sup>) incident at the top of the atmosphere. If only one
+single standard star is observed (ideally at the airmass of the
+science object) this correction allows deriving the energy surface
+density hitting the telescope primary mirror exclusively, unless an
+atmospheric extinction curve for the observatory and that particular
+night is assumed (in which case the airmass could be different). In
+order to properly flux-calibrate scientific observations at all
+airmasses several stars should be observed during the night.</p></li>
+<li><p>Relative-flux calibration: If the weather conditions are not
+photometric this correction only allows normalizing the DUs per CCD
+pixel along the spectral direction so the conversion to incident
+energy at the top of the atmosphere is the same at all wavelengths.
+In order for this calibration to be valid one must assume that the
+effect of the atmosphere (including atmospheric cirrus and possibly
+thick clouds) on the wavelength dependence of this correction is that
+given by the adopted atmospheric extinction curve, even if the
+absolute flux level is not.</p></li>
+</ul>
+<p>In the following, the different steps to do an absolute flux calibration
+are described. A photometric night and one spectrophotometric standard
+star observation with the same airmass as the scientific observation are
+assumed.</p>
+<p>The entire flux of the spectrophotometric standard star needs to be
+recovered, so the LCB IFU bundle must be used. The recipe
+<strong>MegaraLcbAcquisition</strong> is used to process and extract the spectra in the
+standard star observation and determine the position of the centroid of
+the target in the LCB field of view, around which the total flux of the
+star will be later recovered.</p>
+<p>In this case, the observation-result file for determining the star
+centroid is <code class="docutils literal notranslate"><span class="pre">6_lcbadquisition.yaml</span></code>, where three frames for
+spectrophotometric standard star exposures are here listed:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> parameter can be computed as detailed in section
+<a class="reference internal" href="#wavelength-calibration"><span class="std std-ref">Wavelength Calibration</span></a>.</p>
+<p>Then the recipe is run by doing:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>6_lcbadquisition.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+</pre></div>
+</div>
+<p>Images provided in observation-result file are trimmed and corrected from
+overscan, bad pixel mask (if <code class="docutils literal notranslate"><span class="pre">master_bpm.fits</span></code> is present in the calibration
+tree), bias and dark current (if <code class="docutils literal notranslate"><span class="pre">master_dark.fits</span></code> is present) and corrected
+from pixel-to-pixel flat if <code class="docutils literal notranslate"><span class="pre">master_slitflat.fits</span></code> is provided. The corrected
+images are then stacked using a median. The result of the combination is saved
+as an intermediate result, named <code class="docutils literal notranslate"><span class="pre">reduced_image.fits</span></code>.</p>
+<p>The apertures in the 2D image are extracted, using the information in
+<code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (or in the <code class="docutils literal notranslate"><span class="pre">model_map.json</span></code> if this file is present
+at the calibration tree) and the <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> parameter set in
+the <code class="docutils literal notranslate"><span class="pre">6_lcbadquisition.yaml</span></code>, and then it is resampled according to the
+wavelength calibration in <code class="docutils literal notranslate"><span class="pre">master_wlcalib.json</span></code>. Then it is divided by
+the <code class="docutils literal notranslate"><span class="pre">master_fiberflat.fits</span></code>. The resulting RSS is saved as an intermediate
+result named <code class="docutils literal notranslate"><span class="pre">reduced_rss.fits</span></code>.</p>
+<p>The sky is subtracted by combining the 56 fibers dedicated for this
+purpose in the LCB mode. The RSS with sky subtracted is saved in a file
+named <code class="docutils literal notranslate"><span class="pre">final_rss.fits</span></code> as a result of the recipe. Then, the centroids
+around both the center of the field and the brighest spaxel are computed
+using up the signal from the 3 rings of fibers (37 fibers in total)
+around these two spaxels. The offsets needed to center the object
+(considered to be either the centroid around the central spaxel or, more
+likely, around the brightest spaxel) in the center of the LCB field are
+then returned both in mm and arcsec. This information is saved in the
+<code class="docutils literal notranslate"><span class="pre">processing.log</span></code> file at the <code class="docutils literal notranslate"><span class="pre">obsid6_HR-R_result/</span></code> directory.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid6_HR-R_work/
+<span class="go">0001286973-20170724-MEGARA-MegaraLcbImage.fits@</span>
+<span class="go">0001286974-20170724-MEGARA-MegaraLcbImage.fits@</span>
+<span class="go">0001286975-20170724-MEGARA-MegaraLcbImage.fits@</span>
+<span class="go">index.pkl</span>
+<span class="go">master_bias.fits@</span>
+<span class="go">master_bpm.fits@</span>
+<span class="go">master_fiberflat.fits@</span>
+<span class="go">master_twilightflat.fits@</span>
+<span class="go">reduced_image.fits</span>
+<span class="go">reduced_rss.fits</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid6_HR-R_results/
+<span class="go">final_rss.fits      reduced_image.fits  result.json</span>
+<span class="go">processing.log      reduced_rss.fits    task.json</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>more<span class="w"> </span>obsid6_HR-R_results/processing.log
+<span class="go">2024-10-15 15:42:50,808 - numina.user.baserun - INFO - running recipe</span>
+<span class="go">2024-10-15 15:42:50,808 - numina.recipes.megara - INFO - starting AC LCB reduction</span>
+<span class="go">...</span>
+<span class="go">...</span>
+<span class="go">...</span>
+<span class="go">2024-10-15 15:45:56,053 - numina.recipes.megara - INFO - end sky subtraction</span>
+<span class="go">2024-10-15 15:45:56,354 - numina.recipes.megara - DEBUG - LCB configuration is b7dcd9d1-0b60-4b43-b26e-d2c9868d5e20</span>
+<span class="go">2024-10-15 15:45:56,567 - megaradrp.processing.centroid - DEBUG - LCB configuration is b7dcd9d1-0b60-4b43-b26e-d2c9868d5e20</span>
+<span class="go">2024-10-15 15:45:56,568 - megaradrp.processing.centroid - INFO - maximum flux in spaxel 311 -- unknown</span>
+<span class="go">2024-10-15 15:45:56,851 - megaradrp.processing.centroid - DEBUG - LCB configuration is b7dcd9d1-0b60-4b43-b26e-d2c9868d5e20</span>
+<span class="go">2024-10-15 15:45:56,852 - megaradrp.processing.centroid - DEBUG - adding 3 nrings</span>
+<span class="go">2024-10-15 15:45:56,852 - megaradrp.processing.centroid - DEBUG - adding 37 fibers</span>
+<span class="go">2024-10-15 15:45:56,852 - megaradrp.processing.centroid - INFO - Using 37 nearest fibers</span>
+<span class="go">2024-10-15 15:45:56,852 - megaradrp.processing.centroid - DEBUG - unit is arcsec</span>
+<span class="go">2024-10-15 15:45:56,852 - megaradrp.processing.centroid - INFO - For point [0.465000003576279, 0.0] arcsec</span>
+<span class="go">2024-10-15 15:45:56,852 - megaradrp.processing.centroid - INFO - For point [0.38366336928735895, 0.0] mm</span>
+<span class="go">2024-10-15 15:45:56,852 - megaradrp.processing.centroid - DEBUG - nearest fibers</span>
+<span class="go">2024-10-15 15:45:56,852 - megaradrp.processing.centroid - DEBUG - [311, 289, 333, 313, 310, 314, 308, 293, 329, 307, 316, 335, 312, 291, 331, 315, 309, 317, 305, 325, 297, 304, 319, 222, 400, 288, 334, 327, 295, 318, 306, 404, 218, 292, 330, 302, 320]</span>
+<span class="go">2024-10-15 15:45:56,853 - megaradrp.processing.centroid - INFO - centroid: [0.36011112054854194, 0.052631794609784954] arcsec</span>
+<span class="go">2024-10-15 15:45:56,853 - megaradrp.processing.centroid - INFO - centroid: [0.29712138659120624, 0.04342557311038363] mm</span>
+<span class="go">2024-10-15 15:45:56,853 - megaradrp.processing.centroid - INFO - 2nd order moments, x2=0.354878, y2=0.353604, xy=-0.006228 arcsec^2</span>
+<span class="go">2024-10-15 15:45:56,853 - megaradrp.processing.centroid - INFO - FWHM , x=1.402805, y=1.400284 arcsec</span>
+</pre></div>
+</div>
+<p>In this example, the brighest spaxel is located at <code class="docutils literal notranslate"><span class="pre">[0.38366336928735895,</span>
+<span class="pre">0.0]</span> <span class="pre">mm</span></code> relative to the center of the field, which is, by definition
+located at <code class="docutils literal notranslate"><span class="pre">[0.0,</span> <span class="pre">0.0]</span> <span class="pre">mm</span></code>. The position of the centroid obtained from
+the 37 fibers around this spaxels is <code class="docutils literal notranslate"><span class="pre">[0.29712138659120624,</span>
+<span class="pre">0.04342557311038363]</span> <span class="pre">mm</span></code>. <strong>Note</strong>: these numbers depend on whether you are
+using the trace map <code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> or the model map
+<code class="docutils literal notranslate"><span class="pre">master_model.json</span></code> (see section <a class="reference internal" href="#tracing-fibers"><span class="std std-ref">Tracing fibers</span></a>).</p>
+<p>This centroid offset (in mm) is needed to recover all the flux from the
+standard star and to derive the instrument sensitivity curve for a particular
+setup using the <strong>MegaraLcbStdStar</strong> recipe.</p>
+<p>In this case, the observation-result file was named
+<code class="docutils literal notranslate"><span class="pre">7_Standardstar.yaml</span></code> and includes spectrophotometric standard star
+individual exposures:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7_HR-R</span>
+<span class="linenos"> 2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraLcbStdStar</span>
+<span class="linenos"> 3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="linenos"> 4</span><span class="nt">frames</span><span class="p">:</span>
+<span class="linenos"> 5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001286973-20170724-MEGARA-MegaraLcbImage.fits</span>
+<span class="linenos"> 6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001286974-20170724-MEGARA-MegaraLcbImage.fits</span>
+<span class="linenos"> 7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001286975-20170724-MEGARA-MegaraLcbImage.fits</span>
+<span class="linenos"> 8</span><span class="nt">requirements</span><span class="p">:</span>
+<span class="linenos"> 9</span><span class="w"> </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+4.5</span><span class="p p-Indicator">]</span>
+<span class="linenos">10</span><span class="w"> </span><span class="nt">reference_spectrum</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mbd284211_stis.dat</span>
+<span class="linenos">11</span><span class="w"> </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extinction_LP.txt</span>
+<span class="linenos">12</span><span class="w"> </span><span class="nt">position</span><span class="p">:</span><span class="w">  </span><span class="p p-Indicator">[</span><span class="nv">0.29712138659120624</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.04342557311038363</span><span class="p p-Indicator">]</span>
+<span class="linenos">13</span><span class="w"> </span><span class="nt">sigma_resolution</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> parameter can be computed as detailed in section
+<a class="reference internal" href="#wavelength-calibration"><span class="std std-ref">Wavelength Calibration</span></a> (this parameter is the same as in
+<code class="docutils literal notranslate"><span class="pre">6_Lcbadquisition.yaml</span></code> for the same spectrophotometric standard star). The
+parameter <code class="docutils literal notranslate"><span class="pre">reference_spectrum</span></code> includes a text file where the flux-calibrated
+spectrum in AB magnitudes is provided.  (the format of these files is the same
+as for those found in the ESO spectrophotometric standard stars database
+located at this <a class="reference external" href="https://www.eso.org/sci/observing/tools/standards/spectra/">ESO web page</a>). This
+parameter can be also specify in the <code class="docutils literal notranslate"><span class="pre">control.yaml</span></code>. The
+<code class="docutils literal notranslate"><span class="pre">reference_extinction</span></code> parameter points to the text file with the information
+to apply the atmospheric extinction correction.  (for processing standard-star
+observations this parameter must be defined in either the <code class="docutils literal notranslate"><span class="pre">control.yaml</span></code> of
+<code class="docutils literal notranslate"><span class="pre">7_Standardstar.yaml</span></code> files or the recipe would fail; in the case of the
+<strong>MegaraLcbImage</strong> or <strong>MegarMosImage</strong> recipes this would only imply that the
+processed data would not be corrected for atmospheric extinction).</p>
+<p>By default, the DRP searches for these data files in the
+<code class="docutils literal notranslate"><span class="pre">data/</span></code> directory.  The <code class="docutils literal notranslate"><span class="pre">position</span></code> parameter is the position of the
+reference object, i.e.  the offset in mm at the CCD detector computed with the
+recipe <strong>MegaraLcbAcquisition</strong>, written in the same format and units. Finally,
+the <code class="docutils literal notranslate"><span class="pre">sigma_resolution</span></code> parameter is the sigma of the Gaussian filter that
+would be used to degrade the resolution of the MEGARA input star spectrum.
+Given the high spectral resolution and low reciprocal dispersion of the MEGARA
+spectra this parameter is critical to remove artifacts associated to bright
+absorption lines present in the standard star spectrum, especially when the
+tabulated spectra have reciprocal dispersions that can be as high as 50
+Å/pixel. The parameter <code class="docutils literal notranslate"><span class="pre">ignored_sky_bundles</span></code> contains the fiber bundle ids to
+be ignored when the sky spectrum is computed (see more details in section
+<a class="reference internal" href="#scientific-observation"><span class="std std-ref">LCB IFU/MOS scientific observation</span></a> below).</p>
+<p>Then the recipe is run by doing:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>7_Standardstar.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+</pre></div>
+</div>
+<p>Images provided in the observation-result file are trimmed and corrected from
+overscan, bad pixel mask (if <code class="docutils literal notranslate"><span class="pre">master_bpm.fits</span></code> is present in the calibration
+tree), bias and dark current (if <code class="docutils literal notranslate"><span class="pre">master_dark.fits</span></code> is present) and corrected
+from pixel-to-pixel flat if <code class="docutils literal notranslate"><span class="pre">master_slitflat.fits</span></code> is provided. The corrected
+images are then stacked using a median. The result of the combination is saved
+as an intermediate result, named <code class="docutils literal notranslate"><span class="pre">reduced_image.fits</span></code>.</p>
+<p>The apertures in the 2D image are extracted, using the information in
+<code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (or in the <code class="docutils literal notranslate"><span class="pre">model_map.json</span></code> if this file is present
+at the calibration tree) and the <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> parameter set in
+the <code class="docutils literal notranslate"><span class="pre">7_Standardstar.yaml</span></code>, and then it is resampled according to the
+wavelength calibration in <code class="docutils literal notranslate"><span class="pre">master_wlcalib.json</span></code>. Then, the result is
+divided by the <code class="docutils literal notranslate"><span class="pre">master_fiberflat.fits</span></code>. The resulting RSS is saved as an
+intermediate result named <code class="docutils literal notranslate"><span class="pre">reduced_rss.fits</span></code>.</p>
+<p>The sky is subtracted by combining the 56 fibers dedicated for this purpose in
+the LCB mode. The RSS with the sky already subtracted is saved in a file named
+<code class="docutils literal notranslate"><span class="pre">final_rss.fits</span></code> as a result of the recipe. The flux of the star is computed
+by summing the signal in 37 fibers around the spaxel closest to the offset
+given in the <code class="docutils literal notranslate"><span class="pre">position</span></code> parameter so, finally, the <code class="docutils literal notranslate"><span class="pre">star_spectrum.fits</span></code> is
+returned. This star spectrum is degraded with a Gaussian filter, corrected by
+atmospheric extinction and compared with the reference spectrum to return the
+<code class="docutils literal notranslate"><span class="pre">master_sensitivity.fits</span></code>, which is finally stored at the
+<code class="docutils literal notranslate"><span class="pre">obsid7_HR-R_result/</span></code> directory.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid7_HR-R_work/
+<span class="go">0001286973-20170724-MEGARA-MegaraLcbImage.fits@</span>
+<span class="go">0001286974-20170724-MEGARA-MegaraLcbImage.fits@</span>
+<span class="go">0001286975-20170724-MEGARA-MegaraLcbImage.fits@</span>
+<span class="go">index.pkl</span>
+<span class="go">master_bias.fits@</span>
+<span class="go">master_bpm.fits@</span>
+<span class="go">master_fiberflat.fits@</span>
+<span class="go">master_twilightflat.fits@</span>
+<span class="go">reduced_image.fits</span>
+<span class="go">reduced_rss.fits</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid7_HR-R_results/
+<span class="go">fiber_ids.txt            reduced_image.fits       sky_rss.fits</span>
+<span class="go">final_rss.fits           reduced_rss.fits         star_spectrum.fits</span>
+<span class="go">master_sensitivity.fits  result.json              task.json</span>
+<span class="go">processing.log           sensitivity_raw.fits</span>
+</pre></div>
+</div>
+<p>The user can visualize the <code class="docutils literal notranslate"><span class="pre">master_sensitivity.fits</span></code> curve (see <strong>Figure
+14</strong>) running the python script <code class="docutils literal notranslate"><span class="pre">megaratools-plot_spectrum.py</span></code> that can
+be found in the DRP distribution located at
+<a class="reference external" href="https://github.com/guaix-ucm/megara-tools">https://github.com/guaix-ucm/megara-tools</a> (see section <a class="reference internal" href="megaratools.html#megara-tools"><span class="std std-ref">MEGARA Tools</span></a>).</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaratools-plot_spectrum.py<span class="w"> </span>-s<span class="w"> </span>obsid7_HR-R_results/master_sensitivity.fits
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/image22.png"><img alt="_images/image22.png" src="_images/image22.png" style="width: 4.45in; height: 2.66875in;" />
+</a>
+<p><strong>Figure 14:</strong> Example of sensitivity curve for MEGARA HR-R VPH. The
+spectral ranges defined by keywords WAVLIMM1-2 and WAVELIMF1-2 are shown
+as cyan and dashed brown lines, respectively (see text for details).</p>
+<p>The user needs to copy the file <code class="docutils literal notranslate"><span class="pre">master_sensitivity.fits</span></code> to the calibration
+tree:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>cp<span class="w"> </span>obsid7_HR-R_results/master_sensitivity.fits<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>../ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterSensitivity/LCB/HR-R/
+</pre></div>
+</div>
+<p>It is worth noting that the <code class="docutils literal notranslate"><span class="pre">master_sensitivity.fits</span></code> file includes on
+its header the information on the spectral ranges that are valid in
+terms of spectral coverage both in pixels and wavelength for all, ranges
+covered in at least one fiber (PIXLIMR1-2 and WAVLIMR1-2), all fibers
+(PIXLIMM1-2 and WAVLIMM1-2) and with a proper flux calibration
+(PIXLIMF1-2 and WAVLIMF1-2) (see <strong>Table 2</strong>). The latter range is
+limited by the degree of smoothing applied to the sensitivity curve. The
+WAVLIMM1-2 and WAVELIMF1-2 ranges are shown in <strong>Figure 14</strong> using cyan
+and dashed brown lines, respectively.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Keyword</strong></p></th>
+<th class="head"><p><strong>Meaning</strong></p></th>
+<th class="head"><p><strong>Keyword</strong></p></th>
+<th class="head"><p><strong>Meaning</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><p>(keywords in
+pixels)</p></td>
+<td colspan="2"><p>(keywords in
+Ångstroms)</p></td>
+</tr>
+<tr class="row-odd"><td><p>PIXLIMR1</p></td>
+<td><p>Start of region
+with at least</p>
+<p>one fiber</p>
+</td>
+<td><p>WAVLIMR1</p></td>
+<td><p>Start of region
+with at least</p>
+<p>one fiber</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>PIXLIMR2</p></td>
+<td><p>End of region
+with at least</p>
+<p>one fiber</p>
+</td>
+<td><p>WAVLIMR2</p></td>
+<td><p>End of region
+with at least</p>
+<p>one fiber</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>PIXLIMM1</p></td>
+<td><p>Start of region
+with all fibers</p></td>
+<td><p>WAVLIMM1</p></td>
+<td><p>Start of region
+with all fibers</p></td>
+</tr>
+<tr class="row-even"><td><p>PIXLIMM2</p></td>
+<td><p>End of region
+with all fibers</p></td>
+<td><p>WAVLIMM2</p></td>
+<td><p>End of region
+with all fibers</p></td>
+</tr>
+<tr class="row-odd"><td><p>PIXLIMF1</p></td>
+<td><p>Start of valid
+flux</p>
+<p>calibration</p>
+</td>
+<td><p>WAVLIMF1</p></td>
+<td><p>Start of valid
+flux</p>
+<p>calibration</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>PIXLIMF2</p></td>
+<td><p>End of valid
+flux</p>
+<p>calibration</p>
+</td>
+<td><p>WAVLIMF2</p></td>
+<td><p>End of valid
+flux</p>
+<p>calibration</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table 2:</strong> Keywords included in the <code class="docutils literal notranslate"><span class="pre">master_sensitivity.fits</span></code> file
+regarding the wavelength coverage of at least one fiber (PIXLIMR1-2 and
+WAVLIMR1-2), all fibers (PIXLIMM1-2 and WAVLIMM1-2) and with proper flux
+calibration in all fibers (PIXLIMF1-2 and WAVLIMF1-2).</p>
+</section>
+<section id="lcb-ifu-mos-scientific-observation">
+<span id="scientific-observation"></span><h3>LCB IFU/MOS scientific observation<a class="headerlink" href="#lcb-ifu-mos-scientific-observation" title="Link to this heading"></a></h3>
+<p>Once all the calibrations files are derived and copied at the
+corresponding calibration directories, the user can reduce the
+corresponding scientific observations with recipes <strong>MegaraLcbImage</strong> or
+<strong>MegarMosImage</strong> depending on the observing mode (the LCB IFU or the
+MOS).</p>
+<p>In this case, the observation-result files are named <code class="docutils literal notranslate"><span class="pre">8_reduce_LCB.yaml</span></code> for
+the LCB and <code class="docutils literal notranslate"><span class="pre">8_reduce_MOS.yaml</span></code> for the MOS mode, and include a list of all
+the frames obtained for the target. The <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> parameter can be
+computed as detailed in section <a class="reference internal" href="#wavelength-calibration"><span class="std std-ref">Wavelength Calibration</span></a>.  The
+<code class="docutils literal notranslate"><span class="pre">reference_extinction</span></code> parameter can be provided here if it is not at the
+<code class="docutils literal notranslate"><span class="pre">control.yaml</span></code> file. The parameter <code class="docutils literal notranslate"><span class="pre">ignored_sky_bundles</span></code> contains the sky
+bundle ids to be ignored when the sky spectrum is computed (see sample .yaml
+file below). In the case of LCB observing mode, the dedicated sky-bundles have,
+by default, all ids in the range 93-100.  These bundles (sorted in blocks of
+seven consecutive fibers) correspond to the individual fiber ids and position
+on the sky (for instrument PA set to zero, i.e. NE) listed in Table below.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Sky-bundle
+id</p></th>
+<th class="head"><p>Sky-fibers ids in each
+bundle</p></th>
+<th class="head"><p>On-sky
+orientation</p>
+<p>for IPA=0º</p>
+</th>
+<th class="head"><p>Distance to
+the</p>
+<p>LCB center</p>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>93</p></td>
+<td><p>22, 23, 24, 25, 26, 27,
+28</p></td>
+<td><p>NE</p></td>
+<td><p>2.5 arcmin</p></td>
+</tr>
+<tr class="row-odd"><td><p>94</p></td>
+<td><p>57, 58, 59, 60, 61, 62,
+63</p></td>
+<td><p>E</p></td>
+<td><p>1.75 arcmin</p></td>
+</tr>
+<tr class="row-even"><td><p>95</p></td>
+<td><p>134, 135, 136, 137, 138,
+139, 140</p></td>
+<td><p>N</p></td>
+<td><p>1.75 arcmin</p></td>
+</tr>
+<tr class="row-odd"><td><p>96</p></td>
+<td><p>267, 268, 269, 270, 271,
+272, 273</p></td>
+<td><p>SE</p></td>
+<td><p>2.5 arcmin</p></td>
+</tr>
+<tr class="row-even"><td><p>97</p></td>
+<td><p>351, 352, 353, 354, 355,
+356, 357</p></td>
+<td><p>NW</p></td>
+<td><p>2.5 arcmin</p></td>
+</tr>
+<tr class="row-odd"><td><p>98</p></td>
+<td><p>484, 485, 486, 487, 488,
+489, 490</p></td>
+<td><p>S</p></td>
+<td><p>1.75 arcmin</p></td>
+</tr>
+<tr class="row-even"><td><p>99</p></td>
+<td><p>561, 562, 563, 564, 565,
+566</p></td>
+<td><p>W</p></td>
+<td><p>1.75 arcmin</p></td>
+</tr>
+<tr class="row-odd"><td><p>100</p></td>
+<td><p>567, 596, 597, 598, 599,
+600, 601, 602</p></td>
+<td><p>SW</p></td>
+<td><p>2.5 arcmin</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table 3:</strong> Sky bundles: The first column identifies the sky-bundle id,
+while the second column indicates which fibers (listed by fiber id) are
+included in each sky bundle. The orientation (for an instrument Position
+Angle of 0º; i.e. NE) and distance to the LCB center of each bundle is
+included in the third and fourth columns, respectively.</p>
+<p>In case MOS observing mode, sky-bundles should have been previously
+selected by the user for that purpose when preparing the observation
+with FMAT tool. If no sky-bundles are identified the DRP will not
+perform any sky subtraction to the target data.</p>
+<p>The content of the <code class="docutils literal notranslate"><span class="pre">8_reduce_LCB.yaml</span></code> file would be the following:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8_HR-R_M15</span>
+<span class="linenos"> 2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraLcbImage</span>
+<span class="linenos"> 3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="linenos"> 4</span><span class="nt">frames</span><span class="p">:</span>
+<span class="linenos"> 5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001309955-20170822-MEGARA-MegaraLcbAcquisition.fits</span>
+<span class="linenos"> 6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001309956-20170822-MEGARA-MegaraLcbAcquisition.fits</span>
+<span class="linenos"> 7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001309957-20170822-MEGARA-MegaraLcbAcquisition.fits</span>
+<span class="linenos"> 8</span><span class="nt">requirements</span><span class="p">:</span>
+<span class="linenos"> 9</span><span class="w"> </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+6.5</span><span class="p p-Indicator">]</span>
+<span class="linenos">10</span><span class="w"> </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extinction_LP.txt</span>
+<span class="linenos">11</span><span class="w"> </span><span class="nt">ignored_sky_bundles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">93</span><span class="p p-Indicator">,</span><span class="nv">95</span><span class="p p-Indicator">,</span><span class="nv">98</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<p>Then the recipe is run by doing:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>8_reduce_LCB.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+</pre></div>
+</div>
+<p>Images provided in the observation-result file are trimmed and corrected
+from overscan, bad pixel mask (if <code class="docutils literal notranslate"><span class="pre">master_bpm.fits</span></code> is present in the
+calibration tree), bias and
+dark current (if <code class="docutils literal notranslate"><span class="pre">master_dark.fits</span></code> is present) and corrected from
+pixel-to-pixel flat if <code class="docutils literal notranslate"><span class="pre">master_slitflat.fits</span></code> is provided. The corrected
+images are then stacked using a median. The result of the combination is
+saved as an intermediate result, named <code class="docutils literal notranslate"><span class="pre">reduced_image.fits</span></code>.</p>
+<p>The apertures in the 2D image are extracted, using the information in
+<code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (or in the <code class="docutils literal notranslate"><span class="pre">model_map.json</span></code> if this file is present
+at the calibration tree) and the <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> parameter set in
+the <code class="docutils literal notranslate"><span class="pre">8_reduce_LCB.yaml</span></code>. These are then resampled according to the
+wavelength calibration in <code class="docutils literal notranslate"><span class="pre">master_wlcalib.json</span></code>. Then, the result is
+divided by the <code class="docutils literal notranslate"><span class="pre">master_fiberflat.fits</span></code>. The resulting RSS is saved as an
+intermediate result named <code class="docutils literal notranslate"><span class="pre">reduced_rss.fits</span></code>.</p>
+<p>The sky is subtracted by combining the 56 fibers (except the fibers
+listed in the <code class="docutils literal notranslate"><span class="pre">ignored_sky_bundles</span></code> parameter) dedicated for this
+purpose in the LCB mode. In case MOS observing mode, the sky is
+subtracted combining the signal of the fiber bundles (SKY bundles)
+selected by the user when preparing the MOS observation. The RSS with
+sky subtracted is saved in a file named <code class="docutils literal notranslate"><span class="pre">final_rss.fits</span></code> as a result
+of the recipe.</p>
+<p>If a <code class="docutils literal notranslate"><span class="pre">master_sensitivity.fits</span></code> is provided (optional), RSS products will be
+flux calibrated. If <code class="docutils literal notranslate"><span class="pre">reference_extinction</span></code> is provided (optional),
+<code class="docutils literal notranslate"><span class="pre">final_rss.fits</span></code> and <code class="docutils literal notranslate"><span class="pre">reduced_rss.fits</span></code> will be extinction corrected.
+Notice that <code class="docutils literal notranslate"><span class="pre">sky_rss.fits</span></code> is not corrected for extinction.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid8_HR-R_M15_work/
+<span class="go">0001309955-20170822-MEGARA-MegaraLcbAcquisition.fits@</span>
+<span class="go">0001309956-20170822-MEGARA-MegaraLcbAcquisition.fits@</span>
+<span class="go">0001309957-20170822-MEGARA-MegaraLcbAcquisition.fits@</span>
+<span class="go">index.pkl</span>
+<span class="go">master_bias.fits@</span>
+<span class="go">master_bpm.fits@</span>
+<span class="go">master_fiberflat.fits@</span>
+<span class="go">master_sensitivity.fits@</span>
+<span class="go">master_twilightflat.fits@</span>
+<span class="go">reduced_image.fits</span>
+<span class="go">reduced_rss.fits</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid8_HR-R_M15_results/
+<span class="go">final_rss.fits      reduced_image.fits  result.json         task.json</span>
+<span class="go">processing.log      reduced_rss.fits    sky_rss.fits</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/image23.png"><img alt="_images/image23.png" src="_images/image23.png" style="width: 6.69306in; height: 1.28194in;" />
+</a>
+<p><strong>Figure 15:</strong> Example of the <code class="docutils literal notranslate"><span class="pre">final_rss.fits</span></code> (sky subtracted, wavelength
+and flux calibrated) file for object M15 in the HR-R setup and the LCB
+observing mode.</p>
+<p>The following is an example of the products for M71 MOS observing mode
+data reduction:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid8_LR-R_M71_work/
+<span class="go">0001288184-20170731-MEGARA-MegaraMosImage.fits@</span>
+<span class="go">0001288185-20170731-MEGARA-MegaraMosImage.fits@</span>
+<span class="go">0001288186-20170731-MEGARA-MegaraMosImage.fits@</span>
+<span class="go">index.pkl</span>
+<span class="go">master_bias.fits@</span>
+<span class="go">master_bpm.fits@</span>
+<span class="go">master_fiberflat.fits@</span>
+<span class="go">master_sensitivity.fits@</span>
+<span class="go">reduced_image.fits</span>
+<span class="go">reduced_rss.fits</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid8_LR-R_M71_results/
+<span class="go">final_rss.fits      reduced_image.fits  result.json         task.json</span>
+<span class="go">processing.log      reduced_rss.fits    sky_rss.fits</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="_images/image24.png"><img alt="image final_rss.fits" src="_images/image24.png" style="width: 6.69306in; height: 1.38125in;" /></a></p>
+<p><strong>Figure 16:</strong> Example of the <code class="docutils literal notranslate"><span class="pre">final_rss.fits</span></code> (sky subtracted,
+wavelength and flux calibrated) file for object M71 with the LR-R setup
+and the MOS observing mode.</p>
+<p>The user has also the option of running these recipes without performing
+any flux calibration. In order to do that one can simply add the
+following lines (shown highlighted below) in the corresponding YAML
+file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8_HR-R_M15</span>
+<span class="linenos"> 2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraLcbImage</span>
+<span class="linenos"> 3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="linenos"> 4</span><span class="nt">frames</span><span class="p">:</span>
+<span class="linenos"> 5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001309955-20170822-MEGARA-MegaraLcbAcquisition.fits</span>
+<span class="linenos"> 6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001309956-20170822-MEGARA-MegaraLcbAcquisition.fits</span>
+<span class="linenos"> 7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001309957-20170822-MEGARA-MegaraLcbAcquisition.fits</span>
+<span class="linenos"> 8</span><span class="nt">requirements</span><span class="p">:</span>
+<span class="linenos"> 9</span><span class="w"> </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+6.5</span><span class="p p-Indicator">]</span>
+<span class="hll"><span class="linenos">10</span><span class="w"> </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+</span><span class="hll"><span class="linenos">11</span><span class="w"> </span><span class="nt">master_sensitivity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+</span><span class="linenos">12</span><span class="w"> </span><span class="nt">ignored_sky_bundles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">93</span><span class="p p-Indicator">,</span><span class="nv">95</span><span class="p p-Indicator">,</span><span class="nv">98</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="datadesc.html" class="btn btn-neutral float-left" title="Data description" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="megaratools.html" class="btn btn-neutral float-right" title="MEGARA Tools" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018-2024, Universidad Complutense de Madrid.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,153 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Known ISSUES &mdash; megara-cookbook v1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=e160b93e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Acronyms" href="acronyms.html" />
+    <link rel="prev" title="MEGARA Tools" href="megaratools.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            megara-cookbook
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="megaradrp.html">MEGARA Data Reduction Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">DRP installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datadesc.html">Data description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datared.html">Data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="megaratools.html">MEGARA Tools</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Known ISSUES</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#matplotlib-3-in-mac-os-x">Matplotlib 3 in Mac OS X</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compiling-in-mac-os-x-10-10-or-later">Compiling in Mac OS X 10.10 or later</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bash-shell">Bash shell</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="acronyms.html">Acronyms</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">megara-cookbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Known ISSUES</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/issues.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="known-issues">
+<h1>Known ISSUES<a class="headerlink" href="#known-issues" title="Link to this heading"></a></h1>
+<section id="matplotlib-3-in-mac-os-x">
+<h2>Matplotlib 3 in Mac OS X<a class="headerlink" href="#matplotlib-3-in-mac-os-x" title="Link to this heading"></a></h2>
+<p>In the case of using matplotlib 3 under Mac OS X (installations starting
+in 2019), in order to avoid a potential error associated to the use of
+the <code class="docutils literal notranslate"><span class="pre">libc++abi.dylib</span></code> library by the TkAgg backend, we recommend you to
+add the following line to the <code class="docutils literal notranslate"><span class="pre">$HOME/.matplotlib/matplotlibrc</span></code> file (you
+should create the file if this does not exist):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>more<span class="w"> </span><span class="nv">$HOME</span>/.matplotlib/matplotlibrc
+<span class="go">backend: TkAgg</span>
+</pre></div>
+</div>
+<p>Note that TkAgg is the default backend in Mac OS X. If you want to use
+alternative ones they also need to be installed, or course.</p>
+</section>
+<section id="compiling-in-mac-os-x-10-10-or-later">
+<h2>Compiling in Mac OS X 10.10 or later<a class="headerlink" href="#compiling-in-mac-os-x-10-10-or-later" title="Link to this heading"></a></h2>
+<p>Should the user be insterested in compiling part of the software on
+their own, we note that in the case of the distribution of Mac OS X
+10.10 or later they should include the following environment variable in
+the <code class="docutils literal notranslate"><span class="pre">$HOME/.bashrc</span></code> shell configuration file:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>more<span class="w"> </span><span class="nv">$HOME</span>/.bashrc
+<span class="go">export MACOSX_DEPLOYMENT_TARGET=10.9</span>
+</pre></div>
+</div>
+</section>
+<section id="bash-shell">
+<h2>Bash shell<a class="headerlink" href="#bash-shell" title="Link to this heading"></a></h2>
+<p>Bash shell is the default shell for using the MEGARA DRP and the
+<strong>megara-tools</strong>. Please, be aware that starting on Mac OS X 10.15
+“Catalina” the default shell is zsh. Tests on zsh have not yet been
+performed to ensure its compatibility MEGARA DRP and <strong>megara-tools</strong>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="megaratools.html" class="btn btn-neutral float-left" title="MEGARA Tools" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="acronyms.html" class="btn btn-neutral float-right" title="Acronyms" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018-2024, Universidad Complutense de Madrid.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

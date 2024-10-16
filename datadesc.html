@@ -1,0 +1,232 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data description &mdash; megara-cookbook v1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=e160b93e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Data reduction" href="datared.html" />
+    <link rel="prev" title="DRP installation" href="install.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            megara-cookbook
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="megaradrp.html">MEGARA Data Reduction Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">DRP installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Data description</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#raw-data">Raw Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pipeline-products">Pipeline Products</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#full-frame-fits-image-products">Full-frame FITS image products</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rss-fits-image-products">RSS FITS image products</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#structured-products">Structured products</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datared.html">Data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="megaratools.html">MEGARA Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="issues.html">Known ISSUES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acronyms.html">Acronyms</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">megara-cookbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Data description</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/datadesc.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="data-description">
+<h1>Data description<a class="headerlink" href="#data-description" title="Link to this heading"></a></h1>
+<p>In order to help the user in understanding the different execution steps
+of the MEGARA DRP, we describe in this section the characteristics of
+the main products, including input raw images and pipeline products
+(images and tables).</p>
+<section id="raw-data">
+<h2>Raw Data<a class="headerlink" href="#raw-data" title="Link to this heading"></a></h2>
+<p>Raw data includes all FITS frames delivered to the user by GTC. These
+FITS images are 4196 x 4212 pixels in size have two extensions, the
+first one including the data themselves and the second one providing all
+the information about the fibers (positions in the sky, bundle to which
+they belong and whether they are devoted to the observation of target or
+sky). Among these images one can find bias frames (as they are obtained
+with the <strong>MegaraBiasImage</strong> observing mode they include the name of this
+mode it their filename), fiber-flat images (obtained with either the
+<strong>MegaraTraceMap</strong> or the <strong>MegaraFiberFlatImage</strong> observing modes), ThAr or
+ThNe HCL lamp spectra (obtained with the <strong>MegaraArcCalibration</strong> observing
+mode) and scientific observations with either the LCB (<strong>MegaraLcbImage</strong> or
+<strong>MegaraLcbAcquisition</strong>; this latter mode is commonly used when the target
+is a bright star, normally a spectrophotometric standard star) or the
+MOS (<strong>MegaraMosImage</strong>).</p>
+</section>
+<section id="pipeline-products">
+<h2>Pipeline Products<a class="headerlink" href="#pipeline-products" title="Link to this heading"></a></h2>
+<p>There are multiple types of products generated by the MEGARA DRP
+although they can be grouped in full-frame FITS images of 4096 x 4112
+pixels in size (after the overscan+prescan regions are removed from the
+raw images), RSS images of 4300 x 623 (for LCB) or 4300 x 644 (for MOS)
+pixels, and structured data, which is in most cases are given in files
+of JSON format. Below we list the different products within these three
+groups along with the recipe that generates them.</p>
+<section id="full-frame-fits-image-products">
+<h3>Full-frame FITS image products<a class="headerlink" href="#full-frame-fits-image-products" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">master_bias.fits</span></code> (<strong>MasterBiasImage</strong>): Final image of the
+MasterBiasImage recipe.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reduced_image.fits</span></code> (<strong>MegaraDarkImage</strong>, <strong>MasterTraceMap</strong>,
+<strong>MegaraModelMap</strong>, <strong>MegaraFiberFlatImage</strong>, <strong>MegaraArcCalibration</strong>,
+<strong>MegaraTwilightFlatImage</strong>, <strong>MegaraLcbStdStar</strong>, <strong>MegaraLcbAcquisition</strong>,
+<strong>MegaraLcbImage</strong>, <strong>MegaraMosImage</strong>, <strong>MegaraArcCalibration</strong>): Final
+image after all individual exposures have been processed and combined.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">master_slitflat.fits</span></code> (<strong>MegaraSlitFlat</strong>): Image obtained by
+observing a continuum-lamp light with the spectrograph out of its
+optimal focus. The level of de-focusing should be enough to ensure a
+uniform illumination through the entire CCD but keeping the
+wavelength of the light approximately the same at each given pixel
+that when the instrument is well focused.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fwhm_image.fits</span></code> (<strong>MegaraArcCalibration</strong>): Voronoi map of the FWHM
+derived from the fits to the Gaussian profiles of all spectral lines
+identified in the arc-lamp image.</p></li>
+</ul>
+</section>
+<section id="rss-fits-image-products">
+<h3>RSS FITS image products<a class="headerlink" href="#rss-fits-image-products" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">master_fiberflat.fits</span></code> (<strong>MegaraFiberFlatImage</strong>): Image to be applied
+to correct for variations in sensitivity in between fibers and from
+blue-to-red within each fiber.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">master_twilightflat.fits</span></code> (<strong>MegaraTwilightFlatImage</strong>): Image to be
+applied to correct for the effect of illumination introduced by the
+fiber-flat image when this was obtained through the FC-F ICM and
+differences between the pupil of the ICM and the GTC pupil when the
+object was observed. The values of the twilight-flat image are
+identical for all wavelengths but different from fiber to fiber
+(blue-to-red sensitivity variations were corrected with the
+fiber-flat image).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reduced_rss.fits</span></code> (<strong>MegaraLcbAcquisition</strong>, <strong>MegaraLcbStdStar</strong>,
+<strong>MegaraLcbImage</strong>, <strong>MegaraMosImage</strong>, <strong>MegaraArcCalibration</strong>): Processed
+image prior to the subtraction of the sky spectrum.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sky_rss.fits</span></code> (<strong>MegaraLcbAcquisition</strong>, <strong>MegaraLcbStdStar</strong>,
+<strong>MegaraLcbImage</strong>, <strong>MegaraMosImage</strong>, <strong>MegaraArcCalibration</strong>): RSS image
+showing signal only in the valid sky fibers. All other pixels are set
+to zero.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">final_rss.fits</span></code> (<strong>MegaraLcbAcquisition</strong>, <strong>MegaraLcbStdStar</strong>,
+<strong>MegaraLcbImage</strong>, <strong>MegaraMosImage</strong>, <strong>MegaraArcCalibration</strong>): Processed
+image after the subtraction of the sky spectrum is performed. In the
+case of the MOS, this image includes an extension of 92 rows by 4300
+columns where all 7 fibers of each minibundle have been added
+together.</p></li>
+</ul>
+</section>
+<section id="structured-products">
+<h3>Structured products<a class="headerlink" href="#structured-products" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">master_wlcalib.json</span></code> (<strong>MegaraArcCalibration</strong>): File with the
+information on the wavelength calibration solution for every
+fiber.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (<strong>MasterTraceMap</strong>): File with the tracing
+information.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">master_model.json</span></code> (<strong>MasterModelMap</strong>): File with the information on
+how to account for the cross-talk between adjacent fibers in the
+detector.</p></li>
+</ul>
+<p>In the case of the <strong>MegaraLcbStdStar</strong> recipe, the MEGARA DRP also
+generates two different 1D spectra, that of the standard star obtained
+after extracting the 37 spaxels around the centroid identified in the
+observation-result file (<code class="docutils literal notranslate"><span class="pre">star_spectrum.fits</span></code>) and also the resulting
+sensitivity function (<code class="docutils literal notranslate"><span class="pre">master_sentivity.fits</span></code>).</p>
+<p>In addition to all these files, the results directory of every recipe
+includes also a file named <code class="docutils literal notranslate"><span class="pre">task.yaml</span></code> (file with the description of the
+execution of the recipe), the file <code class="docutils literal notranslate"><span class="pre">result.yaml</span></code> (names of the files
+resulting from the recipe and some quality-control information) and the
+<code class="docutils literal notranslate"><span class="pre">processing.log</span></code> logging file.</p>
+<p>Besides ds9/SAOimage or similar software packages, the FITS products
+generated by the MEGARA DRP can be also visualized using the tool
+<code class="docutils literal notranslate"><span class="pre">numina-ximshow</span></code> distributed as part of <strong>numina</strong>.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="install.html" class="btn btn-neutral float-left" title="DRP installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="datared.html" class="btn btn-neutral float-right" title="Data reduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018-2024, Universidad Complutense de Madrid.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

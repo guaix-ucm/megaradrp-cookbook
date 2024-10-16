@@ -1,0 +1,390 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DRP installation &mdash; megara-cookbook v1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=e160b93e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Data description" href="datadesc.html" />
+    <link rel="prev" title="MEGARA Data Reduction Pipeline" href="megaradrp.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            megara-cookbook
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="megaradrp.html">MEGARA Data Reduction Pipeline</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">DRP installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#install-with-pip">Install with pip</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-virtual-environment">Create a virtual environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#activate-the-environment">Activate the environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-megaradrp-with-pip">Install megaradrp with pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#test-the-installation">Test the installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#update-within-the-environment">Update within the environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deactivate-the-environment">Deactivate the environment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#install-in-conda">Install in conda</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-conda-environment">Create a conda environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-megaradrp-with-conda">Install megaradrp with conda</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Activate the environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Test the installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Update within the environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Deactivate the environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#update-outside-the-environment">Update outside the environment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#development-version">Development version</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datadesc.html">Data description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datared.html">Data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="megaratools.html">MEGARA Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="issues.html">Known ISSUES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acronyms.html">Acronyms</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">megara-cookbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">DRP installation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/install.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="drp-installation">
+<span id="id1"></span><h1>DRP installation<a class="headerlink" href="#drp-installation" title="Link to this heading"></a></h1>
+<p>The MEGARA pipeline is a Python package, for Python 3.9 or greater.</p>
+<p>The easiest method of installing megaradrp is using <code class="docutils literal notranslate"><span class="pre">pip</span></code> inside a virtual
+environment.
+You can install official relares or the development version.
+All the commands in the following sections, starting with <code class="docutils literal notranslate"><span class="pre">$</span></code>
+are to be run under <strong>bash shell</strong>.</p>
+<section id="install-with-pip">
+<h2>Install with pip<a class="headerlink" href="#install-with-pip" title="Link to this heading"></a></h2>
+<p>A virtual environment creates isolated Python installations, with
+(potentially) different package versions.
+We will use the venv package (a module in the standard library)
+here, although the <a class="reference external" href="https://virtualenv.pypa.io/en/latest/">virtualenv package</a> can also be used.</p>
+<p>The steps to run MEGARA DRP in a virtual environment are:</p>
+<section id="create-a-virtual-environment">
+<h3>Create a virtual environment<a class="headerlink" href="#create-a-virtual-environment" title="Link to this heading"></a></h3>
+<p>A virtual environment will have a <em>name</em> and a <em>path</em>.
+In order to create a virtual environment called e.g. megara using venv:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>megara<span class="w"> </span>/path/to/
+</pre></div>
+</div>
+<p>With virtualenv:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>virtualenv-3<span class="w"> </span>megara<span class="w"> </span>/path/to/
+</pre></div>
+</div>
+<p>The directory <code class="docutils literal notranslate"><span class="pre">/path/to</span></code> represents the location of the environment.</p>
+<p>It can be any valid directory path.
+If the path name is not specified, it will be created in the
+working directory (notice that
+virtual environments shouldn’t be moved after creation).</p>
+</section>
+<section id="activate-the-environment">
+<h3>Activate the environment<a class="headerlink" href="#activate-the-environment" title="Link to this heading"></a></h3>
+<p>After creating the environment, the directory <code class="docutils literal notranslate"><span class="pre">/path/to/megara</span></code>
+contains a Python tree. One of the directories is
+<code class="docutils literal notranslate"><span class="pre">/path/to/megara/bin</span></code>, which contains a script called <code class="docutils literal notranslate"><span class="pre">activate</span></code>. To
+activate the environment, we source (a bash shell command) this script
+file:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>/path/to/megara/bin/activate
+</pre></div>
+</div>
+<p>which yields a different system prompt to the user:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$</span>
+</pre></div>
+</div>
+<p>Now, the name of the environment appears before the standard prompt. We
+can use the environment only on those consoles / terminals where we have
+previously activated it.</p>
+</section>
+<section id="install-megaradrp-with-pip">
+<h3>Install megaradrp with pip<a class="headerlink" href="#install-megaradrp-with-pip" title="Link to this heading"></a></h3>
+<p>After the activation, we can install megaradrp with pip. This is the
+standard Python tool for package management. It will download the
+package and its dependencies, unpack everything and compile when needed.</p>
+<p>What follows is a sample of the output:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="go">pip install megaradrp</span>
+<span class="go">Collecting megaradrp</span>
+<span class="go">Collecting scikit-image (from megaradrp)</span>
+<span class="go">Downloading https://files.pythonhosted.org/packages/11/c7/ee75c79dcce057a3475763d611ec044737a708eaf5cc53426b0117795ddb/scikit_image-0.14.0-cp35-cp35mu-manylinux1_x86_64.whl (25.4MB)</span>
+<span class="go">Collecting scipy (from megaradrp)</span>
+<span class="gp gp-VirtualEnv">(...)</span>
+<span class="go">Building wheels for collected packages: toolz, scandir</span>
+<span class="go">Running setup.py bdist_wheel for toolz ... done</span>
+<span class="go">Running setup.py bdist_wheel for scandir ... done</span>
+<span class="go">Successfully built toolz scandir</span>
+<span class="go">Installing collected packages: decorator, networkx, cloudpickle, numpy,</span>
+<span class="go">toolz, dask, six, PyWavelets, python-dateutil, subprocess32, cycler,</span>
+<span class="go">backports.functools-lru-cache, pytz, pyparsing, kiwisolver, matplotlib,</span>
+<span class="go">scipy, pillow, scikit-image, enum34, atomicwrites, more-itertools,</span>
+<span class="go">pluggy, attrs, scandir, pathlib2, py, funcsigs, pytest, astropy, PyYaml,</span>
+<span class="go">numina, megaradrp</span>
+</pre></div>
+</div>
+</section>
+<section id="test-the-installation">
+<h3>Test the installation<a class="headerlink" href="#test-the-installation" title="Link to this heading"></a></h3>
+<p>Now we can test the installation by running the numina command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>show-instruments
+<span class="go">INFO: Numina simple recipe runner version 0.34</span>
+<span class="go">Instrument: MEGARA</span>
+<span class="go">  version is &#39;0.16&#39;</span>
+<span class="go">   has profile &#39;Configuration at LICA&#39; uuid=9a86b2b2-3f7d-48ec-8f4f-3780ec967c90</span>
+<span class="go">   has profile &#39;Configuration at GTC&#39; uuid=ca3558e3-e50d-4bbc-86bd-da50a0998a48</span>
+<span class="go">   has profile &#39;Test component&#39; uuid=4fd05b24-2ed9-457b-b563-a3c618bb1d4c</span>
+<span class="go">   has profile &#39;Configuration for the Simulator&#39; uuid=66f2283e-3049-4d4b-8ef1-14d62fcb611d</span>
+<span class="go">   has datamodel &#39;megaradrp.datamodel.MegaraDataModel&#39;</span>
+<span class="go">   has pipeline &#39;default&#39;, version 1</span>
+</pre></div>
+</div>
+<p>The particular output of the command may change, but <code class="docutils literal notranslate"><span class="pre">Instrument:</span> <span class="pre">MEGARA</span></code> text
+should always appear.</p>
+</section>
+<section id="update-within-the-environment">
+<h3>Update within the environment<a class="headerlink" href="#update-within-the-environment" title="Link to this heading"></a></h3>
+<p>In order to update the MEGARA DRP to the latest stable release,  the user
+should execute:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>megaradrp
+</pre></div>
+</div>
+</section>
+<section id="deactivate-the-environment">
+<h3>Deactivate the environment<a class="headerlink" href="#deactivate-the-environment" title="Link to this heading"></a></h3>
+<p>To exit the environment is enough to exit the terminal or run the
+command deactivate.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>deactivate
+<span class="gp">$</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="install-in-conda">
+<h2>Install in conda<a class="headerlink" href="#install-in-conda" title="Link to this heading"></a></h2>
+<p><a class="reference external" href="https://conda.io/docs/">Conda</a> was created with a target similar
+to virtualenv, but know has
+extended its functionallity to package management for different
+languages.</p>
+<p>You can install <a class="reference external" href="https://docs.anaconda.com/miniconda/">miniconda</a> or
+<a class="reference external" href="https://www.anaconda.com/">anaconda</a>. The difference is that
+miniconda provides a light-weight environment and anaconda comes with
+lots of Python packages.</p>
+<p>If you have updated the <code class="docutils literal notranslate"><span class="pre">$PATH</span></code> variable during install, you can call
+conda commands directly in the shell, like this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda<span class="w"> </span>info
+</pre></div>
+</div>
+<p>If not, you will need to add the path to the command (an example path
+could be <code class="docutils literal notranslate"><span class="pre">miniconda3/bin</span></code>), like:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>/path/to/conda/bin/conda<span class="w"> </span>info
+</pre></div>
+</div>
+<p>If that is the case, you should add that path every time you run a conda
+command hereafter. Alternatively, you can initialize conda for your own
+shell by doing:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda<span class="w"> </span>init<span class="w"> </span>bash
+</pre></div>
+</div>
+<p>This works as it is if you are using a login-shell (terminal), but if
+you are using an xterm, you might also need to do:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cp<span class="w"> </span>~/.bash_profile<span class="w"> </span>~/.bashrc
+</pre></div>
+</div>
+<p>(do a backup copy of <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> if you have one already),</p>
+<p>and open a new terminal/xterm. Below, we will write the commands without the
+full path, for simplicity.  If you are using conda version 4.4+ your terminal
+will open in the conda <em>(base)</em> environment. If you want to avoid that
+permanently just do: <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">config</span> <span class="pre">--set</span> <span class="pre">auto_activate_base</span> <span class="pre">false</span></code>.</p>
+<p>Once conda is installed according to the
+instructions above, the steps to run MEGARA DRP under conda would be the
+following:</p>
+<section id="create-a-conda-environment">
+<h3>Create a conda environment<a class="headerlink" href="#create-a-conda-environment" title="Link to this heading"></a></h3>
+<p>We first recommend that you update your conda installation to its latest
+by doing:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>update<span class="w"> </span>conda
+</pre></div>
+</div>
+<p>With conda, environments are created in a centralised manner (under
+directory <code class="docutils literal notranslate"><span class="pre">./envs</span></code> in your conda tree), we do not pass the path to the
+environment.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>megara<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>
+</pre></div>
+</div>
+<p>One could remove this environment (and all its content), if needed, by
+simply doing:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>remove<span class="w"> </span>--name<span class="w"> </span>megara<span class="w"> </span>--all
+</pre></div>
+</div>
+</section>
+<section id="install-megaradrp-with-conda">
+<h3>Install megaradrp with conda<a class="headerlink" href="#install-megaradrp-with-conda" title="Link to this heading"></a></h3>
+<p>Packages can be installed before activating the environment. We provide conda
+packages for megaradrp in the  <a class="reference external" href="https://conda-forge.org/">conda-forge channel</a></p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>install<span class="w"> </span>--name<span class="w"> </span>megara<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>megaradrp
+<span class="go">Fetching package metadata .............</span>
+<span class="go">Solving package specifications: .</span>
+<span class="go">Package plan for installation in environment /home/xxx/devel/miniconda3/envs/megara:</span>
+<span class="go">The following NEW packages will be INSTALLED:</span>
+<span class="go">astropy: 2.0.8-py35_0 conda-forge</span>
+<span class="go">atomicwrites: 1.1.5-py35_0 conda-forge</span>
+<span class="go">attrs: 18.1.0-py_1 conda-forge</span>
+<span class="go">....</span>
+<span class="go">zlib: 1.2.11-h470a237_3 conda-forge</span>
+<span class="go">Proceed ([y]/n)? y</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3>Activate the environment<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<p>The functionality is similar to virtualenv:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>activate<span class="w"> </span>megara
+<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$</span>
+</pre></div>
+</div>
+<p>Again, after activating the environment, the name of the environment
+appears before the standard prompt. We can use the environment only on
+those consoles / terminals where we have previously activated it.</p>
+</section>
+<section id="id3">
+<h3>Test the installation<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p>Now we can test the installation by running the numina command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>show-instruments
+<span class="go">INFO: Numina simple recipe runner version 0.34</span>
+<span class="go">Instrument: MEGARA</span>
+<span class="go">  version is &#39;0.16&#39;</span>
+<span class="go">   has profile &#39;Configuration at LICA&#39; uuid=9a86b2b2-3f7d-48ec-8f4f-3780ec967c90</span>
+<span class="go">   has profile &#39;Configuration at GTC&#39; uuid=ca3558e3-e50d-4bbc-86bd-da50a0998a48</span>
+<span class="go">   has profile &#39;Test component&#39; uuid=4fd05b24-2ed9-457b-b563-a3c618bb1d4c</span>
+<span class="go">   has profile &#39;Configuration for the Simulator&#39; uuid=66f2283e-3049-4d4b-8ef1-14d62fcb611d</span>
+<span class="go">   has datamodel &#39;megaradrp.datamodel.MegaraDataModel&#39;</span>
+<span class="go">   has pipeline &#39;default&#39;, version 1</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>Update within the environment<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p>In order to update the MEGARA DRP within the conda environment the user
+should execute:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>conda<span class="w"> </span>update<span class="w"> </span>megaradrp
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>Deactivate the environment<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p>To exit the environment is enough to exit the terminal or run the
+command source deactivate</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>conda<span class="w"> </span>deactivate
+<span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$</span>
+</pre></div>
+</div>
+</section>
+<section id="update-outside-the-environment">
+<h3>Update outside the environment<a class="headerlink" href="#update-outside-the-environment" title="Link to this heading"></a></h3>
+<p>Once outside the conda environment one can also update the MEGARA DRP
+installation by doing:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>update<span class="w"> </span>megaradrp<span class="w"> </span>-n<span class="w"> </span>megara
+</pre></div>
+</div>
+<p>If you want to deactivate the conda <em>(base)</em> environment entirely you
+can run again:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>deactivate
+<span class="gp">$</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="development-version">
+<h2>Development version<a class="headerlink" href="#development-version" title="Link to this heading"></a></h2>
+<p>For those of you interested in installing the development version,
+please consult the instructions at the readthedocs.org webpage at
+<a class="reference external" href="https://megaradrp.readthedocs.io/en/latest/installation.html">https://megaradrp.readthedocs.io/en/latest/installation.html</a>. The use of
+the development version is recommended to have access to the latest DRP
+improvements.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="megaradrp.html" class="btn btn-neutral float-left" title="MEGARA Data Reduction Pipeline" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="datadesc.html" class="btn btn-neutral float-right" title="Data description" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018-2024, Universidad Complutense de Madrid.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
