@@ -21,6 +21,7 @@ webpage.**
    install
    datadesc
    datared
+   healtraces
    megaratools
    issues
    acronyms

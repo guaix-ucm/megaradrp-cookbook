@@ -1,0 +1,607 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Healing Defective Traces &mdash; megara-cookbook v1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=e160b93e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="MEGARA Tools" href="megaratools.html" />
+    <link rel="prev" title="Data reduction" href="datared.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            megara-cookbook
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="megaradrp.html">MEGARA Data Reduction Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">DRP installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datadesc.html">Data description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datared.html">Data reduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Healing Defective Traces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#identifying-defective-traces">Identifying defective traces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#strategies-to-fix-defective-traces">Strategies to fix defective traces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sandwhich"><code class="docutils literal notranslate"><span class="pre">sandwhich</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extrapolation"><code class="docutils literal notranslate"><span class="pre">extrapolation</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extrapolation-through-user-points"><code class="docutils literal notranslate"><span class="pre">extrapolation_through_user_points</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fit-through-user-points"><code class="docutils literal notranslate"><span class="pre">fit_through_user_points</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vertical-shift-in-pixels"><code class="docutils literal notranslate"><span class="pre">vertical_shift_in_pixels</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#duplicate-trace"><code class="docutils literal notranslate"><span class="pre">duplicate_trace</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#renumber-fibids-within-box"><code class="docutils literal notranslate"><span class="pre">renumber_fibids_within_box</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fixing-multiple-traces-at-once">Fixing multiple traces at once</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="megaratools.html">MEGARA Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="issues.html">Known ISSUES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acronyms.html">Acronyms</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">megara-cookbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Healing Defective Traces</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/healtraces.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="healing-defective-traces">
+<span id="id1"></span><h1>Healing Defective Traces<a class="headerlink" href="#healing-defective-traces" title="Link to this heading"></a></h1>
+<p>On some occasions, the reduction recipe responsible for determining the
+spectral traces does not work correctly. This may be due to slight detector
+defocus and/or low signal at one of the ends of the observed spectral range. If
+the problem does not occur in too many fibers, we describe here a manual
+procedure that allows obtaining corrected traces for the poorly adjusted
+fibers, using the information from well-adjusted neighboring traces.</p>
+<section id="identifying-defective-traces">
+<h2>Identifying defective traces<a class="headerlink" href="#identifying-defective-traces" title="Link to this heading"></a></h2>
+<p>Following the instructions in Section <a class="reference internal" href="datared.html#tracing-fibers"><span class="std std-ref">Tracing fibers</span></a>,
+we look at the reduction step where
+the traces are determined, e.g.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>1_tracemap.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+<span class="go">...</span>
+<span class="go">...</span>
+<span class="go">INFO: start trace recipe QC</span>
+<span class="go">/Users/cardiel/s/megaradrp/src/megaradrp/recipes/calibration/trace.py:142: UserWarning: In fiber 603, trace end &lt; 4090</span>
+<span class="go">  warnings.warn(msg)</span>
+<span class="go">/Users/cardiel/s/megaradrp/src/megaradrp/recipes/calibration/trace.py:142: UserWarning: In fiber 604, trace end &lt; 4090</span>
+<span class="go">  warnings.warn(msg)</span>
+<span class="go">/Users/cardiel/s/megaradrp/src/megaradrp/recipes/calibration/trace.py:142: UserWarning: In fiber 606, trace end &lt; 4090</span>
+<span class="go">  warnings.warn(msg)</span>
+<span class="go">/Users/cardiel/s/megaradrp/src/megaradrp/recipes/calibration/trace.py:142: UserWarning: In fiber 607, trace end &lt; 4090</span>
+<span class="go">  warnings.warn(msg)</span>
+<span class="go">/Users/cardiel/s/megaradrp/src/megaradrp/recipes/calibration/trace.py:142: UserWarning: In fiber 610, trace end &lt; 4090</span>
+<span class="go">  warnings.warn(msg)</span>
+<span class="go">/Users/cardiel/s/megaradrp/src/megaradrp/recipes/calibration/trace.py:138: UserWarning: In fiber 614, trace start &gt; 6</span>
+<span class="go">  warnings.warn(msg)</span>
+<span class="go">/Users/cardiel/s/megaradrp/src/megaradrp/recipes/calibration/trace.py:142: UserWarning: In fiber 614, trace end &lt; 4090</span>
+<span class="go">  warnings.warn(msg)</span>
+<span class="go">INFO: Result QC is QC.PARTIAL</span>
+<span class="go">INFO: end trace recipe QC</span>
+<span class="go">INFO: storing result uuid=447a0a48-025b-11ef-9801-a860b6166057, quality=QC.PARTIAL</span>
+<span class="go">INFO: with field master_traces=TraceMap(instrument=MEGARA, uuid=40959c26-025b-11ef-9801-a860b6166057), quality=QC.PARTIAL</span>
+<span class="go">INFO: storing task id=02_tracemap</span>
+</pre></div>
+</div>
+<p>Please note that the execution of the last command has generated an on-screen
+output indicating that the traces of some fibers have encountered issues.
+Specifically, the affected fibers are: 603, 604, 606, 607, 610, and 614.</p>
+<p>Move to the subdirectory with the results from the previous step.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>obsid1_LR-R_tracemap_results/
+</pre></div>
+</div>
+<p>Identifying faulty traces is straightforward using the
+<code class="docutils literal notranslate"><span class="pre">megaradrp-overplot_traces</span></code> script.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaradrp-overplot_traces<span class="w"> </span>reduced_image.fits<span class="w"> </span>master_traces.json
+<span class="go">&gt;&gt;&gt; File..: reduced_image.fits</span>
+<span class="go">&gt;&gt;&gt; NAXIS1: 4096</span>
+<span class="go">&gt;&gt;&gt; NAXIS2: 4112</span>
+
+<span class="go">* Fiber description for INSMODE=LCB</span>
+<span class="go">Box 8a,  fibers 603 - 623</span>
+<span class="go">Box 7a,  fibers 582 - 602</span>
+<span class="go">Box 6a,  fibers 561 - 581</span>
+<span class="go">Box 5a,  fibers 533 - 560</span>
+<span class="go">Box 4a,  fibers 505 - 532</span>
+<span class="go">Box 3a,  fibers 470 - 504</span>
+<span class="go">Box 2a,  fibers 428 - 469</span>
+<span class="go">Box 1a,  fibers 351 - 427</span>
+<span class="go">Box  0,  fibers 274 - 350</span>
+<span class="go">Box 1b,  fibers 197 - 273</span>
+<span class="go">Box 2b,  fibers 155 - 196</span>
+<span class="go">Box 3b,  fibers 120 - 154</span>
+<span class="go">Box 4b,  fibers  92 - 119</span>
+<span class="go">Box 5b,  fibers  64 -  91</span>
+<span class="go">Box 6b,  fibers  43 -  63</span>
+<span class="go">Box 7b,  fibers  22 -  42</span>
+<span class="go">Box 8b,  fibers   1 -  21</span>
+<span class="go">---------------------------------</span>
+<span class="go">&gt;&gt;&gt; Using global_offset: 0.0</span>
+<span class="go">Warning ---&gt; Missing fiber: 614  [8a]</span>
+<span class="go">Warning ---&gt; Missing fiber: 623  [8a]</span>
+<span class="go">Press &quot;q&quot; to continue...</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/initial_traces_in_full_image.png"><img alt="initial traces in full image" src="_images/initial_traces_in_full_image.png" style="width: 100%;" />
+</a>
+<p>Although the traces appear to be correctly calculated, when zooming in on the
+fibers corresponding to <code class="docutils literal notranslate"><span class="pre">Box</span> <span class="pre">8a</span></code>, we can see that there are several fibers
+whose traces have not been calculated correctly. We can zoom in on the
+matplotlib image using the magnifying glass tool, or we can run the previous
+script using the <code class="docutils literal notranslate"><span class="pre">--bbox</span></code> parameter, which takes a list with 4 numbers (xmin,
+xmax, ymin, ymax). We also add the <code class="docutils literal notranslate"><span class="pre">--fibids</span></code> parameter, which enables
+displaying the fiber number in the same figure.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaradrp-overplot_traces<span class="w"> </span>reduced_image.fits<span class="w"> </span>master_traces.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--fibids<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--bbox<span class="w"> </span><span class="m">1</span>,4096,3775,3950
+<span class="go">...</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/initial_traces_in_full_image_zoom.png"><img alt="zoom of initial traces in full image" src="_images/initial_traces_in_full_image_zoom.png" style="width: 100%;" />
+</a>
+<p>The trace signal fades for X values around the range [2500, 3500], causing some
+traces to end prematurely (fibers 603, 604, 606, 607, 610), to switch fibers
+(e.g., the trace for fiber 613 jumps to the position of fiber 614), or even for
+the trace to fail to be calculated (fiber 614). Not surprisingly, these are the
+same fibers with issues in the execution of the <strong>MegaraTraceMap</strong> recipe.</p>
+<p>The next section describes the different strategies that can be employed to fix
+wrong (or even missing) traces.</p>
+</section>
+<section id="strategies-to-fix-defective-traces">
+<h2>Strategies to fix defective traces<a class="headerlink" href="#strategies-to-fix-defective-traces" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">megaradrp-heal_traces</span></code> script helps recover miscalculated traces using
+different options. An example of execution is as follows:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaradrp-heal_traces<span class="w"> </span>reduced_image.fits<span class="w"> </span>master_traces.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--fibids<span class="w"> </span>--healing<span class="w"> </span>healing.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--updated_traces<span class="w"> </span>master_traces_healed.json
+</pre></div>
+</div>
+<p>The first two parameters are the same as those used with the
+<code class="docutils literal notranslate"><span class="pre">megaradrp-overplot_traces</span></code> script (the FITS image and the JSON file with
+information about the calculated traces). The new relevant parameters are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--healing</span> <span class="pre">&lt;healing.yaml&gt;</span></code>: specifies the name of a YAML file that defines
+the strategy for correcting erroneous traces. The format of this file is
+explained in more detail below.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--updated_traces</span> <span class="pre">&lt;master_traces_healed.json&gt;</span></code>: specifies the name of the
+JSON file that will store the corrected version of all traces.</p></li>
+</ul>
+<p>With the help of the <code class="docutils literal notranslate"><span class="pre">&lt;healing.yaml&gt;</span></code> file, we can make use of different
+strategies to correct faulty traces. These strategies are indicated in the
+YAML file using the tag <code class="docutils literal notranslate"><span class="pre">description</span></code>.
+The corrections to be applied to calculate the new trace for each fiber are
+included in the YAML file in independent blocks separated by the usual YAML
+separator <code class="docutils literal notranslate"><span class="pre">---</span></code> (see a more detailed example in the next section).</p>
+<p>Next we show the different possibilities with some example numbers.</p>
+<section id="sandwhich">
+<h3><code class="docutils literal notranslate"><span class="pre">sandwhich</span></code><a class="headerlink" href="#sandwhich" title="Link to this heading"></a></h3>
+<p>Useful for defining a trace using information from two neighboring traces.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">description</span><span class="p">:</span> <span class="n">sandwich</span>
+<span class="n">fibid</span><span class="p">:</span> <span class="mi">610</span>
+<span class="n">fraction</span><span class="p">:</span> <span class="mf">0.5</span>
+<span class="n">neighbours</span><span class="p">:</span> <span class="p">[</span><span class="mi">609</span><span class="p">,</span> <span class="mi">611</span><span class="p">]</span>
+<span class="n">xstart</span><span class="p">:</span> <span class="mi">6</span>
+<span class="n">xstop</span><span class="p">:</span> <span class="mi">4090</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/fixing_610_sandwich.png"><img alt="fixing fiber 610 with method sandwich" src="_images/fixing_610_sandwich.png" style="width: 100%;" />
+</a>
+<p>In the example, the corrected trace for <code class="docutils literal notranslate"><span class="pre">fibid:</span> <span class="pre">610</span></code> (green dotted line) is
+calculated halfway between the position of the trace for fiber 609 and fiber
+611. The <code class="docutils literal notranslate"><span class="pre">fraction</span></code> tag equal to 0.5 indicates that the new trace is
+equidistant from the other two.  This fraction number can be varied to obtain
+traces that are not equidistant from the two reference traces. For example,
+fraction=0.33333 would make the new trace one-third of the distance from the
+first fiber indicated in the tag <code class="docutils literal notranslate"><span class="pre">neighbors</span></code>.  The <code class="docutils literal notranslate"><span class="pre">xstart</span></code> and <code class="docutils literal notranslate"><span class="pre">xstop</span></code>
+tags indicate the X coordinate where the new trace will be valid.</p>
+</section>
+<section id="extrapolation">
+<h3><code class="docutils literal notranslate"><span class="pre">extrapolation</span></code><a class="headerlink" href="#extrapolation" title="Link to this heading"></a></h3>
+<p>This method enables the extrapolation of traces whose fitting is truncated on
+the X-axis.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">description</span><span class="p">:</span> <span class="n">extrapolation</span>
+<span class="n">fibid_ini</span><span class="p">:</span> <span class="mi">610</span>
+<span class="n">fibid_end</span><span class="p">:</span> <span class="mi">610</span>
+<span class="n">xstart</span><span class="p">:</span> <span class="mi">6</span>
+<span class="n">xstop</span><span class="p">:</span> <span class="mi">4090</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/fixing_610_extrapolation.png"><img alt="fixing fiber 610 with method extrapolation" src="_images/fixing_610_extrapolation.png" style="width: 100%;" />
+</a>
+<p>In this approach, the fibers whose numbers are between <code class="docutils literal notranslate"><span class="pre">fibid_ini</span></code> and
+<code class="docutils literal notranslate"><span class="pre">fibid_end</span></code> are recomputed for X-axis values in the interval [<code class="docutils literal notranslate"><span class="pre">xstart</span></code>,
+<code class="docutils literal notranslate"><span class="pre">xstop</span></code>]. It is also possible to indicate a list of fibers using the tag
+<code class="docutils literal notranslate"><span class="pre">fibid_list</span></code> instead of the pair of tags <code class="docutils literal notranslate"><span class="pre">fibid_ini</span></code> and <code class="docutils literal notranslate"><span class="pre">fibid_end</span></code>.</p>
+<p>In the example shown, only the initial fitting performed for fiber
+610 (blue dotted line) has been extrapolated. It can be observed that the
+result (green dotted curve) is not optimal. It is likely that a simple
+extrapolation of the initially performed fitting will not be a good estimation
+of the trace in the regions where it has not been possible to determine the
+trace position. In general, it will be more useful to use the method described
+below.</p>
+</section>
+<section id="extrapolation-through-user-points">
+<h3><code class="docutils literal notranslate"><span class="pre">extrapolation_through_user_points</span></code><a class="headerlink" href="#extrapolation-through-user-points" title="Link to this heading"></a></h3>
+<p>This method offers a much more reliable extrapolation strategy because the user
+can define a set of additional points that are also used to fit the trace.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">description</span><span class="p">:</span> <span class="n">extrapolation_through_user_points</span>
+<span class="n">fibid</span><span class="p">:</span> <span class="mi">603</span>
+<span class="n">xstart_reuse</span><span class="p">:</span> <span class="mi">4</span>
+<span class="n">xstop_reuse</span><span class="p">:</span> <span class="mi">2000</span>
+<span class="n">resampling</span><span class="p">:</span> <span class="mi">20</span>
+<span class="n">poldeg</span><span class="p">:</span> <span class="mi">5</span>
+<span class="n">xstart</span><span class="p">:</span> <span class="mi">6</span>
+<span class="n">xstop</span><span class="p">:</span> <span class="mi">4090</span>
+<span class="n">user_points</span><span class="p">:</span>
+  <span class="o">-</span> <span class="p">[</span><span class="mi">3500</span><span class="p">,</span> <span class="mf">3817.0</span><span class="p">]</span>
+  <span class="o">-</span> <span class="p">[</span><span class="mi">4000</span><span class="p">,</span> <span class="mf">3818.0</span><span class="p">]</span>
+<span class="n">refit</span><span class="p">:</span> <span class="kc">False</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/fixing_603_extrapolation_through_user_points.png"><img alt="fixing fiber 603 with method extrapolation through user points" src="_images/fixing_603_extrapolation_through_user_points.png" style="width: 100%;" />
+</a>
+<p>In the example shown, the extrapolation of the initial fitting for fiber 603
+(blue dotted line) has been performed reusing the prediction of this initial
+fitting in the interval [<code class="docutils literal notranslate"><span class="pre">xstart_reuse</span></code>, <code class="docutils literal notranslate"><span class="pre">xstop_reuse</span></code>]. The <code class="docutils literal notranslate"><span class="pre">resampling</span></code>
+parameter indicates that 20 intermediate points (magenta filled circles) are
+calculated within this interval, which constitute the data that are actually
+used in the new fitting.  In addition to these 20 points, the additional points
+(cyan filled circles) specified under the <code class="docutils literal notranslate"><span class="pre">user_points</span></code> tag are also added.
+The final result is evaluated for X-axis values between <code class="docutils literal notranslate"><span class="pre">xstart</span></code> and
+<code class="docutils literal notranslate"><span class="pre">xstop</span></code>.</p>
+<p>The additional tag <code class="docutils literal notranslate"><span class="pre">refit</span></code> indicates whether after performing the
+requested fitting, the script recalculates the entire fitting again,
+determining the maximum signal of each fiber, column by column in the image,
+and applying a polynomial fit by iteratively removing points that deviate more
+than 3 times the residual standard deviation. This method is slower but allows
+the final fit to be less sensitive to the user-entered values. In any case, it
+may be useful to compare the results obtained by setting <code class="docutils literal notranslate"><span class="pre">refit</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code>
+or <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</section>
+<section id="fit-through-user-points">
+<h3><code class="docutils literal notranslate"><span class="pre">fit_through_user_points</span></code><a class="headerlink" href="#fit-through-user-points" title="Link to this heading"></a></h3>
+<p>This option allows for the manual entry of all points to be used for fitting
+the trace.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">description</span><span class="p">:</span> <span class="n">fit_through_user_points</span>
+<span class="n">fibid</span><span class="p">:</span> <span class="mi">603</span>
+<span class="n">poldeg</span><span class="p">:</span> <span class="mi">5</span>
+<span class="n">xstart</span><span class="p">:</span> <span class="mi">6</span>
+<span class="n">xstop</span><span class="p">:</span> <span class="mi">4090</span>
+<span class="n">user_points</span><span class="p">:</span>
+  <span class="o">-</span> <span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">3796.8</span><span class="p">]</span>
+  <span class="o">-</span> <span class="p">[</span><span class="mf">500.0</span><span class="p">,</span> <span class="mf">3801.1</span><span class="p">]</span>
+  <span class="o">-</span> <span class="p">[</span><span class="mf">1000.0</span><span class="p">,</span> <span class="mf">3806.0</span><span class="p">]</span>
+  <span class="o">-</span> <span class="p">[</span><span class="mf">1500.0</span><span class="p">,</span> <span class="mf">3810.2</span><span class="p">]</span>
+  <span class="o">-</span> <span class="p">[</span><span class="mf">2000.0</span><span class="p">,</span> <span class="mf">3813.8</span><span class="p">]</span>
+  <span class="o">-</span> <span class="p">[</span><span class="mf">3000.0</span><span class="p">,</span> <span class="mf">3816.6</span><span class="p">]</span>
+  <span class="o">-</span> <span class="p">[</span><span class="mf">3500.0</span><span class="p">,</span> <span class="mf">3817.7</span><span class="p">]</span>
+  <span class="o">-</span> <span class="p">[</span><span class="mf">4000.0</span><span class="p">,</span> <span class="mf">3817.9</span><span class="p">]</span>
+<span class="n">refit</span><span class="p">:</span> <span class="kc">False</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/fixing_603_fit_through_user_points.png"><img alt="fixing fiber 603 with method fit through user points" src="_images/fixing_603_fit_through_user_points.png" style="width: 100%;" />
+</a>
+<p>In the provided example, the coordinates of all the points to be fitted (cyan
+filled circles) for recalculating the trace of fiber 603 are entered under the
+<code class="docutils literal notranslate"><span class="pre">user_points</span></code> tag.  The trace is determined as the polynomial of degree
+<code class="docutils literal notranslate"><span class="pre">poldeg</span></code>, evaluated in the interval [<code class="docutils literal notranslate"><span class="pre">xstart</span></code>, <code class="docutils literal notranslate"><span class="pre">xstop</span></code>].</p>
+<p>The additional tag <code class="docutils literal notranslate"><span class="pre">refit</span></code> indicates whether after performing the
+requested fitting, the script recalculates the entire fitting again,
+determining the maximum signal of each fiber, column by column in the image,
+and applying a polynomial fit by iteratively removing points that deviate more
+than 3 times the residual standard deviation. This method is slower but allows
+the final fit to be less sensitive to the user-entered values. In any case, it
+may be useful to compare the results obtained by setting <code class="docutils literal notranslate"><span class="pre">refit</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code>
+or <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</section>
+<section id="vertical-shift-in-pixels">
+<h3><code class="docutils literal notranslate"><span class="pre">vertical_shift_in_pixels</span></code><a class="headerlink" href="#vertical-shift-in-pixels" title="Link to this heading"></a></h3>
+<p>This method enables the vertical displacement of already fitted fiber traces.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">description</span><span class="p">:</span> <span class="n">vertical_shift_in_pixels</span>
+<span class="n">fibid_ini</span><span class="p">:</span> <span class="mi">601</span>
+<span class="n">fibid_end</span><span class="p">:</span> <span class="mi">602</span>
+<span class="n">vshift</span><span class="p">:</span> <span class="mi">6</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/fixing_601_vertical_shift_in_pixels.png"><img alt="fixing fiber 601 with method vertical shift in pixels" src="_images/fixing_601_vertical_shift_in_pixels.png" style="width: 100%;" />
+</a>
+<p>In this approach, the fibers whose numbers are between <code class="docutils literal notranslate"><span class="pre">fibid_ini</span></code> and
+<code class="docutils literal notranslate"><span class="pre">fibid_end</span></code> are vertically shifted by <code class="docutils literal notranslate"><span class="pre">vshift</span></code> pixels.
+It is also possible to indicate a list of fibers using the tag
+<code class="docutils literal notranslate"><span class="pre">fibid_list</span></code> instead of the pair of tags <code class="docutils literal notranslate"><span class="pre">fibid_ini</span></code> and <code class="docutils literal notranslate"><span class="pre">fibid_end</span></code>.</p>
+<p>The provided example is merely an illustrative demonstration of what would
+happen if we vertically shifted the traces of fibers 601 and 602 by 6 pixels
+(in this case, the outcome would be non-beneficial as the displaced traces do
+not yield a useful result; it is only shown to verify that the procedure
+functions correctly).</p>
+</section>
+<section id="duplicate-trace">
+<h3><code class="docutils literal notranslate"><span class="pre">duplicate_trace</span></code><a class="headerlink" href="#duplicate-trace" title="Link to this heading"></a></h3>
+<p>This method duplicates the trace of a fiber and vertically displaces it.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">description</span><span class="p">:</span> <span class="n">duplicate_trace</span>
+<span class="n">fibid_original</span><span class="p">:</span> <span class="mi">602</span>
+<span class="n">fibid_duplicated</span><span class="p">:</span> <span class="mi">603</span>
+<span class="n">vshift</span><span class="p">:</span> <span class="mi">13</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/fixing_603_duplicate_trace.png"><img alt="fixing fiber 603 with method duplicate trace" src="_images/fixing_603_duplicate_trace.png" style="width: 100%;" />
+</a>
+<p>In the provided example, the inital trace of fiber 602 duplicaed and vertically
+shifted upwards by 13 pixels to replicate the trace of fiber 603.</p>
+</section>
+<section id="renumber-fibids-within-box">
+<h3><code class="docutils literal notranslate"><span class="pre">renumber_fibids_within_box</span></code><a class="headerlink" href="#renumber-fibids-within-box" title="Link to this heading"></a></h3>
+<p>This method enables the renumbering of fiber traces within the same box.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">description</span><span class="p">:</span> <span class="n">renumber_fibids_within_box</span>
+<span class="n">fibid_ini</span><span class="p">:</span> <span class="mi">620</span>
+<span class="n">fibid_end</span><span class="p">:</span> <span class="mi">622</span>
+<span class="n">fibid_shift</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/fixing_620_renumber_fibids_within_box.png"><img alt="fixing fiber 620 with method renumber fibids within box" src="_images/fixing_620_renumber_fibids_within_box.png" style="width: 100%;" />
+</a>
+<p>In the provided example, the traces of 3 fibers (numbers 620, 621, and 622) are
+renumbered by subtracting 1 from the fiber number. The <code class="docutils literal notranslate"><span class="pre">fibid_shift</span></code> tag
+can only be set to -1 or +1. It is important to note that the renumbered traces
+all belong to fibers within the same box (<code class="docutils literal notranslate"><span class="pre">8a</span></code> in this particular case).</p>
+</section>
+</section>
+<section id="fixing-multiple-traces-at-once">
+<h2>Fixing multiple traces at once<a class="headerlink" href="#fixing-multiple-traces-at-once" title="Link to this heading"></a></h2>
+<p>In practical scenarios, it is common to need to fix multiple traces within a
+single image.  As an example, let’s revisit the case of the image shown below.</p>
+<a class="reference internal image-reference" href="_images/initial_traces_in_full_image_zoom.png"><img alt="zoom of initial traces in full image" src="_images/initial_traces_in_full_image_zoom.png" style="width: 100%;" />
+</a>
+<p>In such cases, it is convenient to gather the reconstruction of the traces that
+require recalculation into a single YAML file. We can combine the different
+strategies described in the previous section. In each case, it will be
+necessary to include the typical YAML separator <code class="docutils literal notranslate"><span class="pre">---</span></code> to indicate the
+different sections of the file.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extrapolation_through_user_points</span>
+<span class="linenos"> 2</span><span class="nt">fibid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">603</span>
+<span class="linenos"> 3</span><span class="nt">xstart_reuse</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+<span class="linenos"> 4</span><span class="nt">xstop_reuse</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2000</span>
+<span class="linenos"> 5</span><span class="nt">resampling</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+<span class="linenos"> 6</span><span class="nt">poldeg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="linenos"> 7</span><span class="nt">xstart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6</span>
+<span class="linenos"> 8</span><span class="nt">xstop</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4090</span>
+<span class="linenos"> 9</span><span class="nt">user_points</span><span class="p">:</span><span class="w"> </span>
+<span class="linenos">10</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3500</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3817.0</span><span class="p p-Indicator">]</span>
+<span class="linenos">11</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4000</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3818.0</span><span class="p p-Indicator">]</span>
+<span class="linenos">12</span><span class="nt">refit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="linenos">13</span><span class="nn">---</span>
+<span class="linenos">14</span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extrapolation_through_user_points</span>
+<span class="linenos">15</span><span class="nt">fibid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">604</span>
+<span class="linenos">16</span><span class="nt">xstart_reuse</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+<span class="linenos">17</span><span class="nt">xstop_reuse</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2000</span>
+<span class="linenos">18</span><span class="nt">resampling</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+<span class="linenos">19</span><span class="nt">poldeg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="linenos">20</span><span class="nt">xstart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6</span>
+<span class="linenos">21</span><span class="nt">xstop</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4090</span>
+<span class="linenos">22</span><span class="nt">user_points</span><span class="p">:</span><span class="w"> </span>
+<span class="linenos">23</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3500</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3823.2</span><span class="p p-Indicator">]</span>
+<span class="linenos">24</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4000</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3824.2</span><span class="p p-Indicator">]</span>
+<span class="linenos">25</span><span class="nt">refit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="linenos">26</span><span class="nn">---</span>
+<span class="linenos">27</span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extrapolation_through_user_points</span>
+<span class="linenos">28</span><span class="nt">fibid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">606</span>
+<span class="linenos">29</span><span class="nt">xstart_reuse</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+<span class="linenos">30</span><span class="nt">xstop_reuse</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2000</span>
+<span class="linenos">31</span><span class="nt">resampling</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+<span class="linenos">32</span><span class="nt">poldeg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="linenos">33</span><span class="nt">xstart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6</span>
+<span class="linenos">34</span><span class="nt">xstop</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4090</span>
+<span class="linenos">35</span><span class="nt">user_points</span><span class="p">:</span><span class="w"> </span>
+<span class="linenos">36</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3500</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3835.0</span><span class="p p-Indicator">]</span>
+<span class="linenos">37</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4000</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3836.2</span><span class="p p-Indicator">]</span>
+<span class="linenos">38</span><span class="nt">refit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="linenos">39</span><span class="nn">---</span>
+<span class="linenos">40</span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sandwich</span>
+<span class="linenos">41</span><span class="nt">fibid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">607</span>
+<span class="linenos">42</span><span class="nt">fraction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
+<span class="linenos">43</span><span class="nt">neighbours</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">606</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">608</span><span class="p p-Indicator">]</span>
+<span class="linenos">44</span><span class="nt">xstart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6</span>
+<span class="linenos">45</span><span class="nt">xstop</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4090</span>
+<span class="linenos">46</span><span class="nn">---</span>
+<span class="linenos">47</span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sandwich</span>
+<span class="linenos">48</span><span class="nt">fibid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">610</span>
+<span class="linenos">49</span><span class="nt">fraction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
+<span class="linenos">50</span><span class="nt">neighbours</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">609</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">611</span><span class="p p-Indicator">]</span>
+<span class="linenos">51</span><span class="nt">xstart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6</span>
+<span class="linenos">52</span><span class="nt">xstop</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4090</span>
+<span class="linenos">53</span><span class="nn">---</span>
+<span class="linenos">54</span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extrapolation_through_user_points</span>
+<span class="linenos">55</span><span class="nt">fibid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">613</span>
+<span class="linenos">56</span><span class="nt">xstart_reuse</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+<span class="linenos">57</span><span class="nt">xstop_reuse</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2000</span>
+<span class="linenos">58</span><span class="nt">resampling</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+<span class="linenos">59</span><span class="nt">poldeg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="linenos">60</span><span class="nt">xstart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6</span>
+<span class="linenos">61</span><span class="nt">xstop</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4090</span>
+<span class="linenos">62</span><span class="nt">user_points</span><span class="p">:</span><span class="w"> </span>
+<span class="linenos">63</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3500</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3878.1</span><span class="p p-Indicator">]</span>
+<span class="linenos">64</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4000</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3878.6</span><span class="p p-Indicator">]</span>
+<span class="linenos">65</span><span class="nt">refit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="linenos">66</span><span class="nn">---</span>
+<span class="linenos">67</span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sandwich</span>
+<span class="linenos">68</span><span class="nt">fibid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">614</span>
+<span class="linenos">69</span><span class="nt">fraction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
+<span class="linenos">70</span><span class="nt">neighbours</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">613</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">615</span><span class="p p-Indicator">]</span>
+<span class="linenos">71</span><span class="nt">xstart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6</span>
+<span class="linenos">72</span><span class="nt">xstop</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4090</span>
+</pre></div>
+</div>
+<p>If the previous transformations are saved into a file named <code class="docutils literal notranslate"><span class="pre">healing.yaml</span></code>,
+we can apply all the transformations with a simple execution of the script
+<code class="docutils literal notranslate"><span class="pre">megaradrp-heal_traces</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaradrp-heal_traces<span class="w"> </span>reduced_image.fits<span class="w"> </span>master_traces.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--fibids<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--healing<span class="w"> </span>healing.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--updated_traces<span class="w"> </span>master_traces_healed.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--bbox<span class="w"> </span><span class="m">1</span>,4096,3775,3950<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--verbose
+
+
+<span class="go">&gt;&gt;&gt; File..: reduced_image.fits</span>
+<span class="go">&gt;&gt;&gt; NAXIS1: 4096</span>
+<span class="go">&gt;&gt;&gt; NAXIS2: 4112</span>
+
+<span class="go">* Fiber description for INSMODE=LCB</span>
+<span class="go">Box 8a,  fibers 603 - 623</span>
+<span class="go">Box 7a,  fibers 582 - 602</span>
+<span class="go">Box 6a,  fibers 561 - 581</span>
+<span class="go">Box 5a,  fibers 533 - 560</span>
+<span class="go">Box 4a,  fibers 505 - 532</span>
+<span class="go">Box 3a,  fibers 470 - 504</span>
+<span class="go">Box 2a,  fibers 428 - 469</span>
+<span class="go">Box 1a,  fibers 351 - 427</span>
+<span class="go">Box  0,  fibers 274 - 350</span>
+<span class="go">Box 1b,  fibers 197 - 273</span>
+<span class="go">Box 2b,  fibers 155 - 196</span>
+<span class="go">Box 3b,  fibers 120 - 154</span>
+<span class="go">Box 4b,  fibers  92 - 119</span>
+<span class="go">Box 5b,  fibers  64 -  91</span>
+<span class="go">Box 6b,  fibers  43 -  63</span>
+<span class="go">Box 7b,  fibers  22 -  42</span>
+<span class="go">Box 8b,  fibers   1 -  21</span>
+<span class="go">---------------------------------</span>
+<span class="go">&gt;&gt;&gt; Using global_offset: [0.0]</span>
+<span class="go">Warning ---&gt; Missing fiber: 614  [8a]</span>
+<span class="go">Warning ---&gt; Missing fiber: 623  [8a]</span>
+<span class="gp gp-VirtualEnv">(extrapolation_through_user_points)</span><span class="go">: 603  [8a]</span>
+<span class="gp gp-VirtualEnv">(extrapolation_through_user_points)</span><span class="go">: 604  [8a]</span>
+<span class="gp gp-VirtualEnv">(extrapolation_through_user_points)</span><span class="go">: 606  [8a]</span>
+<span class="gp gp-VirtualEnv">(sandwich)</span> <span class="go">fibid: 607  [8a]</span>
+<span class="gp gp-VirtualEnv">(sandwich)</span> <span class="go">fibid: 610  [8a]</span>
+<span class="gp gp-VirtualEnv">(extrapolation_through_user_points)</span><span class="go">: 613  [8a]</span>
+<span class="gp gp-VirtualEnv">(sandwich)</span> <span class="go">fibid: 614  [8a]</span>
+<span class="go">Press &quot;q&quot; to continue...</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/healing_all_traces_zoom.png"><img alt="zoom when applying megaradrp_heal_traces" src="_images/healing_all_traces_zoom.png" style="width: 100%;" />
+</a>
+<p>It is important to note that the script performs the calculation of the new
+traces sequentially, allowing a previously repaired trace to be used in a
+subsequent step. This behavior is exemplified by the fiber 606 in the provided
+example. The trace of this fiber 606 is first reconstructed using the
+<code class="docutils literal notranslate"><span class="pre">extrapolation_through_user_points</span></code> method. Subsequently, the obtained result
+is reused to recalculate the trace of fiber 607 using the <code class="docutils literal notranslate"><span class="pre">sandwich</span></code> method,
+which utilizes the new values of the trace of fiber 606 and the original trace
+of fiber 608.</p>
+<p>During the execution of <code class="docutils literal notranslate"><span class="pre">megaradrp-heal_traces</span></code>, we utilized the
+parameter <code class="docutils literal notranslate"><span class="pre">--updated_traces</span> <span class="pre">master_traces_healed.json</span></code>, which
+specifies the name of the JSON file containing all the corrected traces. It is
+advisable to now employ this file in conjunction with the
+<code class="docutils literal notranslate"><span class="pre">megaradrp-overplot_traces</span></code> script to perform a final verification and ensure
+that all traces have been correctly corrected. This step is crucial since
+improper configuration of the <code class="docutils literal notranslate"><span class="pre">healing.yaml</span></code> file could lead to undesired
+outcomes.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaradrp-overplot_traces<span class="w"> </span>reduced_image.fits<span class="w"> </span>master_traces_healed.json<span class="w"> </span><span class="se">\</span>
+--fibids<span class="w"> </span><span class="se">\</span>
+--bbox<span class="w"> </span><span class="m">1</span>,4096,3775,3950
+</pre></div>
+</div>
+<p>Please note that the second parameter is now <code class="docutils literal notranslate"><span class="pre">master_traces_healed.json</span></code>
+instead of <code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code>. We have successfully corrected all the
+faulty traces, and the obtained result is satisfactory.</p>
+<a class="reference internal image-reference" href="_images/final_traces_in_full_image_zoom.png"><img alt="zoom of final traces in full image" src="_images/final_traces_in_full_image_zoom.png" style="width: 100%;" />
+</a>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The newly created <code class="docutils literal notranslate"><span class="pre">master_traces_healed.json</span></code> file should now be copied to
+its intended location within the calibration tree. <strong>When performing this
+operation, it is advisable to rename the destination file to ensure that the
+pipeline utilizes the corrected file (thereby overwriting the existing</strong>
+<code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> <strong>file in the destination location, if applicable).</strong>
+For example (assuming we are calibrating traces corresponding to the LR-R
+VPH):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>cp<span class="w"> </span>master_traces_healed.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>../../MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48/TraceMap/LCB/LR-R/master_traces.json
+</pre></div>
+</div>
+<p>The file <code class="docutils literal notranslate"><span class="pre">master_traces_healed.json</span></code> has a different <code class="docutils literal notranslate"><span class="pre">uuid</span></code> than the one
+assigned to the file <code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code>.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="datared.html" class="btn btn-neutral float-left" title="Data reduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="megaratools.html" class="btn btn-neutral float-right" title="MEGARA Tools" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018-2024, Universidad Complutense de Madrid.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -16,20 +16,24 @@ To install the latest stable version:
 
 .. code-block:: console
 
-   (megara) pip install megara-tools[hypercube]
+   (megara) $ pip install megara-tools[hypercube]
+   
+   # Note: mac OS under zsh should use:
+   # $ pip install "megara-tools[hypercube]"
 
-or, if you do not *hypercube* to be installed (as it includes *pysynphot* as a
-dependency), simply do:
+or, if you do not want **hypercube** to be installed (as it includes `pysynphot
+<https://pysynphot.readthedocs.io/en/latest/>`_ as a dependency, which is no
+longer actively developed), simply do:
 
 .. code-block:: console
 
-   (megara) pip install megara-tools
+   (megara) $ pip install megara-tools
 
 To install the development version:
 
 .. code-block:: console
 
-   (megara) pip install git+https://github.com/guaix-ucm/megara-tools.git
+   (megara) $ pip install git+https://github.com/guaix-ucm/megara-tools.git
 
 To develop your own tools based on **megara-tools**:
 

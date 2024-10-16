@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Known ISSUES" href="issues.html" />
-    <link rel="prev" title="Data reduction" href="datared.html" /> 
+    <link rel="prev" title="Healing Defective Traces" href="healtraces.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -49,6 +49,7 @@
 <li class="toctree-l1"><a class="reference internal" href="install.html">DRP installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datadesc.html">Data description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datared.html">Data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="healtraces.html">Healing Defective Traces</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">MEGARA Tools</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#megaradrp-visualization">Megaradrp.Visualization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#megaradrp-cube">Megaradrp-Cube</a></li>
@@ -101,16 +102,19 @@ distribution. The rest conform their own software package
 <a class="reference external" href="https://github.com/guaix-ucm/megara-tools">https://github.com/guaix-ucm/megara-tools</a>. The installation requires to
 follow one of these three strategies:</p>
 <p>To install the latest stable version:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="go">pip install megara-tools[hypercube]</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>megara-tools<span class="o">[</span>hypercube<span class="o">]</span>
+
+<span class="gp"># </span>Note:<span class="w"> </span>mac<span class="w"> </span>OS<span class="w"> </span>under<span class="w"> </span>zsh<span class="w"> </span>should<span class="w"> </span>use:
+<span class="gp"># </span>$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;megara-tools[hypercube]&quot;</span>
 </pre></div>
 </div>
-<p>or, if you do not <em>hypercube</em> to be installed (as it includes <em>pysynphot</em> as a
-dependency), simply do:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="go">pip install megara-tools</span>
+<p>or, if you do not want <strong>hypercube</strong> to be installed (as it includes <a class="reference external" href="https://pysynphot.readthedocs.io/en/latest/">pysynphot</a> as a dependency, which is no
+longer actively developed), simply do:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>megara-tools
 </pre></div>
 </div>
 <p>To install the development version:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="go">pip install git+https://github.com/guaix-ucm/megara-tools.git</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/guaix-ucm/megara-tools.git
 </pre></div>
 </div>
 <p>To develop your own tools based on <strong>megara-tools</strong>:</p>
@@ -1117,7 +1121,7 @@ individual RSS files by removing the <code class="docutils literal notranslate">
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="datared.html" class="btn btn-neutral float-left" title="Data reduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="healtraces.html" class="btn btn-neutral float-left" title="Healing Defective Traces" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="issues.html" class="btn btn-neutral float-right" title="Known ISSUES" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
