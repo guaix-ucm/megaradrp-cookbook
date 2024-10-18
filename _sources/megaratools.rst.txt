@@ -16,7 +16,7 @@ To install the latest stable version:
 
 .. code-block:: console
 
-   (megara) $ pip install megara-tools
+   (megara) $ pip install megara-tools[hypercube]
    
    # Note: mac OS under zsh should use:
    # $ pip install "megara-tools[hypercube]"
