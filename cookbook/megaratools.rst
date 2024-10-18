@@ -56,7 +56,7 @@ to 10.15) and linux machines. Some of the examples below make use of
 ``test/*`` folder data that are downloaded when executing the code tests.
 
 Megaradrp.Visualization
------------------------
+------------------------
 
 As part of the MEGARA DRP we also provide a tool to visualize the RSS
 frames generated when processing LCB IFU data. This tool is best suited
