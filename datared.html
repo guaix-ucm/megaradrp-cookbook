@@ -1237,12 +1237,23 @@ standard star observation and determine the position of the centroid of
 the target in the LCB field of view, around which the total flux of the
 star will be later recovered.</p>
 <p>In this case, the observation-result file for determining the star
-centroid is <code class="docutils literal notranslate"><span class="pre">6_lcbadquisition.yaml</span></code>, where three frames for
+centroid is <code class="docutils literal notranslate"><span class="pre">6_Lcbadquisition.yaml</span></code>, where three frames for
 spectrophotometric standard star exposures are here listed:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6_HR-R</span>
+<span class="linenos">2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraLcbAcquisition</span>
+<span class="linenos">3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="linenos">4</span><span class="nt">frames</span><span class="p">:</span>
+<span class="linenos">5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001286973-20170724-MEGARA-MegaraLcbImage.fits</span>
+<span class="linenos">6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001286974-20170724-MEGARA-MegaraLcbImage.fits</span>
+<span class="linenos">7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001286975-20170724-MEGARA-MegaraLcbImage.fits</span>
+<span class="linenos">8</span><span class="nt">requirements</span><span class="p">:</span>
+<span class="linenos">9</span><span class="w"> </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+4.5</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
 <p>The <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> parameter can be computed as detailed in section
 <a class="reference internal" href="#wavelength-calibration"><span class="std std-ref">Wavelength Calibration</span></a>.</p>
 <p>Then the recipe is run by doing:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>6_lcbadquisition.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>6_Lcbadquisition.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
 </pre></div>
 </div>
 <p>Images provided in observation-result file are trimmed and corrected from
@@ -1254,7 +1265,7 @@ as an intermediate result, named <code class="docutils literal notranslate"><spa
 <p>The apertures in the 2D image are extracted, using the information in
 <code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (or in the <code class="docutils literal notranslate"><span class="pre">model_map.json</span></code> if this file is present
 at the calibration tree) and the <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> parameter set in
-the <code class="docutils literal notranslate"><span class="pre">6_lcbadquisition.yaml</span></code>, and then it is resampled according to the
+the <code class="docutils literal notranslate"><span class="pre">6_Lcbadquisition.yaml</span></code>, and then it is resampled according to the
 wavelength calibration in <code class="docutils literal notranslate"><span class="pre">master_wlcalib.json</span></code>. Then it is divided by
 the <code class="docutils literal notranslate"><span class="pre">master_fiberflat.fits</span></code>. The resulting RSS is saved as an intermediate
 result named <code class="docutils literal notranslate"><span class="pre">reduced_rss.fits</span></code>.</p>

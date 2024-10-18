@@ -1207,10 +1207,10 @@ the target in the LCB field of view, around which the total flux of the
 star will be later recovered.
 
 In this case, the observation-result file for determining the star
-centroid is ``6_lcbadquisition.yaml``, where three frames for
+centroid is ``6_Lcbadquisition.yaml``, where three frames for
 spectrophotometric standard star exposures are here listed:
 
-.. literalinclude:: files/6_lcbadquisition.yaml
+.. literalinclude:: files/6_Lcbadquisition.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -1222,7 +1222,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 6_lcbadquisition.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 6_Lcbadquisition.yaml --link-files -r ../control.yaml
 
 Images provided in observation-result file are trimmed and corrected from
 overscan, bad pixel mask (if ``master_bpm.fits`` is present in the calibration
@@ -1234,7 +1234,7 @@ as an intermediate result, named ``reduced_image.fits``.
 The apertures in the 2D image are extracted, using the information in
 ``master_traces.json`` (or in the ``model_map.json`` if this file is present
 at the calibration tree) and the ``extraction_offset`` parameter set in
-the ``6_lcbadquisition.yaml``, and then it is resampled according to the
+the ``6_Lcbadquisition.yaml``, and then it is resampled according to the
 wavelength calibration in ``master_wlcalib.json``. Then it is divided by
 the ``master_fiberflat.fits``. The resulting RSS is saved as an intermediate
 result named ``reduced_rss.fits``.
