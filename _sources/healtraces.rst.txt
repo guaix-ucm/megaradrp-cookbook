@@ -370,7 +370,7 @@ Fixing multiple traces at once
 ==============================
 
 Bringing together all the corrections
--------------------------------------
+.....................................
 
 In practical scenarios, it is common to need to fix multiple traces within a
 single image.  As an example, let's revisit the case of the image shown below.
@@ -453,7 +453,7 @@ which utilizes the new values of the trace of fiber 606 and the original trace
 of fiber 608.
 
 Important: final check
-----------------------
+......................
 
 During the execution of ``megaradrp-heal_traces``, we utilized the
 parameter ``--updated_traces master_traces_healed.json``, which

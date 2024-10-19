@@ -61,7 +61,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#renumber-fibids-within-box"><code class="docutils literal notranslate"><span class="pre">renumber_fibids_within_box</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#fixing-multiple-traces-at-once">Fixing multiple traces at once</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fixing-multiple-traces-at-once">Fixing multiple traces at once</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bringing-together-all-the-corrections">Bringing together all the corrections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#important-final-check">Important: final check</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="megaratools.html">MEGARA Tools</a></li>
@@ -396,6 +400,8 @@ all belong to fibers within the same box (<code class="docutils literal notransl
 </section>
 <section id="fixing-multiple-traces-at-once">
 <h2>Fixing multiple traces at once<a class="headerlink" href="#fixing-multiple-traces-at-once" title="Link to this heading"></a></h2>
+<section id="bringing-together-all-the-corrections">
+<h3>Bringing together all the corrections<a class="headerlink" href="#bringing-together-all-the-corrections" title="Link to this heading"></a></h3>
 <p>In practical scenarios, it is common to need to fix multiple traces within a
 single image.  As an example, let’s revisit the case of the image shown below.</p>
 <a class="reference internal image-reference" href="_images/initial_traces_in_full_image_zoom.png"><img alt="zoom of initial traces in full image" src="_images/initial_traces_in_full_image_zoom.png" style="width: 100%;" />
@@ -536,6 +542,9 @@ example. The trace of this fiber 606 is first reconstructed using the
 is reused to recalculate the trace of fiber 607 using the <code class="docutils literal notranslate"><span class="pre">sandwich</span></code> method,
 which utilizes the new values of the trace of fiber 606 and the original trace
 of fiber 608.</p>
+</section>
+<section id="important-final-check">
+<h3>Important: final check<a class="headerlink" href="#important-final-check" title="Link to this heading"></a></h3>
 <p>During the execution of <code class="docutils literal notranslate"><span class="pre">megaradrp-heal_traces</span></code>, we utilized the
 parameter <code class="docutils literal notranslate"><span class="pre">--updated_traces</span> <span class="pre">master_traces_healed.json</span></code>, which
 specifies the name of the JSON file containing all the corrected traces. It is
@@ -570,6 +579,7 @@ VPH):</p>
 <p>The file <code class="docutils literal notranslate"><span class="pre">master_traces_healed.json</span></code> has a different <code class="docutils literal notranslate"><span class="pre">uuid</span></code> than the one
 assigned to the file <code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code>.</p>
 </div>
+</section>
 </section>
 </section>
 
