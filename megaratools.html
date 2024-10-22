@@ -152,6 +152,10 @@ command under the corresponding MEGARA environment:</p>
 wavelength and flux calibrated) image of the center of Local Group
 galaxy M32 in the MR-G setup. This image is generated using the
 megaradrp.visualization code included in the MEGARA DRP distribution.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>megaradrp.visualization<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>test/final_rss_M15_HR-R.fits<span class="w"> </span>--label<span class="w"> </span><span class="s2">&quot;flux (Jy)&quot;</span><span class="w"> </span>--wcs-grid
+</pre></div>
+</div>
 <a class="reference internal image-reference" href="_images/image26.png"><img alt="_images/image26.png" src="_images/image26.png" style="width: 4.45528in; height: 3.11334in;" />
 </a>
 <p><strong>Figure 18:</strong> <em>Example of reconstructed final_rss.fits (sky subtracted,
@@ -163,15 +167,18 @@ this code for commissioning observations of Local Group galaxy M32 and
 Galactic Globular Cluster M15, respectively.</p>
 <p>As for the other commands, adding the -h flag would provide the help and
 syntax for using this command. The result is the following:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">usage: visualization.py [-h] [--wcs-grid] [--wcs-pa-from-header]</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>python<span class="w"> </span>-m<span class="w">  </span>megaradrp.visualization<span class="w"> </span>--help
+<span class="go">usage: visualization.py [-h] [--wcs-grid] [--wcs-pa-from-header]</span>
+<span class="go">                        [--fix-missing]</span>
 <span class="go">                        [--average-region AVERAGE_REGION AVERAGE_REGION]</span>
 <span class="go">                        [--extname EXTNAME] [--column COLUMN]</span>
 <span class="go">                        [--continuum-region CONTINUUM_REGION CONTINUUM_REGION]</span>
 <span class="go">                        [--coordinate-type {pixel,wcs}] [--colormap COLORMAP]</span>
-<span class="go">                        [--plot-sky] [--plot-nominal-config] [--hide-values]</span>
-<span class="go">                        [--title TITLE] [--label LABEL] [--hex-size HEX_SIZE]</span>
-<span class="go">                        [--hex-rel-size HEX_REL_SIZE] [--min-cut MIN_CUT]</span>
-<span class="go">                        [--max-cut MAX_CUT] [--percent PERCENT]</span>
+<span class="go">                        [--plot-sky] [--display-fibid] [--plot-nominal-config]</span>
+<span class="go">                        [--hide-values] [--title TITLE] [--label LABEL]</span>
+<span class="go">                        [--hex-size HEX_SIZE] [--hex-rel-size HEX_REL_SIZE]</span>
+<span class="go">                        [--min-cut MIN_CUT] [--max-cut MAX_CUT]</span>
+<span class="go">                        [--percent PERCENT]</span>
 <span class="go">                        [--stretch {linear,sqrt,power,log,asinh}]</span>
 <span class="go">                        [--contour-pixel-size CONTOUR_PIXEL_SIZE]</span>
 <span class="go">                        [--contour-levels CONTOUR_LEVELS] [--contour]</span>
@@ -185,12 +192,14 @@ syntax for using this command. The result is the following:</p>
 <span class="go">Display MEGARA RSS images</span>
 
 <span class="go">positional arguments:</span>
-<span class="go">  RSS RSS images to process</span>
+<span class="go">  RSS                   RSS images to process</span>
 
-<span class="go">optional arguments:</span>
-<span class="go">  -h, --help show this help message and exit</span>
-<span class="go">  --wcs-grid Display WCS grid</span>
-<span class="go">  --wcs-pa-from-header Use PA angle from PC keys</span>
+<span class="go">options:</span>
+<span class="go">  -h, --help            show this help message and exit</span>
+<span class="go">  --wcs-grid, --display-wcs-grid</span>
+<span class="go">                        Display WCS grid</span>
+<span class="go">  --wcs-pa-from-header  Use PA angle from PC keys</span>
+<span class="go">  --fix-missing         Interpolate missing fibers</span>
 <span class="go">  --average-region AVERAGE_REGION AVERAGE_REGION</span>
 <span class="go">                        Region of the RSS averaged on display</span>
 <span class="go">  --extname EXTNAME, -e EXTNAME</span>
@@ -201,27 +210,31 @@ syntax for using this command. The result is the following:</p>
 <span class="go">                        Region of the RSS used for continuum subtraction</span>
 <span class="go">  --coordinate-type {pixel,wcs}</span>
 <span class="go">                        Types of coordinates used</span>
-<span class="go">  --colormap COLORMAP Name of a valid matplotlib colormap</span>
-<span class="go">  --plot-sky Plot SKY bundles</span>
+<span class="go">  --colormap COLORMAP   Name of a valid matplotlib colormap</span>
+<span class="go">  --plot-sky, --display-sky</span>
+<span class="go">                        Display SKY bundles</span>
+<span class="go">  --display-fibid, --plot-fibid</span>
+<span class="go">                        Display fiber IDs of the spaxels</span>
 <span class="go">  --plot-nominal-config</span>
 <span class="go">                        Plot nominal configuration, do not use the header</span>
-<span class="go">  --hide-values Do not show values out of range</span>
-<span class="go">  --title TITLE Title of the plot</span>
-<span class="go">  --label LABEL Legend of the colorbar</span>
-<span class="go">  --hex-size HEX_SIZE Size of the hexagons (default is 0.443)</span>
+<span class="go">  --hide-values         Do not show values out of range</span>
+<span class="go">  --title TITLE         Title of the plot</span>
+<span class="go">  --label LABEL         Legend of the colorbar</span>
+<span class="go">  --hex-size HEX_SIZE   Size of the hexagons (default is 0.443)</span>
 <span class="go">  --hex-rel-size HEX_REL_SIZE</span>
 <span class="go">                        Scale the size of hexagons by a factor</span>
-<span class="go">  --min-cut MIN_CUT Inferior cut level</span>
-<span class="go">  --max-cut MAX_CUT Superior cut level</span>
-<span class="go">  --percent PERCENT Compute cuts using percentiles</span>
+<span class="go">  --min-cut MIN_CUT     Inferior cut level</span>
+<span class="go">  --max-cut MAX_CUT     Superior cut level</span>
+<span class="go">  --percent PERCENT     Compute cuts using percentiles</span>
 <span class="go">  --stretch {linear,sqrt,power,log,asinh}</span>
 <span class="go">                        Name of the strech method used for display</span>
-<span class="go">  contouring:</span>
+
+<span class="go">contouring:</span>
 <span class="go">  --contour-pixel-size CONTOUR_PIXEL_SIZE</span>
 <span class="go">                        Pixel size in arc seconds for image reconstruction</span>
 <span class="go">  --contour-levels CONTOUR_LEVELS</span>
 <span class="go">                        Contour levels</span>
-<span class="go">  --contour Draw contours</span>
+<span class="go">  --contour             Draw contours</span>
 <span class="go">  --contour-image CONTOUR_IMAGE</span>
 <span class="go">                        Image for computing contours</span>
 <span class="go">  --contour-image-column CONTOUR_IMAGE_COLUMN</span>
@@ -230,7 +243,7 @@ syntax for using this command. The result is the following:</p>
 <span class="go">                        Save image used for contouring</span>
 <span class="go">  --contour-image-region CONTOUR_IMAGE_REGION CONTOUR_IMAGE_REGION</span>
 <span class="go">                        Region of the image used for contouring</span>
-<span class="go">  --contour-is-density The data is a magnitude that does not require scaling</span>
+<span class="go">  --contour-is-density  The data is a magnitude that does not require scaling</span>
 </pre></div>
 </div>
 <p>Note that this visualization tool can be also used to display output RSS
@@ -253,48 +266,48 @@ the sky (RA &amp; Dec if instrument PA is 0º). Since this tool is now part
 of the MEGARA DRP it should be run from within the DRP environment by
 doing:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaradrp-cube<span class="w"> </span>-h
-</pre></div>
-</div>
-<p>The output of this command is:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">usage: convert_rss_cube [-h] [-p PIXEL_SIZE] [-o OUTFILE] [-d]</span>
+<span class="go">usage: convert_rss_cube [-h] [-p PIXEL_SIZE] [-o OUTFILE] [-d]</span>
 <span class="go">                        [-m {nn,linear}] [--wcs-pa-from-header]</span>
+<span class="go">                        [--fix-missing]</span>
 <span class="go">                        rss</span>
+
 <span class="go">positional arguments:</span>
 <span class="go">  rss                   RSS file with fiber traces</span>
-<span class="go">optional arguments:</span>
-<span class="go">-h, --help              show this help message and exit</span>
-<span class="go">-p PIXEL_SIZE, --pixel-size PIXEL_SIZE</span>
+
+<span class="go">options:</span>
+<span class="go">  -h, --help            show this help message and exit</span>
+<span class="go">  -p PIXEL_SIZE, --pixel-size PIXEL_SIZE</span>
 <span class="go">                        Pixel size in arc seconds</span>
-<span class="go">-o OUTFILE, --outfile OUTFILE</span>
+<span class="go">  -o OUTFILE, --outfile OUTFILE</span>
 <span class="go">                        Name of the output cube file</span>
-<span class="go">-d, --disable-scaling</span>
+<span class="go">  -d, --disable-scaling</span>
 <span class="go">                        Disable flux conservation</span>
-<span class="go">-m {nn,linear}, --method {nn,linear}</span>
+<span class="go">  -m {nn,linear}, --method {nn,linear}</span>
 <span class="go">                        Method of interpolation</span>
-<span class="go">--wcs-pa-from-header    Use PA angle from header</span>
+<span class="go">  --wcs-pa-from-header  Use PA angle from header</span>
+<span class="go">  --fix-missing         Interpolate missing fibers</span>
 </pre></div>
 </div>
-<p>We recommend to use output square-pixel sizes between 0.3-0.4 arcsec.
-Default parameters for the <code class="docutils literal notranslate"><span class="pre">--disable-scaling</span></code> and <code class="docutils literal notranslate"><span class="pre">--wcs-pa-from-header</span></code>
+<p>Default parameters for the <code class="docutils literal notranslate"><span class="pre">--disable-scaling</span></code> and <code class="docutils literal notranslate"><span class="pre">--wcs-pa-from-header</span></code>
 options should be fine for regular MEGARA data processed with the DRP.</p>
 <p>An alternative software with similar scope has been developed by Javier
 Zaragoza Cardiel (from INAOE) and can be obtained through GitHub at
 <a class="reference external" href="https://github.com/javierzaragoza/megararss2cube">https://github.com/javierzaragoza/megararss2cube</a>.</p>
 </section>
 <section id="extract-spectrum-megaratools-extract-spectrum">
-<h2>Extract spectrum: megaratools-extract_spectrum<a class="headerlink" href="#extract-spectrum-megaratools-extract-spectrum" title="Link to this heading"></a></h2>
+<span id="megaratools-extract-spectrum"></span><h2>Extract spectrum: megaratools-extract_spectrum<a class="headerlink" href="#extract-spectrum-megaratools-extract-spectrum" title="Link to this heading"></a></h2>
 <p>This tool is the first being described in this cookbook that is part of
-the <em>megaratools</em> package available through GitHub at
+the <strong>megaratools</strong> package available through GitHub at
 <a class="reference external" href="https://github.com/guaix-ucm/megara-tools">https://github.com/guaix-ucm/megara-tools</a>. The objective of this tool is
 to generate an extracted (1D) spectrum of a given fiber or set of
 fibers. The main parameter determining the fiber(s) to be extracted is
 the fiber number as measured in the pseudo-slit (from 1 to 623 in the
 case of the LCB; 1 to 644 for the MOS). Since the RSS products of the
-MegaraMosImage recipe already include an extension with the 7 fibers of
+<strong>MegaraMosImage</strong> recipe already include an extension with the 7 fibers of
 the each minibundle added together, this is particularly useful for
 extracting spectra of different regions from processed LCB RSS frames.
 The resulting extracted spectrum shares wavelength calibration solution
-with the RSS. All tools included in the <em>megaratools</em> package can be
+with the RSS. All tools included in the <strong>megaratools</strong> package can be
 called as an argument for the Python main interpreter or as executables
 on their own, although the latter option is recommended:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>python<span class="w"> </span>&lt;path_to_extract_spectrum&gt;/extract_spectrum.py<span class="w"> </span>-h
@@ -308,8 +321,8 @@ on their own, although the latter option is recommended:</p>
 
 <span class="go">Extract spectrum based on fiber IDs</span>
 
-<span class="go">optional arguments:</span>
-<span class="go">  -h, --help show this help message and exit</span>
+<span class="go">options:</span>
+<span class="go">  -h, --help            show this help message and exit</span>
 <span class="go">  -s RSS-SPECTRUM, --spectrum RSS-SPECTRUM</span>
 <span class="go">                        RSS FITS spectrum</span>
 <span class="go">  -t INPUT-TABLE, --ids-table INPUT-TABLE</span>
@@ -320,13 +333,13 @@ on their own, although the latter option is recommended:</p>
 <span class="go">                        String to do grep in table</span>
 <span class="go">  -o OUTPUT-SPECTRUM, --output OUTPUT-SPECTRUM</span>
 <span class="go">                        Output 1D spectrum</span>
-<span class="go">  -p, --plot Plot spectrum instead?</span>
+<span class="go">  -p, --plot            Plot spectrum instead?</span>
 </pre></div>
 </div>
-<p>The table with the fiber ids (-t) is a simple ascii file in which one of
+<p>The table with the fiber ids (<code class="docutils literal notranslate"><span class="pre">-t</span></code>) is a simple ASCII file in which one of
 the (space-separated) columns is the fiber id. The user can also choose
 a set of rows that fulfils the condition of including a specific string
-(using -g). An example of a file like this could be:</p>
+(using <code class="docutils literal notranslate"><span class="pre">-g</span></code>). An example of a file like this could be:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>cat<span class="w"> </span>test/regions.fibers
 <span class="go">Region1 321</span>
 <span class="go">Region1 319</span>
@@ -349,11 +362,13 @@ saving it as a new FITS file. In that case he/she should make use of the
 <span class="w">           </span>-t<span class="w"> </span>test/regions.fibers<span class="w"> </span>-c<span class="w"> </span><span class="m">2</span><span class="w"> </span>-g<span class="w"> </span>Region2<span class="w"> </span>-p
 </pre></div>
 </div>
+<a class="reference internal image-reference" href="_images/spectrum_Region2.png"><img alt="_images/spectrum_Region2.png" src="_images/spectrum_Region2.png" style="width: 4.45528in;" />
+</a>
 <p>One of the uses of this tool is to extract the spectrum of the
 (flux-calibrated) <code class="docutils literal notranslate"><span class="pre">final_rss.fits</span></code> of a standard star processed with
 MegaraLcbImage to verify that it matches the corresponding tabulated
 spectrum. This extraction can be done using the <code class="docutils literal notranslate"><span class="pre">fiber_ids.txt</span></code> file
-that it is stored in the <code class="docutils literal notranslate"><span class="pre">*\*_results/*</span></code> directory generated by the MEGARA
+that it is stored in the <code class="docutils literal notranslate"><span class="pre">*_results/</span></code> directory generated by the MEGARA
 DRP when running this recipe. In the case the command would read (using
 two single quotes for the <code class="docutils literal notranslate"><span class="pre">-g</span></code> option we ensure that the command selects
 all rows extraction):</p>
@@ -361,10 +376,12 @@ all rows extraction):</p>
 <span class="w">           </span>-t<span class="w"> </span>test/fiber_ids.txt<span class="w"> </span>-c<span class="w"> </span><span class="m">1</span><span class="w"> </span>-g<span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span>-p
 </pre></div>
 </div>
+<a class="reference internal image-reference" href="_images/spectrum_final_rss.png"><img alt="_images/spectrum_final_rss.png" src="_images/spectrum_final_rss.png" style="width: 4.45528in;" />
+</a>
 </section>
 <section id="extract-elliptical-apertures-megaratools-extract-rings">
 <h2>Extract elliptical apertures: megaratools-extract_rings<a class="headerlink" href="#extract-elliptical-apertures-megaratools-extract-rings" title="Link to this heading"></a></h2>
-<p>This tool (also part of <em>megaratools</em>) is similar to the previous one
+<p>This tool (also part of <strong>megara-tools</strong>) is similar to the previous one
 but allows to automatically extract spectra of elliptical rings or
 arbitrary size, orientation and ellipticity around a given position
 (fiber). This is particularly useful of the analysis the radial
@@ -372,7 +389,6 @@ variation of properties derived from RSS data when the signal-to-noise
 ratio does not allow to carry out a spaxel-by-spaxel analysis. The
 options for this command are:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaratools-extract_rings<span class="w"> </span>-h
-
 <span class="go">usage: extract_elliptical_rings_spectrum [-h] [-r RSS-SPECTRUM] [-a] [-b]</span>
 <span class="go">                                         [-c CENTRAL-FIBER] [-n NUMBER-RINGS]</span>
 <span class="go">                                         [-w RINGS WIDTH] [-s SAVED-RSS]</span>
@@ -381,7 +397,7 @@ options for this command are:</p>
 
 <span class="go">Extract spectra based on elliptical rings</span>
 
-<span class="go">optional arguments:</span>
+<span class="go">options:</span>
 <span class="go">  -h, --help            show this help message and exit</span>
 <span class="go">  -r RSS-SPECTRUM, --rss RSS-SPECTRUM</span>
 <span class="go">                        RSS FITS spectrum</span>
@@ -407,7 +423,7 @@ solution as the input RSS file but a number of columns equal to the
 number of rings extracted (as set by the <code class="docutils literal notranslate"><span class="pre">-n</span></code> option). Besides, this
 command when run with the verbose option (<code class="docutils literal notranslate"><span class="pre">-v</span></code>) on it also outputs the
 main parameters of the rings extracted: average surface brightness at
-the central wavelength (in Jy/spx or Jy/arcsec<sup>2</sup> is the <code class="docutils literal notranslate"><span class="pre">-b</span></code>
+the central wavelength (in Jy/spx or Jy/arcsec<sup>2</sup> if the <code class="docutils literal notranslate"><span class="pre">-b</span></code>
 option is set) and area. Below, we show an example of how this command
 is run and of the output it creates in verbose mode.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaratools-extract_rings<span class="w"> </span>-r<span class="w"> </span>test/final_rss.fits<span class="w"> </span>-c<span class="w"> </span><span class="m">311</span><span class="w"> </span><span class="se">\</span>
@@ -424,7 +440,8 @@ is run and of the output it creates in verbose mode.</p>
 elliptical apertures, not only rings by using the <code class="docutils literal notranslate"><span class="pre">-a</span></code> option. The
 resulting RSS can be used to extract the spectra of each ring/aperture
 by combining its use with the <code class="docutils literal notranslate"><span class="pre">megaratools-extract_spectrum</span></code> tool
-described in Section 6.3. Examples of that use are:</p>
+described in Section <a class="reference internal" href="#megaratools-extract-spectrum"><span class="std std-ref">Extract spectrum: megaratools-extract_spectrum</span></a>.
+Examples of that use are:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaratools-extract_spectrum<span class="w"> </span>-s<span class="w"> </span>test/final_rss.fits<span class="w"> </span><span class="se">\</span>
 <span class="w">           </span>-t<span class="w"> </span>test/rings.dat<span class="w"> </span>-c<span class="w"> </span><span class="m">1</span><span class="w"> </span>-g<span class="w"> </span><span class="m">1</span><span class="w"> </span>-o<span class="w"> </span>test/ring1.fits
 <span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaratools-extract_spectrum<span class="w"> </span>-s<span class="w"> </span>test/final_rss.fits<span class="w"> </span><span class="se">\</span>
@@ -441,19 +458,18 @@ the spectrum plotted with a tabulated spectrum (e.g. that from a
 standard star) and a list of spectral lines. The options that can be
 used for the <code class="docutils literal notranslate"><span class="pre">megaratools-plot_spectrum</span></code> tool are:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaratools-plot_spectrum<span class="w"> </span>-h
-
 <span class="go">usage: plot_spectrum [-h] [-s SPECTRUM/FILE_LIST] [-l] [-t STD-TABLE]</span>
 <span class="go">                     [-c LINECAT-TABLE] [-z LINECAT-Z] [-o OUTPUT-PDF] [-e]</span>
 <span class="go">                     [-p] [-n] [-L1 INITIAL LAMBDA] [-L2 LAST LAMBDA]</span>
-<span class="go">                     [-T PLOT TITLE]</span>
+<span class="go">                     [-F1 YMIN FLUX] [-F2 YMAX FLUX] [-T PLOT TITLE]</span>
 
 <span class="go">Input spectrum and table</span>
 
-<span class="go">optional arguments:</span>
+<span class="go">options:</span>
 <span class="go">  -h, --help            show this help message and exit</span>
 <span class="go">  -s SPECTRUM/FILE_LIST, --spectrum SPECTRUM/FILE_LIST</span>
 <span class="go">                        FITS spectrum / list of FITS spectra</span>
-<span class="go">  -l, --is-a-list Use for -s being a list of FITS spectra</span>
+<span class="go">  -l, --is-a-list       Use for -s being a list of FITS spectra</span>
 <span class="go">  -t STD-TABLE, --std-table STD-TABLE</span>
 <span class="go">                        Standard-star spectrum table</span>
 <span class="go">  -c LINECAT-TABLE, --catalog LINECAT-TABLE</span>
@@ -462,9 +478,9 @@ used for the <code class="docutils literal notranslate"><span class="pre">megara
 <span class="go">                        Redshift for catalog lines</span>
 <span class="go">  -o OUTPUT-PDF, --output OUTPUT-PDF</span>
 <span class="go">                        Output PDF</span>
-<span class="go">  -e, --efficiency Efficiency?</span>
-<span class="go">  -p, --plot Plot spectrum?</span>
-<span class="go">  -n, --no-legend Legend?</span>
+<span class="go">  -e, --efficiency      Efficiency?</span>
+<span class="go">  -p, --plot            Plot spectrum?</span>
+<span class="go">  -n, --no-legend       Legend?</span>
 <span class="go">  -L1 INITIAL LAMBDA, --min-lambda INITIAL LAMBDA</span>
 <span class="go">                        Initial (rest-frame) lambda to plot</span>
 <span class="go">  -L2 LAST LAMBDA, --max-lambda LAST LAMBDA</span>
@@ -532,7 +548,6 @@ by fitting only columns (left) and in 2D (columns first, then columns)
 <p>Below we show how this tool is executed and some basic information on
 its different options.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaratools-diffuse_light<span class="w"> </span>-h
-
 <span class="go">usage: clean_diffuse_light [-h] [-i INPUT-IMAGE] [-o OUTPUT-IMAGE]</span>
 <span class="go">                           [-r RESIDUALS-IMAGE] [-t MASTER-TRACES]</span>
 <span class="go">                           [-s SHIFT-TRACES] [-w SEARCH-WINDOW]</span>
@@ -542,7 +557,7 @@ its different options.</p>
 
 <span class="go">Cleaning of diffuse light from a reduced (non-RSS) MEGARA image</span>
 
-<span class="go">optional arguments:</span>
+<span class="go">options:</span>
 <span class="go">  -h, --help            show this help message and exit</span>
 <span class="go">  -i INPUT-IMAGE, --input INPUT-IMAGE</span>
 <span class="go">                        Reduced FITS image</span>
@@ -556,7 +571,7 @@ its different options.</p>
 <span class="go">                        Traces shift</span>
 <span class="go">  -w SEARCH-WINDOW, --window SEARCH-WINDOW</span>
 <span class="go">                        Window around traces to search for non-illuminated</span>
-<span class="go">                        Fibers</span>
+<span class="go">                        fibers</span>
 <span class="go">  -d DEGREE-POLY-COLS, --degree DEGREE-POLY-COLS</span>
 <span class="go">                        Degree of polynomial fit for columns</span>
 <span class="go">  -d2 DEGREE-POLY-ROWS, --degree-rows DEGREE-POLY-ROWS</span>
@@ -574,7 +589,7 @@ its different options.</p>
 <p>Most of these options are related to the different fitting parameters
 used. Note that the input image should be the <code class="docutils literal notranslate"><span class="pre">reduced_image.fits</span></code> image
 generated by, among others, the <strong>MegaraLcbImage</strong> and <strong>MegaraMosImage</strong>
-recipes, that is place in the corresponding <code class="docutils literal notranslate"><span class="pre">*\*_work/*</span></code> directory. This
+recipes, that is place in the corresponding <code class="docutils literal notranslate"><span class="pre">\*_work/</span></code> directory. This
 cannot be run on raw images as those have different bias levels and
 gains for its two amplifiers. A master-traces file and the offset
 between them and the position of the fibers in the contaminated image
@@ -644,32 +659,34 @@ spectral range. As this tool is used on extracted 1D spectrum, the
 output is given on the screen and no output file is created. This tool
 is executed by doing:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaratools-analyze_spectrum<span class="w"> </span>-h
-
 <span class="go">usage: analyze_spectrum [-h] [-s SPECTRUM/FILE_LIST] [-l]</span>
-<span class="go">                        [-f FITTING FUNCTION 0,1,2)]</span>
+<span class="go">                        [-f FITTING FUNCTION (0,1,2)]</span>
 <span class="go">                        [-w LINE CENTRAL WAVELENGTH] [-k]</span>
 <span class="go">                        [-LW1 LOWER WAVELENGTH - LINE]</span>
 <span class="go">                        [-LW2 UPPER WAVELENGTH - LINE]</span>
 <span class="go">                        [-CW1 LOWER WAVELENGTH - CONT]</span>
 <span class="go">                        [-CW2 UPPER WAVELENGTH - CONT]</span>
 <span class="go">                        [-ECW1 EXCLUDE FROM CONT. (LOWER WAVELENGTH)]</span>
-<span class="go">                        [-ECW2 EXCLUDE FROM CONT. (UPPER WAVELENGTH]</span>
+<span class="go">                        [-ECW2 EXCLUDE FROM CONT. (UPPER WAVELENGTH)]</span>
 <span class="go">                        [-PW1 LOWER WAVELENGTH - PLOT]</span>
 <span class="go">                        [-PW2 UPPER WAVELENGTH - PLOT]</span>
 <span class="go">                        [-S2 SCALE FACTOR FOR AMP2] [-t SPEC-TABLE]</span>
-<span class="go">                        [-c LINECAT-TABLE] [-z REDSHIFT] [-o OUTPUT-PDF] [-p] [-n]</span>
+<span class="go">                        [-c LINECAT-TABLE] [-z REDSHIFT] [-o OUTPUT-PDF] [-p]</span>
+<span class="go">                        [-n]</span>
+
 <span class="go">ANALYZE SPECTRUM</span>
 
-<span class="go">optional arguments:</span>
+<span class="go">options:</span>
 <span class="go">  -h, --help            show this help message and exit</span>
 <span class="go">  -s SPECTRUM/FILE_LIST, --spectrum SPECTRUM/FILE_LIST</span>
 <span class="go">                        FITS spectrum / list of FITS spectra</span>
-<span class="go">  -l, --is-a-list Use for -s being a list of FITS spectra</span>
+<span class="go">  -l, --is-a-list       Use for -s being a list of FITS spectra</span>
 <span class="go">  -f FITTING FUNCTION (0,1,2), --method FITTING FUNCTION (0,1,2)</span>
-<span class="go">                        Fitting function (0=gauss_hermite, 1=gauss,2=double_gauss)</span>
+<span class="go">                        Fitting function (0=gauss_hermite, 1=gauss,</span>
+<span class="go">                        2=double_gauss)</span>
 <span class="go">  -w LINE CENTRAL WAVELENGTH, --ctwl LINE CENTRAL WAVELENGTH</span>
 <span class="go">                        Central rest-frame wavelength for line (AA)</span>
-<span class="go">  -k, --use-peak Use peak first guess on central wavelength</span>
+<span class="go">  -k, --use-peak        Use peak first guess on central wavelength</span>
 <span class="go">  -LW1 LOWER WAVELENGTH - LINE, --lcut1 LOWER WAVELENGTH - LINE</span>
 <span class="go">                        Lower rest-frame wavelength for line (AA)</span>
 <span class="go">  -LW2 UPPER WAVELENGTH - LINE, --lcut2 UPPER WAVELENGTH - LINE</span>
@@ -679,9 +696,11 @@ is executed by doing:</p>
 <span class="go">  -CW2 UPPER WAVELENGTH - CONT, --ccut2 UPPER WAVELENGTH - CONT</span>
 <span class="go">                        Upper rest-frame wavelength for cont. (AA)</span>
 <span class="go">  -ECW1 EXCLUDE FROM CONT. (LOWER WAVELENGTH), --eccut1 EXCLUDE FROM CONT. (LOWER WAVELENGTH)</span>
-<span class="go">                        Lower rest-frame wavelength of range to exclude for cont. (AA)</span>
+<span class="go">                        Lower rest-frame wavelength of range to exclude for</span>
+<span class="go">                        cont. (AA)</span>
 <span class="go">  -ECW2 EXCLUDE FROM CONT. (UPPER WAVELENGTH), --eccut2 EXCLUDE FROM CONT. (UPPER WAVELENGTH)</span>
-<span class="go">                        Upper rest-frame wavelength of range to exclude for cont. (AA)</span>
+<span class="go">                        Upper rest-frame wavelength of range to exclude for</span>
+<span class="go">                        cont. (AA)</span>
 <span class="go">  -PW1 LOWER WAVELENGTH - PLOT, --pcut1 LOWER WAVELENGTH - PLOT</span>
 <span class="go">                        Lower rest-frame wavelength for plot (AA)</span>
 <span class="go">  -PW2 UPPER WAVELENGTH - PLOT, --pcut2 UPPER WAVELENGTH - PLOT</span>
@@ -696,8 +715,8 @@ is executed by doing:</p>
 <span class="go">                        Redshift for target and catalog lines</span>
 <span class="go">  -o OUTPUT-PDF, --output OUTPUT-PDF</span>
 <span class="go">                        Output PDF</span>
-<span class="go">  -p, --plot Plot spectrum?</span>
-<span class="go">  -n, --no-legend Legend?</span>
+<span class="go">  -p, --plot            Plot spectrum?</span>
+<span class="go">  -n, --no-legend       Legend?</span>
 </pre></div>
 </div>
 <p>Some of the options of this task are common to the ones in
@@ -720,9 +739,11 @@ initial guesses on the 1<sup>st</sup> and 2<sup>nd</sup>-order moments we take t
 position of that maximum and some factor (~1-1.2, depending on the model
 function; see below) of the instrumental FWHM. The models considered to date
 are:</p>
-<p>– Gauss-Hermite polynomials (<code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">0</span></code>)</p>
-<p>– Single gaussian (<code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">1</span></code>)</p>
-<p>– Two gaussians (<code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">2</span></code>)</p>
+<ul class="simple">
+<li><p>Gauss-Hermite polynomials (<code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">0</span></code>)</p></li>
+<li><p>Single gaussian (<code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">1</span></code>)</p></li>
+<li><p>Two gaussians (<code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">2</span></code>)</p></li>
+</ul>
 <p>In the case of the model with two gaussians one can scale the initial
 guess on the peak intensity of the second gaussian relative to the first
 one. This is particularly useful when underlying absorption is present
@@ -732,19 +753,19 @@ this command, it prints in the screen both the input and output
 the type of model function chosen to fit the emission line. The output
 of the example above would be the following:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>FITTING CONTINUUM:
-Input(slope,yord): 0.000E+00 9.724E-14
-Output(slope,yord): -5.336E-17 4.468E-13
-Best-fitting chisqr continuum: 7.321E-27
+Input(slope,yord):   0.000E+00  9.724E-14
+Output(slope,yord): -5.336E-17  4.468E-13
+Best-fitting chisqr continuum:  7.321E-27
 BASIC NUMBERS:
-(mean,rms,lpk,pk,S/N) 9.6828e-14 2.9143e-15 6561.03 1.6584e-13 56.9079
+(mean,rms,lpk,pk,S/N) 9.682864107165422e-14 2.9143067925725397e-15 6561.03 1.658473599169167e-13 56.907996213575935
 FITTING METHOD: DOUBLE GAUSSIAN
-Input(i1,l1,sig1,i2,l2,sig2):  6.212E-14 6561.03 0.47 -1.380E-15 6561.03 0.93
-Flux1 from model: 8.224E-14+/- 9.845E-15
+Input(i1,l1,sig1,i2,l2,sig2):   6.212E-14 6561.03  0.47 -1.380E-15 6561.03  0.93
+Flux1 from model:  8.224E-14+/- 9.845E-15
 Flux2 from model: -1.117E-13+/- 9.573E-15
-Output(i1,l1,sig1,i2,l2,sig2): 8.309E-14 6561.11 0.39 -1.263E-14 6561.31 3.63
-Flux &amp; EW from data: -2.844E-14+/- 9.690E-15 -0.29+/- 0.10
+Output(i1,l1,sig1,i2,l2,sig2):  8.308E-14 6561.11  0.39 -1.263E-14 6561.31  3.63
+Flux &amp; EW from data:  -2.844E-14+/- 9.690E-15 -0.29+/- 0.10
 Flux &amp; EW from model: -2.949E-14+/- 9.689E-15 -0.30+/- 0.10
-Best-fitting chisqr: 2.279E-28
+Best-fitting chisqr:  2.279E-28
 </pre></div>
 </div>
 <p>Note that the term <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">data</span></code> refers to the sum of the flux above the
@@ -752,14 +773,17 @@ continuum within the spectral range used to fit the line profile, while
 the term <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">model</span></code> refers to the analytic integral of the model.</p>
 <p>Besides, <code class="docutils literal notranslate"><span class="pre">megaratools-analyze_spectrum</span></code> displays a plot (similar to the
 ones shown in <strong>Figure 22</strong>) that includes:</p>
-<p>– The input spectrum in the range set by options <code class="docutils literal notranslate"><span class="pre">-PW``1</span> <span class="pre">and</span> <span class="pre">``-PW2</span></code> (blue
-line)</p>
-<p>– Vertical lines of the different spectral ranges of interest, including the
+<ul class="simple">
+<li><p>The input spectrum in the range set by options <code class="docutils literal notranslate"><span class="pre">-PW``1</span> <span class="pre">and</span> <span class="pre">``-PW2</span></code> (blue
+line)</p></li>
+<li><p>Vertical lines of the different spectral ranges of interest, including the
 range covered by all fibers (cyan line) and with precise flux calibration in
 the original RSS frame (dashed red line), the range for fitting the continuum
-(dashed grey lines) and that where the line fit is performed (solid gray line).</p>
-<p>– Best-fitting continuum (solid red line).</p>
-<p>– Best-fitting line plus continuum (solid orange line).</p>
+(dashed grey lines) and that where the line fit is performed (solid gray
+line).</p></li>
+<li><p>Best-fitting continuum (solid red line).</p></li>
+<li><p>Best-fitting line plus continuum (solid orange line).</p></li>
+</ul>
 <p>The user should check the ranges chosen and then kill the graphical
 terminal for the code to start running.</p>
 <p><a class="reference internal" href="_images/image34.png"><img alt="prezoom image14" src="_images/image34.png" style="width: 3.14708in; height: 2.41985in;" /></a><a class="reference internal" href="_images/image35.png"><img alt="image14" src="_images/image35.png" style="width: 3.1087in; height: 2.36637in;" /></a></p>
@@ -782,56 +806,55 @@ data (<code class="docutils literal notranslate"><span class="pre">final_rss.fit
 <p>The tool is called <code class="docutils literal notranslate"><span class="pre">megaratools-analyze_rss</span></code> and it is executed by
 doing:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaratools-analyze_rss<span class="w"> </span>-h
-
-<span class="go">usage: analyze_rss [-h] [-s RSS FILE] [-f FITTING FUNCTION 0,1,2)]</span>
+<span class="go">usage: analyze_rss [-h] [-s RSS FILE] [-f FITTING FUNCTION (0,1,2)]</span>
 <span class="go">                   [-S MINIMUM S/N] [-w LINE CENTRAL WAVELENGTH] [-k]</span>
 <span class="go">                   [-LW1 LOWER WAVELENGTH - LINE]</span>
 <span class="go">                   [-LW2 UPPER WAVELENGTH - LINE]</span>
 <span class="go">                   [-CW1 LOWER WAVELENGTH - CONT]</span>
 <span class="go">                   [-CW2 UPPER WAVELENGTH - CONT]</span>
 <span class="go">                   [-ECW1 EXCLUDE FROM CONT. (LOWER WAVELENGTH)]</span>
-<span class="go">                   [-ECW2 EXCLUDE FROM CONT. (UPPER WAVELENGTH]</span>
+<span class="go">                   [-ECW2 EXCLUDE FROM CONT. (UPPER WAVELENGTH)]</span>
 <span class="go">                   [-PW1 LOWER WAVELENGTH - PLOT]</span>
 <span class="go">                   [-PW2 UPPER WAVELENGTH - PLOT] [-S2 SCALE FACTOR FOR AMP2]</span>
 <span class="go">                   [-z REDSHIFT] [-o OUTPUT-PDF] [-v] [-O OUTPUT RSS FILE]</span>
 <span class="go">                   [-of OUTPUT FIBERS LIST]</span>
 
-<span class="go">__________________ ANALYZE_RSS PROGRAM __________________</span>
+<span class="go">     __________________  ANALYZE_RSS PROGRAM  __________________</span>
 
-<span class="go">____________ OUTPUT PARAMETER IN OUTPUT FITS ____________</span>
-<span class="go">Property channel description</span>
+<span class="go">     ____________  OUTPUT PARAMETER IN OUTPUT FITS  ____________</span>
+<span class="go">     Property  channel description</span>
 
-<span class="go">... FM # 0 Fitting method (0=gauss-hermite,1=1gauss,2=2gauss)</span>
-<span class="go">... CONTINUUM # 1 Continuum level in cgs</span>
-<span class="go">... NOISE # 2 rms in cgs</span>
-<span class="go">... SNR # 3 S/N at the peak of the line</span>
-<span class="go">... FLUXD # 4 Flux from window_data - window_continuum</span>
-<span class="go">... EWD # 5 Flux from window_data - window_continuum / mean_continuum</span>
-<span class="go">... FLUXF # 6 Flux from best-fitting function(s)</span>
-<span class="go">... EWF # 7 EW from best-fitting function(s)</span>
-<span class="go">... H0 # 8 amplitude for methods 0 &amp; 1 &amp; 2 (first gaussian)</span>
-<span class="go">... H1 # 9 central lambda for methods 0 &amp; 1 &amp; 2 (first gaussian)</span>
-<span class="go">... H2 # 10 sigma (in AA) for methods 0 &amp; 1 &amp; 2 (first gaussian)</span>
-<span class="go">... H3 # 11 h3 for method 0</span>
-<span class="go">... H4 # 12 h4 for method 0</span>
-<span class="go">... H0B # 13 amplitude for method 2 (second gaussian)</span>
-<span class="go">... H1B # 14 central lambda for method 2 (second gaussian)</span>
-<span class="go">... H2B # 15 sigma (in AA) for method 2 (second gaussian)</span>
-<span class="go">... H1KS # 16 velocity in km/s from H1 (1st g)</span>
-<span class="go">... H2KS # 17 sigma in km/s from H2 (1st g)</span>
-<span class="go">... H2KLC # 18 sigma in km/s from H2 corrected for instrumental sigma (1st g)</span>
-<span class="go">... H1KSB # 19 velocity in km/s from H1B (2nd g)</span>
-<span class="go">... H2KSB # 20 sigma in km/s from H2B (2nd g)</span>
-<span class="go">... H2KLCB # 21 sigma in km/s from H2 corrected for instrumental sigma (2nd g)</span>
-<span class="go">... FLUXF1 # 22 Flux from best-fitting 1st gaussian</span>
-<span class="go">... FLUXF2 # 23 Flux from best-fitting 2nd gaussian</span>
-<span class="go">... EFLUXD # 24 Error of 4 (Flux from window_data - window_continuum)</span>
-<span class="go">... EEWD # 25 Error of 5 (Flux from window_data - window_continuum / mean_continuum)</span>
-<span class="go">... EFLUXF # 26 Error of 6 (Flux from best-fitting function(s))</span>
-<span class="go">... EEWF # 27 Error of 7 (EW from best-fitting function(s))</span>
-<span class="go">... CHI2 # 28 best-fitting chi^2 (cgs)</span>
+<span class="go">...  FM        #  0 Fitting method (0=gauss-hermite,1=1gauss,2=2gauss)</span>
+<span class="go">...  CONTINUUM #  1 Continuum level in cgs</span>
+<span class="go">...  NOISE     #  2 rms in cgs</span>
+<span class="go">...  SNR       #  3 S/N at the peak of the line</span>
+<span class="go">...  FLUXD     #  4 Flux from window_data - window_continuum</span>
+<span class="go">...  EWD       #  5 Flux from window_data - window_continuum / mean_continuum</span>
+<span class="go">...  FLUXF     #  6 Flux from best-fitting function(s)</span>
+<span class="go">...  EWF       #  7 EW from best-fitting function(s)</span>
+<span class="go">...  H0        #  8 amplitude for methods 0 &amp; 1 &amp; 2 (first gaussian)</span>
+<span class="go">...  H1        #  9 central lambda for methods 0 &amp; 1 &amp; 2 (first gaussian)</span>
+<span class="go">...  H2        # 10 sigma (in AA) for methods 0 &amp; 1 &amp; 2 (first gaussian)</span>
+<span class="go">...  H3        # 11 h3 for method 0</span>
+<span class="go">...  H4        # 12 h4 for method 0</span>
+<span class="go">...  H0B       # 13 amplitude for method 2 (second gaussian)</span>
+<span class="go">...  H1B       # 14 central lambda for method 2 (second gaussian)  </span>
+<span class="go">...  H2B       # 15 sigma (in AA) for method 2 (second gaussian)</span>
+<span class="go">...  H1KS      # 16 velocity in km/s from H1 (1st g)</span>
+<span class="go">...  H2KS      # 17 sigma in km/s from H2 (1st g)</span>
+<span class="go">...  H2KLC     # 18 sigma in km/s from H2 corrected for instrumental sigma (1st g)</span>
+<span class="go">...  H1KSB     # 19 velocity in km/s from H1B (2nd g)</span>
+<span class="go">...  H2KSB     # 20 sigma in km/s from H2B (2nd g)</span>
+<span class="go">...  H2KLCB    # 21 sigma in km/s from H2 corrected for instrumental sigma (2nd g)</span>
+<span class="go">...  FLUXF1    # 22 Flux from best-fitting 1st gaussian </span>
+<span class="go">...  FLUXF2    # 23 Flux from best-fitting 2nd gaussian </span>
+<span class="go">...  EFLUXD    # 24 Error of 4 (Flux from window_data - window_continuum) </span>
+<span class="go">...  EEWD      # 25 Error of 5 (Flux from window_data - window_continuum / mean_continuum)</span>
+<span class="go">...  EFLUXF    # 26 Error of 6 (Flux from best-fitting function(s))</span>
+<span class="go">...  EEWF      # 27 Error of 7 (EW from best-fitting function(s))</span>
+<span class="go">...  CHI2      # 28 best-fitting chi^2 (cgs)</span>
 
-<span class="go">optional arguments:</span>
+<span class="go">options:</span>
 <span class="go">  -h, --help            show this help message and exit</span>
 <span class="go">  -s RSS FILE, --spectrum RSS FILE</span>
 <span class="go">                        RSS input file</span>
@@ -841,7 +864,7 @@ doing:</p>
 <span class="go">                        Mininum Signal-to-noise ratio in each spaxel</span>
 <span class="go">  -w LINE CENTRAL WAVELENGTH, --ctwl LINE CENTRAL WAVELENGTH</span>
 <span class="go">                        Central rest-frame wavelength for line (AA)</span>
-<span class="go">  -k, --use-peak Use peak first guess on central wavelength</span>
+<span class="go">  -k, --use-peak        Use peak first guess on central wavelength</span>
 <span class="go">  -LW1 LOWER WAVELENGTH - LINE, --lcut1 LOWER WAVELENGTH - LINE</span>
 <span class="go">                        Lower rest-frame wavelength for line (AA)</span>
 <span class="go">  -LW2 UPPER WAVELENGTH - LINE, --lcut2 UPPER WAVELENGTH - LINE</span>
@@ -864,7 +887,7 @@ doing:</p>
 <span class="go">                        Redshift for target and catalog lines</span>
 <span class="go">  -o OUTPUT-PDF, --output OUTPUT-PDF</span>
 <span class="go">                        Output PDF</span>
-<span class="go">  -v, --verbose Verbose mode for fitting results?</span>
+<span class="go">  -v, --verbose         Verbose mode for fitting results?</span>
 <span class="go">  -O OUTPUT RSS FILE, --output-rss OUTPUT RSS FILE</span>
 <span class="go">                        Output RSS file</span>
 <span class="go">  -of OUTPUT FIBERS LIST, --output-fibers OUTPUT FIBERS LIST</span>
@@ -903,21 +926,21 @@ spectrum (all fiber spectra added up) with all relevant spectral ranges
 clearly identified with vertical lines. The RSS product files generated
 by these two instructions will be later used to compute an RSS file that
 can be used to create a line-ratio map.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaratools-analyze_rss<span class="w"> </span>-s<span class="w"> </span>test/final_rss.fits<span class="w"> </span>-f<span class="w"> </span><span class="m">2</span>
-<span class="go">           -w 6563 -LW1 6552 -LW2 6570 -CW1 6400 -CW2 6710 \</span>
-<span class="go">           -ECW1 6545. -ECW2 6588 -PW1 6350 -PW2 6800 -f 2 -k</span>
-<span class="go">           -z &quot;-0.00025&quot; -S2 &quot; -0.2&quot; -S 5 \</span>
-<span class="go">           -o test/analyze_rss_Halpha.pdf \</span>
-<span class="go">           -O test/analyze_rss_Halpha.fits \</span>
-<span class="go">           -of test/analyze_rss_Halpha.fibers</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaratools-analyze_rss<span class="w"> </span>-s<span class="w"> </span>test/final_rss.fits<span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>-w<span class="w"> </span><span class="m">6563</span><span class="w"> </span>-LW1<span class="w"> </span><span class="m">6552</span><span class="w"> </span>-LW2<span class="w"> </span><span class="m">6570</span><span class="w"> </span>-CW1<span class="w"> </span><span class="m">6400</span><span class="w"> </span>-CW2<span class="w"> </span><span class="m">6710</span><span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>-ECW1<span class="w"> </span><span class="m">6545</span>.<span class="w"> </span>-ECW2<span class="w"> </span><span class="m">6588</span><span class="w"> </span>-PW1<span class="w"> </span><span class="m">6350</span><span class="w"> </span>-PW2<span class="w"> </span><span class="m">6800</span><span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="w"> </span>-k<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>-z<span class="w"> </span><span class="s2">&quot;-0.00025&quot;</span><span class="w"> </span>-S2<span class="w"> </span><span class="s2">&quot; -0.2&quot;</span><span class="w"> </span>-S<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>-o<span class="w"> </span>test/analyze_rss_Halpha.pdf<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>-O<span class="w"> </span>test/analyze_rss_Halpha.fits<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>-of<span class="w"> </span>test/analyze_rss_Halpha.fibers
 
-<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaratools-analyze_rss<span class="w"> </span>-s<span class="w"> </span>test/final_rss.fits<span class="w"> </span>-f<span class="w"> </span><span class="m">2</span>
-<span class="go">           -w 6584 -LW1 6580 -LW2 6587 -CW1 6400 -CW2 6710 \</span>
-<span class="go">           -ECW1 6545. -ECW2 6588 -PW1 6350 -PW2 6800 -f 1 -k \</span>
-<span class="go">           -z &quot;-0.00025&quot; -S 5 \</span>
-<span class="go">           -o test/analyze_rss_N2.pdf \</span>
-<span class="go">           -O test/analyze_rss_N2.fits \</span>
-<span class="go">           -of test/analyze_rss_N2.fibers</span>
+<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaratools-analyze_rss<span class="w"> </span>-s<span class="w"> </span>test/final_rss.fits<span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>-w<span class="w"> </span><span class="m">6584</span><span class="w"> </span>-LW1<span class="w"> </span><span class="m">6580</span><span class="w"> </span>-LW2<span class="w"> </span><span class="m">6587</span><span class="w"> </span>-CW1<span class="w"> </span><span class="m">6400</span><span class="w"> </span>-CW2<span class="w"> </span><span class="m">6710</span><span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>-ECW1<span class="w"> </span><span class="m">6545</span>.<span class="w"> </span>-ECW2<span class="w"> </span><span class="m">6588</span><span class="w"> </span>-PW1<span class="w"> </span><span class="m">6350</span><span class="w"> </span>-PW2<span class="w"> </span><span class="m">6800</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span>-k<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>-z<span class="w"> </span><span class="s2">&quot;-0.00025&quot;</span><span class="w"> </span>-S<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>-o<span class="w"> </span>test/analyze_rss_N2.pdf<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>-O<span class="w"> </span>test/analyze_rss_N2.fits<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>-of<span class="w"> </span>test/analyze_rss_N2.fibers
 </pre></div>
 </div>
 <p><a class="reference internal" href="_images/image36.png"><img alt="image15" src="_images/image36.png" style="width: 3.59647in; height: 2.66927in;" /></a><a class="reference internal" href="_images/image37.png"><img alt="image16" src="_images/image37.png" style="width: 3.5784in; height: 2.70836in;" /></a></p>
@@ -941,9 +964,9 @@ on RSS files. The online help output is shown below.</p>
 <span class="go">Combining by averaging aligned RSS files</span>
 
 <span class="go">positional arguments:</span>
-<span class="go">  rss Input table with list of RSS files</span>
+<span class="go">  rss                   Input table with list of RSS files</span>
 
-<span class="go">optional arguments:</span>
+<span class="go">options:</span>
 <span class="go">  -h, --help            show this help message and exit</span>
 <span class="go">  -e Equation to evaluate, --equation Equation to evaluate</span>
 <span class="go">                        Example: &#39;(ima1[:,9] + ima2[:,10])/ ima3[:,3]&#39;</span>
@@ -994,7 +1017,7 @@ RSS files. We can now create a spectral-index-like RSS image by running:</p>
 <span class="w">           </span>-e<span class="w"> </span><span class="s1">&#39;ima4[:,0]/ima5[:,0]&#39;</span><span class="w"> </span>-o<span class="w"> </span>test/index.fits
 </pre></div>
 </div>
-<p>The user should bear in mind that <code class="docutils literal notranslate"><span class="pre">*test/images2.txt</span></code> now includes two
+<p>The user should bear in mind that <code class="docutils literal notranslate"><span class="pre">test/images2.txt</span></code> now includes two
 additional rows with the names of the images created above:
 <code class="docutils literal notranslate"><span class="pre">test/mean_1000_2000.fits</span></code> and <code class="docutils literal notranslate"><span class="pre">test/mean_2000_3000.fits</span></code>. Note that
 although the images listed in the <code class="docutils literal notranslate"><span class="pre">test/images2.txt</span></code> file would have
@@ -1051,12 +1074,13 @@ doing:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaratools-hypercube<span class="w"> </span>-h
 <span class="go">usage: convert_rss_cube [-h] [-l] [-c] [-p PIXEL_SIZE] [-o OUTFILE] [-d]</span>
 <span class="go">                        [-m {nn,linear}] [--wcs-pa-from-header] [-trim] [-hyp]</span>
-<span class="go">                        [-helio] [-trimn [TRIMMING_NUMBERS [TRIMMING_NUMBERS ...]]]</span>
+<span class="go">                        [-helio] [-trimn [TRIMMING_NUMBERS ...]]</span>
 <span class="go">                        rss</span>
 
 <span class="go">positional arguments:</span>
 <span class="go">  rss                   RSS file / List of RSS files</span>
-<span class="go">optional arguments:</span>
+
+<span class="go">options:</span>
 <span class="go">  -h, --help            show this help message and exit</span>
 <span class="go">  -l, --is-a-list       Use for -s being a list of FITS spectra</span>
 <span class="go">  -c, --is-a-cube       Use for -s being a list of cubes (not rss) spectra</span>
@@ -1072,8 +1096,8 @@ doing:</p>
 <span class="go">  -trim, --trimming     Use for trimming the cubes</span>
 <span class="go">  -hyp, --hyper         Use for creating the hypercube</span>
 <span class="go">  -helio, --helio       Use for applying heliocentric velocity correction</span>
-<span class="go">  -trimn [TRIMMING_NUMBERS [TRIMMING_NUMBERS ...]], --trimming-numbers [TRIMMING_NUMBERS [TRIMMING_NUMBERS ...]]</span>
-<span class="go">                        Use for declaring the number of rows and columns you</span>
+<span class="go">  -trimn [TRIMMING_NUMBERS ...], --trimming-numbers [TRIMMING_NUMBERS ...]</span>
+<span class="go">                        Use for declare the number of rows and columns you</span>
 <span class="go">                        want to trim. [Bottom rows, top rows, left column,</span>
 <span class="go">                        right column] (default= 1,2,1,1)</span>
 </pre></div>

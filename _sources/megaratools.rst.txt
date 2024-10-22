@@ -79,6 +79,11 @@ wavelength and flux calibrated) image of the center of Local Group
 galaxy M32 in the MR-G setup. This image is generated using the
 megaradrp.visualization code included in the MEGARA DRP distribution.
 
+.. code-block:: console
+
+   (megara) $ python -m megaradrp.visualization \
+              test/final_rss_M15_HR-R.fits --label "flux (Jy)" --wcs-grid
+
 .. image:: _static/image26.png
    :width: 4.45528in
    :height: 3.11334in
@@ -95,76 +100,8 @@ Galactic Globular Cluster M15, respectively.
 As for the other commands, adding the -h flag would provide the help and
 syntax for using this command. The result is the following:
 
-.. code-block:: console
-
-   usage: visualization.py [-h] [--wcs-grid] [--wcs-pa-from-header]
-                           [--average-region AVERAGE_REGION AVERAGE_REGION]
-                           [--extname EXTNAME] [--column COLUMN]
-                           [--continuum-region CONTINUUM_REGION CONTINUUM_REGION]
-                           [--coordinate-type {pixel,wcs}] [--colormap COLORMAP]
-                           [--plot-sky] [--plot-nominal-config] [--hide-values]
-                           [--title TITLE] [--label LABEL] [--hex-size HEX_SIZE]
-                           [--hex-rel-size HEX_REL_SIZE] [--min-cut MIN_CUT]
-                           [--max-cut MAX_CUT] [--percent PERCENT]
-                           [--stretch {linear,sqrt,power,log,asinh}]
-                           [--contour-pixel-size CONTOUR_PIXEL_SIZE]
-                           [--contour-levels CONTOUR_LEVELS] [--contour]
-                           [--contour-image CONTOUR_IMAGE]
-                           [--contour-image-column CONTOUR_IMAGE_COLUMN]
-                           [--contour-image-save CONTOUR_IMAGE_SAVE]
-                           [--contour-image-region CONTOUR_IMAGE_REGION CONTOUR_IMAGE_REGION]
-                           [--contour-is-density]
-                           RSS [RSS ...]
-   
-   Display MEGARA RSS images
-   
-   positional arguments:
-     RSS RSS images to process
-   
-   optional arguments:
-     -h, --help show this help message and exit
-     --wcs-grid Display WCS grid
-     --wcs-pa-from-header Use PA angle from PC keys
-     --average-region AVERAGE_REGION AVERAGE_REGION
-                           Region of the RSS averaged on display
-     --extname EXTNAME, -e EXTNAME
-                           Name of the extension used
-     --column COLUMN, -c COLUMN
-                           Column of the RSS on display
-     --continuum-region CONTINUUM_REGION CONTINUUM_REGION
-                           Region of the RSS used for continuum subtraction
-     --coordinate-type {pixel,wcs}
-                           Types of coordinates used
-     --colormap COLORMAP Name of a valid matplotlib colormap
-     --plot-sky Plot SKY bundles
-     --plot-nominal-config
-                           Plot nominal configuration, do not use the header
-     --hide-values Do not show values out of range
-     --title TITLE Title of the plot
-     --label LABEL Legend of the colorbar
-     --hex-size HEX_SIZE Size of the hexagons (default is 0.443)
-     --hex-rel-size HEX_REL_SIZE
-                           Scale the size of hexagons by a factor
-     --min-cut MIN_CUT Inferior cut level
-     --max-cut MAX_CUT Superior cut level
-     --percent PERCENT Compute cuts using percentiles
-     --stretch {linear,sqrt,power,log,asinh}
-                           Name of the strech method used for display
-     contouring:
-     --contour-pixel-size CONTOUR_PIXEL_SIZE
-                           Pixel size in arc seconds for image reconstruction
-     --contour-levels CONTOUR_LEVELS
-                           Contour levels
-     --contour Draw contours
-     --contour-image CONTOUR_IMAGE
-                           Image for computing contours
-     --contour-image-column CONTOUR_IMAGE_COLUMN
-                           Column of image used for contouring
-     --contour-image-save CONTOUR_IMAGE_SAVE
-                           Save image used for contouring
-     --contour-image-region CONTOUR_IMAGE_REGION CONTOUR_IMAGE_REGION
-                           Region of the image used for contouring
-     --contour-is-density The data is a magnitude that does not require scaling
+.. literalinclude:: files/help_visualization.txt
+   :language: console
 
 Note that this visualization tool can be also used to display output RSS
 files from the ``analyze_rss.py`` tool described below. As an example, the
@@ -188,32 +125,9 @@ the sky (RA & Dec if instrument PA is 0º). Since this tool is now part
 of the MEGARA DRP it should be run from within the DRP environment by
 doing:
 
-.. code-block:: console
+.. literalinclude:: files/help_megaradrp-cube.txt
+   :language: console
 
-   (megara) $ megaradrp-cube -h
-
-The output of this command is:
-
-.. code-block:: console
-
-   usage: convert_rss_cube [-h] [-p PIXEL_SIZE] [-o OUTFILE] [-d]
-                           [-m {nn,linear}] [--wcs-pa-from-header]
-                           rss
-   positional arguments:
-     rss                   RSS file with fiber traces
-   optional arguments:
-   -h, --help              show this help message and exit
-   -p PIXEL_SIZE, --pixel-size PIXEL_SIZE
-                           Pixel size in arc seconds
-   -o OUTFILE, --outfile OUTFILE
-                           Name of the output cube file
-   -d, --disable-scaling
-                           Disable flux conservation
-   -m {nn,linear}, --method {nn,linear}
-                           Method of interpolation
-   --wcs-pa-from-header    Use PA angle from header
-
-We recommend to use output square-pixel sizes between 0.3-0.4 arcsec.
 Default parameters for the ``--disable-scaling`` and ``--wcs-pa-from-header``
 options should be fine for regular MEGARA data processed with the DRP.
 
@@ -221,21 +135,23 @@ An alternative software with similar scope has been developed by Javier
 Zaragoza Cardiel (from INAOE) and can be obtained through GitHub at
 https://github.com/javierzaragoza/megararss2cube.
 
+.. _megaratools-extract_spectrum: 
+
 Extract spectrum: megaratools-extract_spectrum
 ----------------------------------------------
 
 This tool is the first being described in this cookbook that is part of
-the *megaratools* package available through GitHub at
+the **megaratools** package available through GitHub at
 https://github.com/guaix-ucm/megara-tools. The objective of this tool is
 to generate an extracted (1D) spectrum of a given fiber or set of
 fibers. The main parameter determining the fiber(s) to be extracted is
 the fiber number as measured in the pseudo-slit (from 1 to 623 in the
 case of the LCB; 1 to 644 for the MOS). Since the RSS products of the
-MegaraMosImage recipe already include an extension with the 7 fibers of
+**MegaraMosImage** recipe already include an extension with the 7 fibers of
 the each minibundle added together, this is particularly useful for
 extracting spectra of different regions from processed LCB RSS frames.
 The resulting extracted spectrum shares wavelength calibration solution
-with the RSS. All tools included in the *megaratools* package can be
+with the RSS. All tools included in the **megaratools** package can be
 called as an argument for the Python main interpreter or as executables
 on their own, although the latter option is recommended:
 
@@ -247,31 +163,13 @@ on their own, although the latter option is recommended:
 
 The result of the task when called using the help (-h) argument is:
 
-.. code-block:: console
+.. literalinclude:: files/help_megaratools-extract_spectrum.txt
+   :language: console
 
-   usage: extract_spectrum [-h] [-s RSS-SPECTRUM] [-t INPUT-TABLE] [-c COLUMN]
-                           [-g GREP-STRING] [-o OUTPUT-SPECTRUM] [-p]
-
-   Extract spectrum based on fiber IDs
-
-   optional arguments:
-     -h, --help show this help message and exit
-     -s RSS-SPECTRUM, --spectrum RSS-SPECTRUM
-                           RSS FITS spectrum
-     -t INPUT-TABLE, --ids-table INPUT-TABLE
-                           File with list of IDs
-     -c COLUMN, --column COLUMN
-                           Column to select from table
-     -g GREP-STRING, --grep-string GREP-STRING
-                           String to do grep in table
-     -o OUTPUT-SPECTRUM, --output OUTPUT-SPECTRUM
-                           Output 1D spectrum
-     -p, --plot Plot spectrum instead?
-
-The table with the fiber ids (-t) is a simple ascii file in which one of
+The table with the fiber ids (``-t``) is a simple ASCII file in which one of
 the (space-separated) columns is the fiber id. The user can also choose
 a set of rows that fulfils the condition of including a specific string
-(using -g). An example of a file like this could be:
+(using ``-g``). An example of a file like this could be:
 
 .. code-block:: console
 
@@ -300,11 +198,14 @@ saving it as a new FITS file. In that case he/she should make use of the
    (megara) $ megaratools-extract_spectrum -s test/final_rss.fits \
               -t test/regions.fibers -c 2 -g Region2 -p
 
+.. image:: _static/spectrum_Region2.png
+   :width: 4.45528in
+
 One of the uses of this tool is to extract the spectrum of the
 (flux-calibrated) ``final_rss.fits`` of a standard star processed with
 MegaraLcbImage to verify that it matches the corresponding tabulated
 spectrum. This extraction can be done using the ``fiber_ids.txt`` file
-that it is stored in the ``*\*_results/*`` directory generated by the MEGARA
+that it is stored in the ``*_results/`` directory generated by the MEGARA
 DRP when running this recipe. In the case the command would read (using
 two single quotes for the ``-g`` option we ensure that the command selects
 all rows extraction):
@@ -314,10 +215,13 @@ all rows extraction):
    (megara) $ megaratools-extract_spectrum -s test/final_rss.fits \
               -t test/fiber_ids.txt -c 1 -g '' -p
 
+.. image:: _static/spectrum_final_rss.png
+   :width: 4.45528in
+
 Extract elliptical apertures: megaratools-extract_rings
 -------------------------------------------------------
 
-This tool (also part of *megaratools*) is similar to the previous one
+This tool (also part of **megara-tools**) is similar to the previous one
 but allows to automatically extract spectra of elliptical rings or
 arbitrary size, orientation and ellipticity around a given position
 (fiber). This is particularly useful of the analysis the radial
@@ -325,44 +229,15 @@ variation of properties derived from RSS data when the signal-to-noise
 ratio does not allow to carry out a spaxel-by-spaxel analysis. The
 options for this command are:
 
-.. code-block:: console
-
-   (megara) $ megaratools-extract_rings -h
-
-   usage: extract_elliptical_rings_spectrum [-h] [-r RSS-SPECTRUM] [-a] [-b]
-                                            [-c CENTRAL-FIBER] [-n NUMBER-RINGS]
-                                            [-w RINGS WIDTH] [-s SAVED-RSS]
-                                            [-e ELLIPTICITY] [-pa POSITION ANGLE]
-                                            [-v]
-
-   Extract spectra based on elliptical rings
-
-   optional arguments:
-     -h, --help            show this help message and exit
-     -r RSS-SPECTRUM, --rss RSS-SPECTRUM
-                           RSS FITS spectrum
-     -a, --accumulate
-     -b, --surface_brightness
-     -c CENTRAL-FIBER, --central-fiber CENTRAL-FIBER
-                           Central fiber
-     -n NUMBER-RINGS, --number-rings NUMBER-RINGS
-                           Number of rings
-     -w RINGS WIDTH, --width RINGS WIDTH
-                           Elliptical rings width (arcsec)
-     -s SAVED-RSS, --saved-rss SAVED-RSS
-                           Output RSS file
-     -e ELLIPTICITY, --ellipticity ELLIPTICITY
-                           Elliptical rings ellipticity
-     -pa POSITION ANGLE, --position-angle POSITION ANGLE
-                           Elliptical rings position angle (N->E)
-     -v, --verbose
+.. literalinclude:: files/help_megaratools-extract_rings.txt
+   :language: console
 
 The command creates an RSS file with the same wavelength calibration
 solution as the input RSS file but a number of columns equal to the
 number of rings extracted (as set by the ``-n`` option). Besides, this
 command when run with the verbose option (``-v``) on it also outputs the
 main parameters of the rings extracted: average surface brightness at
-the central wavelength (in Jy/spx or Jy/arcsec\ :sup:`2` is the ``-b``
+the central wavelength (in Jy/spx or Jy/arcsec\ :sup:`2` if the ``-b``
 option is set) and area. Below, we show an example of how this command
 is run and of the output it creates in verbose mode.
 
@@ -381,7 +256,8 @@ Note that this tool can be also used to add the fluxes within (complete)
 elliptical apertures, not only rings by using the ``-a`` option. The
 resulting RSS can be used to extract the spectra of each ring/aperture
 by combining its use with the ``megaratools-extract_spectrum`` tool
-described in Section 6.3. Examples of that use are:
+described in Section :ref:`megaratools-extract_spectrum`. 
+Examples of that use are:
 
 .. code-block:: console
 
@@ -401,43 +277,8 @@ the spectrum plotted with a tabulated spectrum (e.g. that from a
 standard star) and a list of spectral lines. The options that can be
 used for the ``megaratools-plot_spectrum`` tool are:
 
-.. code-block:: console
-
-   (megara) $ megaratools-plot_spectrum -h
-
-   usage: plot_spectrum [-h] [-s SPECTRUM/FILE_LIST] [-l] [-t STD-TABLE]
-                        [-c LINECAT-TABLE] [-z LINECAT-Z] [-o OUTPUT-PDF] [-e]
-                        [-p] [-n] [-L1 INITIAL LAMBDA] [-L2 LAST LAMBDA]
-                        [-T PLOT TITLE]
-
-   Input spectrum and table
-
-   optional arguments:
-     -h, --help            show this help message and exit
-     -s SPECTRUM/FILE_LIST, --spectrum SPECTRUM/FILE_LIST
-                           FITS spectrum / list of FITS spectra
-     -l, --is-a-list Use for -s being a list of FITS spectra
-     -t STD-TABLE, --std-table STD-TABLE
-                           Standard-star spectrum table
-     -c LINECAT-TABLE, --catalog LINECAT-TABLE
-                           Cataloged lines CSV table
-     -z LINECAT-Z, --redshift LINECAT-Z
-                           Redshift for catalog lines
-     -o OUTPUT-PDF, --output OUTPUT-PDF
-                           Output PDF
-     -e, --efficiency Efficiency?
-     -p, --plot Plot spectrum?
-     -n, --no-legend Legend?
-     -L1 INITIAL LAMBDA, --min-lambda INITIAL LAMBDA
-                           Initial (rest-frame) lambda to plot
-     -L2 LAST LAMBDA, --max-lambda LAST LAMBDA
-                           Last (rest-frame) lambda to plot
-     -F1 YMIN FLUX, --min-flambda YMIN FLUX
-                           Minimum flux to plot
-     -F2 YMAX FLUX, --max-flambda YMAX FLUX
-                           Maximum flux to plot
-     -T PLOT TITLE, --title PLOT TITLE
-                           Title of the plot
+.. literalinclude:: files/help_megaratools-plot_spectrum.txt
+   :language: console
 
 Below we show an example of its use and the resulting plot (**Figure
 19**).
@@ -507,51 +348,13 @@ by fitting only columns (left) and in 2D (columns first, then columns)
 Below we show how this tool is executed and some basic information on
 its different options.
 
-.. code-block:: console
-
-   (megara) $ megaratools-diffuse_light -h
-
-   usage: clean_diffuse_light [-h] [-i INPUT-IMAGE] [-o OUTPUT-IMAGE]
-                              [-r RESIDUALS-IMAGE] [-t MASTER-TRACES]
-                              [-s SHIFT-TRACES] [-w SEARCH-WINDOW]
-                              [-d DEGREE-POLY-COLS] [-d2 DEGREE-POLY-ROWS]
-                              [-p OUTPUT-PLOT] [-b SPECTRAL-BINNING]
-                              [-e EXCLUDE-REGION [EXCLUDE-REGION ...]] [-2D]
-
-   Cleaning of diffuse light from a reduced (non-RSS) MEGARA image
-
-   optional arguments:
-     -h, --help            show this help message and exit
-     -i INPUT-IMAGE, --input INPUT-IMAGE
-                           Reduced FITS image
-     -o OUTPUT-IMAGE, --output OUTPUT-IMAGE
-                           Output diffuse-light FITS image
-     -r RESIDUALS-IMAGE, --residuals RESIDUALS-IMAGE
-                           Output residual FITS image
-     -t MASTER-TRACES, --traces MASTER-TRACES
-                           Master traces JSON file
-     -s SHIFT-TRACES, --shift SHIFT-TRACES
-                           Traces shift
-     -w SEARCH-WINDOW, --window SEARCH-WINDOW
-                           Window around traces to search for non-illuminated
-                           Fibers
-     -d DEGREE-POLY-COLS, --degree DEGREE-POLY-COLS
-                           Degree of polynomial fit for columns
-     -d2 DEGREE-POLY-ROWS, --degree-rows DEGREE-POLY-ROWS
-                           Degree of polynomial fit for rows
-     -p OUTPUT-PLOT, --outplot OUTPUT-PLOT
-                           Output plots
-     -b SPECTRAL-BINNING, --binning SPECTRAL-BINNING
-                           Binning in the spectral direction
-     -e EXCLUDE-REGION [EXCLUDE-REGION ...], --exclude EXCLUDE-REGION [EXCLUDE-REGION ...]
-                           Exclude region (c1 c2 r1 r2), e.g. 2407 2720 0 164
-     -2D, --two-dimensional
-                           Two-dimensional fitting?
-   
+.. literalinclude:: files/help_megaratools-diffuse_light.txt
+   :language: console
+ 
 Most of these options are related to the different fitting parameters
 used. Note that the input image should be the ``reduced_image.fits`` image
 generated by, among others, the **MegaraLcbImage** and **MegaraMosImage**
-recipes, that is place in the corresponding ``*\*_work/*`` directory. This
+recipes, that is place in the corresponding ``\*_work/`` directory. This
 cannot be run on raw images as those have different bias levels and
 gains for its two amplifiers. A master-traces file and the offset
 between them and the position of the fibers in the contaminated image
@@ -630,63 +433,8 @@ spectral range. As this tool is used on extracted 1D spectrum, the
 output is given on the screen and no output file is created. This tool
 is executed by doing:
 
-.. code-block:: console
-
-   (megara) $ megaratools-analyze_spectrum -h
-
-   usage: analyze_spectrum [-h] [-s SPECTRUM/FILE_LIST] [-l]
-                           [-f FITTING FUNCTION 0,1,2)]
-                           [-w LINE CENTRAL WAVELENGTH] [-k]
-                           [-LW1 LOWER WAVELENGTH - LINE]
-                           [-LW2 UPPER WAVELENGTH - LINE]
-                           [-CW1 LOWER WAVELENGTH - CONT]
-                           [-CW2 UPPER WAVELENGTH - CONT]
-                           [-ECW1 EXCLUDE FROM CONT. (LOWER WAVELENGTH)]
-                           [-ECW2 EXCLUDE FROM CONT. (UPPER WAVELENGTH]
-                           [-PW1 LOWER WAVELENGTH - PLOT]
-                           [-PW2 UPPER WAVELENGTH - PLOT]
-                           [-S2 SCALE FACTOR FOR AMP2] [-t SPEC-TABLE]
-                           [-c LINECAT-TABLE] [-z REDSHIFT] [-o OUTPUT-PDF] [-p] [-n]
-   ANALYZE SPECTRUM
-
-   optional arguments:
-     -h, --help            show this help message and exit
-     -s SPECTRUM/FILE_LIST, --spectrum SPECTRUM/FILE_LIST
-                           FITS spectrum / list of FITS spectra
-     -l, --is-a-list Use for -s being a list of FITS spectra
-     -f FITTING FUNCTION (0,1,2), --method FITTING FUNCTION (0,1,2)
-                           Fitting function (0=gauss_hermite, 1=gauss,2=double_gauss)
-     -w LINE CENTRAL WAVELENGTH, --ctwl LINE CENTRAL WAVELENGTH
-                           Central rest-frame wavelength for line (AA)
-     -k, --use-peak Use peak first guess on central wavelength
-     -LW1 LOWER WAVELENGTH - LINE, --lcut1 LOWER WAVELENGTH - LINE
-                           Lower rest-frame wavelength for line (AA)
-     -LW2 UPPER WAVELENGTH - LINE, --lcut2 UPPER WAVELENGTH - LINE
-                           Upper rest-frame wavelength for line (AA)
-     -CW1 LOWER WAVELENGTH - CONT, --ccut1 LOWER WAVELENGTH - CONT
-                           Lower rest-frame wavelength for cont. (AA)
-     -CW2 UPPER WAVELENGTH - CONT, --ccut2 UPPER WAVELENGTH - CONT
-                           Upper rest-frame wavelength for cont. (AA)
-     -ECW1 EXCLUDE FROM CONT. (LOWER WAVELENGTH), --eccut1 EXCLUDE FROM CONT. (LOWER WAVELENGTH)
-                           Lower rest-frame wavelength of range to exclude for cont. (AA)
-     -ECW2 EXCLUDE FROM CONT. (UPPER WAVELENGTH), --eccut2 EXCLUDE FROM CONT. (UPPER WAVELENGTH)
-                           Upper rest-frame wavelength of range to exclude for cont. (AA)
-     -PW1 LOWER WAVELENGTH - PLOT, --pcut1 LOWER WAVELENGTH - PLOT
-                           Lower rest-frame wavelength for plot (AA)
-     -PW2 UPPER WAVELENGTH - PLOT, --pcut2 UPPER WAVELENGTH - PLOT
-                           Upper rest-frame wavelength for plot (AA)
-     -S2 SCALE FACTOR FOR AMP2, --scale-amp2 SCALE FACTOR FOR AMP2
-                           Scale factor for amplitude 2
-     -t SPEC-TABLE, --spec-table SPEC-TABLE
-                           Additional spectrum table
-     -c LINECAT-TABLE, --catalog LINECAT-TABLE
-                           Cataloged lines CSV table
-     -z REDSHIFT, --redshift REDSHIFT
-                           Redshift for target and catalog lines
-     -o OUTPUT-PDF, --output OUTPUT-PDF
-                           Output PDF
-     -p, --plot Plot spectrum?
-     -n, --no-legend Legend?
+.. literalinclude:: files/help_megaratools-analyze_spectrum.txt
+   :language: console
 
 Some of the options of this task are common to the ones in
 ``megaratools_plot_spectrum``, including the possibility of adding a tabulated
@@ -711,11 +459,9 @@ position of that maximum and some factor (~1-1.2, depending on the model
 function; see below) of the instrumental FWHM. The models considered to date
 are:
 
-– Gauss-Hermite polynomials (``-f 0``)
-
-– Single gaussian (``-f 1``)
-
-– Two gaussians (``-f 2``)
+* Gauss-Hermite polynomials (``-f 0``)
+* Single gaussian (``-f 1``)
+* Two gaussians (``-f 2``)
 
 In the case of the model with two gaussians one can scale the initial
 guess on the peak intensity of the second gaussian relative to the first
@@ -726,22 +472,8 @@ this command, it prints in the screen both the input and output
 the type of model function chosen to fit the emission line. The output
 of the example above would be the following:
 
-.. code-block:: text
-
-   FITTING CONTINUUM:
-   Input(slope,yord): 0.000E+00 9.724E-14
-   Output(slope,yord): -5.336E-17 4.468E-13
-   Best-fitting chisqr continuum: 7.321E-27
-   BASIC NUMBERS:
-   (mean,rms,lpk,pk,S/N) 9.6828e-14 2.9143e-15 6561.03 1.6584e-13 56.9079
-   FITTING METHOD: DOUBLE GAUSSIAN
-   Input(i1,l1,sig1,i2,l2,sig2):  6.212E-14 6561.03 0.47 -1.380E-15 6561.03 0.93
-   Flux1 from model: 8.224E-14+/- 9.845E-15
-   Flux2 from model: -1.117E-13+/- 9.573E-15
-   Output(i1,l1,sig1,i2,l2,sig2): 8.309E-14 6561.11 0.39 -1.263E-14 6561.31 3.63
-   Flux & EW from data: -2.844E-14+/- 9.690E-15 -0.29+/- 0.10
-   Flux & EW from model: -2.949E-14+/- 9.689E-15 -0.30+/- 0.10
-   Best-fitting chisqr: 2.279E-28
+.. literalinclude:: files/output_megaratools-analyze_spectrum.txt
+   :language: text
 
 Note that the term ``from data`` refers to the sum of the flux above the
 continuum within the spectral range used to fit the line profile, while
@@ -750,17 +482,15 @@ the term ``from model`` refers to the analytic integral of the model.
 Besides, ``megaratools-analyze_spectrum`` displays a plot (similar to the
 ones shown in **Figure 22**) that includes:
 
-– The input spectrum in the range set by options ``-PW``1 and ``-PW2`` (blue
-line)
-
-– Vertical lines of the different spectral ranges of interest, including the
-range covered by all fibers (cyan line) and with precise flux calibration in
-the original RSS frame (dashed red line), the range for fitting the continuum
-(dashed grey lines) and that where the line fit is performed (solid gray line).
-
-– Best-fitting continuum (solid red line).
-
-– Best-fitting line plus continuum (solid orange line).
+* The input spectrum in the range set by options ``-PW``1 and ``-PW2`` (blue
+  line)
+* Vertical lines of the different spectral ranges of interest, including the
+  range covered by all fibers (cyan line) and with precise flux calibration in
+  the original RSS frame (dashed red line), the range for fitting the continuum
+  (dashed grey lines) and that where the line fit is performed (solid gray
+  line).
+* Best-fitting continuum (solid red line).
+* Best-fitting line plus continuum (solid orange line).
 
 The user should check the ranges chosen and then kill the graphical
 terminal for the code to start running.
@@ -788,96 +518,8 @@ data (``final_rss.fits`` or ``reduced_rss.fits`` files created by the
 The tool is called ``megaratools-analyze_rss`` and it is executed by
 doing:
 
-.. code-block:: console
-
-   (megara) $ megaratools-analyze_rss -h
-
-   usage: analyze_rss [-h] [-s RSS FILE] [-f FITTING FUNCTION 0,1,2)]
-                      [-S MINIMUM S/N] [-w LINE CENTRAL WAVELENGTH] [-k]
-                      [-LW1 LOWER WAVELENGTH - LINE]
-                      [-LW2 UPPER WAVELENGTH - LINE]
-                      [-CW1 LOWER WAVELENGTH - CONT]
-                      [-CW2 UPPER WAVELENGTH - CONT]
-                      [-ECW1 EXCLUDE FROM CONT. (LOWER WAVELENGTH)]
-                      [-ECW2 EXCLUDE FROM CONT. (UPPER WAVELENGTH]
-                      [-PW1 LOWER WAVELENGTH - PLOT]
-                      [-PW2 UPPER WAVELENGTH - PLOT] [-S2 SCALE FACTOR FOR AMP2]
-                      [-z REDSHIFT] [-o OUTPUT-PDF] [-v] [-O OUTPUT RSS FILE]
-                      [-of OUTPUT FIBERS LIST]
-
-   __________________ ANALYZE_RSS PROGRAM __________________
-
-   ____________ OUTPUT PARAMETER IN OUTPUT FITS ____________
-   Property channel description
-
-   ... FM # 0 Fitting method (0=gauss-hermite,1=1gauss,2=2gauss)
-   ... CONTINUUM # 1 Continuum level in cgs
-   ... NOISE # 2 rms in cgs
-   ... SNR # 3 S/N at the peak of the line
-   ... FLUXD # 4 Flux from window_data - window_continuum
-   ... EWD # 5 Flux from window_data - window_continuum / mean_continuum
-   ... FLUXF # 6 Flux from best-fitting function(s)
-   ... EWF # 7 EW from best-fitting function(s)
-   ... H0 # 8 amplitude for methods 0 & 1 & 2 (first gaussian)
-   ... H1 # 9 central lambda for methods 0 & 1 & 2 (first gaussian)
-   ... H2 # 10 sigma (in AA) for methods 0 & 1 & 2 (first gaussian)
-   ... H3 # 11 h3 for method 0
-   ... H4 # 12 h4 for method 0
-   ... H0B # 13 amplitude for method 2 (second gaussian)
-   ... H1B # 14 central lambda for method 2 (second gaussian)
-   ... H2B # 15 sigma (in AA) for method 2 (second gaussian)
-   ... H1KS # 16 velocity in km/s from H1 (1st g)
-   ... H2KS # 17 sigma in km/s from H2 (1st g)
-   ... H2KLC # 18 sigma in km/s from H2 corrected for instrumental sigma (1st g)
-   ... H1KSB # 19 velocity in km/s from H1B (2nd g)
-   ... H2KSB # 20 sigma in km/s from H2B (2nd g)
-   ... H2KLCB # 21 sigma in km/s from H2 corrected for instrumental sigma (2nd g)
-   ... FLUXF1 # 22 Flux from best-fitting 1st gaussian
-   ... FLUXF2 # 23 Flux from best-fitting 2nd gaussian
-   ... EFLUXD # 24 Error of 4 (Flux from window_data - window_continuum)
-   ... EEWD # 25 Error of 5 (Flux from window_data - window_continuum / mean_continuum)
-   ... EFLUXF # 26 Error of 6 (Flux from best-fitting function(s))
-   ... EEWF # 27 Error of 7 (EW from best-fitting function(s))
-   ... CHI2 # 28 best-fitting chi^2 (cgs)
-
-   optional arguments:
-     -h, --help            show this help message and exit
-     -s RSS FILE, --spectrum RSS FILE
-                           RSS input file
-     -f FITTING FUNCTION (0,1,2), --method FITTING FUNCTION (0,1,2)
-                           Fitting function (0=gauss_hermite, 1=gauss, 2=double_gauss)
-     -S MINIMUM S/N, --limsnr MINIMUM S/N
-                           Mininum Signal-to-noise ratio in each spaxel
-     -w LINE CENTRAL WAVELENGTH, --ctwl LINE CENTRAL WAVELENGTH
-                           Central rest-frame wavelength for line (AA)
-     -k, --use-peak Use peak first guess on central wavelength
-     -LW1 LOWER WAVELENGTH - LINE, --lcut1 LOWER WAVELENGTH - LINE
-                           Lower rest-frame wavelength for line (AA)
-     -LW2 UPPER WAVELENGTH - LINE, --lcut2 UPPER WAVELENGTH - LINE
-                           Upper rest-frame wavelength for line (AA)
-     -CW1 LOWER WAVELENGTH - CONT, --ccut1 LOWER WAVELENGTH - CONT
-                           Lower rest-frame wavelength for cont. (AA)
-     -CW2 UPPER WAVELENGTH - CONT, --ccut2 UPPER WAVELENGTH - CONT
-                           Upper rest-frame wavelength for cont. (AA)
-     -ECW1 EXCLUDE FROM CONT. (LOWER WAVELENGTH), --eccut1 EXCLUDE FROM CONT. (LOWER WAVELENGTH)
-                           Lower rest-frame wavelength of range to exclude for cont. (AA)
-     -ECW2 EXCLUDE FROM CONT. (UPPER WAVELENGTH), --eccut2 EXCLUDE FROM CONT. (UPPER WAVELENGTH)
-                           Upper rest-frame wavelength of range to exclude for cont. (AA)
-     -PW1 LOWER WAVELENGTH - PLOT, --pcut1 LOWER WAVELENGTH - PLOT
-                           Lower (observed) wavelength for plot (AA)
-     -PW2 UPPER WAVELENGTH - PLOT, --pcut2 UPPER WAVELENGTH - PLOT
-                           Upper (observed) wavelength for plot (AA)
-     -S2 SCALE FACTOR FOR AMP2, --scale-amp2 SCALE FACTOR FOR AMP2
-                           Scale factor for amplitude 2
-     -z REDSHIFT, --redshift REDSHIFT
-                           Redshift for target and catalog lines
-     -o OUTPUT-PDF, --output OUTPUT-PDF
-                           Output PDF
-     -v, --verbose Verbose mode for fitting results?
-     -O OUTPUT RSS FILE, --output-rss OUTPUT RSS FILE
-                           Output RSS file
-     -of OUTPUT FIBERS LIST, --output-fibers OUTPUT FIBERS LIST
-                           Output list of fibers above minimum Signal-to-noise ratio
+.. literalinclude:: files/help_megaratools-analyze_rss.txt
+   :language: console
 
 Although the spectral ranges and model function set by the options of
 the parameter are common to all fibers, option ``-S`` allows to set a
@@ -916,15 +558,15 @@ can be used to create a line-ratio map.
 
 .. code-block:: console
 
-   (megara) $ megaratools-analyze_rss -s test/final_rss.fits -f 2
+   (megara) $ megaratools-analyze_rss -s test/final_rss.fits -f 2 \
               -w 6563 -LW1 6552 -LW2 6570 -CW1 6400 -CW2 6710 \
-              -ECW1 6545. -ECW2 6588 -PW1 6350 -PW2 6800 -f 2 -k
+              -ECW1 6545. -ECW2 6588 -PW1 6350 -PW2 6800 -f 2 -k \
               -z "-0.00025" -S2 " -0.2" -S 5 \
               -o test/analyze_rss_Halpha.pdf \
               -O test/analyze_rss_Halpha.fits \
               -of test/analyze_rss_Halpha.fibers
 
-   (megara) $ megaratools-analyze_rss -s test/final_rss.fits -f 2
+   (megara) $ megaratools-analyze_rss -s test/final_rss.fits -f 2 \
               -w 6584 -LW1 6580 -LW2 6587 -CW1 6400 -CW2 6710 \
               -ECW1 6545. -ECW2 6588 -PW1 6350 -PW2 6800 -f 1 -k \
               -z "-0.00025" -S 5 \
@@ -950,22 +592,8 @@ The tool ``megaratools-rss_arith`` described here allows to perform basic
 computations (Python basic arithmetic and **numpy** numerical operations)
 on RSS files. The online help output is shown below.
 
-.. code-block:: console
-
-   (megara) $ megaratools-rss_arith -h
-   usage: combine_rss [-h] [-e Equation to evaluate] [-o OUTPUT RSS] rss
-
-   Combining by averaging aligned RSS files
-
-   positional arguments:
-     rss Input table with list of RSS files
-
-   optional arguments:
-     -h, --help            show this help message and exit
-     -e Equation to evaluate, --equation Equation to evaluate
-                           Example: '(ima1[:,9] + ima2[:,10])/ ima3[:,3]'
-     -o OUTPUT RSS, --output OUTPUT RSS
-                           Output RSS
+.. literalinclude:: files/help_megaratools-rss_arith.txt
+   :language: console
 
 The input of this tool is a text file with the list of images involved
 in the operation (all of the same size):
@@ -1020,7 +648,7 @@ RSS files. We can now create a spectral-index-like RSS image by running:
    (megara) $ megaratools-rss_arith test/images2.txt \
               -e 'ima4[:,0]/ima5[:,0]' -o test/index.fits
 
-The user should bear in mind that ``*test/images2.txt`` now includes two
+The user should bear in mind that ``test/images2.txt`` now includes two
 additional rows with the names of the images created above:
 ``test/mean_1000_2000.fits`` and ``test/mean_2000_3000.fits``. Note that
 although the images listed in the ``test/images2.txt`` file would have
@@ -1085,36 +713,8 @@ combined them all together to create a single large cube. This tool is
 called ``megaratools-hypercube`` and its online help can be obtained by
 doing:
 
-.. code-block:: console
-
-   (megara) $ megaratools-hypercube -h
-   usage: convert_rss_cube [-h] [-l] [-c] [-p PIXEL_SIZE] [-o OUTFILE] [-d]
-                           [-m {nn,linear}] [--wcs-pa-from-header] [-trim] [-hyp]
-                           [-helio] [-trimn [TRIMMING_NUMBERS [TRIMMING_NUMBERS ...]]]
-                           rss
-
-   positional arguments:
-     rss                   RSS file / List of RSS files
-   optional arguments:
-     -h, --help            show this help message and exit
-     -l, --is-a-list       Use for -s being a list of FITS spectra
-     -c, --is-a-cube       Use for -s being a list of cubes (not rss) spectra
-     -p PIXEL_SIZE, --pixel-size PIXEL_SIZE
-                           Pixel size in arc seconds (default = 0.4)
-     -o OUTFILE, --outfile OUTFILE
-                           Name of the output cube file (default = test
-     -d, --disable-scaling
-                           Disable flux conservation
-     -m {nn,linear}, --method {nn,linear}
-                           Method of interpolation
-     --wcs-pa-from-header  Use PA angle from header
-     -trim, --trimming     Use for trimming the cubes
-     -hyp, --hyper         Use for creating the hypercube
-     -helio, --helio       Use for applying heliocentric velocity correction
-     -trimn [TRIMMING_NUMBERS [TRIMMING_NUMBERS ...]], --trimming-numbers [TRIMMING_NUMBERS [TRIMMING_NUMBERS ...]]
-                           Use for declaring the number of rows and columns you
-                           want to trim. [Bottom rows, top rows, left column, 
-                           right column] (default= 1,2,1,1)
+.. literalinclude:: files/help_megaratools-hypercube.txt
+   :language: console
 
 Although this tool determines the position on the sky based on the image
 WCS solution, it also allows to apply additional RA & Dec offsets to
