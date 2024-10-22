@@ -51,6 +51,7 @@
 <li class="toctree-l1"><a class="reference internal" href="datared.html">Data reduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="healtraces.html">Healing Defective Traces</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">MEGARA Tools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#downloading-sample-data">Downloading sample data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#megaradrp-visualization">Megaradrp.Visualization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#megaradrp-cube">Megaradrp-Cube</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#extract-spectrum-megaratools-extract-spectrum">Extract spectrum: megaratools-extract_spectrum</a></li>
@@ -134,6 +135,19 @@ or Python packages with release date after July 1<sup>st</sup> 2020
 be used. All these tools have been extensively tested in Mac OS X (10.10
 to 10.15) and linux machines. Some of the examples below make use of
 <code class="docutils literal notranslate"><span class="pre">test/*</span></code> folder data that are downloaded when executing the code tests.</p>
+<section id="downloading-sample-data">
+<h2>Downloading sample data<a class="headerlink" href="#downloading-sample-data" title="Link to this heading"></a></h2>
+<p>The sample data employed in this section is available at this link:
+<a class="reference external" href="https://guaix.fis.ucm.es/data/megaradrp/test-megaratools_v1.tar.gz">test-megaratools_v1.tar.gz</a></p>
+<p>If you find any trouble trying to download the previous file, try with the
+following command line:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>curl<span class="w"> </span>-O<span class="w"> </span>https://guaix.fis.ucm.es/data/megaradrp/test-megaratools_v1.tar.gz
+</pre></div>
+</div>
+<p>After decompressing and extracting the contents of this file, you should
+generate a subdirectory <code class="docutils literal notranslate"><span class="pre">test/</span></code> with all the sample files required in the
+following examples.</p>
+</section>
 <section id="megaradrp-visualization">
 <h2>Megaradrp.Visualization<a class="headerlink" href="#megaradrp-visualization" title="Link to this heading"></a></h2>
 <p>As part of the MEGARA DRP we also provide a tool to visualize the RSS

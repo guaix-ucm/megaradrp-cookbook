@@ -55,6 +55,24 @@ be used. All these tools have been extensively tested in Mac OS X (10.10
 to 10.15) and linux machines. Some of the examples below make use of
 ``test/*`` folder data that are downloaded when executing the code tests.
 
+Downloading sample data
+-----------------------
+
+The sample data employed in this section is available at this link:
+`test-megaratools_v1.tar.gz
+<https://guaix.fis.ucm.es/data/megaradrp/test-megaratools_v1.tar.gz>`_
+
+If you find any trouble trying to download the previous file, try with the
+following command line:
+
+.. code-block:: console
+
+    (megara) $ curl -O https://guaix.fis.ucm.es/data/megaradrp/test-megaratools_v1.tar.gz
+
+After decompressing and extracting the contents of this file, you should
+generate a subdirectory ``test/`` with all the sample files required in the
+following examples.
+
 Megaradrp.Visualization
 -----------------------
 
