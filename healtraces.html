@@ -16,6 +16,7 @@
       <script src="_static/documentation_options.js?v=e160b93e"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -66,6 +67,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#important-final-check">Important: final check</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#obtaining-traces-for-lr-u">Obtaining traces for LR-U</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="megaratools.html">MEGARA Tools</a></li>
@@ -105,6 +107,16 @@ defocus and/or low signal at one of the ends of the observed spectral range. If
 the problem does not occur in too many fibers, we describe here a manual
 procedure that allows obtaining corrected traces for the poorly adjusted
 fibers, using the information from well-adjusted neighboring traces.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Sometimes the problem is that we do not have an adequate trace file. For
+example, when using the VPH LR-U valid traces are not obtained for most of
+the fibers. In such cases, it is an excessive effort to manually fix the
+adjustment for each fiber. The best alternative is to reuse an existing
+trace file and try to transform it for the exposures we need to calibrate.
+At the end of this page, in the <a class="reference internal" href="#obtaining-traces-for-lr-u"><span class="std std-ref">Obtaining traces for LR-U</span></a> section,
+we show an example of how to do this.</p>
+</div>
 <section id="identifying-defective-traces">
 <h2>Identifying defective traces<a class="headerlink" href="#identifying-defective-traces" title="Link to this heading"></a></h2>
 <p>Following the instructions in Section <a class="reference internal" href="datared.html#tracing-fibers"><span class="std std-ref">Tracing fibers</span></a>,
@@ -580,6 +592,54 @@ VPH):</p>
 assigned to the file <code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code>.</p>
 </div>
 </section>
+</section>
+<section id="obtaining-traces-for-lr-u">
+<span id="id2"></span><h2>Obtaining traces for LR-U<a class="headerlink" href="#obtaining-traces-for-lr-u" title="Link to this heading"></a></h2>
+<p>It is challenging to obtain good traces for the VPH LR-U because the continuous
+lamp usually employed to obtain fiber-flat exposures does not provide enough
+signal in the bluest region of the spectrum. For this reason, the
+<strong>MegaraTraceMap</strong> recipe does not provide acceptable traces for this VPH.</p>
+<p>In such cases, we can use a historical trace file for this VPH (for example the
+file <code class="docutils literal notranslate"><span class="pre">master_traces_LRU_20220325.json</span></code> that can be downloaded <a class="reference external" href="https://guaix.fis.ucm.es/data/megaradrp/master_traces_LRU_20220325.json.gz">from this link</a>),
+obtained from twilight exposures with sufficient signal, and transform the
+location of these traces to match the fiber positions in fiber-flat (or
+science) images corresponding to our observation campaign.</p>
+<p>In general, simply applying a vertical offset to the initial traces in
+<code class="docutils literal notranslate"><span class="pre">master_traces_LRU_20220325.json</span></code> will not be sufficient because we might
+achieve a good fit for the first fibers (those appearing at the bottom of the
+detector) but not for the last fibers (those appearing at the top). In this
+case, we can use the fact that the <code class="docutils literal notranslate"><span class="pre">global_offset</span></code> parameter of the
+<code class="docutils literal notranslate"><span class="pre">megaradrp-heal_traces</span></code> script accepts not only a real number but also
+several numbers, which represent the coefficients of a polynomial
+transformation that applies a slightly different vertical offset to each fiber.
+For example, the following code applies a vertical offset following a
+polynomial of the form <span class="math notranslate nohighlight">\({\rm vertical\_offset} = 8.9 + 0.00060 \times y\)</span>,
+where <span class="math notranslate nohighlight">\(y\)</span> is the vertical coordinate (along NAXIS2) of the considered
+fiber, evaluated at the reference column (key <code class="docutils literal notranslate"><span class="pre">ref_column</span></code> in the JSON master
+traces files, which is typically set to 2000, the middle location along the
+wavelength axis, NAXIS1). The offset is calculated in pixel units.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaradrp-heal_traces<span class="w"> </span><span class="se">\</span>
+reduced_image.fits<span class="w"> </span><span class="se">\</span>
+master_traces_LRU_20220325.json<span class="w"> </span><span class="se">\</span>
+--global_offset<span class="w"> </span><span class="m">8</span>.9<span class="w"> </span><span class="m">0</span>.00060<span class="w"> </span><span class="se">\</span>
+--updated_traces<span class="w"> </span>master_traces_LRU_20220325_healed.json
+</pre></div>
+</div>
+<p>The execution of this command opens a graphical window that, with the help of
+the zoom button, allows us to easily verify how well the numerical coefficients
+used for the <code class="docutils literal notranslate"><span class="pre">--global_offset</span></code> parameter work. Through trial and error, it is
+possible to refine these numbers until the desired result is achieved.</p>
+<p>Note that the above command does not apply any of the strategies described in
+the previous subsection to try to correct individual fibers. That is, we are
+not using any file of the type <code class="docutils literal notranslate"><span class="pre">healing.yaml</span></code>. We are simply applying a
+different vertical offset to each fiber.</p>
+<p>The file <code class="docutils literal notranslate"><span class="pre">master_traces_LRU_20220325_healed.json</span></code> will contain the
+resulting master traces after applying the mentioned mathematical
+transformation.</p>
+<p>The newly created JSON file should now be copied to its intended location
+within the calibration tree (remember to rename the destination file as
+<code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> to avoid having several files in the same calibration
+subdirectory; see warning note in the previous subsection).</p>
 </section>
 </section>
 

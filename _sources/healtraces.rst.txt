@@ -11,6 +11,17 @@ the problem does not occur in too many fibers, we describe here a manual
 procedure that allows obtaining corrected traces for the poorly adjusted
 fibers, using the information from well-adjusted neighboring traces.
 
+
+.. note::
+
+   Sometimes the problem is that we do not have an adequate trace file. For
+   example, when using the VPH LR-U valid traces are not obtained for most of
+   the fibers. In such cases, it is an excessive effort to manually fix the
+   adjustment for each fiber. The best alternative is to reuse an existing
+   trace file and try to transform it for the exposures we need to calibrate.
+   At the end of this page, in the :ref:`Obtaining_traces_for_LR-U` section,
+   we show an example of how to do this.
+
 Identifying defective traces
 ============================
 
@@ -496,3 +507,62 @@ faulty traces, and the obtained result is satisfactory.
    The file ``master_traces_healed.json`` has a different ``uuid`` than the one
    assigned to the file ``master_traces.json``.
 
+
+.. _Obtaining_traces_for_LR-U:
+
+Obtaining traces for LR-U
+=========================
+
+It is challenging to obtain good traces for the VPH LR-U because the continuous
+lamp usually employed to obtain fiber-flat exposures does not provide enough
+signal in the bluest region of the spectrum. For this reason, the
+**MegaraTraceMap** recipe does not provide acceptable traces for this VPH. 
+
+In such cases, we can use a historical trace file for this VPH (for example the
+file ``master_traces_LRU_20220325.json`` that can be downloaded `from this link
+<https://guaix.fis.ucm.es/data/megaradrp/master_traces_LRU_20220325.json.gz>`_),
+obtained from twilight exposures with sufficient signal, and transform the
+location of these traces to match the fiber positions in fiber-flat (or
+science) images corresponding to our observation campaign. 
+
+In general, simply applying a vertical offset to the initial traces in
+``master_traces_LRU_20220325.json`` will not be sufficient because we might
+achieve a good fit for the first fibers (those appearing at the bottom of the
+detector) but not for the last fibers (those appearing at the top). In this
+case, we can use the fact that the ``global_offset`` parameter of the
+``megaradrp-heal_traces`` script accepts not only a real number but also
+several numbers, which represent the coefficients of a polynomial
+transformation that applies a slightly different vertical offset to each fiber.
+For example, the following code applies a vertical offset following a
+polynomial of the form :math:`{\rm vertical\_offset} = 8.9 + 0.00060 \times y`,
+where :math:`y` is the vertical coordinate (along NAXIS2) of the considered
+fiber, evaluated at the reference column (key ``ref_column`` in the JSON master
+traces files, which is typically set to 2000, the middle location along the
+wavelength axis, NAXIS1). The offset is calculated in pixel units.
+
+.. code-block:: console
+
+   (megara) $ megaradrp-heal_traces \
+   reduced_image.fits \
+   master_traces_LRU_20220325.json \
+   --global_offset 8.9 0.00060 \
+   --updated_traces master_traces_LRU_20220325_healed.json
+
+The execution of this command opens a graphical window that, with the help of
+the zoom button, allows us to easily verify how well the numerical coefficients
+used for the ``--global_offset`` parameter work. Through trial and error, it is
+possible to refine these numbers until the desired result is achieved.
+
+Note that the above command does not apply any of the strategies described in
+the previous subsection to try to correct individual fibers. That is, we are
+not using any file of the type ``healing.yaml``. We are simply applying a
+different vertical offset to each fiber.
+
+The file ``master_traces_LRU_20220325_healed.json`` will contain the
+resulting master traces after applying the mentioned mathematical
+transformation.
+
+The newly created JSON file should now be copied to its intended location
+within the calibration tree (remember to rename the destination file as
+``master_traces.json`` to avoid having several files in the same calibration
+subdirectory; see warning note in the previous subsection).
