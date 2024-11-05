@@ -233,15 +233,16 @@ related in which order they are run.
 
    (megara) $ tree M15_LCB_HR-R 
    M15_LCB_HR-R
-   ├── 0_bias.yaml
-   ├── 1_tracemap.yaml
-   ├── 2_modelmap.yaml
-   ├── 3_wavecalib.yaml
-   ├── 4_fiberflat.yaml
-   ├── 5_twilight.yaml
-   ├── 6_Lcbadquisition.yaml
-   ├── 7_Standardstar.yaml
-   ├── 8_reduce_LCB.yaml
+   ├── 0_Bias.yaml
+   ├── 1_TraceMap.yaml
+   ├── 2_ModelMap.yaml
+   ├── 3_WaveCalib.yaml
+   ├── 3_WaveCalib_check.yaml
+   ├── 4_FiberFlat.yaml
+   ├── 5_TwilightFlat.yaml
+   ├── 6_LcbAdquisition.yaml
+   ├── 7_StandardStar.yaml
+   ├── 8_LcbImage.yaml
    └── data
        ├── 0001251794-20170626-MEGARA-MegaraLCBImage.fits
        ├── 0001251795-20170626-MEGARA-MegaraLCBImage.fits
@@ -289,9 +290,9 @@ The run mode of ``numina`` requires:
 
 The observation-result file and the requirements file are created by the
 user. This is an example of the observation result file to compute the
-fibers traces ``1_tracemap.yaml`` under the subdirectory ``M15_LCB-HR-R``:
+fibers traces ``1_TraceMap.yaml`` under the subdirectory ``M15_LCB-HR-R``:
 
-.. literalinclude:: files/1_tracemap.yaml
+.. literalinclude:: files/1_TraceMap.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -318,8 +319,8 @@ An example of an observation-result file with two blocks is the following:
 
 .. code-block:: console
 
-   (megara) $ more 1_tracemap.yaml
-   id: 1_HR-R
+   (megara) $ more 1_TraceMap.yaml
+   id: 1_TraceMap_HR-R
    mode: MegaraTraceMap
    instrument: MEGARA
    frames:
@@ -328,7 +329,7 @@ An example of an observation-result file with two blocks is the following:
     - 0001312248-20170831-MEGARA-MegaraSuccess.fits
    enabled: True
    ---
-   id: 1_HR-R_d29jun
+   id: 1_TraceMap_HR-R_d29jun
    mode: MegaraTraceMap
    instrument: MEGARA
    frames:
@@ -345,18 +346,19 @@ observation-result files (``*.yaml``):
    (megara) $ pwd
    /Users/janedoe/megara-cookbook-v2/MEGARA/M15_LCB_HR-R
    (megara) $ ls
-   0_bias.yaml            4_fiberflat.yaml       8_reduce_LCB.yaml
-   1_tracemap.yaml        5_twilight.yaml        data/
-   2_modelmap.yaml        6_Lcbadquisition.yaml
-   3_wavecalib.yaml       7_Standardstar.yaml
+   0_Bias.yaml             3_WaveCalib_check.yaml  7_StandardStar.yaml
+   1_TraceMap.yaml         4_FiberFlat.yaml        8_LcbImage.yaml
+   2_ModelMap.yaml         5_TwilightFlat.yaml     data/
+   3_WaveCalib.yaml        6_LcbAdquisition.yaml
+   
 
 If we want to run the recipe **MegaraTraceMap** using the observing-result file
-``1_tracemap.yaml``, with the requirements file ``control.yaml`` (the latter
+``1_TraceMap.yaml``, with the requirements file ``control.yaml`` (the latter
 located in the directory above the current one), we should execute:
 
 .. code-block:: console
 
-   (megara) $ numina run 1_tracemap.yaml -r ../control.yaml
+   (megara) $ numina run 1_TraceMap.yaml -r ../control.yaml
 
 When disk space is an issue, it is possible to execute ``numina`` indicating
 that links (instead of actual copies of the original raw files) must be placed
@@ -365,7 +367,7 @@ parameter ``--link-files``:
 
 .. code-block:: console
 
-   (megara) $ numina run 1_tracemap.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 1_TraceMap.yaml --link-files -r ../control.yaml
 
 Other useful **numina** commands include:
 
@@ -379,7 +381,7 @@ Other useful **numina** commands include:
 
    (megara) $ numina run -h
 
-   (megara) $ numina run 1_tracemap.yaml -r ../control.yaml –enable <block_id>
+   (megara) $ numina run 1_TraceMap.yaml -r ../control.yaml –enable <block_id>
 
 
 .. _Data_reduction_process:
@@ -403,7 +405,7 @@ You can easily examine the header of the FITS images using the astropy utility
 .. code-block:: console
 
    (megara) $ fitsheader -k VPH -k INSMODE -k OBJECT -k SPECLAMP -k EXPTIME -k DATE-OBS \
-              -f -e 0 *.fits
+              -f -e 0 data/*.fits
                             filename                          VPH  INSMODE  OBJECT SPECLAMP EXPTIME        DATE-OBS       
    --------------------------------------------------------- ----- ------- ------- -------- ------- ----------------------
          data/0001251794-20170626-MEGARA-MegaraLCBImage.fits  HR-R     LCB             NONE    60.0 2017-06-27T06:09:11.24
@@ -458,9 +460,9 @@ physical size of the detector. Then, they are corrected from Bad-pixels
 Mask, if the BPM is available and finally, images are stacked using the
 median.
 
-The content of the file ``0_bias.yaml`` for the M15 data is the following:
+The content of the file ``0_Bias.yaml`` for the M15 data is the following:
 
-.. literalinclude:: files/0_bias.yaml
+.. literalinclude:: files/0_Bias.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -469,14 +471,14 @@ The recipe is run as follows,
 
 .. code-block:: console
 
-   (megara) $ numina run 0_bias.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 0_Bias.yaml --link-files -r ../control.yaml
 
-and the products are stored in the directory ``obsid0_bias_test_results/``,
+and the products are stored in the directory ``obsid0_Bias_results/``,
 including the ``master_bias.fits`` file (see **Figure 4**). 
 
 .. code-block:: console
 
-   (megara) $ ls obsid0_bias_test_work/
+   (megara) $ ls obsid0_Bias_work/
    0001310880-20170827-MEGARA-MegaraBiasImage.fits@
    0001310881-20170827-MEGARA-MegaraBiasImage.fits@
    0001310882-20170827-MEGARA-MegaraBiasImage.fits@
@@ -489,10 +491,10 @@ including the ``master_bias.fits`` file (see **Figure 4**).
    index.pkl
    master_bpm.fits@
 
-   (megara) $ ls obsid0_bias_test_results/
+   (megara) $ ls obsid0_Bias_results/
    master_bias.fits  processing.log    result.json       task.json
    
-Note that the data files in the ``obsid0_bias_test_work`` subdirectory are shown
+Note that the data files in the ``obsid0_Bias_work`` subdirectory are shown
 with a suffix ``@``, indicating that these files are actually links the the
 original files (stored under the ``data`` subdirectory).
 
@@ -512,7 +514,7 @@ The user needs to copy the file ``master_bias.fits`` to the calibration tree at
 
 .. code-block:: console
 
-   (megara) $ cp obsid0_bias_test_results/master_bias.fits \
+   (megara) $ cp obsid0_Bias_results/master_bias.fits \
               ../ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterBias
 
 Dark image
@@ -582,10 +584,10 @@ This step produces the tracing information required to extract the flux
 of the fibers. The result is stored in a file named
 ``master_traces.json``.
 
-An example of the observation result file ``1_tracemap.yaml`` to trace the
+An example of the observation result file ``1_TraceMap.yaml`` to trace the
 fibers is the following:
 
-.. literalinclude:: files/1_tracemap.yaml
+.. literalinclude:: files/1_TraceMap.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -594,7 +596,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 1_tracemap.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 1_TraceMap.yaml --link-files -r ../control.yaml
 
 Images listed in the observation-result file are trimmed and corrected
 from overscan, bad-pixel mask (if ``master_bpm.fits`` is present in the
@@ -624,7 +626,7 @@ polynomial are stored in the final ``master_traces.json`` file.
 
 .. code-block:: console
 
-   (megara) $ ls obsid1_HR-R_work/                       
+   (megara) $ ls obsid1_TraceMap_HR-R_work/                       
    0001312246-20170831-MEGARA-MegaraSuccess.fits@
    0001312247-20170831-MEGARA-MegaraSuccess.fits@
    0001312248-20170831-MEGARA-MegaraSuccess.fits@
@@ -657,7 +659,7 @@ polynomial are stored in the final ``master_traces.json`` file.
 
 .. code-block:: console
 
-   (megara) $ ls obsid1_HR-R_results 
+   (megara) $ ls obsid1_TraceMap_HR-R_results 
    master_traces.json  reduced_image.fits  result.json
    processing.log      reduced_rss.fits    task.json
 
@@ -677,8 +679,8 @@ can be done by executing:
 .. code-block:: console
 
    (megara) $ megaradrp-overplot_traces \ 
-              obsid1_HR-R_results/reduced_image.fits \
-              obsid1_HR-R_results/master_traces.json
+              obsid1_TraceMap_HR-R_results/reduced_image.fits \
+              obsid1_TraceMap_HR-R_results/master_traces.json
 
 It is also possible to overplot the traces in the original raw data, making
 using of the additional parameter ``--rawimage``:
@@ -687,7 +689,7 @@ using of the additional parameter ``--rawimage``:
 
    (megara) $ megaradrp-overplot_traces --rawimage \
               data/0001312246-20170831-MEGARA-MegaraSuccess.fits \
-              obsid1_HR-R_results/master_traces.json
+              obsid1_TraceMap_HR-R_results/master_traces.json
 
 respectively for the reduced and raw images. Another way to check the
 tracing is by overplotting the **ds9** region files created by the DRP for
@@ -695,8 +697,8 @@ the traces on top of this ``reduced_image.fits`` by doing (syntax might vary):
 
 .. code-block:: console
 
-   (megara) $ ds9 obsid1_HR-R_results/reduced_image.fits \
-              -regions load obsid1_HR-R_work/ds9.reg
+   (megara) $ ds9 obsid1_TraceMap_HR-R_results/reduced_image.fits \
+              -regions load obsid1_TraceMap_HR-R_work/ds9.reg
 
 The same syntax can be used to check the offset between these traces and
 the position of the fibers in other images (arc-lamp, twilight, standard
@@ -708,7 +710,7 @@ corresponds to the VPH HR-R (LCB mode):
 
 .. code-block:: console
 
-   (megara) $ cp obsid1_HR-R_results/master_traces.json \
+   (megara) $ cp obsid1_TraceMap_HR-R_results/master_traces.json \
               ../ca3558e3-e50d-4bbc-86bd-da50a0998a48/TraceMap/LCB/HR-R
 
 Model map
@@ -718,10 +720,10 @@ This recipe processes a set of continuum flat images obtained in *Trace
 Map* or *Fiber Flat* modes and returns the fiber profile information
 required to perform **advanced** fiber extraction in other recipes.
 
-The set of files listed in the observation-result file ``2_modelmap.yaml``
+The set of files listed in the observation-result file ``2_ModelMap.yaml``
 is the same one used for the Trace Map.
 
-.. literalinclude:: files/2_modelmap.yaml
+.. literalinclude:: files/2_ModelMap.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -730,7 +732,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 2_modelmap.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 2_ModelMap.yaml --link-files -r ../control.yaml
 
 This processing step might take several minutes (from 10-40 min.)
 depending on the hardware used. When a model map is used the running
@@ -769,7 +771,7 @@ shown on top.
 
 .. code-block:: console
 
-   (megara) $ ls obsid2_HR-R_work/
+   (megara) $ ls obsid2_ModelMap_HR-R_work/
    0001312246-20170831-MEGARA-MegaraSuccess.fits@
    0001312247-20170831-MEGARA-MegaraSuccess.fits@
    0001312248-20170831-MEGARA-MegaraSuccess.fits@
@@ -790,7 +792,7 @@ shown on top.
 
 .. code-block:: console
 
-   (megara) $ ls obsid2_HR-R_results/
+   (megara) $ ls obsid2_ModelMap_HR-R_results/
    master_model.json   reduced_image.fits  result.json
    processing.log      reduced_rss.fits    task.json
 
@@ -799,7 +801,7 @@ place at the calibration tree.
 
 .. code-block:: console
 
-   (megara) $ cp obsid2_HR-R_results/master_model.json \
+   (megara) $ cp obsid2_ModelMap_HR-R_results/master_model.json \
               ../ca3558e3-e50d-4bbc-86bd-da50a0998a48/ModelMap/LCB/HR-R
 
 .. _Wavelength_Calibration:
@@ -836,11 +838,11 @@ is a positive number. This offset is given in the ``requirements``
 section in the observation-result file using the ``extraction_offset``
 parameter.
 
-In this case, the observation-result file is called ``3_wavecalib.yaml``.
+In this case, the observation-result file is called ``3_WaveCalib.yaml``.
 In the example below, three frames for arc lamp exposures are included
 and the offset for the extraction is set to 0 pixels:
 
-.. literalinclude:: files/3_wavecalib.yaml
+.. literalinclude:: files/3_WaveCalib.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -849,9 +851,9 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 3_wavecalib.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 3_WaveCalib.yaml --link-files -r ../control.yaml
 
-Images provided in ``3_wavecalib.yaml`` are trimmed and corrected from
+Images provided in ``3_WaveCalib.yaml`` are trimmed and corrected from
 overscan, bad-pixel mask (if ``master_bpm.fits`` is present in the calibration
 tree), bias and dark
 current (if ``master_dark.fits`` is present). The corrected images are then
@@ -860,7 +862,7 @@ saved as an intermediate result, named ``reduced_image.fits``. The
 apertures in the 2D image are extracted, using the information in
 ``master_traces.json`` (or in the ``model_map.json`` if this file is present
 at the calibration tree) and the ``extraction_offset`` parameter set in
-the ``3_wavecalib.yaml``. The result of the extraction is saved as an
+the ``3_WaveCalib.yaml``. The result of the extraction is saved as an
 intermediate result named ``reduced_rss.fits``. The requirement file
 ``control.yaml`` has useful information for the wavelength calibration.
 For each fiber in the reduced RSS, the peaks are detected and sorted by
@@ -876,17 +878,16 @@ the matched features are fitted to a polynomial of degree equal to
 other relevant information such as the coefficients of the polynomial
 are stored in the final ``master_wlcalib.json`` for each fiber.
 
-Finally, the recipe returns different products. At the ``obsid3_HR-R_work/``
-directory the files ``wavecal_iter1.pdf`` (for the initial wavelength
-calibration) and ``wavecal_iter2.pdf`` (for the final iteration) contain a
-graphical representation for the wavelength calibration for each fiber.
-For example, in ``wavecal_iter2.pdf`` the total number of lines used for
-the refined wavelength calibration and the root mean square for each fit
-is plotted depending on the fiber number. In the same PDF file, the
-linear approximation for CRVAL1 and CDELT1 is plotted and also a graph
-for each coefficient (typically of 5\ :sup:`th` degree) of the
-polynomial fit used for the refined wavelength calibration is shown (see
-**Figure 8**).
+Finally, the recipe returns different products. At the
+``obsid3_WaveCalib_HR-R_work/`` directory the files ``wavecal_iter1.pdf`` (for
+the initial wavelength calibration) and ``wavecal_iter2.pdf`` (for the final
+iteration) contain a graphical representation for the wavelength calibration
+for each fiber.  For example, in ``wavecal_iter2.pdf`` the total number of
+lines used for the refined wavelength calibration and the root mean square for
+each fit is plotted depending on the fiber number. In the same PDF file, the
+linear approximation for CRVAL1 and CDELT1 is plotted and also a graph for each
+coefficient (typically of 5\ :sup:`th` degree) of the polynomial fit used for
+the refined wavelength calibration is shown (see **Figure 8**).
 
 After the previous procedure, a refinement of the wavelength calibration is
 performed by fitting a polynomial to the variation of each coefficient of the
@@ -904,8 +905,8 @@ refinment are graphically stored in the file ``wavecal_refine_iter1.pdf``.
 generated with the **MegaraArcCalibration** recipe.
 
 Should the user set the ``store_pdf_with_refined_fits`` parameter to
-``store_pdf_with_refined_fits: 1`` at the ``3_wavecalib.yaml``, the recipe
-will create the subdirectory ``obsid3_HR-R_work/refined_wavecal/`` where a
+``store_pdf_with_refined_fits: 1`` at the ``3_WaveCalib.yaml``, the recipe will
+create the subdirectory ``obsid3_WaveCalib_HR-R_work/refined_wavecal/`` where a
 collection of PDF files (one for each fiber) is created with graphical
 information about the refined wavelength calibration (see **Figure 9**).
 
@@ -921,7 +922,7 @@ this recipe.
 
 .. code-block:: console
 
-   (megara) $ ls obsid3_HR-R_work/
+   (megara) $ ls obsid3_WaveCalib_HR-R_work/
    0001312249-20170831-MEGARA-MegaraSuccess.fits@
    0001312250-20170831-MEGARA-MegaraSuccess.fits@
    0001312251-20170831-MEGARA-MegaraSuccess.fits@
@@ -938,7 +939,7 @@ this recipe.
 
 .. code-block:: console
 
-   (megara) $ ls obsid3_HR-R_results/
+   (megara) $ ls obsid3_WaveCalib_HR-R_results/
    fwhm_image.fits      reduced_image.fits   task.json
    master_wlcalib.json  reduced_rss.fits
    processing.log       result.json
@@ -948,8 +949,43 @@ directory to the corresponding place at the calibration tree:
 
 .. code-block:: console
 
-   (megara) $ cp obsid3_HR-R_results/master_wlcalib.json \
+   (megara) $ cp obsid3_WaveCalib_HR-R_results/master_wlcalib.json \
               ../ca3558e3-e50d-4bbc-86bd-da50a0998a48/WavelengthCalibration/LCB/HR-R
+
+To quickly check the wavelength calibration, it is possible to apply the newly
+calculated calibration to the arc image itself. To do this, we can reduce the
+arc exposures as if they were scientific exposures. We carry out this task
+using the **MegaraLcbAcquisition** recipe. In this example, we execute this
+task using the file ``3_WaveCalib_check.yaml``.
+
+.. literalinclude:: files/3_WaveCalib_check.yaml
+   :language: yaml
+   :linenos:
+   :lineno-start: 1
+
+Note that the images to be reduced correspond to the 3 individual arc
+exposures. Among the requirements, we are using ``master_fiberflat:
+master_fiberflat_ones.fits``, a special FITS file located in the data
+subdirectory that contains a fictitious flatfield image where all values are
+set to 1.0. For the wavelength calibration check, we do not need to use a
+correct master fiberflat image.
+
+Then the recipe is run by doing:
+
+.. code-block:: console
+
+   (megara) $ numina run 3_WaveCalib_check.yaml --link-files -r ../control.yaml
+
+The image to be examined is
+``obsid3_WaveCalib_check_HR-R_results/reduced_rss.fits``. In this image, all
+the arc line must appear as perfectly vertical lines.
+
+.. code-block:: console
+
+   (megara) $ numina-ximshow obsid3_WaveCalib_check_HR-R_results/reduced_rss.fits
+
+.. image:: _static/arc_reduced_rss.png
+   :width: 6.5in
 
 Flat-field correction
 ~~~~~~~~~~~~~~~~~~~~~
@@ -966,10 +1002,10 @@ illuminating the instrument focal plane with a flat spectral source
 (typically a halogen lamp) that is installed as part of the GTC
 Instrument Calibration Module (ICM).
 
-In this case, we called the observation result file ``4_fiberflat.yaml``,
+In this case, we called the observation result file ``4_FiberFlat.yaml``,
 where a total of three continuum halogen exposures are included:
 
-.. literalinclude:: files/4_fiberflat.yaml
+.. literalinclude:: files/4_FiberFlat.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -983,7 +1019,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-  (megara) $ numina run 4_fiberflat.yaml --link-files -r ../control.yaml
+  (megara) $ numina run 4_FiberFlat.yaml --link-files -r ../control.yaml
 
 All images listed in the observation-result file are trimmed and corrected from
 overscan, bad pixel mask (if ``master_bpm.fits`` is present in the calibration
@@ -995,7 +1031,7 @@ as an intermediate result, named ``reduced_image.fits``.
 The apertures in the 2D image are extracted, using the information in
 ``master_traces.json`` (or in the ``model_map.json`` if this file is present
 at the calibration tree) and the ``extraction_offset`` parameter set in
-the ``4_fiberflat.yaml``, and then it is resampled according to the
+the ``4_FiberFlat.yaml``, and then it is resampled according to the
 wavelength calibration in ``master_wlcalib.json``. The resulting RSS is
 saved as an itnermediate result named ``reduced_rss.fits``. To normalize
 the ``master_fiberflat``, each fiber is divided by the best-fitting spline
@@ -1009,9 +1045,9 @@ to the average of all valid fibers (see **Figure 10**). The RSS image
 
 **Figure 10:** Example of the ``collapsed_smooth.png`` file generated as part
 of the **MegaraFiberFlatImage** recipe, which is located at the
-``obsid4_HR-R_work/`` directory. The green line is a spline fit to the average
-of all valid fibers, which is then used to normalize the extracted spectral in
-order to generate the normalized master_fiberflat image.
+``obsid4_FiberFlat_HR-R_work/`` directory. The green line is a spline fit to
+the average of all valid fibers, which is then used to normalize the extracted
+spectral in order to generate the normalized master_fiberflat image.
 
 |image10|
 
@@ -1020,7 +1056,7 @@ generated for MEGARA LCB HR-R mode.
 
 .. code-block:: console
 
-   (megara) $ ls obsid4_HR-R_work/
+   (megara) $ ls obsid4_FiberFlat_HR-R_work/
    0001312246-20170831-MEGARA-MegaraSuccess.fits@
    0001312247-20170831-MEGARA-MegaraSuccess.fits@
    0001312248-20170831-MEGARA-MegaraSuccess.fits@
@@ -1035,7 +1071,7 @@ generated for MEGARA LCB HR-R mode.
 
 .. code-block:: console
 
-   (megara) $ ls obsid4_HR-R_results/
+   (megara) $ ls obsid4_FiberFlat_HR-R_results/
    master_fiberflat.fits  reduced_image.fits     result.json
    processing.log         reduced_rss.fits       task.json
 
@@ -1044,7 +1080,7 @@ to the corresponding place at the calibration tree:
 
 .. code-block:: console
 
-   (megara) $ cp obsid4_HR-R_results/master_fiberflat.fits \
+   (megara) $ cp obsid4_FiberFlat_HR-R_results/master_fiberflat.fits \
               ../ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterFiberFlat/LCB/HR-R
 
 Illumination correction
@@ -1073,11 +1109,11 @@ configuration.
 
 The recipe **MegaraTwilightFlatImage** process a set of continuum blank
 twilight sky images and returns the master twilight flat product. In
-this case, we named observation result file as ``5_twilight.yaml``, where
+this case, we named observation result file as ``5_TwilightFlat.yaml``, where
 three frames for continuum blank twilight sky exposures being listed in
 the file:
 
-.. literalinclude:: files/5_twilight.yaml
+.. literalinclude:: files/5_TwilightFlat.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -1097,7 +1133,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 5_twilight.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 5_TwilightFlat.yaml --link-files -r ../control.yaml
 
 Images provided in the observation-result file are trimmed and corrected
 from overscan, bad pixel mask (if ``master_bpm`` is present), bias and
@@ -1109,13 +1145,13 @@ saved as an intermediate result, named ``reduced_image.fits``.
 The apertures in the 2D image are extracted, using the information in
 ``master_traces.json`` (or in the ``model_map.json`` if this file is present
 at the calibration tree) and the ``extraction_offset`` parameter set in
-the ``5_twilight.yaml``, and then it is resampled according to the
+the ``5_TwilightFlat.yaml``, and then it is resampled according to the
 wavelength calibration in ``master_wlcalib.json``. Then, the result is
 divided by the ``master_fiberflat``. The resulting RSS is saved as an
 intermediate result named ``reduced_rss.fits``. To normalize the
 ``master_twilightflat`` (see **Figure 13**), each fiber is divided by
 the average of the column range given in ``normalize_region``
-parameter in ``5_twilight.yaml``. In those cases where the observation of
+parameter in ``5_TwilightFlat.yaml``. In those cases where the observation of
 an object includes a bright sky line, this ``normalize_region``
 parameter can be used to obtain a twilight flat image from these science
 observations, especially if twilight frames of the same ROTANG, ELEVAT
@@ -1133,8 +1169,8 @@ generated for MEGARA LCB HR-R mode.
 
 .. code-block:: console
 
-   (megara) $ tree obsid5_HR-R_work/ obsid5_HR-R_results/ -L 2
-   obsid5_HR-R_work/
+   (megara) $ tree obsid5_TwilightFlat_HR-R_work/ obsid5_TwilightFlat_HR-R_results/ -L 2
+   obsid5_TwilightFlat_HR-R_work/
    ├── 0001251794-20170626-MEGARA-MegaraLCBImage.fits
    ├── 0001251795-20170626-MEGARA-MegaraLCBImage.fits
    ├── 0001251796-20170626-MEGARA-MegaraLCBImage.fits
@@ -1144,7 +1180,7 @@ generated for MEGARA LCB HR-R mode.
    ├── master_fiberflat.fits
    ├── reduced_image.fits
    └── reduced_rss.fits
-   obsid5_HR-R_results/
+   obsid5_TwilightFlat_HR-R_results/
    ├── master_twilightflat.fits
    ├── processing.log
    ├── reduced_image.fits
@@ -1153,12 +1189,12 @@ generated for MEGARA LCB HR-R mode.
    └── task.yaml
 
 The user needs to copy the ``master_twilightflat.fits`` at the
-``obsid5_HR-R_results/`` directory to the corresponding place at the
-calibration tree:
+``obsid5_TwilightFlat_HR-R_results/`` directory to the corresponding place at
+the calibration tree:
 
 .. code-block:: console
 
-   (megara) $ cp obsid5_HR-R_results/master_twilightflat.fits \
+   (megara) $ cp obsid5_TwilightFlat_HR-R_results/master_twilightflat.fits \
               ../ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterTwilightFlat/LCB/HR-R 
 
 Flux calibration
@@ -1207,10 +1243,10 @@ the target in the LCB field of view, around which the total flux of the
 star will be later recovered.
 
 In this case, the observation-result file for determining the star
-centroid is ``6_Lcbadquisition.yaml``, where three frames for
+centroid is ``6_LcbAdquisition.yaml``, where three frames for
 spectrophotometric standard star exposures are here listed:
 
-.. literalinclude:: files/6_Lcbadquisition.yaml
+.. literalinclude:: files/6_LcbAdquisition.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -1222,7 +1258,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 6_Lcbadquisition.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 6_LcbAdquisition.yaml --link-files -r ../control.yaml
 
 Images provided in observation-result file are trimmed and corrected from
 overscan, bad pixel mask (if ``master_bpm.fits`` is present in the calibration
@@ -1234,7 +1270,7 @@ as an intermediate result, named ``reduced_image.fits``.
 The apertures in the 2D image are extracted, using the information in
 ``master_traces.json`` (or in the ``model_map.json`` if this file is present
 at the calibration tree) and the ``extraction_offset`` parameter set in
-the ``6_Lcbadquisition.yaml``, and then it is resampled according to the
+the ``6_LcbAdquisition.yaml``, and then it is resampled according to the
 wavelength calibration in ``master_wlcalib.json``. Then it is divided by
 the ``master_fiberflat.fits``. The resulting RSS is saved as an intermediate
 result named ``reduced_rss.fits``.
@@ -1248,11 +1284,11 @@ around these two spaxels. The offsets needed to center the object
 (considered to be either the centroid around the central spaxel or, more
 likely, around the brightest spaxel) in the center of the LCB field are
 then returned both in mm and arcsec. This information is saved in the
-``processing.log`` file at the ``obsid6_HR-R_result/`` directory.
+``processing.log`` file at the ``obsid6_LcbImage_HR-R_result/`` directory.
 
 .. code-block:: console
 
-   (megara) $ ls obsid6_HR-R_work/
+   (megara) $ ls obsid6_LcbImage_HR-R_work/
    0001286973-20170724-MEGARA-MegaraLcbImage.fits@
    0001286974-20170724-MEGARA-MegaraLcbImage.fits@
    0001286975-20170724-MEGARA-MegaraLcbImage.fits@
@@ -1266,13 +1302,13 @@ then returned both in mm and arcsec. This information is saved in the
 
 .. code-block:: console
 
-   (megara) $ ls obsid6_HR-R_results/
+   (megara) $ ls obsid6_LcbImage_HR-R_results/
    final_rss.fits      reduced_image.fits  result.json
    processing.log      reduced_rss.fits    task.json
 
 .. code-block:: console
 
-   (megara) $ more obsid6_HR-R_results/processing.log
+   (megara) $ more obsid6_LcbImage_HR-R_results/processing.log
    2024-10-15 15:42:50,808 - numina.user.baserun - INFO - running recipe
    2024-10-15 15:42:50,808 - numina.recipes.megara - INFO - starting AC LCB reduction
    ...
@@ -1310,17 +1346,17 @@ standard star and to derive the instrument sensitivity curve for a particular
 setup using the **MegaraLcbStdStar** recipe.
 
 In this case, the observation-result file was named
-``7_Standardstar.yaml`` and includes spectrophotometric standard star
+``7_StandardStar.yaml`` and includes spectrophotometric standard star
 individual exposures:
 
-.. literalinclude:: files/7_Standardstar.yaml
+.. literalinclude:: files/7_StandardStar.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
 
 The ``extraction_offset`` parameter can be computed as detailed in section
 :ref:`Wavelength_Calibration` (this parameter is the same as in
-``6_Lcbadquisition.yaml`` for the same spectrophotometric standard star). The
+``6_LcbAdquisition.yaml`` for the same spectrophotometric standard star). The
 parameter ``reference_spectrum`` includes a text file where the flux-calibrated
 spectrum in AB magnitudes is provided.  (the format of these files is the same
 as for those found in the ESO spectrophotometric standard stars database
@@ -1330,7 +1366,7 @@ parameter can be also specify in the ``control.yaml``. The
 ``reference_extinction`` parameter points to the text file with the information
 to apply the atmospheric extinction correction.  (for processing standard-star
 observations this parameter must be defined in either the ``control.yaml`` of
-``7_Standardstar.yaml`` files or the recipe would fail; in the case of the
+``7_StandardStar.yaml`` files or the recipe would fail; in the case of the
 **MegaraLcbImage** or **MegarMosImage** recipes this would only imply that the
 processed data would not be corrected for atmospheric extinction).
 
@@ -1352,7 +1388,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 7_Standardstar.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 7_StandardStar.yaml --link-files -r ../control.yaml
 
 Images provided in the observation-result file are trimmed and corrected from
 overscan, bad pixel mask (if ``master_bpm.fits`` is present in the calibration
@@ -1364,7 +1400,7 @@ as an intermediate result, named ``reduced_image.fits``.
 The apertures in the 2D image are extracted, using the information in
 ``master_traces.json`` (or in the ``model_map.json`` if this file is present
 at the calibration tree) and the ``extraction_offset`` parameter set in
-the ``7_Standardstar.yaml``, and then it is resampled according to the
+the ``7_StandardStar.yaml``, and then it is resampled according to the
 wavelength calibration in ``master_wlcalib.json``. Then, the result is
 divided by the ``master_fiberflat.fits``. The resulting RSS is saved as an
 intermediate result named ``reduced_rss.fits``.
@@ -1377,11 +1413,11 @@ given in the ``position`` parameter so, finally, the ``star_spectrum.fits`` is
 returned. This star spectrum is degraded with a Gaussian filter, corrected by
 atmospheric extinction and compared with the reference spectrum to return the
 ``master_sensitivity.fits``, which is finally stored at the
-``obsid7_HR-R_result/`` directory.
+``obsid7_StandardStar_HR-R_result/`` directory.
 
 .. code-block:: console
 
-   (megara) $ ls obsid7_HR-R_work/
+   (megara) $ ls obsid7_StandardStar_HR-R_work/
    0001286973-20170724-MEGARA-MegaraLcbImage.fits@
    0001286974-20170724-MEGARA-MegaraLcbImage.fits@
    0001286975-20170724-MEGARA-MegaraLcbImage.fits@
@@ -1395,20 +1431,20 @@ atmospheric extinction and compared with the reference spectrum to return the
 
 .. code-block:: console
 
-   (megara) $ ls obsid7_HR-R_results/
+   (megara) $ ls obsid7_StandardStar_HR-R_results/
    fiber_ids.txt            reduced_image.fits       sky_rss.fits
    final_rss.fits           reduced_rss.fits         star_spectrum.fits
    master_sensitivity.fits  result.json              task.json
    processing.log           sensitivity_raw.fits
    
 The user can visualize the ``master_sensitivity.fits`` curve (see **Figure
-14**) running the python script ``megaratools-plot_spectrum.py`` that can
+14**) running the python script ``megaratools-plot_spectrum`` that can
 be found in the DRP distribution located at
 https://github.com/guaix-ucm/megara-tools (see section :ref:`MEGARA_Tools`).
 
 .. code-block:: console
 
-   (megara) $ megaratools-plot_spectrum.py -s obsid7_HR-R_results/master_sensitivity.fits
+   (megara) $ megaratools-plot_spectrum -s obsid7_StandardStar_HR-R_results/master_sensitivity.fits
 
 .. image:: _static/image22.png
    :width: 4.45in
@@ -1423,7 +1459,7 @@ tree:
 
 .. code-block:: console
 
-   (megara) $ cp obsid7_HR-R_results/master_sensitivity.fits \
+   (megara) $ cp obsid7_StandardStar_HR-R_results/master_sensitivity.fits \
               ../ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterSensitivity/LCB/HR-R/
 
 It is worth noting that the ``master_sensitivity.fits`` file includes on
@@ -1485,8 +1521,8 @@ corresponding scientific observations with recipes **MegaraLcbImage** or
 **MegarMosImage** depending on the observing mode (the LCB IFU or the
 MOS).
 
-In this case, the observation-result files are named ``8_reduce_LCB.yaml`` for
-the LCB and ``8_reduce_MOS.yaml`` for the MOS mode, and include a list of all
+In this case, the observation-result files are named ``8_LcbImage.yaml`` for
+the LCB and ``8_MosImage.yaml`` for the MOS mode, and include a list of all
 the frames obtained for the target. The ``extraction_offset`` parameter can be
 computed as detailed in section :ref:`Wavelength_Calibration`.  The
 ``reference_extinction`` parameter can be provided here if it is not at the
@@ -1539,9 +1575,9 @@ selected by the user for that purpose when preparing the observation
 with FMAT tool. If no sky-bundles are identified the DRP will not
 perform any sky subtraction to the target data.
 
-The content of the ``8_reduce_LCB.yaml`` file would be the following:
+The content of the ``8_LcbImage.yaml`` file would be the following:
 
-.. literalinclude:: files/8_reduce_LCB.yaml
+.. literalinclude:: files/8_LcbImage.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -1550,7 +1586,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 8_reduce_LCB.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 8_LcbImage.yaml --link-files -r ../control.yaml
 
 Images provided in the observation-result file are trimmed and corrected
 from overscan, bad pixel mask (if ``master_bpm.fits`` is present in the
@@ -1563,7 +1599,7 @@ saved as an intermediate result, named ``reduced_image.fits``.
 The apertures in the 2D image are extracted, using the information in
 ``master_traces.json`` (or in the ``model_map.json`` if this file is present
 at the calibration tree) and the ``extraction_offset`` parameter set in
-the ``8_reduce_LCB.yaml``. These are then resampled according to the
+the ``8_LcbImage.yaml``. These are then resampled according to the
 wavelength calibration in ``master_wlcalib.json``. Then, the result is
 divided by the ``master_fiberflat.fits``. The resulting RSS is saved as an
 intermediate result named ``reduced_rss.fits``.
@@ -1583,7 +1619,7 @@ Notice that ``sky_rss.fits`` is not corrected for extinction.
 
 .. code-block:: console
 
-   (megara) $ ls obsid8_HR-R_M15_work/
+   (megara) $ ls obsid8_LcbImage_HR-R_M15_work/
    0001309955-20170822-MEGARA-MegaraLcbAcquisition.fits@
    0001309956-20170822-MEGARA-MegaraLcbAcquisition.fits@
    0001309957-20170822-MEGARA-MegaraLcbAcquisition.fits@
@@ -1598,7 +1634,7 @@ Notice that ``sky_rss.fits`` is not corrected for extinction.
 
 .. code-block:: console
 
-   (megara) $ ls obsid8_HR-R_M15_results/
+   (megara) $ ls obsid8_LcbImage_HR-R_M15_results/
    final_rss.fits      reduced_image.fits  result.json         task.json
    processing.log      reduced_rss.fits    sky_rss.fits
 
@@ -1615,7 +1651,7 @@ data reduction:
 
 .. code-block:: console
 
-   (megara) $ ls obsid8_LR-R_M71_work/
+   (megara) $ ls obsid8_MosImage_LR-R_M71_work/
    0001288184-20170731-MEGARA-MegaraMosImage.fits@
    0001288185-20170731-MEGARA-MegaraMosImage.fits@
    0001288186-20170731-MEGARA-MegaraMosImage.fits@
@@ -1629,7 +1665,7 @@ data reduction:
 
 .. code-block:: console
 
-   (megara) $ ls obsid8_LR-R_M71_results/
+   (megara) $ ls obsid8_MosImage_LR-R_M71_results/
    final_rss.fits      reduced_image.fits  result.json         task.json
    processing.log      reduced_rss.fits    sky_rss.fits
 
@@ -1644,7 +1680,7 @@ any flux calibration. In order to do that one can simply add the
 following lines (shown highlighted below) in the corresponding YAML
 file:
 
-.. literalinclude:: files/8_reduce_LCB_null.yaml
+.. literalinclude:: files/8_LcbImage_null.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
