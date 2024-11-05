@@ -533,6 +533,7 @@ target M15:</p>
 <span class="go">       data/0001312249-20170831-MEGARA-MegaraSuccess.fits  HR-R     LCB Halogen     ThNe    30.0 2017-08-31T18:13:38.10</span>
 <span class="go">       data/0001312250-20170831-MEGARA-MegaraSuccess.fits  HR-R     LCB Halogen     ThNe    30.0 2017-08-31T18:15:22.38</span>
 <span class="go">       data/0001312251-20170831-MEGARA-MegaraSuccess.fits  HR-R     LCB Halogen     ThNe    30.0 2017-08-31T18:17:06.67</span>
+<span class="go">                          data/master_fiberflat_ones.fits    --      --      --       --      --                     --</span>
 </pre></div>
 </div>
 <p>The data available include bias exposures (the VPH is not relevant here),
@@ -803,7 +804,7 @@ coefficients of the resulting splines are stored in the final
 <p><strong>Figure 5:</strong> Mean position (left) and sigma (right) in pixels for fiber
 #310 along the spectral axis shown as blue points. The red line shows
 the spline fit. Plots for all the fibers are stored in the
-<code class="docutils literal notranslate"><span class="pre">obsid2_HR-R_work/</span></code> subdirectory.</p>
+<code class="docutils literal notranslate"><span class="pre">obsid2_ModelMap_HR-R_work/</span></code> subdirectory.</p>
 <p>The recipe also returns the RSS obtained by applying this advanced
 extraction to <em>reduced_image</em>. As an intermediate result, the recipe
 produces DS9 region files with the position of the center of the
@@ -1152,24 +1153,22 @@ of the <code class="docutils literal notranslate"><span class="pre">reduced_rss.
 <p><a class="reference internal" href="_images/image21.png"><img alt="image11" src="_images/image21.png" style="width: 6.69306in; height: 1.27917in;" /></a></p>
 <p><strong>Figure 13:</strong> Example of the master_twilightflat.fits file
 generated for MEGARA LCB HR-R mode.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>tree<span class="w"> </span>obsid5_TwilightFlat_HR-R_work/<span class="w"> </span>obsid5_TwilightFlat_HR-R_results/<span class="w"> </span>-L<span class="w"> </span><span class="m">2</span>
-<span class="go">obsid5_TwilightFlat_HR-R_work/</span>
-<span class="go">├── 0001251794-20170626-MEGARA-MegaraLCBImage.fits</span>
-<span class="go">├── 0001251795-20170626-MEGARA-MegaraLCBImage.fits</span>
-<span class="go">├── 0001251796-20170626-MEGARA-MegaraLCBImage.fits</span>
-<span class="go">├── index.pkl</span>
-<span class="go">├── master_bias.fits</span>
-<span class="go">├── master_bpm.fits</span>
-<span class="go">├── master_fiberflat.fits</span>
-<span class="go">├── reduced_image.fits</span>
-<span class="go">└── reduced_rss.fits</span>
-<span class="go">obsid5_TwilightFlat_HR-R_results/</span>
-<span class="go">├── master_twilightflat.fits</span>
-<span class="go">├── processing.log</span>
-<span class="go">├── reduced_image.fits</span>
-<span class="go">├── reduced_rss.fits</span>
-<span class="go">├── result.yaml</span>
-<span class="go">└── task.yaml</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid5_TwilightFlat_HR-R_work/
+<span class="go">0001251794-20170626-MEGARA-MegaraLCBImage.fits@</span>
+<span class="go">0001251795-20170626-MEGARA-MegaraLCBImage.fits@</span>
+<span class="go">0001251796-20170626-MEGARA-MegaraLCBImage.fits@</span>
+<span class="go">index.pkl</span>
+<span class="go">master_bias.fits@</span>
+<span class="go">master_bpm.fits@</span>
+<span class="go">master_fiberflat.fits@</span>
+<span class="go">reduced_image.fits</span>
+<span class="go">reduced_rss.fits</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid5_TwilightFlat_HR-R_results/
+<span class="go">master_twilightflat.fits  reduced_rss.fits</span>
+<span class="go">processing.log            result.json</span>
+<span class="go">reduced_image.fits        task.json</span>
 </pre></div>
 </div>
 <p>The user needs to copy the <code class="docutils literal notranslate"><span class="pre">master_twilightflat.fits</span></code> at the

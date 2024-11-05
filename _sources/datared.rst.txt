@@ -432,7 +432,8 @@ You can easily examine the header of the FITS images using the astropy utility
           data/0001312249-20170831-MEGARA-MegaraSuccess.fits  HR-R     LCB Halogen     ThNe    30.0 2017-08-31T18:13:38.10
           data/0001312250-20170831-MEGARA-MegaraSuccess.fits  HR-R     LCB Halogen     ThNe    30.0 2017-08-31T18:15:22.38
           data/0001312251-20170831-MEGARA-MegaraSuccess.fits  HR-R     LCB Halogen     ThNe    30.0 2017-08-31T18:17:06.67
-   
+                             data/master_fiberflat_ones.fits    --      --      --       --      --                     --
+        
 
 The data available include bias exposures (the VPH is not relevant here),
 halogen exposures (for tracing and flatfielding), ThNe arc exposures (for
@@ -753,7 +754,7 @@ coefficients of the resulting splines are stored in the final
 **Figure 5:** Mean position (left) and sigma (right) in pixels for fiber
 #310 along the spectral axis shown as blue points. The red line shows
 the spline fit. Plots for all the fibers are stored in the
-``obsid2_HR-R_work/`` subdirectory.
+``obsid2_ModelMap_HR-R_work/`` subdirectory.
 
 The recipe also returns the RSS obtained by applying this advanced
 extraction to *reduced_image*. As an intermediate result, the recipe
@@ -1168,25 +1169,24 @@ of the ``reduced_rss.fits`` image.
 generated for MEGARA LCB HR-R mode.
 
 .. code-block:: console
+ 
+   (megara) $ ls obsid5_TwilightFlat_HR-R_work/
+   0001251794-20170626-MEGARA-MegaraLCBImage.fits@
+   0001251795-20170626-MEGARA-MegaraLCBImage.fits@
+   0001251796-20170626-MEGARA-MegaraLCBImage.fits@
+   index.pkl
+   master_bias.fits@
+   master_bpm.fits@
+   master_fiberflat.fits@
+   reduced_image.fits
+   reduced_rss.fits
 
-   (megara) $ tree obsid5_TwilightFlat_HR-R_work/ obsid5_TwilightFlat_HR-R_results/ -L 2
-   obsid5_TwilightFlat_HR-R_work/
-   ├── 0001251794-20170626-MEGARA-MegaraLCBImage.fits
-   ├── 0001251795-20170626-MEGARA-MegaraLCBImage.fits
-   ├── 0001251796-20170626-MEGARA-MegaraLCBImage.fits
-   ├── index.pkl
-   ├── master_bias.fits
-   ├── master_bpm.fits
-   ├── master_fiberflat.fits
-   ├── reduced_image.fits
-   └── reduced_rss.fits
-   obsid5_TwilightFlat_HR-R_results/
-   ├── master_twilightflat.fits
-   ├── processing.log
-   ├── reduced_image.fits
-   ├── reduced_rss.fits
-   ├── result.yaml
-   └── task.yaml
+.. code-block:: console
+
+   (megara) $ ls obsid5_TwilightFlat_HR-R_results/
+   master_twilightflat.fits  reduced_rss.fits
+   processing.log            result.json
+   reduced_image.fits        task.json
 
 The user needs to copy the ``master_twilightflat.fits`` at the
 ``obsid5_TwilightFlat_HR-R_results/`` directory to the corresponding place at
