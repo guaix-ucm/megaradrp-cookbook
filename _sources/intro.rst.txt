@@ -80,11 +80,11 @@ spectral range.
 |image3|
 
 **Figure 2:** *Plots showing the relation between resolving power
-(RFWHM) and wavelength coverage for all 18 MEGARA VPHs and for the LCB (left)
-and MOS (right) modes. Design values (colored lines) and measurements (grey
-lines that correspond to individual fiber spectra, while black thick and thin
-lines represent the mean and mean* :math:`\pm 1\sigma` curves when all fiber
-spectra are used) are both shown.*
+:math:`(R_{\rm FWHM})` and wavelength coverage for all 18 MEGARA VPHs and for
+the LCB (left) and MOS (right) modes. Design values (colored lines) and
+measurements (grey lines that correspond to individual fiber spectra, while
+black thick and thin lines represent the mean and mean* :math:`\pm 1\sigma`
+curves when all fiber spectra are used) are both shown.*
 
 The details on the different VPHs that can be used with MEGARA is given
 in Table 1. This table also includes the reciprocal (linear) dispersion
