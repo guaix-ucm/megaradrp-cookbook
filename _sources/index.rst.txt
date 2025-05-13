@@ -7,7 +7,7 @@ available in PDF format at this `zenodo link
 Castillo Morales, Sergio Pascual Ramírez and Armando Gil de Paz.  As the
 aforementioned document has become slightly outdated over time, we have decided
 to move the documentation to this website that allows for easier updates.
-Nicolás Cardiel López has also joined this task.
+Nicolás Cardiel López and Mario Chamorro Cazorla have also joined this task.
 
 **We strongly recommend using the most up-to-date information available on this
 webpage.**
