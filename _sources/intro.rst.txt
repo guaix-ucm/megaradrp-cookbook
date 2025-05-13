@@ -67,7 +67,7 @@ Holographic (VPH) disperser elements, namely the low- (LR), mid- (MR),
 and high-resolution (HR) VPHs. Six LR VPHs cover the entire optical
 window at R=6,000, while 10 MR VPHs provide also full optical coverage
 but at R=12,000. Finally, the two HR VPHs allow observing in the
-Hα+[NII] region and in the CaT region with R=20,000, although the
+:math:`{\rm H}\alpha+[{\rm NII}]` region and in the CaT region with R=20,000, although the
 optical design could in principle accommodate HR VPHs at any other
 optical wavelength. In **Figure 2** we show the resolving power and
 spectral coverage for each VPH as measured during the integration and
@@ -80,11 +80,11 @@ spectral range.
 |image3|
 
 **Figure 2:** *Plots showing the relation between resolving power
-(RFWHM) and wavelength coverage for all 18 MEGARA VPHs and for the LCB
-(left) and MOS (right) modes. Design values (colored lines) and
-measurements (grey lines that correspond to individual fiber spectra,
-while black thick and thin lines represent the mean and mean*\ ±1σ
-*curves when all fiber spectra are used) are both shown.*
+(RFWHM) and wavelength coverage for all 18 MEGARA VPHs and for the LCB (left)
+and MOS (right) modes. Design values (colored lines) and measurements (grey
+lines that correspond to individual fiber spectra, while black thick and thin
+lines represent the mean and mean* :math:`\pm 1\sigma` curves when all fiber
+spectra are used) are both shown.*
 
 The details on the different VPHs that can be used with MEGARA is given
 in Table 1. This table also includes the reciprocal (linear) dispersion
@@ -103,11 +103,11 @@ and
 |image4|
 
 **Table 1:** MEGARA VPHs: scientific requirements (The resolution,
-R\ :sub:`FWHM`\ =λ/∆λ\ :sub:`FWHM`, is derived from the FWHM
-(∆λ\ :sub:`FWHM`) of the 1D spectra). The values of the linear
-reciprocal dispersion and the wavelength of pixel 1 correspond to the
-linear solution implemented in the MEGARA DRP after the images are
-wavelength calibrated.
+:math:`R_{\rm FWHM}=\lambda/\Delta\lambda_{\rm FWHM}`, is derived from the FWHM
+:math:`(\Delta\lambda_{\rm FWHM})` of the 1D spectra). The values of the linear
+reciprocal dispersion and the wavelength of pixel 1 correspond to the linear
+solution implemented in the MEGARA DRP after the images are wavelength
+calibrated.
 
 Note that the reciprocal dispersion is the one used for the linear
 solution in the images processed by the MEGARA Data Reduction Pipeline.
