@@ -9,8 +9,9 @@ aforementioned document has become slightly outdated over time, we have decided
 to move the documentation to this website that allows for easier updates.
 Nicolás Cardiel López and Mario Chamorro Cazorla have also joined this task.
 
-**We strongly recommend using the most up-to-date information available on this
-webpage.**
+**Important:** We strongly recommend using the most up-to-date information
+available on this `webpage
+<https://guaix-ucm.github.io/megaradrp-cookbook/>`_.
 
 
 .. toctree::
