@@ -766,7 +766,7 @@ profiles, that can be used with raw and reduced images (see **Figure
    :width: 6.7375in
    :height: 2.30278in
 
-Figure 6: MEGARA LCB HR-R continuum halogen exposure (left) and a region
+**Figure 6:** MEGARA LCB HR-R continuum halogen exposure (left) and a region
 of the raw image (right) with the ``ds9_raw.reg`` tracing the fibers’ path
 shown on top.
 

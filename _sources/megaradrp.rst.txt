@@ -4,7 +4,7 @@ MEGARA Data Reduction Pipeline
 
 |image1|
 
-**Figure 3:** *Data processing scheme of the MEGARA DRP.*
+**Figure 3:** Data processing scheme of the MEGARA DRP.
 
 The deployment of the MEGARA instrument at GTC was accompanied
 by the installation of a fully functioning Data Reduction Pipeline (DRP

@@ -23,6 +23,7 @@ available on this `webpage
    datadesc
    datared
    healtraces
+   mediancr
    megaratools
    issues
    acronyms

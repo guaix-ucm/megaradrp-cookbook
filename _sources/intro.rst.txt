@@ -39,7 +39,7 @@ overlapping patrol areas to be explored in a given configuration.
 
 |image1| |image2|
 
-Figure 1: LCB and MOS in the focal plane of MEGARA at the Folded-Cass F
+**Figure 1:** LCB and MOS in the focal plane of MEGARA at the Folded-Cass F
 focus of GTC. Left: Layout of the monolithic microlens array of the LCB
 placed at the optical axis of the instrument. Center: Hexagons
 representing the patrol areas of the 92 robotic positioners of the
@@ -79,12 +79,12 @@ spectral range.
 
 |image3|
 
-**Figure 2:** *Plots showing the relation between resolving power
+**Figure 2:** Plots showing the relation between resolving power
 :math:`(R_{\rm FWHM})` and wavelength coverage for all 18 MEGARA VPHs and for
 the LCB (left) and MOS (right) modes. Design values (colored lines) and
 measurements (grey lines that correspond to individual fiber spectra, while
 black thick and thin lines represent the mean and mean* :math:`\pm 1\sigma`
-curves when all fiber spectra are used) are both shown.*
+curves when all fiber spectra are used) are both shown.
 
 The details on the different VPHs that can be used with MEGARA is given
 in Table 1. This table also includes the reciprocal (linear) dispersion
