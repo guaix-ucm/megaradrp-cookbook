@@ -88,8 +88,15 @@
 <p>The different recipes in MEGARA DRP use by default a median combination of
 three or more images to obtain an average exposure and thus eliminate cosmic
 rays. However, when exposure times are long, it is not uncommon for the same
-pixel to be affected by a cosmic ray in consecutive exposures. For this reason,
-a procedure has been introduced to address this issue.</p>
+pixel to be affected by a cosmic ray in consecutive exposures.</p>
+<p>The most obvious initial solution is to closely examine the resulting image
+(e.g., the <code class="docutils literal notranslate"><span class="pre">final_rss.fits</span></code> file) and interpolate the defective pixels using
+information from neighboring pixels. However, it may be useful to employ a
+procedure that automatically detects and corrects pixels affected by cosmic
+rays in consecutive images, so that manual interpolation is not necessary. An
+automatic procedure of this kind has been introduced in the <strong>numina</strong> package,
+which can be easily invoked by modifying the default image combination method
+used by MEGARA DRP.</p>
 <section id="the-mediancr-method">
 <h2>The mediancr method<a class="headerlink" href="#the-mediancr-method" title="Link to this heading"></a></h2>
 <div class="admonition warning">
@@ -112,34 +119,37 @@ long exposure times. In general, it is not recommended for the reduction of
 calibration images.</p>
 </div>
 <p>The method can only be employed when there are three or more exposures
-available, and is based on detecting pixels that simultaneously verify two
-different criteria. The first one is shown in the following figure, which is
-automically generated in the <em>work</em> subdirectory with
-the name <code class="docutils literal notranslate"><span class="pre">mediancr_diagnostic.png</span></code>.</p>
-<a class="reference internal image-reference" href="_images/mediancr_diagnostic.png"><img alt="diagnostic diagram to detect cosmic rays in median combination" src="_images/mediancr_diagnostic.png" style="width: 100%;" />
+available, and is based on detecting pixels that simultaneously verify three
+different criteria. The first two of them are shown in the following figure,
+which is automically generated in the <em>work</em> subdirectory with the name
+<code class="docutils literal notranslate"><span class="pre">mediancr_diagnostic.png</span></code>.</p>
+<a class="reference internal image-reference" href="_images/mediancr_diagnostic.png"><img alt="diagnostic diagram to detect double cosmic rays in median combination" src="_images/mediancr_diagnostic.png" style="width: 100%;" />
 </a>
 <p>The three (or more) available individual exposures are arranged into a 3D
 stack, from which it is easy to generate 2D images (with the same dimensions as
 the individual exposures) that contain the minimum value <code class="docutils literal notranslate"><span class="pre">min2d</span></code>, maximum
-value <code class="docutils literal notranslate"><span class="pre">max2d</span></code>, and median value <code class="docutils literal notranslate"><span class="pre">median2d</span></code>. On the vertical axis of the
-previous figure, the difference between the <code class="docutils literal notranslate"><span class="pre">median2d</span></code> and <code class="docutils literal notranslate"><span class="pre">min2d</span></code> of each
-pixel is shown, while the horizontal axis displays <code class="docutils literal notranslate"><span class="pre">min2d</span> <span class="pre">-</span> <span class="pre">bias</span></code>.  The
-different lines correspond to the result of performing numerical simulations
-using the gain, readout noise, bias, and the minimum and maximum flatfield
-values. These simulations are computed for discrete values of <code class="docutils literal notranslate"><span class="pre">min2d</span> <span class="pre">-</span> <span class="pre">bias</span></code>
-(represented as filled circles overimposed on the lines).  For each of these
-values, the percentiles 50 and 98 are computed. Since the simulated values are
-unavoidably noisy, the predictions are fitted using splines (dashed lines,
-which are difficult to see unless a zoom is performed). The exclusion boundary
-(orange line) is computed by extending the difference between the spline fit to
-the percentiles 98 and 50 beyond the spline fit to the percentile 98. This
-extension is controlled by a parameter named <code class="docutils literal notranslate"><span class="pre">times_boundary_extension</span></code> (see
-below).  Pixels that lie above the calculated exclusion boundary are marked as
-suspected of having been hit by a cosmic ray in more than one exposure (red x’s
-in the figure; the total number of pixels is displayed in the legend). An
+value <code class="docutils literal notranslate"><span class="pre">max2d</span></code>, and median value <code class="docutils literal notranslate"><span class="pre">median2d</span></code> at each pixel along the sequence
+of available exposures. On the vertical axis of the previous figure, the
+difference between the <code class="docutils literal notranslate"><span class="pre">median2d</span></code> and <code class="docutils literal notranslate"><span class="pre">min2d</span></code> of each pixel is shown, while
+the horizontal axis displays <code class="docutils literal notranslate"><span class="pre">min2d</span> <span class="pre">-</span> <span class="pre">bias</span></code>.  The different solid lines correspond
+to the result of performing numerical simulations using the gain, readout
+noise, bias, and the minimum and maximum flatfield values. These simulations
+are computed for discrete values of <code class="docutils literal notranslate"><span class="pre">min2d</span> <span class="pre">-</span> <span class="pre">bias</span></code> (represented as filled
+circles overimposed on the lines).  For each of these values, the percentiles
+50 and 98 are computed. Since the simulated values are unavoidably noisy, the
+predictions are fitted using splines (dashed lines, which are difficult to see
+unless a zoom is performed). The exclusion boundary (orange line) is computed
+by extending the difference between the spline fit to the percentiles 98 and 50
+beyond the spline fit to the percentile 98. This extension is controlled by a
+parameter named <code class="docutils literal notranslate"><span class="pre">times_boundary_extension</span></code> (see below).  Pixels that lie
+above the calculated exclusion boundary and above a minimum threshold in the
+vertical axis of the figure (dotted gray line) are initially flagged as
+suspected of having been hit by a cosmic ray in more than one exposure.  An
 additional requirement (not shown) is imposed: the considered pixel must have a
 <code class="docutils literal notranslate"><span class="pre">max2d</span></code> value above three times the readout noise (this avoids pixels with
-negative signal very close to the bias level in the raw images).</p>
+negative signal very close to the bias level in the raw images). The final set
+of suspected pixels are plotted with red x’s in the figure, with the total
+number of pixels displayed in the legend.</p>
 <p><strong>The signal in the suspected pixels is replaced, in the</strong> <code class="docutils literal notranslate"><span class="pre">median2d</span></code>
 <strong>image, by the corresponding</strong> <code class="docutils literal notranslate"><span class="pre">min2d</span></code> <strong>value.</strong> This means that the
 resulting image is identical to <code class="docutils literal notranslate"><span class="pre">median2d</span></code>, except for those corrected
@@ -162,71 +172,83 @@ in the requirements list of the observation result file. For example:</p>
 </span><span class="hll"><span class="linenos">13</span><span class="w">   </span><span class="nt">bias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
 </span><span class="hll"><span class="linenos">14</span><span class="w">   </span><span class="nt">flatmin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
 </span><span class="hll"><span class="linenos">15</span><span class="w">   </span><span class="nt">flatmax</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.5</span>
-</span><span class="hll"><span class="linenos">16</span><span class="w">   </span><span class="nt">times_boundary_extension</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.0</span>
-</span><span class="hll"><span class="linenos">17</span><span class="w">   </span><span class="nt">interactive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
-</span><span class="hll"><span class="linenos">18</span><span class="w">   </span><span class="nt">dilation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-</span><span class="hll"><span class="linenos">19</span><span class="w">   </span><span class="nt">plots</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
-</span><span class="hll"><span class="linenos">20</span><span class="w">   </span><span class="nt">semiwindow</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
-</span><span class="hll"><span class="linenos">21</span><span class="w">   </span><span class="nt">color_scale</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">minmax</span>
-</span><span class="hll"><span class="linenos">22</span><span class="w">   </span><span class="nt">maxplots</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
-</span><span class="linenos">23</span><span class="w"> </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+3.0</span><span class="p p-Indicator">]</span>
-<span class="linenos">24</span><span class="w"> </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extinction_LP.txt</span>
-<span class="linenos">25</span><span class="w"> </span><span class="nt">ignored_sky_bundles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">96</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1">#[93, 94, 96, 97, 99, 100]</span>
+</span><span class="hll"><span class="linenos">16</span><span class="w">   </span><span class="nt">knots_splfit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+</span><span class="hll"><span class="linenos">17</span><span class="w">   </span><span class="nt">times_boundary_extension</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.0</span>
+</span><span class="hll"><span class="linenos">18</span><span class="w">   </span><span class="nt">threshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Null</span>
+</span><span class="hll"><span class="linenos">19</span><span class="w">   </span><span class="nt">minimum_max2d_rnoise</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5.0</span>
+</span><span class="hll"><span class="linenos">20</span><span class="w">   </span><span class="nt">interactive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</span><span class="hll"><span class="linenos">21</span><span class="w">   </span><span class="nt">dilation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span class="hll"><span class="linenos">22</span><span class="w">   </span><span class="nt">plots</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</span><span class="hll"><span class="linenos">23</span><span class="w">   </span><span class="nt">semiwindow</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
+</span><span class="hll"><span class="linenos">24</span><span class="w">   </span><span class="nt">color_scale</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">minmax</span>
+</span><span class="hll"><span class="linenos">25</span><span class="w">   </span><span class="nt">maxplots</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+</span><span class="linenos">26</span><span class="w"> </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+3.0</span><span class="p p-Indicator">]</span>
+<span class="linenos">27</span><span class="w"> </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extinction_LP.txt</span>
+<span class="linenos">28</span><span class="w"> </span><span class="nt">ignored_sky_bundles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">96</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1">#[93, 94, 96, 97, 99, 100]</span>
 </pre></div>
 </div>
 <p>It is important to note that, in addition to specifying the method as <code class="docutils literal notranslate"><span class="pre">method:</span>
 <span class="pre">mediancr</span></code>, some additional parameters must also be provided under the
 <code class="docutils literal notranslate"><span class="pre">method_kwargs:</span></code> key, in particular:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">gain</span></code>: the detector gain (electron/ADU). Although the MEGARA detector
+<li><p><code class="docutils literal notranslate"><span class="pre">gain</span></code>: detector gain (electron/ADU). Although the MEGARA detector
 exhibits two different gains (1.60 and 1.73; one value for each detector
 half), here we can use a single value.  This is not critical because the two
 values are not very different and the detection criterium is more sensitive
 to the following parameters.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">rnoise</span></code>: the readout noise (ADU)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rnoise</span></code>: readout noise (ADU)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">bias</span></code> (default value 0.0): bias value (ADU). <strong>This must be set to zero
 for MEGARA because the code that applies the mediancr method receives
 preprocessed exposures where the bias level has already been subtracted.</strong></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">flatmin</span></code> (default 1.0): the minimum simulated normalized flatfield value.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">flatmax</span></code> (default 1.0): the maximum simulated normalized flatfield value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">flatmin</span></code> (default 1.0): minimum simulated normalized flatfield value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">flatmax</span></code> (default 1.0): maximum simulated normalized flatfield value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">knots_splfit</span></code> (default 3): number of inner knots employed in the spline
+fit to the simulated boundary data.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">times_boundary_extension</span></code> (default 3.0): number of times that the vertical
 distance between the percentiles 98 and 50 of the simulated data is employed
 to define the exclusion boundary beyond the percentile 98.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">threshold</span></code> (default Null; this value in the YAML file is converted to None
+in Python): minimum threshold for <code class="docutils literal notranslate"><span class="pre">median2d</span> <span class="pre">-</span> <span class="pre">min2d</span></code> to consider a pixel as
+a double cosmic ray. If None, the threshold is computed automatically from the
+minimum boundary value in the numerical simulations.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">minimum_max2d_rnoise</span></code> (default 5.0): minimum value of <code class="docutils literal notranslate"><span class="pre">max2d</span></code> in
+readout noise units to consider a pixel as a double cosmic ray. This avoids
+false positives when a pixel exhibits a large negative value in one of the
+individual exposures.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">interactive</span></code> (default False): if True, the code generates an interactive
 matplotlib plot with the diagnostic diagram (allowing the user to use the
 zoom and pan buttons). It is very convenient to set this parameter to True,
 interactively examine the diagnostic diagram, stop the program execution, and
-try changing the values of <code class="docutils literal notranslate"><span class="pre">flatmin</span></code>, <code class="docutils literal notranslate"><span class="pre">flatmax</span></code>, and
-<code class="docutils literal notranslate"><span class="pre">times_boundary_extension</span></code>. Other parameters such as <code class="docutils literal notranslate"><span class="pre">rnoise</span></code> and
-<code class="docutils literal notranslate"><span class="pre">gain</span></code> can also be modified, although the user should take into account
-that the objective is to find an automatic way to select uncorrected cosmic
-rays, not to make use of realistic values of gain, readout noise or flatfield
-variation. Note that the values of <code class="docutils literal notranslate"><span class="pre">flatmin</span></code> and <code class="docutils literal notranslate"><span class="pre">flatmax</span></code> can be used
-to allow the simulations to account, to some extent, for the effect of signal
-variations in different MEGARA exposures. This can happen, for example, in
-sky lines (when exposure times are long), or due to small shifts in the
-telescope pointing.</p></li>
+try changing the values of <code class="docutils literal notranslate"><span class="pre">flatmin</span></code>, <code class="docutils literal notranslate"><span class="pre">flatmax</span></code>,
+<code class="docutils literal notranslate"><span class="pre">times_boundary_extension</span></code> and <code class="docutils literal notranslate"><span class="pre">threshold</span></code>. Other parameters such as
+<code class="docutils literal notranslate"><span class="pre">rnoise</span></code> and <code class="docutils literal notranslate"><span class="pre">gain</span></code> can also be modified, although the user should take
+into account that the objective is to find an automatic way to select
+uncorrected cosmic rays, not to make use of realistic values of gain, readout
+noise or flatfield variation. Note that the values of <code class="docutils literal notranslate"><span class="pre">flatmin</span></code> and
+<code class="docutils literal notranslate"><span class="pre">flatmax</span></code> can be used to allow the simulations to account, to some extent,
+for the effect of signal variations in different MEGARA exposures. This can
+happen, for example, in sky lines (when exposure times are long), or due to
+small shifts in the telescope pointing.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">dilation</span></code> (default 1): the pixels composing each cosmic ray can be
 surrounded by a dilation factor, which expands the mask around the detected
 cosmic ray pixels. A value of zero means that no dilation is applied.
 Typically a value of 1 is useful, since it allow to replace the tails of
 cosmic rays (whose pixels exhibit a lower signal).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">plots</span></code> (default False): if True, a PDF file called
-<code class="docutils literal notranslate"><span class="pre">mediancr_identified_cr.pdf</span></code> is
-generated with the individual double cosmic rays identified.
-Note that enabling this option may introduce a noticeable penalty in
-execution time.</p></li>
+<code class="docutils literal notranslate"><span class="pre">mediancr_identified_cr.pdf</span></code> is generated with the individual double cosmic
+rays identified. Note that enabling this option may introduce a noticeable
+penalty in execution time.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">semiwindow</span></code> (default 15): the semiwindow size to plot the double cosmic
 rays. Only used if <code class="docutils literal notranslate"><span class="pre">plots</span></code> is True.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">color_scale</span></code> (default minmax): the color scale employed in the
 <code class="docutils literal notranslate"><span class="pre">mediancr_identified_cr.pdf</span></code> images. Only used if <code class="docutils literal notranslate"><span class="pre">plots</span></code> is True. The
 valid options are minmax and zscale.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">maxplots</span></code> (default 10): the maximum number of suspicious cosmic rays to
-display. Note that setting a limit is useful when experimenting with the
-previous values of <code class="docutils literal notranslate"><span class="pre">gain</span></code>, <code class="docutils literal notranslate"><span class="pre">rnoise</span></code>, etc., as it prevents
-generating an excessively large number of plots due to false positive
-detections. A negative value indicates that all the suspected double CR are
-displayed. This option is only used if <code class="docutils literal notranslate"><span class="pre">plots</span></code> is True.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxplots</span></code> (default 10): the maximum number of suspicious double cosmic
+rays to display. Note that setting a limit is useful when experimenting with
+the previous values of <code class="docutils literal notranslate"><span class="pre">gain</span></code>, <code class="docutils literal notranslate"><span class="pre">rnoise</span></code>, etc., as it prevents generating
+an excessively large number of plots due to false positive detections. A
+negative value indicates that all the suspected double CR are displayed. This
+option is only used if <code class="docutils literal notranslate"><span class="pre">plots</span></code> is True.</p></li>
 </ul>
 <p>Pixels suspected of having been affected by cosmic rays in two of the
 available exposures are grouped when they form a connected cluster. These are
