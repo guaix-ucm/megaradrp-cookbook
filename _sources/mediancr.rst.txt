@@ -93,12 +93,15 @@ in the requirements list of the observation result file. For example:
    :language: yaml
    :linenos:
    :lineno-start: 1
-   :emphasize-lines: 9-25
+   :emphasize-lines: 9-27
 
 It is important to note that, in addition to specifying the method as ``method:
 mediancr``, some additional parameters must also be provided under the
 ``method_kwargs:`` key, in particular:
 
+- ``find_double_cr`` (default True): if True, apply the double cosmic ray
+  detection algorithm. If False, the function will only compute the median
+  without detecting double cosmic rays.
 - ``gain``: detector gain (electron/ADU). Although the MEGARA detector
   exhibits two different gains (1.60 and 1.73; one value for each detector
   half), here we can use a single value.  This is not critical because the two
@@ -112,13 +115,15 @@ mediancr``, some additional parameters must also be provided under the
 - ``flatmax`` (default 1.0): maximum simulated normalized flatfield value.
 - ``knots_splfit`` (default 3): number of inner knots employed in the spline
   fit to the simulated boundary data.
+- ``nsimulations`` (default 10000): number of simulations to perform for each
+  point in the exclusion boundary.
 - ``times_boundary_extension`` (default 3.0): number of times that the vertical
   distance between the percentiles 98 and 50 of the simulated data is employed
   to define the exclusion boundary beyond the percentile 98.
 - ``threshold`` (default Null; this value in the YAML file is converted to None
   in Python): minimum threshold for ``median2d - min2d`` to consider a pixel as
-  a double cosmic ray. If None, the threshold is computed automatically from the
-  minimum boundary value in the numerical simulations.
+  a double cosmic ray. If None, the threshold is computed automatically from
+  the minimum boundary value in the numerical simulations.
 - ``minimum_max2d_rnoise`` (default 5.0): minimum value of ``max2d`` in
   readout noise units to consider a pixel as a double cosmic ray. This avoids
   false positives when a pixel exhibits a large negative value in one of the

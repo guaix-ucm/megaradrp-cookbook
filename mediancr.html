@@ -167,30 +167,35 @@ in the requirements list of the observation result file. For example:</p>
 <span class="linenos"> 8</span><span class="nt">requirements</span><span class="p">:</span>
 <span class="hll"><span class="linenos"> 9</span><span class="w"> </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mediancr</span>
 </span><span class="hll"><span class="linenos">10</span><span class="w"> </span><span class="nt">method_kwargs</span><span class="p">:</span>
-</span><span class="hll"><span class="linenos">11</span><span class="w">   </span><span class="nt">gain</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.6</span>
-</span><span class="hll"><span class="linenos">12</span><span class="w">   </span><span class="nt">rnoise</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.5</span>
-</span><span class="hll"><span class="linenos">13</span><span class="w">   </span><span class="nt">bias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
-</span><span class="hll"><span class="linenos">14</span><span class="w">   </span><span class="nt">flatmin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
-</span><span class="hll"><span class="linenos">15</span><span class="w">   </span><span class="nt">flatmax</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.5</span>
-</span><span class="hll"><span class="linenos">16</span><span class="w">   </span><span class="nt">knots_splfit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
-</span><span class="hll"><span class="linenos">17</span><span class="w">   </span><span class="nt">times_boundary_extension</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.0</span>
-</span><span class="hll"><span class="linenos">18</span><span class="w">   </span><span class="nt">threshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Null</span>
-</span><span class="hll"><span class="linenos">19</span><span class="w">   </span><span class="nt">minimum_max2d_rnoise</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5.0</span>
-</span><span class="hll"><span class="linenos">20</span><span class="w">   </span><span class="nt">interactive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
-</span><span class="hll"><span class="linenos">21</span><span class="w">   </span><span class="nt">dilation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-</span><span class="hll"><span class="linenos">22</span><span class="w">   </span><span class="nt">plots</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
-</span><span class="hll"><span class="linenos">23</span><span class="w">   </span><span class="nt">semiwindow</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
-</span><span class="hll"><span class="linenos">24</span><span class="w">   </span><span class="nt">color_scale</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">minmax</span>
-</span><span class="hll"><span class="linenos">25</span><span class="w">   </span><span class="nt">maxplots</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
-</span><span class="linenos">26</span><span class="w"> </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+3.0</span><span class="p p-Indicator">]</span>
-<span class="linenos">27</span><span class="w"> </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extinction_LP.txt</span>
-<span class="linenos">28</span><span class="w"> </span><span class="nt">ignored_sky_bundles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">96</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1">#[93, 94, 96, 97, 99, 100]</span>
+</span><span class="hll"><span class="linenos">11</span><span class="w">   </span><span class="nt">find_double_cr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</span><span class="hll"><span class="linenos">12</span><span class="w">   </span><span class="nt">gain</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.6</span>
+</span><span class="hll"><span class="linenos">13</span><span class="w">   </span><span class="nt">rnoise</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.5</span>
+</span><span class="hll"><span class="linenos">14</span><span class="w">   </span><span class="nt">bias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+</span><span class="hll"><span class="linenos">15</span><span class="w">   </span><span class="nt">flatmin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
+</span><span class="hll"><span class="linenos">16</span><span class="w">   </span><span class="nt">flatmax</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.5</span>
+</span><span class="hll"><span class="linenos">17</span><span class="w">   </span><span class="nt">knots_splfit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+</span><span class="hll"><span class="linenos">18</span><span class="w">   </span><span class="nt">nsimulations</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10000</span>
+</span><span class="hll"><span class="linenos">19</span><span class="w">   </span><span class="nt">times_boundary_extension</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0</span>
+</span><span class="hll"><span class="linenos">20</span><span class="w">   </span><span class="nt">threshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+</span><span class="hll"><span class="linenos">21</span><span class="w">   </span><span class="nt">minimum_max2d_rnoise</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5.0</span>
+</span><span class="hll"><span class="linenos">22</span><span class="w">   </span><span class="nt">interactive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</span><span class="hll"><span class="linenos">23</span><span class="w">   </span><span class="nt">dilation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span class="hll"><span class="linenos">24</span><span class="w">   </span><span class="nt">plots</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</span><span class="hll"><span class="linenos">25</span><span class="w">   </span><span class="nt">semiwindow</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
+</span><span class="hll"><span class="linenos">26</span><span class="w">   </span><span class="nt">color_scale</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">minmax</span>
+</span><span class="hll"><span class="linenos">27</span><span class="w">   </span><span class="nt">maxplots</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-1</span>
+</span><span class="linenos">28</span><span class="w"> </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+3.0</span><span class="p p-Indicator">]</span>
+<span class="linenos">29</span><span class="w"> </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extinction_LP.txt</span>
+<span class="linenos">30</span><span class="w"> </span><span class="nt">ignored_sky_bundles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">96</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1">#[93, 94, 96, 97, 99, 100]</span>
 </pre></div>
 </div>
 <p>It is important to note that, in addition to specifying the method as <code class="docutils literal notranslate"><span class="pre">method:</span>
 <span class="pre">mediancr</span></code>, some additional parameters must also be provided under the
 <code class="docutils literal notranslate"><span class="pre">method_kwargs:</span></code> key, in particular:</p>
 <ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">find_double_cr</span></code> (default True): if True, apply the double cosmic ray
+detection algorithm. If False, the function will only compute the median
+without detecting double cosmic rays.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">gain</span></code>: detector gain (electron/ADU). Although the MEGARA detector
 exhibits two different gains (1.60 and 1.73; one value for each detector
 half), here we can use a single value.  This is not critical because the two
@@ -204,13 +209,15 @@ preprocessed exposures where the bias level has already been subtracted.</strong
 <li><p><code class="docutils literal notranslate"><span class="pre">flatmax</span></code> (default 1.0): maximum simulated normalized flatfield value.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">knots_splfit</span></code> (default 3): number of inner knots employed in the spline
 fit to the simulated boundary data.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nsimulations</span></code> (default 10000): number of simulations to perform for each
+point in the exclusion boundary.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">times_boundary_extension</span></code> (default 3.0): number of times that the vertical
 distance between the percentiles 98 and 50 of the simulated data is employed
 to define the exclusion boundary beyond the percentile 98.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">threshold</span></code> (default Null; this value in the YAML file is converted to None
 in Python): minimum threshold for <code class="docutils literal notranslate"><span class="pre">median2d</span> <span class="pre">-</span> <span class="pre">min2d</span></code> to consider a pixel as
-a double cosmic ray. If None, the threshold is computed automatically from the
-minimum boundary value in the numerical simulations.</p></li>
+a double cosmic ray. If None, the threshold is computed automatically from
+the minimum boundary value in the numerical simulations.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">minimum_max2d_rnoise</span></code> (default 5.0): minimum value of <code class="docutils literal notranslate"><span class="pre">max2d</span></code> in
 readout noise units to consider a pixel as a double cosmic ray. This avoids
 false positives when a pixel exhibits a large negative value in one of the
