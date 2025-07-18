@@ -8,7 +8,7 @@ It has been detected that in some MEGARA observations where spectra with very
 bright emission lines are obtained, a spurious signal may appear near the tails
 of those lines. It is believed that the issue may be due to moisture
 condensation that, when present, results in a extended low-surface-brightness
-spherical halo (at 0.6% of the peak level) in the LSF.
+spherical halo (at ~0.5% of the peak level) in the LSF.
 
 This is an example of a raw Th-Ne arc exposure, using the HR-R VPH:
 
