@@ -18,6 +18,11 @@ automatic procedure of this kind has been introduced in the **numina** package,
 which can be easily invoked by modifying the default image combination method
 used by MEGARA DRP.
 
+.. warning::
+
+   This functionality is still in development... please do not use it until
+   this warning notice is removed.
+
 
 The mediancr method
 ===================
@@ -60,25 +65,25 @@ the individual exposures) that contain the minimum value ``min2d``, maximum
 value ``max2d``, and median value ``median2d`` at each pixel along the sequence
 of available exposures. On the vertical axis of the previous figure, the
 difference between the ``median2d`` and ``min2d`` of each pixel is shown, while
-the horizontal axis displays ``min2d - bias``.  The different solid lines correspond
-to the result of performing numerical simulations using the gain, readout
-noise, bias, and the minimum and maximum flatfield values. These simulations
-are computed for discrete values of ``min2d - bias`` (represented as filled
-circles overimposed on the lines).  For each of these values, the percentiles
-50 and 98 are computed. Since the simulated values are unavoidably noisy, the
-predictions are fitted using splines (dashed lines, which are difficult to see
-unless a zoom is performed). The exclusion boundary (orange line) is computed
-by extending the difference between the spline fit to the percentiles 98 and 50
-beyond the spline fit to the percentile 98. This extension is controlled by a
-parameter named ``times_boundary_extension`` (see below).  Pixels that lie
-above the calculated exclusion boundary and above a minimum threshold in the
-vertical axis of the figure (dotted gray line) are initially flagged as
-suspected of having been hit by a cosmic ray in more than one exposure.  An
-additional requirement (not shown) is imposed: the considered pixel must have a
-``max2d`` value above three times the readout noise (this avoids pixels with
-negative signal very close to the bias level in the raw images). The final set
-of suspected pixels are plotted with red x's in the figure, with the total
-number of pixels displayed in the legend.
+the horizontal axis displays ``min2d - bias``.  The different solid lines
+correspond to the result of performing numerical simulations using the gain,
+readout noise, bias, and two ad hoc parameters that can take into account flux
+variations between different exposures. These simulations are computed for
+discrete values of ``min2d - bias`` (represented as filled circles overimposed
+on the lines). For each of these values, the percentiles 50 and 98 are
+computed. Since the simulated values are unavoidably noisy, the predictions are
+fitted using splines (dashed lines). The exclusion boundary (orange line) is
+computed by extending the difference between the spline fit to the percentiles
+98 and 50 beyond the spline fit to the percentile 98. This extension is
+controlled by a parameter named ``times_boundary_extension`` (see below).
+Pixels that lie above the calculated exclusion boundary and above a minimum
+threshold in the vertical axis of the figure (dotted gray line) are initially
+flagged as suspected of having been hit by a cosmic ray in more than one
+exposure.  An additional requirement (not shown) is imposed: the considered
+pixel must have a ``max2d`` value above three times the readout noise (this
+avoids pixels with negative signal very close to the bias level in the raw
+images). The final set of suspected pixels are plotted with red x's in the
+figure, with the total number of pixels displayed in the legend.
 
 **The signal in the suspected pixels is replaced, in the** ``median2d``
 **image, by the corresponding** ``min2d`` **value.** This means that the
@@ -99,9 +104,6 @@ It is important to note that, in addition to specifying the method as ``method:
 mediancr``, some additional parameters must also be provided under the
 ``method_kwargs:`` key, in particular:
 
-- ``find_double_cr`` (default True): if True, apply the double cosmic ray
-  detection algorithm. If False, the function will only compute the median
-  without detecting double cosmic rays.
 - ``gain``: detector gain (electron/ADU). Although the MEGARA detector
   exhibits two different gains (1.60 and 1.73; one value for each detector
   half), here we can use a single value.  This is not critical because the two
@@ -110,9 +112,16 @@ mediancr``, some additional parameters must also be provided under the
 - ``rnoise``: readout noise (ADU)
 - ``bias`` (default value 0.0): bias value (ADU). **This must be set to zero
   for MEGARA because the code that applies the mediancr method receives
-  preprocessed exposures where the bias level has already been subtracted.**
-- ``flatmin`` (default 1.0): minimum simulated normalized flatfield value.
-- ``flatmax`` (default 1.0): maximum simulated normalized flatfield value.
+  preprocessed exposures where the overscan level has already been
+  subtracted.**
+- ``flux_variation_min`` (default 1.0): minimum simulated flux variation
+  value.
+- ``flux_variation_max`` (default 1.0): maximum simulated flux variation value.
+  The simulated data is modified by a multiplicative factor that is randomly
+  chosen from a uniform distribution ranging from ``flux_variation_min`` to
+  ``flux_variation_max``.
+- ``ntest`` (default 100): number of points along the x-axis in the diagnostic
+  diagram to sample for the boundary.
 - ``knots_splfit`` (default 3): number of inner knots employed in the spline
   fit to the simulated boundary data.
 - ``nsimulations`` (default 10000): number of simulations to perform for each
@@ -132,16 +141,16 @@ mediancr``, some additional parameters must also be provided under the
   matplotlib plot with the diagnostic diagram (allowing the user to use the
   zoom and pan buttons). It is very convenient to set this parameter to True,
   interactively examine the diagnostic diagram, stop the program execution, and
-  try changing the values of ``flatmin``, ``flatmax``,
+  try changing the values of ``flux_variation_min``, ``flux_variation_max``,
   ``times_boundary_extension`` and ``threshold``. Other parameters such as
   ``rnoise`` and ``gain`` can also be modified, although the user should take
   into account that the objective is to find an automatic way to select
   uncorrected cosmic rays, not to make use of realistic values of gain, readout
-  noise or flatfield variation. Note that the values of ``flatmin`` and
-  ``flatmax`` can be used to allow the simulations to account, to some extent,
-  for the effect of signal variations in different MEGARA exposures. This can
-  happen, for example, in sky lines (when exposure times are long), or due to
-  small shifts in the telescope pointing.
+  or readout noise. Note that the values of ``flux_variation_min`` and
+  ``flux_variation_max`` can be used to allow the simulations to account, to
+  some extent, for the effect of signal variations in different MEGARA
+  exposures. This can happen, for example, in sky lines (when exposure times
+  are long), or due to small shifts in the telescope pointing.
 - ``dilation`` (default 1): the pixels composing each cosmic ray can be
   surrounded by a dilation factor, which expands the mask around the detected
   cosmic ray pixels. A value of zero means that no dilation is applied.
@@ -151,8 +160,8 @@ mediancr``, some additional parameters must also be provided under the
   ``mediancr_identified_cr.pdf`` is generated with the individual double cosmic
   rays identified. Note that enabling this option may introduce a noticeable
   penalty in execution time.
-- ``semiwindow`` (default 15): the semiwindow size to plot the double cosmic
-  rays. Only used if ``plots`` is True.
+- ``semiwindow`` (default 15): the semiwindow size (pixels) to plot the double
+  cosmic rays. Only used if ``plots`` is True.
 - ``color_scale`` (default minmax): the color scale employed in the
   ``mediancr_identified_cr.pdf`` images. Only used if ``plots`` is True. The
   valid options are minmax and zscale.
