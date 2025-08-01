@@ -482,6 +482,8 @@ parameter <code class="docutils literal notranslate"><span class="pre">--link-fi
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>1_TraceMap.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
 </pre></div>
 </div>
+<p><em>Note:</em> in recent versions of <code class="docutils literal notranslate"><span class="pre">numina</span></code> this is no longer necessary since the
+default behavior assumes <code class="docutils literal notranslate"><span class="pre">--link-files</span></code>.</p>
 <p>Other useful <strong>numina</strong> commands include:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>show-modes
 
@@ -577,7 +579,7 @@ median.</p>
 </pre></div>
 </div>
 <p>The recipe is run as follows,</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>0_Bias.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>0_Bias.yaml<span class="w"> </span>-r<span class="w"> </span>../control.yaml
 </pre></div>
 </div>
 <p>and the products are stored in the directory <code class="docutils literal notranslate"><span class="pre">obsid0_Bias_results/</span></code>,
@@ -676,7 +678,7 @@ of the fibers. The result is stored in a file named
 <p>An example of the observation result file <code class="docutils literal notranslate"><span class="pre">1_TraceMap.yaml</span></code> to trace the
 fibers is the following:</p>
 <p>Then the recipe is run by doing:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>1_TraceMap.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>1_TraceMap.yaml<span class="w"> </span>-r<span class="w"> </span>../control.yaml
 </pre></div>
 </div>
 <p>Images listed in the observation-result file are trimmed and corrected
@@ -787,7 +789,7 @@ required to perform <strong>advanced</strong> fiber extraction in other recipes.
 <p>The set of files listed in the observation-result file <code class="docutils literal notranslate"><span class="pre">2_ModelMap.yaml</span></code>
 is the same one used for the Trace Map.</p>
 <p>Then the recipe is run by doing:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>2_ModelMap.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>2_ModelMap.yaml<span class="w"> </span>-r<span class="w"> </span>../control.yaml
 </pre></div>
 </div>
 <p>This processing step might take several minutes (from 10-40 min.)
@@ -880,7 +882,7 @@ parameter.</p>
 In the example below, three frames for arc lamp exposures are included
 and the offset for the extraction is set to 0 pixels:</p>
 <p>Then the recipe is run by doing:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>3_WaveCalib.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>3_WaveCalib.yaml<span class="w"> </span>-r<span class="w"> </span>../control.yaml
 </pre></div>
 </div>
 <p>Images provided in <code class="docutils literal notranslate"><span class="pre">3_WaveCalib.yaml</span></code> are trimmed and corrected from
@@ -992,7 +994,7 @@ subdirectory that contains a fictitious flatfield image where all values are
 set to 1.0. For the wavelength calibration check, we do not need to use a
 correct master fiberflat image.</p>
 <p>Then the recipe is run by doing:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>3_WaveCalib_check.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>3_WaveCalib_check.yaml<span class="w"> </span>-r<span class="w"> </span>../control.yaml
 </pre></div>
 </div>
 <p>The image to be examined is
@@ -1023,7 +1025,7 @@ detector for the same specific spectral setup, the <code class="docutils literal
 parameter should be set to 0 pixels. If that is note the case the offset should
 be evaluated and computed as detailed in Section <a class="reference internal" href="#wavelength-calibration"><span class="std std-ref">Wavelength Calibration</span></a>.</p>
 <p>Then the recipe is run by doing:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>4_FiberFlat.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>4_FiberFlat.yaml<span class="w"> </span>-r<span class="w"> </span>../control.yaml
 </pre></div>
 </div>
 <p>All images listed in the observation-result file are trimmed and corrected from
@@ -1124,7 +1126,7 @@ detailed in section <a class="reference internal" href="#wavelength-calibration"
 (LCB, HR-R) with the computed traces (<code class="docutils literal notranslate"><span class="pre">ds9_raw.reg</span></code> file) on top. In this
 case a <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> of +2.5 pixels was needed.</p>
 <p>Then the recipe is run by doing:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>5_TwilightFlat.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>5_TwilightFlat.yaml<span class="w"> </span>-r<span class="w"> </span>../control.yaml
 </pre></div>
 </div>
 <p>Images provided in the observation-result file are trimmed and corrected
@@ -1228,7 +1230,7 @@ spectrophotometric standard star exposures are here listed:</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> parameter can be computed as detailed in section
 <a class="reference internal" href="#wavelength-calibration"><span class="std std-ref">Wavelength Calibration</span></a>.</p>
 <p>Then the recipe is run by doing:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>6_LcbAdquisition.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>6_LcbAdquisition.yaml<span class="w"> </span>-r<span class="w"> </span>../control.yaml
 </pre></div>
 </div>
 <p>Images provided in observation-result file are trimmed and corrected from
@@ -1338,7 +1340,7 @@ tabulated spectra have reciprocal dispersions that can be as high as 50
 be ignored when the sky spectrum is computed (see more details in section
 <a class="reference internal" href="#scientific-observation"><span class="std std-ref">LCB IFU/MOS scientific observation</span></a> below).</p>
 <p>Then the recipe is run by doing:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>7_StandardStar.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>7_StandardStar.yaml<span class="w"> </span>-r<span class="w"> </span>../control.yaml
 </pre></div>
 </div>
 <p>Images provided in the observation-result file are trimmed and corrected from
@@ -1598,7 +1600,7 @@ perform any sky subtraction to the target data.</p>
 </pre></div>
 </div>
 <p>Then the recipe is run by doing:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>8_LcbImage.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>8_LcbImage.yaml<span class="w"> </span>-r<span class="w"> </span>../control.yaml
 </pre></div>
 </div>
 <p>Images provided in the observation-result file are trimmed and corrected

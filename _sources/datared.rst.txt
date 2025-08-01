@@ -369,6 +369,9 @@ parameter ``--link-files``:
 
    (megara) $ numina run 1_TraceMap.yaml --link-files -r ../control.yaml
 
+*Note:* in recent versions of ``numina`` this is no longer necessary since the
+default behavior assumes ``--link-files``.
+
 Other useful **numina** commands include:
 
 .. code-block:: console
@@ -472,7 +475,7 @@ The recipe is run as follows,
 
 .. code-block:: console
 
-   (megara) $ numina run 0_Bias.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 0_Bias.yaml -r ../control.yaml
 
 and the products are stored in the directory ``obsid0_Bias_results/``,
 including the ``master_bias.fits`` file (see **Figure 4**). 
@@ -597,7 +600,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 1_TraceMap.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 1_TraceMap.yaml -r ../control.yaml
 
 Images listed in the observation-result file are trimmed and corrected
 from overscan, bad-pixel mask (if ``master_bpm.fits`` is present in the
@@ -733,7 +736,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 2_ModelMap.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 2_ModelMap.yaml -r ../control.yaml
 
 This processing step might take several minutes (from 10-40 min.)
 depending on the hardware used. When a model map is used the running
@@ -852,7 +855,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 3_WaveCalib.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 3_WaveCalib.yaml -r ../control.yaml
 
 Images provided in ``3_WaveCalib.yaml`` are trimmed and corrected from
 overscan, bad-pixel mask (if ``master_bpm.fits`` is present in the calibration
@@ -975,7 +978,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 3_WaveCalib_check.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 3_WaveCalib_check.yaml -r ../control.yaml
 
 The image to be examined is
 ``obsid3_WaveCalib_check_HR-R_results/reduced_rss.fits``. In this image, all
@@ -1020,7 +1023,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-  (megara) $ numina run 4_FiberFlat.yaml --link-files -r ../control.yaml
+  (megara) $ numina run 4_FiberFlat.yaml -r ../control.yaml
 
 All images listed in the observation-result file are trimmed and corrected from
 overscan, bad pixel mask (if ``master_bpm.fits`` is present in the calibration
@@ -1134,7 +1137,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 5_TwilightFlat.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 5_TwilightFlat.yaml -r ../control.yaml
 
 Images provided in the observation-result file are trimmed and corrected
 from overscan, bad pixel mask (if ``master_bpm`` is present), bias and
@@ -1258,7 +1261,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 6_LcbAdquisition.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 6_LcbAdquisition.yaml -r ../control.yaml
 
 Images provided in observation-result file are trimmed and corrected from
 overscan, bad pixel mask (if ``master_bpm.fits`` is present in the calibration
@@ -1388,7 +1391,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 7_StandardStar.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 7_StandardStar.yaml -r ../control.yaml
 
 Images provided in the observation-result file are trimmed and corrected from
 overscan, bad pixel mask (if ``master_bpm.fits`` is present in the calibration
@@ -1586,7 +1589,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 8_LcbImage.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 8_LcbImage.yaml -r ../control.yaml
 
 Images provided in the observation-result file are trimmed and corrected
 from overscan, bad pixel mask (if ``master_bpm.fits`` is present in the

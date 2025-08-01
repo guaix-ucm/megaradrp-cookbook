@@ -31,7 +31,7 @@ the traces are determined, e.g.
 
 .. code-block:: console
 
-   (megara) $ numina run 1_tracemap.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 1_tracemap.yaml -r ../control.yaml
    ...
    ...
    INFO: start trace recipe QC
