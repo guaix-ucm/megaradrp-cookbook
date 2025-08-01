@@ -24,7 +24,7 @@ available on this `webpage
    datared
    healtraces
    brightlines
-   mediancr
+   crmasks
    megaratools
    issues
    acronyms
