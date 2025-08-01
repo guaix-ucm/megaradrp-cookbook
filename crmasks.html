@@ -114,99 +114,99 @@
 consolidated. Some future modifications may be introduced as more testing
 is conducted with new images.</p>
 </div>
-<p>The different recipes in MEGARA DRP use by default a median combination of
-three or more images to obtain an average exposure and thus eliminate cosmic
-rays. However, when exposure times are long, it is not uncommon for the same
-pixel to be affected by a cosmic ray in consecutive exposures.</p>
-<p>The most obvious initial solution is to closely examine the resulting image
-(e.g., the <code class="docutils literal notranslate"><span class="pre">final_rss.fits</span></code> file) and interpolate the defective pixels using
-information from neighboring pixels. However, it may be useful to employ a
-procedure that automatically detects and corrects pixels affected by cosmic
-rays in consecutive images, so that manual interpolation is not necessary. An
-automatic procedure of this kind has been introduced in the <strong>numina</strong> package,
-which can be easily invoked by modifying the default image combination method
-used by MEGARA DRP.</p>
+<p>By default, the various recipes in MEGARA DRP use a median combination of three
+or more images to produce an average exposure and eliminate cosmic rays.
+However, when exposure times are long, it’s not uncommon for the same pixel to
+be hit by a cosmic ray in consecutive exposures.</p>
+<p>The most straightforward solution is to visually inspect the resulting image
+(e.g., the <code class="docutils literal notranslate"><span class="pre">final_rss.fits</span></code> file) and manually interpolate the affected pixels
+using data from neighboring pixels. However, it can be more efficient to use an
+automated procedure that detects and corrects pixels impacted by cosmic rays
+across multiple exposures, eliminating the need for manual intervention.</p>
+<p>Such an automatic method is available in the numina package, and it can be
+easily activated by modifying the default image combination method used by
+MEGARA DRP.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>It is important to note that the ad hoc method described here is susceptible
-to detecting false positives and should be tested and compared with the
+<p>It’s important to note that the <em>ad hoc</em> method described here is prone to
+detecting false positives and should be tested and compared against the
 default method (simple median combination).</p>
-<p><strong>The method has been tested on a limited subset of images and is not
-guaranteed to work optimally in general cases. Users should be aware of this
-limitation and use the method at their own discretion.</strong></p>
-<p>By properly adjusting the detection parameters, <strong>typically by trial and
-error</strong>, it is possible to minimize the number of false detections. On the
-other hand, the signal in pixels affected by a false multiple cosmic ray
-detection is replaced either by the minimum value at each pixel (across the
-available exposures) or by the median (depending on the chosen combination
-method), so the impact on the combined image is not expected to
-be severe. The benefit of automatically removing pixels affected by more
-than one cosmic ray in the different exposures can outweigh this effect.</p>
-<p>The described method is likely only useful when reducing science images with
-long exposure times. In general, it is not recommended for the reduction of
-calibration images.</p>
+<p><strong>This method has only been tested on a limited subset of images and is not
+guaranteed to perform optimally in all cases. Users should be aware of this
+limitation and apply the method at their own discretion.</strong></p>
+<p>By carefully adjusting the detection parameters, typically through trial and
+error, it’s possible to reduce the number of false detections. When a pixel
+is incorrectly flagged as affected by multiple cosmic rays, its signal is
+replaced either by the minimum value across exposures or by the median,
+depending on the selected combination method. As a result, the impact on the
+final combined image is generally minimal. In many cases, the benefit of
+automatically removing pixels affected by multiple cosmic rays across
+exposures outweighs this drawback.</p>
+<p>This method is likely to be useful primarily when reducing science images
+with long exposure times. In general, it is not recommended for the
+reduction of calibration images.</p>
 </div>
 <section id="overall-description">
 <h2>Overall description<a class="headerlink" href="#overall-description" title="Link to this heading"></a></h2>
-<p>The method can only be employed when there are three or more <strong>equivalent</strong>
-exposures available, and is based on detecting pixels that exhibit an
-unexpected location in a diagnostic diagram built using the median and the
-minimum signal of each pixel across the different exposures.</p>
-<p>For the method to work correctly, it is necessary to ensure that the different
-exposures are really equivalent, meaning that they should exhibit the same
-signal level at each pixel except the expected random noise. Small changes in
-the signal level between the different exposures can be tolerated, but large
-differences can lead to a large number of false positives.</p>
-<p>The method is intended to be used with the MEGARA DRP, although it can also
-be applied directly from the command line using the <strong>numina</strong> script
-<code class="docutils literal notranslate"><span class="pre">numina-crmasks</span></code>, which is also described later in this document.</p>
-<p>The main workflow to apply the method is as follows:</p>
+<p>This method can only be applied when three or more equivalent exposures are
+available. It works by identifying pixels that deviate unexpectedly in a
+diagnostic diagram constructed using the median and minimum signal values of
+each pixel across the different exposures.</p>
+<p>For the method to function correctly, it’s essential that the exposures are
+truly equivalent, that is, each pixel should exhibit the same signal level
+across exposures, aside from expected random noise. While small variations in
+signal levels are tolerable, significant differences can result in a high
+number of false positives.</p>
+<p>Although the method is designed to be used within the MEGARA DRP, it can also
+be executed directly from the command line using the <code class="docutils literal notranslate"><span class="pre">numina-crmasks</span></code> script,
+which is described later in this document.</p>
+<p>The main workflow for applying the method is as follows:</p>
 <ol class="arabic simple">
-<li><p><strong>Prepare the observation result file</strong>: The YAML file that contains the
-list of individual exposures and additional requirements for a specific
-reduction recipe associated to the observing mode
-<code class="docutils literal notranslate"><span class="pre">mode:</span> <span class="pre">MegarCrDetection</span></code>.</p></li>
+<li><p><strong>Prepare the observation result file</strong>: Create the YAML file that lists the
+individual exposures and specifies additional requirements for the reduction
+recipe associated with the reduction recipe <strong>MegarCrDetection</strong>.</p></li>
 <li><p><strong>Run the MEGARA DRP to generate the CR masks</strong>: The execution of the MEGARA
-DRP with this YAML file is interactive (see below), and the result if a FITS
-file, called <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code> that contains several masks that can be
-employed later to remove the cosmic rays using different strategies. This
+DRP with this YAML file is interactive (see below), and the result is a FITS
+file named <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code>, which contains several masks that can later be
+used to remove the cosmic rays using different strategies. This
 file must be copied to the <cite>data/</cite> subdirectory.</p></li>
 <li><p><strong>Run the MEGARA DRP to generate the reduced scientific result</strong>: Once the
-file <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code> is in the <cite>data/</cite> subdirectory, the MEGARA DRP can
-be run again to generate the reduced scientific result, using for that
-purpose the corresponding YAML file. In this step, the user should choose
-between the different available strategies to combine and remove the cosmic
-rays. In particular, instead of assuming that the combination method is
-<code class="docutils literal notranslate"><span class="pre">median</span></code>, the user should specify one of the following methods in the
-requirements section: <code class="docutils literal notranslate"><span class="pre">mediancr</span></code>, <code class="docutils literal notranslate"><span class="pre">meancrt</span></code> or <code class="docutils literal notranslate"><span class="pre">meancr</span></code>.</p></li>
+file <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code> is placed in the <cite>data/</cite> subdirectory, the MEGARA DRP
+can be run again to generate the reduced scientific result, using for that
+purpose the corresponding YAML file. During this step, the user must one of
+the available strategies for combining exposures and removing cosmic rays.
+Instead of using the default <code class="docutils literal notranslate"><span class="pre">median</span></code> combination, specify one of the
+following methods in the requirements section:
+<code class="docutils literal notranslate"><span class="pre">mediancr</span></code>, <code class="docutils literal notranslate"><span class="pre">meancrt</span></code> or <code class="docutils literal notranslate"><span class="pre">meancr</span></code>.</p></li>
 </ol>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The three available combination methods, <code class="docutils literal notranslate"><span class="pre">mediancr</span></code>, <code class="docutils literal notranslate"><span class="pre">meancrt</span></code> and
 <code class="docutils literal notranslate"><span class="pre">meancr</span></code>, produce different results:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">mediancr</span></code>: provides the median combination, replacing pixels
-suspected of having been affected by a cosmic ray in more than one
-exposure by the minimum value at each pixel across the available exposures.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">meancrt</span></code>: generates the mean combination, making use of a single mask
-that stores the cosmic rays detected in all the individual exposures,
-replacing the masked pixels by the value obtained when using
-the <code class="docutils literal notranslate"><span class="pre">mediancr</span></code> method.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">meancr</span></code>: provides the mean combination, making use of an individual
-mask specifically computed for each available exposure.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mediancr</span></code>: performs a median combination, replacing pixels
+suspected of being affected by cosmic rays in more than one exposure by
+the minimum value at each pixel across the available exposures.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">meancrt</span></code>: generates the mean combination using of a single mask that
+stores all the cosmic rays detected in all the individual exposures,
+replacing each masked pixels by the value obtained when using the
+<code class="docutils literal notranslate"><span class="pre">mediancr</span></code> method.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">meancr</span></code>: also performs a median combination, but uses the individual
+cosmic ray masks specifically computed for each available exposure.</p></li>
 </ul>
 <p>Since the mean has a lower standard deviation than the median, the
-<code class="docutils literal notranslate"><span class="pre">meancrt</span></code> and <code class="docutils literal notranslate"><span class="pre">meancr</span></code> methods are initially preferable. Among these
-two, the tests conducted suggest that the <code class="docutils literal notranslate"><span class="pre">meancr</span></code> method tends to yield better
-results. In any case, it is recommended to use all three combination
-methods and compare the resulting outputs.</p>
+<code class="docutils literal notranslate"><span class="pre">meancrt</span></code> and <code class="docutils literal notranslate"><span class="pre">meancr</span></code> methods are generally preferable. Among these
+two, tests suggest that <code class="docutils literal notranslate"><span class="pre">meancr</span></code> tends to yield better
+results. However, it is recommended to try all three methods and compare the
+outputs to determine which works best for your specific dataset.</p>
 </div>
 </section>
 <section id="preparing-the-observation-result-file">
 <h2>Preparing the observation result file<a class="headerlink" href="#preparing-the-observation-result-file" title="Link to this heading"></a></h2>
-<p>Let’s assume that we have three initially equivalent exposures. The initial
-YAML file is <code class="docutils literal notranslate"><span class="pre">8_generate_crmasks.yaml</span></code>, which contains the list of
-individual exposures.</p>
+<p>Let’s assume that we have three initially equivalent exposures. The process
+begins with the creation of a YAML file, e.g.  <code class="docutils literal notranslate"><span class="pre">8_generate_crmasks.yaml</span></code>,
+which lists the individual exposures to be used in the cosmic ray detection
+step.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8_LcbImage_LR-R_crmasks</span>
 <span class="hll"><span class="linenos">2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraCrDetection</span>
 </span><span class="linenos">3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
@@ -218,9 +218,10 @@ individual exposures.</p>
 </div>
 <p>This initial file is quite simple: one only has to take care of specifying
 <code class="docutils literal notranslate"><span class="pre">mode:</span> <span class="pre">MegarCrDetection</span></code>, so the MEGARA DRP will know that the
-<code class="docutils literal notranslate"><span class="pre">8_generate_crmasks.yaml</span></code> file is intended to generate the CR masks. The
-other important point is to ensure that the list of individual exposures
-contains three or more equivalent exposures.</p>
+<code class="docutils literal notranslate"><span class="pre">8_generate_crmasks.yaml</span></code> file is intended for generating the CR masks.  It’s
+also essential to ensure that the list of exposures includes three or more
+equivalent exposures, as the method relies on comparing pixel values across
+multiple images.</p>
 </section>
 <section id="computing-the-cr-masks">
 <h2>Computing the CR masks<a class="headerlink" href="#computing-the-cr-masks" title="Link to this heading"></a></h2>
@@ -230,60 +231,63 @@ contains three or more equivalent exposures.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>8_generate_crmasks.yaml<span class="w"> </span>-r<span class="w"> </span>control.yaml
 </pre></div>
 </div>
-<p>After some time (typically around one minute, that is needed to perform
-the required numerical simulations), the program generates the
-following plot, showing the diagnostic diagram to detect double cosmic rays
-in the median combination. This plot is saved in the <em>work</em> subdirectory
-with the name <code class="docutils literal notranslate"><span class="pre">diagnostic_histogram2d.png</span></code>. The figure is also displayed, so
-the user can interactively examine it and stop the program execution if
-necessary.</p>
+<p>After a short processing time (typically around one minute, required to perform
+the necessary numerical simulations), the program generates a diagnostic plot
+used to detect double cosmic ray hits in the median combination. This plot is
+saved in the <em>work/</em> subdirectory under the name
+<code class="docutils literal notranslate"><span class="pre">diagnostic_histogram2d.png</span></code>. The figure is also displayed interactively,
+allowing the user to examine it in real time and, if necessary, stop the
+program execution.</p>
 <a class="reference internal image-reference" href="_images/diagnostic_histogram2d_1.png"><img alt="diagnostic diagram to detect double cosmic rays in median combination" src="_images/diagnostic_histogram2d_1.png" style="width: 100%;" />
 </a>
-<p>The three (or more) available individual exposures are arranged into a 3D
-stack, from which it is easy to generate 2D images (with the same dimensions as
-the individual exposures) that contain the minimum value <code class="docutils literal notranslate"><span class="pre">min2d</span></code>, maximum
-value <code class="docutils literal notranslate"><span class="pre">max2d</span></code>, and median value <code class="docutils literal notranslate"><span class="pre">median2d</span></code> at each pixel along the sequence
-of available exposures. On the vertical axis of the previous figure, the
-difference between the <code class="docutils literal notranslate"><span class="pre">median2d</span></code> and <code class="docutils literal notranslate"><span class="pre">min2d</span></code> of each pixel is shown, while
-the horizontal axis displays <code class="docutils literal notranslate"><span class="pre">min2d</span> <span class="pre">-</span> <span class="pre">bias</span></code>.</p>
-<p>Note that the diagnostic diagram, which is actually a 2D histogram in the
-previous plot, is shown twice: the left image is the result
-of running a predefined number of simulations (10 in this example; this number
-can be modified), using the <cite>median2d</cite> data to generate synthetic exposures,
-using for that purpose the gain, readout noise and bias values. Note that in
-the case of MEGARA, the individual exposures are preprocessed prior to the
-generation of the diagnostic diagram, including overscan subtraction, trimming,
-and gain correction (data is transformed from ADU to electrons). For that
-reason, the code assume that gain=1.0, the readout noise = 3.4 electrons
-(see the keywords RDNOISE1 and RDNOISE2 in the FITS headers), and bias = 0
-electrons.</p>
-<p>The right image is directly the same diagnostic diagram, but using the actual
-data from the individual exposures.</p>
-<p>Returning to the left image, at each bin in the horizontal axis, the histogram
-data is converted to a cumulative distribution function (CDF), and the red
-crosses indicate the <code class="docutils literal notranslate"><span class="pre">median2d</span> <span class="pre">-</span> <span class="pre">min2d</span></code> values at which the probability of
-finding a single pixel above them is low enough so one only expects one pixel
-to be above those values. The blue solid line is a spline fit to the red
-crosses. The orange, green and red lines are an extension of the blue line
-to be placed above the red crosses (this is performed by adding a different
-weight to the vertical distance between the fitted points, depending on their
-location above/below the previous fit). The resulting final fit can be employed
-to define a detection boundary, so pixels that lie above this line are
-suspected of having been affected by a cosmic ray in more than one exposure.</p>
-<p>The detection boundary is plotted again in the right image. In this
-case we can see that there are a very large number of pixels above the
-detection boundary, which is not a good sign. This means that the different
-exposures are not equivalent, and the method will likely produce a large
-number of false positives. In this case, it is recommended to stop the
-execution, modify the YAML file to include the option to rescale the images,
-and run the program again.</p>
+<p>Once the exposures are preprocessed, the program stacks the three (or more)
+individual exposures into a 3D data cube. From this cube, it generates 2D
+images, each with the same dimensions as the original exposures, that represent
+the minimum <code class="docutils literal notranslate"><span class="pre">min2d</span></code>, maximum <code class="docutils literal notranslate"><span class="pre">max2d</span></code>, and median <code class="docutils literal notranslate"><span class="pre">median2d</span></code> signal values
+at each pixel across the exposures.</p>
+<p>In the previously mentioned diagnostic plot, the vertical axis shows the
+difference between <code class="docutils literal notranslate"><span class="pre">median2d</span></code> and <code class="docutils literal notranslate"><span class="pre">min2d</span></code> for each pixel, while the
+horizontal axis shows <code class="docutils literal notranslate"><span class="pre">min2d</span> <span class="pre">-</span> <span class="pre">bias</span></code>.</p>
+<p>The diagnostic diagram is actually a 2D histogram, and it is displayed in two
+panels:</p>
+<p><strong>Left Panel:</strong>
+This shows the result of a predefined number of simulations (10 by default, but
+this can be adjusted). These simulations use the <code class="docutils literal notranslate"><span class="pre">median2d</span></code> image to generate
+synthetic exposures, based on assumed values for gain, readout noise, and bias.
+For MEGARA data, exposures are preprocessed before this step (including
+overscan subtraction, trimming, and gain correction), so the code assumes:</p>
+<ul class="simple">
+<li><p>gain = 1.0 (the data is transform from ADU to electrons)</p></li>
+<li><p>readout noise = 3.4 electrons (see RDNOISE1 and RDNOISE2 in the FITS headers)</p></li>
+<li><p>bias = 0 electrons</p></li>
+</ul>
+<p><strong>Right Panel:</strong>
+This shows the same diagnostic diagram, but using the actual data from the individual exposures.</p>
+<p>Returning to the left panel, for each bin along the horizontal axis, the
+corresponding 1D histogram is converted into a cumulative distribution function
+(CDF). The red crosses mark the values of <code class="docutils literal notranslate"><span class="pre">median2d</span> <span class="pre">-</span> <span class="pre">min2d</span></code> where the
+probability of finding a pixel above that value is low enough that only one
+such pixel is expected. A blue spline curve is fitted through these red
+crosses.</p>
+<p>To define a more conservative detection boundary, the blue curve is extended
+upward using orange, green, and red lines, which apply increasing weights to
+the vertical distance above the original fit. This final curve serves as the
+threshold: pixels above this line are flagged as likely affected by cosmic rays
+in more than one exposure.</p>
+<p>This detection boundary is also plotted in the right panel. If a large number
+of pixels lie above the boundary, as in the example shown, it indicates that
+the exposures are not equivalent, and the method will likely produce many false
+positives. In such cases, it is advisable to:</p>
+<ul class="simple">
+<li><p>Stop the execution.</p></li>
+<li><p>Modify the YAML file to include the option to rescale the images.</p></li>
+<li><p>Rerun the program with the updated configuration.</p></li>
+</ul>
 </section>
 <section id="checking-the-flux-level-of-the-individual-exposures">
 <h3>Checking the flux level of the individual exposures<a class="headerlink" href="#checking-the-flux-level-of-the-individual-exposures" title="Link to this heading"></a></h3>
-<p>We accomplish this by adding the requirement
-<code class="docutils literal notranslate"><span class="pre">flux_factor:</span> <span class="pre">auto</span></code>. By default, this parameter is set to <code class="docutils literal notranslate"><span class="pre">none</span></code>, which
-means that all the exposures are assumed to be equivalent (internally the
-code transforms this parameter to <code class="docutils literal notranslate"><span class="pre">1.0</span></code> for each exposure).</p>
+<p>To address the issue of non-equivalent exposures, you can enable automatic
+rescaling by adding the requirement <code class="docutils literal notranslate"><span class="pre">flux_factor</span></code> to the YAML file:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8_LcbImage_LR-R_crmasks</span>
 <span class="linenos">2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraCrDetection</span>
 <span class="linenos">3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
@@ -295,98 +299,142 @@ code transforms this parameter to <code class="docutils literal notranslate"><sp
 </span><span class="hll"><span class="linenos">9</span><span class="w"> </span><span class="nt">flux_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auto</span>
 </span></pre></div>
 </div>
+<p>By default, this parameter is set to <code class="docutils literal notranslate"><span class="pre">none</span></code>, which means the program assumes
+all exposures are equivalent. Internally, this is interpreted as a scaling
+factor of 1.0 for each exposure. Setting it to <code class="docutils literal notranslate"><span class="pre">auto</span></code> allows the program to
+estimate and apply appropriate scaling factors to bring the exposures to a
+common flux level, helping reduce false positives in the cosmic ray detection
+process.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>8_generate_crmasks.yaml<span class="w"> </span>-r<span class="w"> </span>control.yaml
 </pre></div>
 </div>
-<p>In this case, the program generates new 2D histograms, computing the number
-of pixels for different reasonable combinations of the ratio between each
-individual exposure and the median of the three exposures. In principle, this
-ratio should be close to 1.0, but the program examines a range between 0.5 and
-1.5.</p>
+<p>In this example, the program generates new 2D histograms to evaluate the
+equivalence of the exposures. It does so by computing the number of pixels for
+various reasonable combinations of the flux ratio between each individual
+exposure and the median of the three exposures.</p>
+<p>Ideally, this ratio should be close to 1.0, indicating that the exposures are
+well matched. However, the program explores a broader range, from 0.5 to 1.5,
+in order to account for potential variations and identify the best scaling
+factors for each exposure.</p>
 <a class="reference internal image-reference" href="_images/flux_factor1.png"><img alt="computation of the flux factor for the first exposure" src="_images/flux_factor1.png" style="width: 100%;" />
 </a>
 <a class="reference internal image-reference" href="_images/flux_factor2.png"><img alt="computation of the flux factor for the second exposure" src="_images/flux_factor2.png" style="width: 100%;" />
 </a>
 <a class="reference internal image-reference" href="_images/flux_factor3.png"><img alt="computation of the flux factor for the third exposure" src="_images/flux_factor3.png" style="width: 100%;" />
 </a>
-<p>The 2D histograms is shown twice: the left image is the actual histogram,
-whereas the right image is the first histogram after applying a cleaning
-procedure to remove isolated pixels. The program then computes a spline fit at
-each side of the vertical bin that contains the 1.0 value (blue and red
-solid lines), and finds the mode
-at both sides (above and below the 1.0 value). This helps to determine an
-approximate scaling factor that takes into account the flux corresponding to
-the pixels with the higher signal.</p>
-<p>In this example, it seems clear that the first exposure exhibits a lower flux
-(by a factor of around 0.78), the second exposure is very close to the unity
-(factor 1.01), and the third exposure is slightly higher (factor 1.11). These
-factors are then employed when generating the simulated diagnostic diagram,
-which in this case is more similar to the one generated using the actual data
-from the individual exposures.</p>
+<p>The 2D histograms used to estimate flux scaling factors are displayed in two
+panels (note that these plots are also saved in the <em>work/</em> subdirectory, as
+<code class="docutils literal notranslate"><span class="pre">flux_factor1.png</span></code>, <code class="docutils literal notranslate"><span class="pre">flux_factor2.png</span></code> and <code class="docutils literal notranslate"><span class="pre">flux_factor3.png</span></code>):</p>
+<p><strong>Left Panel:</strong>
+This shows the raw 2D histogram, representing the distribution of pixel ratios
+between each individual exposure and the median of the three exposures.
+Ideally, these ratios should cluster around 1.0, but the program evaluates a
+range from 0.5 to 1.5 to account for possible variations.</p>
+<p><strong>Right Panel:</strong>
+This shows the cleaned version of the histogram, where isolated pixels have
+been removed to reduce noise and improve the reliability of the analysis.</p>
+<p>To estimate the scaling factors, the program performs the following steps:</p>
+<ol class="arabic simple">
+<li><p>Spline fits (shown as blue and orange solid lines) are computed on both sides
+of the horizontal bin corresponding to the 1.0 ratio. These fits ignore the
+bin encompassing the 1.0 ratio.</p></li>
+<li><p>The mode (most frequent value) is determined on each side, above and below
+1.0, focusing on pixels with higher signal levels.</p></li>
+<li><p>These modes are used to estimate the approximate scaling factors for each
+exposure.</p></li>
+</ol>
+<p>In the example provided:</p>
+<ul class="simple">
+<li><p>The first exposure has a lower flux, with a scaling factor of approximately
+0.78.</p></li>
+<li><p>The second exposure is nearly equivalent to the median, with a factor of
+1.01.</p></li>
+<li><p>The third exposure shows a slightly higher flux, with a factor of 1.11.</p></li>
+</ul>
+<p>These scaling factors are then applied when generating the simulated diagnostic
+diagram, which, in this case, more closely resembles the one generated from the
+actual data, indicating improved consistency between exposures.</p>
 <a class="reference internal image-reference" href="_images/diagnostic_histogram2d_2.png"><img alt="diagnostic diagram to detect double cosmic rays in median combination" src="_images/diagnostic_histogram2d_2.png" style="width: 100%;" />
 </a>
-<p>When necessary, the flux factors can be specified directly specified as a
-requirement in the YAML file, as follows: <code class="docutils literal notranslate"><span class="pre">flux_factor:</span> <span class="pre">[0.78,</span> <span class="pre">1.01,</span> <span class="pre">1.11]</span></code>
-(with one value of each individual exposure).</p>
-<p>Note that the detection boundary in the last diagnostic diagram is extended
-below zero and above the maximum value of the <code class="docutils literal notranslate"><span class="pre">min2d</span> <span class="pre">-</span> <span class="pre">bias</span></code> axis.</p>
+<p>If needed, the flux scaling factors can be manually specified in the YAML file
+using the flux_factor requirement. For example: <code class="docutils literal notranslate"><span class="pre">flux_factor:</span> <span class="pre">[0.78,</span> <span class="pre">1.01,</span>
+<span class="pre">1.11]</span></code>. Each value corresponds to one of the individual exposures. This manual
+approach can be useful when automatic estimation is not reliable or when known
+scaling factors are available.</p>
+<p>Additionally, in the final diagnostic diagram, the detection boundary is
+extended below zero and above the maximum value of the <code class="docutils literal notranslate"><span class="pre">min2d</span> <span class="pre">-</span> <span class="pre">bias</span></code> axis.
+This is done by continuing the fitted boundary using the constant value it
+attains at the edges of the fitted range. This extension ensures that the
+boundary fully encompasses the entire range of actual pixel values, improving
+the robustness of the method in identifying outliers potentially affected by
+multiple cosmic ray hits.</p>
 </section>
 <section id="detecting-suspected-double-cosmic-rays-in-the-median-combination">
 <h3>Detecting suspected double cosmic rays in the median combination<a class="headerlink" href="#detecting-suspected-double-cosmic-rays-in-the-median-combination" title="Link to this heading"></a></h3>
-<p>Once we are satisfied with the comparison of the diagnostic diagrams
-corresponding to the simulated and actual data, the program proceeds with the
-computed detection boundary.</p>
-<p>The diagnostic diagram is shown again, but in this case not as a 2D histogram,
-but as a scatter plot, where the red crosses indicate the pixels that are
-suspected of having been affected by a cosmic ray in more than one exposure,
-with the total number of affected pixels displayed in the legend. This plot
-is saved in the <em>work/</em> subdirectory with the name <code class="docutils literal notranslate"><span class="pre">diagnostic_mediancr.png</span></code>.</p>
+<p>Once the comparison between the simulated and actual diagnostic diagrams is
+satisfactory, the program proceeds using the computed detection boundary.</p>
+<p>At this stage, the diagnostic diagram is displayed again, this time as a
+scatter plot rather than a 2D histogram. In this plot, red crosses mark the
+pixels suspected of being affected by a cosmic ray in more than one exposure.
+The total number of flagged pixels is shown in the legend for reference.</p>
+<p>This plot is saved in the <em>work/</em> subdirectory under the name
+<code class="docutils literal notranslate"><span class="pre">diagnostic_mediancr.png</span></code>, and provides a clear visual summary of the
+detection results.</p>
 <a class="reference internal image-reference" href="_images/diagnostic_mediancr.png"><img alt="diagnostic diagram for mediancr" src="_images/diagnostic_mediancr.png" style="width: 100%;" />
 </a>
-<p>In this particular example, 256 pixels have been flagged as suspected of
-having been affected by a cosmic ray in more than one exposure. These pixels
-are then surrounded by a 1-pixel-wide border, so nearby pixels that are
-only slightly affected by the same cosmic ray can be included. This dilation
-factor can be modified by setting the requirement <code class="docutils literal notranslate"><span class="pre">dilation</span></code> in the YAML
-file. In this case, the initial 256 pixels are expanded to 1592 pixels after
-applying the dilation factor of 1. After this process, these pixels are then
-grouped when they form a connected cluster (each group being an individual CR
-hit affecting contiguous pixels). These CR detections are then sorted using the
-distance above the detection boundary, so they can be displayed in order,
-starting with the pixels most likely to have been affected by two cosmic rays.</p>
-<p>For each case, a figure like the one shown below is generated in a file
-called <code class="docutils literal notranslate"><span class="pre">mediancr_identified_cr.pdf</span></code> in the <em>work</em> subdirectory. Note that
-this figure is not shown interactively, so the user should open it after
-the program finishes its execution. By default, only the first 10 suspected
-double cosmic rays are displayed, but this can be modified by setting the
-requirement <code class="docutils literal notranslate"><span class="pre">maxplots</span></code> in the YAML file (a negative number indicates that all the suspected
-CR hits should be displayed). In this example, a total of 138 suspected CR
-hits have been identified, as indicated in the plot title.</p>
+<p>In this example, 256 pixels have been flagged as suspected of being affected by
+a cosmic ray in more than one exposure. To account for nearby pixels that may
+be slightly affected by the same event, these flagged pixels are surrounded by
+a 1-pixel-wide border. This process is known as dilation, and the extent of
+dilation can be controlled using the <code class="docutils literal notranslate"><span class="pre">dilation</span></code> requirement in the YAML file.</p>
+<p>With a dilation factor of 1, the initial 256 pixels expand to 1592 pixels.
+After dilation, the program groups connected pixels into clusters, each
+representing an individual cosmic ray hit affecting contiguous pixels.
+These clusters are then sorted based on their distance above the detection
+boundary, allowing the most likely double cosmic ray hits to be reviewed first.</p>
+<p>For each identified case, the program generates an independent page in the file
+<code class="docutils literal notranslate"><span class="pre">mediancr_identified_cr.pdf</span></code>, which is saved in the <em>work/</em> subdirectory.
+The corresponding plots are not displayed interactively, so users should open
+this file manually after the program finishes execution.</p>
+<p>By default, only the first 10 suspected double cosmic ray hits are displayed.
+This limit can be adjusted using the <code class="docutils literal notranslate"><span class="pre">maxplots</span></code> requirement in the YAML file.</p>
+<p>In this example, a total of 138 suspected double cosmic ray hits have been
+identified, as indicated in the following plot title.</p>
 <a class="reference internal image-reference" href="_images/mediancr_identified_cr.png"><img alt="example of pixels affected by two cosmic rays in a group of 3 exposures" src="_images/mediancr_identified_cr.png" style="width: 100%;" />
 </a>
-<p>The first row shows the three individual exposures available in this example.
-In the second row, the left image presents the simple median combination, the
-center image shows the pixels detected as affected by two cosmic rays
-(surrounded by a 1-pixel-wide border), and the right image displays the median
-combination with the affected pixels replaced by the minimum value from the
-individual exposures.</p>
+<p>The plots are organized into two rows:</p>
+<p><strong>First row:</strong>
+Displays the three individual exposures used in the analysis.</p>
+<p><strong>Second row:</strong></p>
+<ul class="simple">
+<li><p>Left image: The result of a simple median combination of the exposures.</p></li>
+<li><p>Center image: A binary map showing the pixels detected as affected by two
+cosmic rays, highlighted with a 1-pixel-wide border (after dilation).</p></li>
+<li><p>Right image: The corrected median combination, where the affected pixels
+have been replaced by the minimum value from the corresponding pixels in the
+individual exposures.</p></li>
+</ul>
+<p>This layout provides a clear visual comparison between the original data, the
+detected cosmic ray hits, and the corrected result.</p>
 </section>
 <section id="detecting-cosmic-rays-in-the-mean-combination">
 <h3>Detecting cosmic rays in the mean combination<a class="headerlink" href="#detecting-cosmic-rays-in-the-mean-combination" title="Link to this heading"></a></h3>
-<p>After the detection of suspected double cosmic rays in the median
-combination, the program proceeds to detect suspected cosmic rays in the
-mean combination. Note that this <code class="docutils literal notranslate"><span class="pre">mean2d</span></code> image contains the CR of all the
-individual exposures.</p>
-<p>The resulting diagnostic diagram is shown below, where the red crosses indicate the pixels that are suspected of having been affected by a cosmic
-ray in the combined exposure. This plot is saved in the <em>work/</em> subdirectory
-with the name <code class="docutils literal notranslate"><span class="pre">diagnostic_meancr.png</span></code>.</p>
+<p>After detecting suspected double cosmic ray hits in the median combination, the
+program proceeds to analyze the mean combination. It’s important to note that
+the resulting <code class="docutils literal notranslate"><span class="pre">mean2d</span></code> image includes cosmic rays from all individual
+exposures, making it more sensitive to single cosmic ray events.</p>
+<p>The program then generates a new diagnostic diagram, where red crosses indicate
+pixels suspected of being affected by cosmic rays in the combined exposure.
+This plot is saved in the work/ subdirectory under the name
+<code class="docutils literal notranslate"><span class="pre">diagnostic_meancr.png</span></code>.</p>
 <a class="reference internal image-reference" href="_images/diagnostic_meancr.png"><img alt="diagnostic diagram for mean" src="_images/diagnostic_meancr.png" style="width: 100%;" />
 </a>
-<p>The number of pixels suspected of having been affected by a cosmic ray in the
-mean combination is, not surprisingly, much larger than what was found in the
-median combination. In this case, 82171 pixels have been flagged as suspected of
-having been affected by a cosmic ray. This number increases to 296655 when
-applying the dilation factor of 1.</p>
+<p>As expected, the number of pixels suspected of being affected by a cosmic ray
+in the mean combination is significantly higher than in the median case. In
+this example, 82171 pixels have been flagged as potential cosmic ray hits.
+After applying a dilation factor of 1, this number increases to 296655 pixels,
+accounting for surrounding pixels that may have been slightly affected by the
+same cosmic ray event.</p>
 </section>
 <section id="detecting-cosmic-rays-in-the-individual-exposures">
 <h3>Detecting cosmic rays in the individual exposures<a class="headerlink" href="#detecting-cosmic-rays-in-the-individual-exposures" title="Link to this heading"></a></h3>
@@ -400,12 +448,14 @@ These plots are saved in the <em>work/</em> subdirectory with the names
 </a>
 <a class="reference internal image-reference" href="_images/diagnostic_crmask3.png"><img alt="diagnostic diagram for third individual exposure" src="_images/diagnostic_crmask3.png" style="width: 30%;" />
 </a>
-<p>In this case, the data plotted in the vertical axis is the initial
-<code class="docutils literal notranslate"><span class="pre">median2d</span> <span class="pre">-</span> <span class="pre">min2d</span></code> but scaled by the corresponding flux factor for each
-individual exposure.</p>
-<p>When computing the mask for each individual exposure, the code imposes that
-the masked pixels in each individual mask must be also masked in the mask
-associated to the mean combination previously described.</p>
+<p>In these diagrams, the vertical axis shows the original <code class="docutils literal notranslate"><span class="pre">median2d</span> <span class="pre">-</span> <span class="pre">min2d</span></code>
+values, scaled by the corresponding flux factor for each exposure. This scaling
+ensures consistency when comparing exposures with different flux levels.</p>
+<p>When computing the mask for each individual exposure, the program enforces that
+any pixel masked in an individual exposure must also be masked in the mean
+combination mask described earlier. This constraint ensures that cosmic ray
+detections are consistent across both individual and combined analyses, while
+reducing the number of false positive detections.</p>
 </section>
 <section id="output-file-crmasks-fits">
 <h3>Output file <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code><a class="headerlink" href="#output-file-crmasks-fits" title="Link to this heading"></a></h3>
@@ -423,18 +473,17 @@ and contains several extensions:</p>
 <span class="go">  5  CRMASK3       1 ImageHDU         8   (4096, 4112)   uint8</span>
 </pre></div>
 </div>
-<p>Note the primary HDU only contains keywords with information concerning
-the parameters used to generate the masks. The extensions contain the
-different masks computed by the program:</p>
+<p>The primary HDU does not contain image data but includes keywords that document the parameters used to generate the masks.</p>
+<p>The extensions store the actual masks computed by the program:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">MEDIANCR</span></code>: the mask for the pixels suspected of having been affected by
+<li><p><code class="docutils literal notranslate"><span class="pre">MEDIANCR</span></code>: Mask for pixels suspected of being affected by
 two cosmic rays in the median combination.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">MEANCRT</span></code>: the mask for the pixels suspected of having been affected by
+<li><p><code class="docutils literal notranslate"><span class="pre">MEANCRT</span></code>: Mask for pixels suspected of being affected by
 a cosmic ray in the mean combination.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">CRMASK1</span></code>, <code class="docutils literal notranslate"><span class="pre">CRMASK2</span></code>, <code class="docutils literal notranslate"><span class="pre">CRMASK3</span></code>: the masks for the pixels suspected
-of having been affected by a cosmic ray in the individual exposures.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CRMASK1</span></code>, <code class="docutils literal notranslate"><span class="pre">CRMASK2</span></code>, <code class="docutils literal notranslate"><span class="pre">CRMASK3</span></code>: Masks for pixels suspected
+of being affected by a cosmic ray in each of the individual exposures.</p></li>
 </ul>
-<p>In all cases, the pixels suspected of having been affected by a cosmic ray
+<p>In all cases, pixels suspected of being affected by a cosmic ray
 are set to 1, while the rest of the pixels are set to 0.</p>
 <p>Do not forget to copy the file <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code> to the <cite>data/</cite> subdirectory
 before running the MEGARA DRP to generate the reduced scientific result.</p>
@@ -444,96 +493,106 @@ before running the MEGARA DRP to generate the reduced scientific result.</p>
 </section>
 <section id="additional-program-parameters">
 <h3>Additional program parameters<a class="headerlink" href="#additional-program-parameters" title="Link to this heading"></a></h3>
-<p>The reduction recipe that generates the CR masks assumes several default values
-for the relevant parameters. These parameters can be modified by setting their
-values in requirements section of the YAML file.</p>
+<p>The reduction recipe that generates the cosmic ray masks uses several default
+parameter values. However, these parameters can be customized by specifying
+them in the requirements section of the YAML file. This allows users to
+fine-tune the behavior of the detection algorithm to better suit their specific
+data or scientific goals.</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">gain</span></code>: detector gain (electron/ADU). This parameter is kept in order to
-reuse the code for other instruments. As previously mentioned, since the
-MEGARA exposures are preprocessed prior the CR masks generation (and the
-data converted from ADU to electrons), gain is assumed to be 1.0.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">rnoise</span></code>: readout noise (ADU). In the case of MEGARA, here the code assumes
-a value of 3.4 electrons, which is the readout noise of the MEGARA detector
-(see the keywords RDNOISE1 and RDNOISE2 in the FITS headers).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">bias</span></code> (default value 0.0): bias value (ADU). This also must be set to zero
-for MEGARA because the bias level is also part of the preprocessing
-performed by the MEGARA DRP.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">flux_factor</span></code> (default <code class="docutils literal notranslate"><span class="pre">none</span></code>): this parameter can be set to a list of
-values, one for each individual exposure, or to <code class="docutils literal notranslate"><span class="pre">auto</span></code>. If set to <code class="docutils literal notranslate"><span class="pre">auto</span></code>,
-the program will compute the flux factor for each individual exposure by
-examining the ratio between each individual exposure and the median.
-If set to <code class="docutils literal notranslate"><span class="pre">none</span></code>, all the exposures are assumed to be equivalent (i.e., the flux
-factor is set to 1.0 for each exposure). A single float number (e.g. 1.0) can
-also be specified, which means that all the exposures are assumed to have the
-same flux factor.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">knots_splfit</span></code> (default 3): total number of knots employed in the spline
-fit employed to define the detection boundary.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">nsimulations</span></code> (default 10): number of simulations to perform for each
-set of individual exposures in order to generate the simulated diagnostic
-diagram.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">niter_boundary_extension</span></code> (default 3): number of iterations to
-extend the detection boundary above the red crosses in the diagnostic
-diagram.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">weight_boundary_extension</span></code> (default 10): weight to apply to the
-vertical distance between the fitted points in the diagnostic diagram when
-extending the detection boundary above the red crosses. The points above the
-previous fit are multiplied by this value raised to the power of the
-iteration number. This forces the fit to accommodate near the upper
-boundary defined by the red crosses in the simulated diagnostic diagram.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">threshold</span></code> (default 0.0): minimum threshold for <code class="docutils literal notranslate"><span class="pre">median2d</span> <span class="pre">-</span> <span class="pre">min2d</span></code> in
-the diagnostic diagrams. This is an additional constraint in addition to the
-detection boundary, so pixels that are below this threshold are not
-considered as suspected.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">minimum_max2d_rnoise</span></code> (default 5.0): minimum value of <code class="docutils literal notranslate"><span class="pre">max2d</span></code> in
-readout noise units to consider a pixel as a double cosmic ray. This avoids
-false positives when a pixel exhibits a large negative value in one of the
-individual exposures.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">interactive</span></code> (default True): if True, the code generates interactive
-matplotlib plots, allowing the user to use the
-zoom and pan buttons. If False, the code runs without displaying the plots,
-but they are still saved in the <em>work/</em> subdirectory.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">dilation</span></code> (default 1): the pixels composing each cosmic ray can be
-surrounded by a dilation factor, which expands the mask around the detected
-cosmic ray pixels. A value of zero means that no dilation is applied.
-Typically a value of 1 is useful, since it allow to replace the tails of
-cosmic rays (whose pixels exhibit a lower signal).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">seed</span></code> (default None): the random seed used to generate the simulated
-diagnostic diagram. If None, the seed is randomly generated.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">plots</span></code> (default True): if True, a PDF file called
-<code class="docutils literal notranslate"><span class="pre">mediancr_identified_cr.pdf</span></code> is generated with some or all the individual
-double cosmic rays identified.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">semiwindow</span></code> (default 15): the semiwindow size (pixels) to plot the double
-cosmic rays. Only used if <code class="docutils literal notranslate"><span class="pre">plots</span></code> is True.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">color_scale</span></code> (default minmax): the color scale employed in the
-<code class="docutils literal notranslate"><span class="pre">mediancr_identified_cr.pdf</span></code> images. Only used if <code class="docutils literal notranslate"><span class="pre">plots</span></code> is True. The
-valid options are minmax and zscale.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">maxplots</span></code> (default 10): the maximum number of suspicious double cosmic
-rays to display. Note that setting a limit is useful when experimenting with
-the program parameters, as it prevents generating an excessively large number
-of plots due to false positive detections. A negative value indicates that
-all the suspected double CR are displayed (note that enabling this may
-introduce a noticeable penalty in execution time). This option is only used
-if <code class="docutils literal notranslate"><span class="pre">plots</span></code> is True.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">save_preprocessed</span></code> (default False): if True, the program saves the
-preprocessed individual exposures in the <em>work/</em> subdirectory. This is useful
-for debugging purposes, but it is not necessary for the normal operation of
-the program.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gain</span></code>: detector gain (electron/ADU). This parameter is retained to allow
+the code to be reused with other instruments.
+As previously mentioned, since
+MEGARA exposures are preprocessed before the CR mask generation (including
+conversion from ADU to electrons), the gain is assumed to be 1.0 by default.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rnoise</span></code>: readout noise (ADU). For MEGARA, the code assumes
+a value of 3.4 electrons, which corresponds to the detector’s readout noise
+(see the <code class="docutils literal notranslate"><span class="pre">RDNOISE1</span></code> and <code class="docutils literal notranslate"><span class="pre">RDNOISE2</span></code> keywords in the FITS headers).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bias</span></code> (default value 0.0): bias value (ADU). This should be set to 0.0 for
+MEGARA, as the bias is removed during the preprocessing performed by MEGARA
+DRP.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">flux_factor</span></code> (default <code class="docutils literal notranslate"><span class="pre">none</span></code>): this parameter controls how the relative
+flux levels of individual exposures are handled. This paramewter can be set
+in several ways:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">none</span></code>: Assumes all exposures are equivalent; internally, a flux factor
+of 1.0 is applied to each.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">auto</span></code>: The program automatically estimates the flux factor for each
+exposure by comparing it to the median of all exposures.</p></li>
+<li><p>List of values: You can manually specify a list of flux factors (e.g.,
+<code class="docutils literal notranslate"><span class="pre">[0.78,</span> <span class="pre">1.01,</span> <span class="pre">1.11]</span></code>), with one value per exposure.</p></li>
+<li><p>Single float: A single value (e.g., 1.0) applies the same flux factor to
+all exposures.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">knots_splfit</span></code> (default 3): Specifies the total number of knots employed in
+the spline fit that define the detection boundary in the diagnostic diagram.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nsimulations</span></code> (default 10): Sets the number of simulations to perform for
+each set of exposures when generating the simulated diagnostic diagram.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">niter_boundary_extension</span></code> (default 3): Determines the number of iterations
+used to extend the detection boundary above the red crosses in the simulated
+diagnostic diagram, improving the robustness of cosmic ray detection by
+reducing the number of false positives.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">weight_boundary_extension</span></code> (default 10): Specifies the weight applied to
+the vertical distance between fitted points in the diagnostic diagram when
+extending the detection boundary above the red crosses. During each
+iteration, points above the previous fit are multiplied by this weight raised
+to the power of the iteration number. This forces the fit to better align
+with the upper boundary defined by the red crosses in the simulated
+diagnostic diagram, improving the accuracy of cosmic ray detection.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">threshold</span></code> (default 0.0): Sets a minimum threshold for the <code class="docutils literal notranslate"><span class="pre">median2d</span> <span class="pre">-</span>
+<span class="pre">min2d</span></code> value in the diagnostic diagrams. This acts as an additional
+constraint beyond the detection boundary (pixels with values below this
+threshold are not considered as suspected cosmic ray hits).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">minimum_max2d_rnoise</span></code> (default 5.0): Defines the minimum value of
+<code class="docutils literal notranslate"><span class="pre">max2d</span></code>, expressed in readout noise units, required to consider a pixel as
+a double cosmic ray. This helps avoid false positives caused by large
+negative values in one of the individual exposures.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">interactive</span></code> (default True): Controls whether the program generates
+interactive plots using Matplotlib. If True, the plots are displayed with
+zoom and pan functionality. If False, the program runs in non-interactive
+mode, but all plots are still saved in the <em>work/</em> subdirectory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dilation</span></code> (default 1): Specifies the dilation factor used to expand the
+mask around detected cosmic ray pixels. A value of 0 disables dilation. A
+value of 1 is typically recommended, as it helps include the tails of cosmic
+rays, which may have lower signal levels but are still affected.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">seed</span></code> (default None): Sets the random seed used when generating the
+simulated diagnostic diagram. If set to None, the seed is randomly
+generated, resulting in slightly different simulations each time.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plots</span></code> (default True): If True, the program generates a PDF file named
+<code class="docutils literal notranslate"><span class="pre">mediancr_identified_cr.pdf</span></code> containing visualizations of some or all of
+the identified double cosmic ray hits.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">semiwindow</span></code> (default 15): Defines the semiwindow size (in pixels) used
+when plotting the double cosmic ray hits. This parameter is only used if
+<code class="docutils literal notranslate"><span class="pre">plots</span></code> is set to True.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">color_scale</span></code> (default minmax): Specifies the color scale used in the
+images displayed in the <code class="docutils literal notranslate"><span class="pre">mediancr_identified_cr.pdf</span></code> file. This option is
+only relevant if <code class="docutils literal notranslate"><span class="pre">plots</span></code> is set to True. Valid values are <code class="docutils literal notranslate"><span class="pre">minmax</span></code> and
+<code class="docutils literal notranslate"><span class="pre">zscale</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxplots</span></code> (default 10): Sets the maximum number of suspicious double
+cosmic rays to display. Limiting the number of plots is useful when
+experimenting with program parameters, as it helps avoid generating an
+excessive number of plots due to false positives. A negative value means all
+suspected double CRs will be displayed (note that this may significantly
+increase execution time). This option is only used if <code class="docutils literal notranslate"><span class="pre">plots</span></code> is True.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">save_preprocessed</span></code> (default False): If set to True, the program saves the
+preprocessed individual exposures in the <em>work/</em> subdirectory. This can be
+helpful for debugging, but is not required for normal operation.</p></li>
 </ul>
 </section>
 </section>
 <section id="applying-the-masks">
 <h2>Applying the masks<a class="headerlink" href="#applying-the-masks" title="Link to this heading"></a></h2>
-<p>Once the file <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code> has been generated, it can be used to
-remove the suspected double cosmic rays from the combined image. In this sense,
-several options are available, depending on the value of <code class="docutils literal notranslate"><span class="pre">method</span></code> in the
-requirements section of the YAML file used to generate the reduced scientific
-result. In this sense, instead of assuming that the combination method is
-<code class="docutils literal notranslate"><span class="pre">median</span></code> (default value in MEGARA DRP), the user should specify one of the
-following methods: <code class="docutils literal notranslate"><span class="pre">mediancr</span></code>, <code class="docutils literal notranslate"><span class="pre">meancr</span></code> or <code class="docutils literal notranslate"><span class="pre">meancrt</span></code>.</p>
+<p>Once the <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code> file has been generated, it can be used to remove the
+suspected cosmic rays from the combined image.  Several options are available
+for this step, depending on the value of <code class="docutils literal notranslate"><span class="pre">method</span></code> specified in the
+requirements section of the YAML file used to produce the reduced scientific
+result. Rather than assuming the combination method is <code class="docutils literal notranslate"><span class="pre">median</span></code> (the default
+in MEGARA DRP), the user should explicitly specify one of the following
+methods: <code class="docutils literal notranslate"><span class="pre">mediancr</span></code>, <code class="docutils literal notranslate"><span class="pre">meancr</span></code> or <code class="docutils literal notranslate"><span class="pre">meancrt</span></code>.</p>
 <section id="method-mediancr">
 <h3>Method <code class="docutils literal notranslate"><span class="pre">mediancr</span></code><a class="headerlink" href="#method-mediancr" title="Link to this heading"></a></h3>
-<p>For example, when using the recipe <strong>MegaraLcbImage</strong>, the corresponding
-YAML file, <code class="docutils literal notranslate"><span class="pre">8_LcbImage.yaml</span></code> should define the <code class="docutils literal notranslate"><span class="pre">method</span></code> and the
+<p>For example, when using the <strong>MegaraLcbImage</strong> recipe, the corresponding
+YAML file, <code class="docutils literal notranslate"><span class="pre">8_LcbImage.yaml</span></code> should define the <code class="docutils literal notranslate"><span class="pre">method</span></code> and
 <code class="docutils literal notranslate"><span class="pre">crmasks</span></code> parameters in the requirements section, as follows:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8_LcbImage_LR-R</span>
 <span class="hll"><span class="linenos"> 2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraLcbImage</span>
@@ -550,20 +609,19 @@ YAML file, <code class="docutils literal notranslate"><span class="pre">8_LcbIma
 <span class="linenos">13</span><span class="w"> </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extinction_LP.txt</span>
 </pre></div>
 </div>
-<p>Note that it is necessary to explicitly specify the <code class="docutils literal notranslate"><span class="pre">crmasks</span></code> parameter,
-which should point to the file <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code> generated in the previous step.
-On the other hand, this allows the user to rename this file, placing different
-versions of it generated with different detection boundaries and testing the
-effect of using different masks.</p>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">crmasks</span></code> parameter must be explicitly specified, and it should
+point to the <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code> file generated in the previous step. This
+requirement also gives users the flexibility to rename the file and test
+different versions of it (each potentially created with varying detection
+thresholds) to evaluate the impact of using different masks.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>8_LcbImage.yaml<span class="w"> </span>-r<span class="w"> </span>control.yaml
 </pre></div>
 </div>
-<p>When using <code class="docutils literal notranslate"><span class="pre">method:</span> <span class="pre">mediancr</span></code>, the MEGARA DRP will read the mask stored in
-the extension <code class="docutils literal notranslate"><span class="pre">MEDIANCR</span></code> of the file <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code>. The masked pixels,
-which are suspected of having been affected by a cosmic ray in more that one
-exposure, are replaced by the corresponding <code class="docutils literal notranslate"><span class="pre">min2d</span></code> value at each pixel
-This means that the resulting image is identical to <code class="docutils literal notranslate"><span class="pre">median2d</span></code>, except
-for those corrected pixels.</p>
+<p>When using <code class="docutils literal notranslate"><span class="pre">method:</span> <span class="pre">mediancr</span></code>, the MEGARA DRP reads the mask stored in the
+<code class="docutils literal notranslate"><span class="pre">MEDIANCR</span></code> extension of the <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code> file. The masked pixels (those
+suspected of being affected by a cosmic ray in more than one exposure) are
+replaced with the corresponding <code class="docutils literal notranslate"><span class="pre">min2d</span></code> value at each pixel. As a result, the
+final image is identical to <code class="docutils literal notranslate"><span class="pre">median2d</span></code>, except for the corrected pixels.</p>
 </section>
 <section id="method-meancrt">
 <h3>Method <code class="docutils literal notranslate"><span class="pre">meancrt</span></code><a class="headerlink" href="#method-meancrt" title="Link to this heading"></a></h3>
@@ -582,13 +640,13 @@ for those corrected pixels.</p>
 <span class="linenos">13</span><span class="w"> </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extinction_LP.txt</span>
 </pre></div>
 </div>
-<p>When using <code class="docutils literal notranslate"><span class="pre">method:</span> <span class="pre">meancrt</span></code>, the MEGARA DRP will read the mask stored in
-the extension <code class="docutils literal notranslate"><span class="pre">MEANCRT</span></code> of the file <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code>. The masked pixels,
-which are suspected of having been affected by a cosmic ray are replaced by
-the corresponding value when using <code class="docutils literal notranslate"><span class="pre">method:</span> <span class="pre">mediancr</span></code>.</p>
-<p>This means that the resulting image is identical to <code class="docutils literal notranslate"><span class="pre">mean2d</span></code>, except
-for those corrected pixels, where the information is taken from the
-image obtained by applying the <code class="docutils literal notranslate"><span class="pre">mediancr</span></code> method.</p>
+<p>When using <code class="docutils literal notranslate"><span class="pre">method:</span> <span class="pre">meancrt</span></code>, the MEGARA DRP reads the mask stored in
+the <code class="docutils literal notranslate"><span class="pre">MEANCRT</span></code> extension of the file <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code>. The masked pixels,
+which are suspected of being affected by a cosmic ray, are replaced by
+the corresponding values when using <code class="docutils literal notranslate"><span class="pre">method:</span> <span class="pre">mediancr</span></code>.</p>
+<p>As a result, the final image is identical to <code class="docutils literal notranslate"><span class="pre">mean2d</span></code>, except for the
+corrected pixels, where the data is sourced from the image produced by the
+<code class="docutils literal notranslate"><span class="pre">mediancr</span></code> method.</p>
 </section>
 <section id="method-meancr">
 <h3>Method <code class="docutils literal notranslate"><span class="pre">meancr</span></code><a class="headerlink" href="#method-meancr" title="Link to this heading"></a></h3>
@@ -607,29 +665,46 @@ image obtained by applying the <code class="docutils literal notranslate"><span 
 <span class="linenos">13</span><span class="w"> </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extinction_LP.txt</span>
 </pre></div>
 </div>
-<p>When using <code class="docutils literal notranslate"><span class="pre">method:</span> <span class="pre">meancr</span></code>, the MEGARA DRP will read the masks stored in
-the extensions <code class="docutils literal notranslate"><span class="pre">CRMASK1</span></code>, <code class="docutils literal notranslate"><span class="pre">CRMASK2</span></code> and <code class="docutils literal notranslate"><span class="pre">CRMASK3</span></code> of the file
-<code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code>. The program makes use of the functionality provided by
-the numpy masked arrays to build a 3D stack of the individual exposures,
-where the masked pixels associated to each individual image are employed to
-define the corresponding masked array. This allows to compute the mean along
-the axis corresponding to the image number, so the resulting image is
-the mean of the individual exposures, excluding the masked pixels.</p>
-<p>In this case, it is possible to have pixels which are masked in all the
-individual exposures. In this case, the resulting pixel in the combined image
-will be set to the <code class="docutils literal notranslate"><span class="pre">min2d</span></code> value at that pixel.</p>
+<p>When using <code class="docutils literal notranslate"><span class="pre">method:</span> <span class="pre">meancr</span></code>, the MEGARA DRP reads the masks stored in the
+<code class="docutils literal notranslate"><span class="pre">CRMASK1</span></code>, <code class="docutils literal notranslate"><span class="pre">CRMASK2</span></code> and <code class="docutils literal notranslate"><span class="pre">CRMASK3</span></code> extensions of the file
+<code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code>. The program uses NumPy masked arrays to construct a 3D stack
+of the individual exposures, where each image is represented as a masked array
+based on its corresponding mask. This allows the program to compute the mean
+along the axis corresponding to the image number, excluding the masked pixels.</p>
+<p>In cases where a pixel is masked in all individual exposures, the corresponding
+pixel in the combined image is set to the <code class="docutils literal notranslate"><span class="pre">min2d</span></code> value at that location.</p>
 </section>
 </section>
 <section id="using-the-command-line-script">
 <h2>Using the command line script<a class="headerlink" href="#using-the-command-line-script" title="Link to this heading"></a></h2>
-<p>It is also possible to compute the CR masks and to apply them directly in
-an arbitray set of images using the command line script
+<p>It is also possible to compute the CR masks and apply them directly to
+an arbitray set of images using the command-line script
 <code class="docutils literal notranslate"><span class="pre">numina-crmasks</span></code>.</p>
-<p>For example, one can execute the <strong>MegaraCrDetection</strong> recipe using the
-requirement <code class="docutils literal notranslate"><span class="pre">save_preprocessed:</span> <span class="pre">True</span></code> in the YAML file, so the
-preprocessed individual exposures are saved in the <em>work/</em> subdirectory
-with the names <code class="docutils literal notranslate"><span class="pre">preprocessed_1.fits</span></code>, <code class="docutils literal notranslate"><span class="pre">preprocessed_2.fits</span></code>, and
+<p>We will now demonstrate how to do this using the set of preprocessed images
+that the MEGARA DRP uses to generate the cosmic ray masks. Since these
+preprocessed images are not generated by default by the MEGARA reduction
+recipes, a special requirement named <code class="docutils literal notranslate"><span class="pre">save_preprocessed</span></code> must be set to True
+in the requirements section when using the <strong>MegaraCrDetection</strong> recipe. The
+preprocessed images will then be saved in the <em>work/</em> subdirectory with the
+filenames <code class="docutils literal notranslate"><span class="pre">preprocessed_1.fits</span></code>, <code class="docutils literal notranslate"><span class="pre">preprocessed_2.fits</span></code>, and
 <code class="docutils literal notranslate"><span class="pre">preprocessed_3.fits</span></code>.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8_LcbImage_LR-R_crmasks</span>
+<span class="hll"><span class="linenos"> 2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraCrDetection</span>
+</span><span class="linenos"> 3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="linenos"> 4</span><span class="nt">frames</span><span class="p">:</span>
+<span class="linenos"> 5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978527-20231115-MEGARA-MegaraLcbImage.fits</span>
+<span class="linenos"> 6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978528-20231115-MEGARA-MegaraLcbImage.fits</span>
+<span class="linenos"> 7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978529-20231115-MEGARA-MegaraLcbImage.fits</span>
+<span class="linenos"> 8</span><span class="nt">requirements</span><span class="p">:</span>
+<span class="linenos"> 9</span><span class="w"> </span><span class="nt">flux_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auto</span>
+<span class="hll"><span class="linenos">10</span><span class="w"> </span><span class="nt">save_preprocessed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</span></pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>8_generate_crmasks.yaml<span class="w"> </span>-r<span class="w"> </span>control.yaml
+</pre></div>
+</div>
+<p>After running the previous command, we can easily generate a text file
+containing the names of the preprocessed files.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>obsid8_LcbImage_LR-R_crmasks_work
 <span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>preprocessed_*.fits<span class="w"> </span>&gt;<span class="w"> </span>list.txt
 <span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>cat<span class="w"> </span>list.txt
@@ -639,7 +714,8 @@ with the names <code class="docutils literal notranslate"><span class="pre">prep
 </pre></div>
 </div>
 <p>The script <code class="docutils literal notranslate"><span class="pre">numina-crmasks</span></code> must be executed twice: first to compute the
-CR masks, and then to apply them to the individual exposures.</p>
+CR masks, and then again to apply them to the combination of the individual
+exposures.</p>
 <section id="step-1-masks-generation">
 <h3>Step 1: masks generation<a class="headerlink" href="#step-1-masks-generation" title="Link to this heading"></a></h3>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>$<span class="w"> </span>numina-crmasks<span class="w"> </span>compute<span class="w"> </span><span class="se">\</span>
@@ -651,11 +727,10 @@ CR masks, and then to apply them to the individual exposures.</p>
 --output_masks<span class="w"> </span>crmasks.fits
 </pre></div>
 </div>
-<p>Note that in this case it is important to specify the gain and readout noise.
-The flux factor is also specified: in this case we are providing the individual
-values for each individual exposure. Note that the numbers are given as a
-quoted string. The output file is called <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code>, but any other
-name can be used.</p>
+<p>Note that in this case, it is important to specify the gain and readout noise.
+The flux factor must also be provided: here, we supply individual values for
+each exposure. These values should be given as a quoted string. The output file
+is named <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code>, but any other name can be used.</p>
 <p>The full list of available parameters can be obtained by executing:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina-crmasks<span class="w"> </span>compute<span class="w"> </span>--help
 <span class="go">usage: numina-crmasks compute [-h] --inputlist INPUTLIST [--gain GAIN]</span>
@@ -719,9 +794,9 @@ name can be used.</p>
 </section>
 <section id="step-2-masks-application">
 <h3>Step 2: masks application<a class="headerlink" href="#step-2-masks-application" title="Link to this heading"></a></h3>
-<p>The second step is to apply the generated masks, making use of the desired
+<p>The second step is to apply the generated masks using the desired
 combination method: <code class="docutils literal notranslate"><span class="pre">mediancr</span></code>, <code class="docutils literal notranslate"><span class="pre">meancrt</span></code> or <code class="docutils literal notranslate"><span class="pre">meancr</span></code>. For example, to
-apply the masks using the <code class="docutils literal notranslate"><span class="pre">mediancr</span></code> method, one can execute:</p>
+apply the mask corresponding to the <code class="docutils literal notranslate"><span class="pre">mediancr</span></code> method, one can execute:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina-crmasks<span class="w"> </span>apply<span class="w"> </span><span class="se">\</span>
 --inputlist<span class="w"> </span>list.txt<span class="w"> </span><span class="se">\</span>
 --input_mask<span class="w"> </span>crmasks.fits<span class="w"> </span><span class="se">\</span>
@@ -729,7 +804,9 @@ apply the masks using the <code class="docutils literal notranslate"><span class
 --combination<span class="w"> </span>mediancr
 </pre></div>
 </div>
-<p>In this example, the combined image is saved in the file <code class="docutils literal notranslate"><span class="pre">result.fits</span></code>.</p>
+<p>In this example, the combined image is saved to the file <code class="docutils literal notranslate"><span class="pre">result.fits</span></code>. You
+can choose any filename for the output, depending on your workflow or naming
+conventions.</p>
 <p>Full details of the available parameters can be obtained by executing:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina-crmasks<span class="w"> </span>apply<span class="w"> </span>--help
 <span class="go">usage: numina-crmasks apply [-h] --inputlist INPUTLIST</span>
