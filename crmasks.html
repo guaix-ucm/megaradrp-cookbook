@@ -164,7 +164,7 @@ which is described later in this document.</p>
 <ol class="arabic simple">
 <li><p><strong>Prepare the observation result file</strong>: Create the YAML file that lists the
 individual exposures and specifies additional requirements for the reduction
-recipe associated with the reduction recipe <strong>MegarCrDetection</strong>.</p></li>
+recipe associated with the reduction recipe <strong>MegaraCrDetection</strong>.</p></li>
 <li><p><strong>Run the MEGARA DRP to generate the CR masks</strong>: The execution of the MEGARA
 DRP with this YAML file is interactive (see below), and the result is a FITS
 file named <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code>, which contains several masks that can later be
@@ -191,7 +191,7 @@ the minimum value at each pixel across the available exposures.</p></li>
 stores all the cosmic rays detected in all the individual exposures,
 replacing each masked pixels by the value obtained when using the
 <code class="docutils literal notranslate"><span class="pre">mediancr</span></code> method.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">meancr</span></code>: also performs a median combination, but uses the individual
+<li><p><code class="docutils literal notranslate"><span class="pre">meancr</span></code>: also performs a mean combination, but uses the individual
 cosmic ray masks specifically computed for each available exposure.</p></li>
 </ul>
 <p>Since the mean has a lower standard deviation than the median, the
@@ -217,7 +217,7 @@ step.</p>
 </pre></div>
 </div>
 <p>This initial file is quite simple: one only has to take care of specifying
-<code class="docutils literal notranslate"><span class="pre">mode:</span> <span class="pre">MegarCrDetection</span></code>, so the MEGARA DRP will know that the
+<code class="docutils literal notranslate"><span class="pre">mode:</span> <span class="pre">MegaraCrDetection</span></code>, so the MEGARA DRP will know that the
 <code class="docutils literal notranslate"><span class="pre">8_generate_crmasks.yaml</span></code> file is intended for generating the CR masks.  It’s
 also essential to ensure that the list of exposures includes three or more
 equivalent exposures, as the method relies on comparing pixel values across
