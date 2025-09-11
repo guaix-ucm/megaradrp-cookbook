@@ -70,7 +70,7 @@ The main workflow for applying the method is as follows:
 
 1. **Prepare the observation result file**: Create the YAML file that lists the
    individual exposures and specifies additional requirements for the reduction
-   recipe associated with the reduction recipe **MegarCrDetection**.
+   recipe associated with the reduction recipe **MegaraCrDetection**.
 2. **Run the MEGARA DRP to generate the CR masks**: The execution of the MEGARA
    DRP with this YAML file is interactive (see below), and the result is a FITS
    file named ``crmasks.fits``, which contains several masks that can later be
@@ -97,7 +97,7 @@ The main workflow for applying the method is as follows:
      stores all the cosmic rays detected in all the individual exposures,
      replacing each masked pixels by the value obtained when using the
      ``mediancr`` method.
-   - ``meancr``: also performs a median combination, but uses the individual
+   - ``meancr``: also performs a mean combination, but uses the individual
      cosmic ray masks specifically computed for each available exposure.
 
    Since the mean has a lower standard deviation than the median, the 
@@ -121,7 +121,7 @@ step.
    :emphasize-lines: 2
 
 This initial file is quite simple: one only has to take care of specifying
-``mode: MegarCrDetection``, so the MEGARA DRP will know that the
+``mode: MegaraCrDetection``, so the MEGARA DRP will know that the
 ``8_generate_crmasks.yaml`` file is intended for generating the CR masks.  It’s
 also essential to ensure that the list of exposures includes three or more
 equivalent exposures, as the method relies on comparing pixel values across
