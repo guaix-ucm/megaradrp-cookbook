@@ -51,16 +51,19 @@ MEGARA DRP.
 Overall description
 ===================
 
-This method can only be applied when three or more equivalent exposures are
-available. It works by identifying pixels that deviate unexpectedly in a
-diagnostic diagram constructed using the median and minimum signal values of
-each pixel across the different exposures.
-
-For the method to function correctly, it’s essential that the exposures are
-truly equivalent, that is, each pixel should exhibit the same signal level
-across exposures, aside from expected random noise. While small variations in
-signal levels are tolerable, significant differences can result in a high
-number of false positives.
+This method should only be applied when three or more equivalent exposures are
+available. It works by identifying pixels where the signal has been affected by
+cosmic rays in more than half of the available exposures, such that the median
+combination still retains an erroneous signal. These pixels are directly
+identified in the median-combined image using the L.A. Cosmic technique `(van
+Dokkum 2001) <https://iopscience.iop.org/article/10.1086/323894>`_. This work
+was carried out using the implementation of this algorithm provided by the
+Python package `ccdproc <https://ccdproc.readthedocs.io/en/latest/index.html>`_
+through the `cosmicray_lacosmic
+<https://ccdproc.readthedocs.io/en/latest/api/ccdproc.cosmicray_lacosmic.html>`_
+function, which in turn is based on the implementation provided by the
+`Astro-SCRAPPY <https://github.com/astropy/astroscrappy>`_ package (McCully
+2014).
 
 Although the method is designed to be used within the MEGARA DRP, it can also
 be executed directly from the command line using the ``numina-crmasks`` script,
@@ -129,6 +132,113 @@ multiple images.
 
 Computing the CR masks
 ======================
+
+Initial execution
+-----------------
+
+The recipe is run by doing:
+
+.. code-block:: console
+
+   (megara) $ numina run 8_generate_crmasks.yaml -r control.yaml
+
+After a short processing time (typically around one minute, required to perform
+the necessary numerical simulations), the program generates...
+
+Applying the masks
+==================
+
+Once the ``crmasks.fits`` file has been generated, it can be used to remove the
+suspected cosmic rays from the combined image.  Several options are available
+for this step, depending on the value of ``method`` specified in the
+requirements section of the YAML file used to produce the reduced scientific
+result. Rather than assuming the combination method is ``median`` (the default
+in MEGARA DRP), the user should explicitly specify one of the following
+methods: ``mediancr``, ``meancr`` or ``meancrt``. 
+
+Method ``mediancr``
+-------------------
+
+For example, when using the **MegaraLcbImage** recipe, the corresponding
+YAML file, ``8_LcbImage.yaml`` should define the ``method`` and
+``crmasks`` parameters in the requirements section, as follows:
+
+.. literalinclude:: files/8_LcbImage_mediancr.yaml
+   :language: yaml
+   :linenos:
+   :lineno-start: 1
+   :emphasize-lines: 2, 9-10
+
+Note that the ``crmasks`` parameter must be explicitly specified, and it should
+point to the ``crmasks.fits`` file generated in the previous step. This
+requirement also gives users the flexibility to rename the file and test
+different versions of it (each potentially created with varying detection
+thresholds) to evaluate the impact of using different masks.
+
+.. code-block:: console
+
+   (megara) $ numina run 8_LcbImage.yaml -r control.yaml
+
+When using ``method: mediancr``, the MEGARA DRP reads the mask stored in the
+``MEDIANCR`` extension of the ``crmasks.fits`` file. The masked pixels (those
+suspected of being affected by a cosmic ray in more than one exposure) are
+replaced with the corresponding ``min2d`` value at each pixel. As a result, the
+final image is identical to ``median2d``, except for the corrected pixels.
+
+Method ``meancrt``
+------------------
+
+.. literalinclude:: files/8_LcbImage_meancrt.yaml
+   :language: yaml
+   :linenos:
+   :lineno-start: 1
+   :emphasize-lines: 2, 9-10
+
+When using ``method: meancrt``, the MEGARA DRP reads the mask stored in 
+the ``MEANCRT`` extension of the file ``crmasks.fits``. The masked pixels,
+which are suspected of being affected by a cosmic ray, are replaced by 
+the corresponding values when using ``method: mediancr``. 
+
+As a result, the final image is identical to ``mean2d``, except for the
+corrected pixels, where the data is sourced from the image produced by the
+``mediancr`` method.
+
+Method ``meancr``
+-----------------
+
+.. literalinclude:: files/8_LcbImage_meancr.yaml
+   :language: yaml
+   :linenos:
+   :lineno-start: 1
+   :emphasize-lines: 2, 9-10
+
+When using ``method: meancr``, the MEGARA DRP reads the masks stored in the
+``CRMASK1``, ``CRMASK2`` and ``CRMASK3`` extensions of the file
+``crmasks.fits``. The program uses NumPy masked arrays to construct a 3D stack
+of the individual exposures, where each image is represented as a masked array
+based on its corresponding mask. This allows the program to compute the mean
+along the axis corresponding to the image number, excluding the masked pixels.
+
+In cases where a pixel is masked in all individual exposures, the corresponding
+pixel in the combined image is set to the ``min2d`` value at that location.
+
+Alternative method to compute the CR masks
+==========================================
+
+An alternative method is described below, which does not require the use of the
+L.A. Cosmic technique and may yield similar results. **It is not the recommended
+method for MEGARA exposures**, but is presented here as an example of its
+application.
+
+This alternative method works by identifying pixels that deviate unexpectedly
+in a diagnostic diagram constructed using the median and minimum signal values
+of each pixel across the different exposures.
+
+For the method to function correctly, it’s essential that the exposures are
+truly equivalent, that is, each pixel should exhibit the same signal level
+across exposures, aside from expected random noise. While small variations in
+signal levels are tolerable, significant differences can result in a high
+number of false positives.
 
 Initial execution
 -----------------
@@ -574,82 +684,6 @@ data or scientific goals.
   preprocessed individual exposures in the *work/* subdirectory. This can be
   helpful for debugging, but is not required for normal operation.
 
-Applying the masks
-==================
-
-Once the ``crmasks.fits`` file has been generated, it can be used to remove the
-suspected cosmic rays from the combined image.  Several options are available
-for this step, depending on the value of ``method`` specified in the
-requirements section of the YAML file used to produce the reduced scientific
-result. Rather than assuming the combination method is ``median`` (the default
-in MEGARA DRP), the user should explicitly specify one of the following
-methods: ``mediancr``, ``meancr`` or ``meancrt``. 
-
-Method ``mediancr``
--------------------
-
-For example, when using the **MegaraLcbImage** recipe, the corresponding
-YAML file, ``8_LcbImage.yaml`` should define the ``method`` and
-``crmasks`` parameters in the requirements section, as follows:
-
-.. literalinclude:: files/8_LcbImage_mediancr.yaml
-   :language: yaml
-   :linenos:
-   :lineno-start: 1
-   :emphasize-lines: 2, 9-10
-
-Note that the ``crmasks`` parameter must be explicitly specified, and it should
-point to the ``crmasks.fits`` file generated in the previous step. This
-requirement also gives users the flexibility to rename the file and test
-different versions of it (each potentially created with varying detection
-thresholds) to evaluate the impact of using different masks.
-
-.. code-block:: console
-
-   (megara) $ numina run 8_LcbImage.yaml -r control.yaml
-
-When using ``method: mediancr``, the MEGARA DRP reads the mask stored in the
-``MEDIANCR`` extension of the ``crmasks.fits`` file. The masked pixels (those
-suspected of being affected by a cosmic ray in more than one exposure) are
-replaced with the corresponding ``min2d`` value at each pixel. As a result, the
-final image is identical to ``median2d``, except for the corrected pixels.
-
-Method ``meancrt``
-------------------
-
-.. literalinclude:: files/8_LcbImage_meancrt.yaml
-   :language: yaml
-   :linenos:
-   :lineno-start: 1
-   :emphasize-lines: 2, 9-10
-
-When using ``method: meancrt``, the MEGARA DRP reads the mask stored in 
-the ``MEANCRT`` extension of the file ``crmasks.fits``. The masked pixels,
-which are suspected of being affected by a cosmic ray, are replaced by 
-the corresponding values when using ``method: mediancr``. 
-
-As a result, the final image is identical to ``mean2d``, except for the
-corrected pixels, where the data is sourced from the image produced by the
-``mediancr`` method.
-
-Method ``meancr``
------------------
-
-.. literalinclude:: files/8_LcbImage_meancr.yaml
-   :language: yaml
-   :linenos:
-   :lineno-start: 1
-   :emphasize-lines: 2, 9-10
-
-When using ``method: meancr``, the MEGARA DRP reads the masks stored in the
-``CRMASK1``, ``CRMASK2`` and ``CRMASK3`` extensions of the file
-``crmasks.fits``. The program uses NumPy masked arrays to construct a 3D stack
-of the individual exposures, where each image is represented as a masked array
-based on its corresponding mask. This allows the program to compute the mean
-along the axis corresponding to the image number, excluding the masked pixels.
-
-In cases where a pixel is masked in all individual exposures, the corresponding
-pixel in the combined image is set to the ``min2d`` value at that location.
 
 Using the command line script
 =============================

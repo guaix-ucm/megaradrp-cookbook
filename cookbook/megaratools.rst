@@ -40,7 +40,13 @@ To develop your own tools based on **megara-tools**:
 .. code-block:: console
 
    (megara) $ git clone https://github.com/guaix-ucm/megara-tools.git
+
+.. code-block:: console
+
    (megara) $ cd megara-tools
+
+.. code-block:: console
+
    (megara) $ pip install -e .
 
 All tools described in this section should be under Python >=3.5 and
@@ -118,8 +124,12 @@ Galactic Globular Cluster M15, respectively.
 As for the other commands, adding the -h flag would provide the help and
 syntax for using this command. The result is the following:
 
+.. code-block:: console
+
+   (megara) $ python -m megaradrp.visualization --help
+
 .. literalinclude:: files/help_visualization.txt
-   :language: console
+   :class: my-special-block no-copybutton
 
 Note that this visualization tool can be also used to display output RSS
 files from the ``analyze_rss.py`` tool described below. As an example, the
@@ -143,8 +153,12 @@ the sky (RA & Dec if instrument PA is 0º). Since this tool is now part
 of the MEGARA DRP it should be run from within the DRP environment by
 doing:
 
+.. code-block:: console
+
+   (megara) $ megaradrp-cube -h
+
 .. literalinclude:: files/help_megaradrp-cube.txt
-   :language: console
+   :class: my-special-block no-copybutton
 
 Default parameters for the ``--disable-scaling`` and ``--wcs-pa-from-header``
 options should be fine for regular MEGARA data processed with the DRP.
@@ -174,15 +188,18 @@ called as an argument for the Python main interpreter or as executables
 on their own, although the latter option is recommended:
 
 .. code-block:: console
+   :class: no-copybutton
 
    (megara) $ python <path_to_extract_spectrum>/extract_spectrum.py -h
+
+.. code-block:: console
 
    (megara) $ megaratools-extract_spectrum -h
 
 The result of the task when called using the help (-h) argument is:
 
 .. literalinclude:: files/help_megaratools-extract_spectrum.txt
-   :language: console
+   :class: my-special-block no-copybutton
 
 The table with the fiber ids (``-t``) is a simple ASCII file in which one of
 the (space-separated) columns is the fiber id. The user can also choose
@@ -192,6 +209,10 @@ a set of rows that fulfils the condition of including a specific string
 .. code-block:: console
 
    (megara) $ cat test/regions.fibers
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    Region1 321
    Region1 319
    Region2 454
@@ -247,8 +268,12 @@ variation of properties derived from RSS data when the signal-to-noise
 ratio does not allow to carry out a spaxel-by-spaxel analysis. The
 options for this command are:
 
+.. code-block:: console
+
+   (megara) $ megaratools-extract_rings -h
+
 .. literalinclude:: files/help_megaratools-extract_rings.txt
-   :language: console
+   :class: my-special-block no-copybutton
 
 The command creates an RSS file with the same wavelength calibration
 solution as the input RSS file but a number of columns equal to the
@@ -263,6 +288,9 @@ is run and of the output it creates in verbose mode.
 
    (megara) $ megaratools-extract_rings -r test/final_rss.fits -c 311 \
               -b -w 0.6 -n 5 -s test/rings.fits -e 0.8 -pa 0. -v
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
 
    Ring #1: 0.010272977933 Jy/[asec/spx]^2 (@CWL) - area/rad: 1.1618385/0.3 [asec/spx]^2/asec)
    Ring #2: 0.006704834831 Jy/[asec/spx]^2 (@CWL) - area/rad: 3.3284848/0.9 [asec/spx]^2/asec)
@@ -281,8 +309,15 @@ Examples of that use are:
 
    (megara) $ megaratools-extract_spectrum -s test/final_rss.fits \
               -t test/rings.dat -c 1 -g 1 -o test/ring1.fits
+
+.. code-block:: console
+
    (megara) $ megaratools-extract_spectrum -s test/final_rss.fits \
               -t test/rings.dat -c 1 -g 2 -o test/ring2.fits
+
+.. code-block:: console
+   :class: no-copybutton
+
    ...
 
 where the ``test/rings.dat`` file is simply a list of integer numbers.
@@ -295,8 +330,12 @@ the spectrum plotted with a tabulated spectrum (e.g. that from a
 standard star) and a list of spectral lines. The options that can be
 used for the ``megaratools-plot_spectrum`` tool are:
 
+.. code-block:: console
+
+   (megara) $ megaratools-plot_spectrum -h
+
 .. literalinclude:: files/help_megaratools-plot_spectrum.txt
-   :language: console
+   :class: my-special-block no-copybutton
 
 Below we show an example of its use and the resulting plot (**Figure
 19**).
@@ -322,6 +361,10 @@ with a catalogue of spectral lines must have the following format:
 .. code-block:: console
 
    (megara) $ cat test/bright_lines.dat
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    [N II],6548.1
    Ha,6562.8
    [N II],6583.4
@@ -366,8 +409,12 @@ by fitting only columns (left) and in 2D (columns first, then columns)
 Below we show how this tool is executed and some basic information on
 its different options.
 
+.. code-block:: console
+
+   (megara) $ megaratools-diffuse_light -h
+
 .. literalinclude:: files/help_megaratools-diffuse_light.txt
-   :language: console
+   :class: my-special-block no-copybutton
  
 Most of these options are related to the different fitting parameters
 used. Note that the input image should be the ``reduced_image.fits`` image
@@ -399,9 +446,9 @@ the entire CCD. An example of the use of this tool follows:
 .. code-block:: console
 
    (megara) $ megaratools-diffuse_light -i test/reduced_image.fits \
-              -o test/background_2D.fits -r test/residuals_2D.fits \
-              -t test/master_traces.json -s 1.2 -p test/plots_2D.pdf \
-              -e 2407 2720 0 154 -2D
+     -o test/background_2D.fits -r test/residuals_2D.fits \
+     -t test/master_traces.json -s 1.2 -p test/plots_2D.pdf \
+     -e 2407 2720 0 154 -2D
 
 The result of this command is a low-frequency background image (the one
 set by the ``-o`` option). See the bottom panels of **Figure 20** in this
@@ -451,8 +498,12 @@ spectral range. As this tool is used on extracted 1D spectrum, the
 output is given on the screen and no output file is created. This tool
 is executed by doing:
 
+.. code-block:: console
+
+   (megara) $ megaratools-analyze_spectrum -h
+
 .. literalinclude:: files/help_megaratools-analyze_spectrum.txt
-   :language: console
+   :class: my-special-block no-copybutton
 
 Some of the options of this task are common to the ones in
 ``megaratools_plot_spectrum``, including the possibility of adding a tabulated
@@ -462,10 +513,11 @@ of the source (``-z``), creating an output PDF (``-o``) with or without legend
 
 .. code-block:: console
 
-   (megara) $ megaratools-analyze_spectrum -s test/spectrum.fits \
-              -f 2 -w 6563 -LW1 6552 -LW2 6570 -CW1 6400 -CW2 6710 \
-              -ECW1 6545 -ECW2 6588 -PW1 6350 -PW2 6800 -f 2 \
-              -c test/bright_lines.dat -p -k -z "-0.00025" -S2 " -0.2"
+   (megara) $ megaratools-analyze_spectrum \
+     -s test/spectrum.fits \
+     -f 2 -w 6563 -LW1 6552 -LW2 6570 -CW1 6400 -CW2 6710 \
+     -ECW1 6545 -ECW2 6588 -PW1 6350 -PW2 6800 -f 2 \
+     -c test/bright_lines.dat -p -k -z "-0.00025" -S2 " -0.2"
 
 Note that setting values to ``-LW1``, ``-LW2``, ``-CW1``, ``-CW2``, ``-PW1``,
 ``-PW2`` is mandatory. The tool, based on some of the options introduced,
@@ -536,8 +588,12 @@ data (``final_rss.fits`` or ``reduced_rss.fits`` files created by the
 The tool is called ``megaratools-analyze_rss`` and it is executed by
 doing:
 
+.. code-block:: console
+
+   (megara) $ megaratools-analyze_rss -h
+
 .. literalinclude:: files/help_megaratools-analyze_rss.txt
-   :language: console
+   :class: my-special-block no-copybutton
 
 Although the spectral ranges and model function set by the options of
 the parameter are common to all fibers, option ``-S`` allows to set a
@@ -577,21 +633,23 @@ can be used to create a line-ratio map.
 
 .. code-block:: console
 
-   (megara) $ megaratools-analyze_rss -s test/final_rss.fits -f 2 \
-              -w 6563 -LW1 6552 -LW2 6570 -CW1 6400 -CW2 6710 \
-              -ECW1 6545. -ECW2 6588 -PW1 6350 -PW2 6800 -f 2 -k \
-              -z "-0.00025" -S2 " -0.2" -S 5 \
-              -o test/analyze_rss_Halpha.pdf \
-              -O test/analyze_rss_Halpha.fits \
-              -of test/analyze_rss_Halpha.fibers
+   (megara) $ megaratools-analyze_rss \
+     -s test/final_rss.fits -f 2 \
+     -w 6563 -LW1 6552 -LW2 6570 -CW1 6400 -CW2 6710 \
+     -ECW1 6545. -ECW2 6588 -PW1 6350 -PW2 6800 -f 2 -k \
+     -z "-0.00025" -S2 " -0.2" -S 5 \
+     -o test/analyze_rss_Halpha.pdf \
+     -O test/analyze_rss_Halpha.fits \
+     -of test/analyze_rss_Halpha.fibers
 
-   (megara) $ megaratools-analyze_rss -s test/final_rss.fits -f 2 \
-              -w 6584 -LW1 6580 -LW2 6587 -CW1 6400 -CW2 6710 \
-              -ECW1 6545. -ECW2 6588 -PW1 6350 -PW2 6800 -f 1 -k \
-              -z "-0.00025" -S 5 \
-              -o test/analyze_rss_N2.pdf \
-              -O test/analyze_rss_N2.fits \
-              -of test/analyze_rss_N2.fibers
+   (megara) $ megaratools-analyze_rss \
+     -s test/final_rss.fits -f 2 \
+     -w 6584 -LW1 6580 -LW2 6587 -CW1 6400 -CW2 6710 \
+     -ECW1 6545. -ECW2 6588 -PW1 6350 -PW2 6800 -f 1 -k \
+     -z "-0.00025" -S 5 \
+     -o test/analyze_rss_N2.pdf \
+     -O test/analyze_rss_N2.fits \
+     -of test/analyze_rss_N2.fibers
 
 |image15|\ |image16|
 
@@ -610,8 +668,12 @@ The tool ``megaratools-rss_arith`` described here allows to perform basic
 computations (Python basic arithmetic and **numpy** numerical operations)
 on RSS files. The online help output is shown below.
 
+.. code-block:: console
+
+   (megara) $ megaratools-rss_arith -h
+
 .. literalinclude:: files/help_megaratools-rss_arith.txt
-   :language: console
+   :class: my-special-block no-copybutton
 
 The input of this tool is a text file with the list of images involved
 in the operation (all of the same size):
@@ -619,6 +681,10 @@ in the operation (all of the same size):
 .. code-block:: console
 
    (megara) $ cat test/images.txt
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    test/analyze_rss_N2.fits
    test/analyze_rss_Halpha.fits
    test/final_rss.fits
@@ -633,9 +699,10 @@ array operations. Below we show examples of some potential usages of
 
 .. code-block:: console
 
-   (megara) $ megaratools-rss_arith test/images.txt \
-              -e 'np.log10(ima1[:,6]/ima2[:,22])' \
-              -o test/logN2_over_Ha_rss.fits
+   (megara) $ megaratools-rss_arith \
+     test/images.txt \
+     -e 'np.log10(ima1[:,6]/ima2[:,22])' \
+     -o test/logN2_over_Ha_rss.fits
 
 This instruction includes the options required to create a line-ratio RSS (in
 log10 scale) from two RSS FITS files created by the ``megaratools-analyze_rss``
@@ -651,12 +718,12 @@ Other examples are:
 .. code-block:: console
 
    (megara) $ megaratools-rss_arith test/images.txt \
-              -e '(np.mean(ima3[:,1000:2000],axis=1))' \
-              -o test/mean_1000_2000.fits
+     -e '(np.mean(ima3[:,1000:2000],axis=1))' \
+     -o test/mean_1000_2000.fits
 
    (megara) $ megaratools-rss_arith test/images.txt \
-              -e '(np.mean(ima3[:,2000:3000],axis=1))' \
-              -o test/mean_2000_3000.fits
+     -e '(np.mean(ima3[:,2000:3000],axis=1))' \
+     -o test/mean_2000_3000.fits
 
 In these cases, we compute the mean of all the flux from spectral pixels
 1000 to 2000 (top) and 2000 to 3000 (bottom) to create two new separated
@@ -665,7 +732,8 @@ RSS files. We can now create a spectral-index-like RSS image by running:
 .. code-block:: console
 
    (megara) $ megaratools-rss_arith test/images2.txt \
-              -e 'ima4[:,0]/ima5[:,0]' -o test/index.fits
+     -e 'ima4[:,0]/ima5[:,0]' \
+     -o test/index.fits
 
 The user should bear in mind that ``test/images2.txt`` now includes two
 additional rows with the names of the images created above:
@@ -681,7 +749,7 @@ described in Section 6.1. This figure was obtained using the command:
 .. code-block:: console
 
    (megara) $ python -m megaradrp.visualization test/index.fits \
-              -c 0 --min-cut 0.8 --max-cut 1.2
+     -c 0 --min-cut 0.8 --max-cut 1.2
 
 .. image:: _static/image38.png
    :width: 4.42014in
@@ -710,7 +778,8 @@ something like the following:
 .. code-block:: console
 
    (megara) $ megaratools-rss_arith test/list_1D \
-              -e '2.0*ima1+ima2' -o test/output_1D.fits
+     -e '2.0*ima1+ima2' \
+     -o test/output_1D.fits
 
 where ``list_1D`` should be a text ascii file with the (in this case, two)
 extracted spectra on which the numerical operation is to be performed
@@ -732,8 +801,12 @@ combined them all together to create a single large cube. This tool is
 called ``megaratools-hypercube`` and its online help can be obtained by
 doing:
 
+.. code-block:: console
+
+   (megara) $ megaratools-hypercube -h
+
 .. literalinclude:: files/help_megaratools-hypercube.txt
-   :language: console
+   :class: my-special-block no-copybutton
 
 Although this tool determines the position on the sky based on the image
 WCS solution, it also allows to apply additional RA & Dec offsets to
@@ -747,6 +820,10 @@ included. An example of such a file is given below:
 .. code-block:: console
 
    (megara) $ cat test/list_hypercube
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    test/reduced_rss_OB0001_B.fits 0.0 0.0 0.0 1.0
    test/reduced_rss_OB0002_B.fits 0.0 0.0 0.0 1.0
    test/reduced_rss_OB0003_B.fits 0.0 0.0 0.0 1.0
@@ -764,7 +841,8 @@ An example of how the tool should be run would be the following:
 .. code-block:: console
 
    (megara) $ megaratools-hypercube test/list_hypercube \
-              -l -o test/cube.fits -p 0.4 -m linear --wcs-pa-from-header -trim -hyp -helio
+     -l -o test/cube.fits -p 0.4 -m linear \
+     --wcs-pa-from-header -trim -hyp -helio
 
 In this case the pixel size of the ``cube.fits`` output file would be 0.4
 arcsec/pixel, the cube would be generated using linear interpolation, 2

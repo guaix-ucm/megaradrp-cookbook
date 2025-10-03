@@ -1,4 +1,3 @@
-(megara) $ megaratools-rss_arith -h
 usage: combine_rss [-h] [-e Equation to evaluate] [-o OUTPUT RSS] rss
 
 Combining by averaging aligned RSS files

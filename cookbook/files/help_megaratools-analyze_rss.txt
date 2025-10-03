@@ -1,4 +1,3 @@
-(megara) $ megaratools-analyze_rss -h
 usage: analyze_rss [-h] [-s RSS FILE] [-f FITTING FUNCTION (0,1,2)]
                    [-S MINIMUM S/N] [-w LINE CENTRAL WAVELENGTH] [-k]
                    [-LW1 LOWER WAVELENGTH - LINE]

@@ -1,4 +1,3 @@
-(megara) $ python -m  megaradrp.visualization --help
 usage: visualization.py [-h] [--wcs-grid] [--wcs-pa-from-header]
                         [--fix-missing]
                         [--average-region AVERAGE_REGION AVERAGE_REGION]

@@ -1,4 +1,3 @@
-(megara) $ megaratools-analyze_spectrum -h
 usage: analyze_spectrum [-h] [-s SPECTRUM/FILE_LIST] [-l]
                         [-f FITTING FUNCTION (0,1,2)]
                         [-w LINE CENTRAL WAVELENGTH] [-k]

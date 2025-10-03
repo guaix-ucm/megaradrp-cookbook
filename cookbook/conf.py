@@ -32,8 +32,14 @@ release = '2025.05.16'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx_rtd_theme'
+    'sphinx_rtd_theme',
+    'sphinx_copybutton'
 ]
+copybutton_prompt_text = "(megara) $ "
+copybutton_only_copy_prompt_lines = False
+# allow to exclude the copybutton in selected blocks
+copybutton_selector = "div:not(.no-copybutton) > div.highlight > pre"
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -61,6 +67,8 @@ html_logo = '_static/logo.png'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+def setup(app):
+    app.add_css_file("custom.css")
 
 # This doesn't work. Use html_logo above (NCL, 20241010).
 html_theme_options = {

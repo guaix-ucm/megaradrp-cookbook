@@ -1,4 +1,3 @@
-(megara) $ megaratools-diffuse_light -h
 usage: clean_diffuse_light [-h] [-i INPUT-IMAGE] [-o OUTPUT-IMAGE]
                            [-r RESIDUALS-IMAGE] [-t MASTER-TRACES]
                            [-s SHIFT-TRACES] [-w SEARCH-WINDOW]

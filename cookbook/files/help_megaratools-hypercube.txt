@@ -1,4 +1,3 @@
-(megara) $ megaratools-hypercube -h
 usage: convert_rss_cube [-h] [-l] [-c] [-p PIXEL_SIZE] [-o OUTFILE] [-d]
                         [-m {nn,linear}] [--wcs-pa-from-header] [-trim] [-hyp]
                         [-helio] [-trimn [TRIMMING_NUMBERS ...]]

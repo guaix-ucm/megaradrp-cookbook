@@ -32,6 +32,10 @@ the traces are determined, e.g.
 .. code-block:: console
 
    (megara) $ numina run 1_tracemap.yaml -r ../control.yaml
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    ...
    ...
    INFO: start trace recipe QC
@@ -70,7 +74,10 @@ Identifying faulty traces is straightforward using the
 
 .. code-block:: console
 
-   (megara) $ megaradrp-overplot_traces reduced_image.fits master_traces.json              
+   (megara) $ megaradrp-overplot_traces reduced_image.fits master_traces.json    
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    >>> File..: reduced_image.fits
    >>> NAXIS1: 4096
    >>> NAXIS2: 4112
@@ -116,7 +123,6 @@ displaying the fiber number in the same figure.
    (megara) $ megaradrp-overplot_traces reduced_image.fits master_traces.json \
      --fibids \
      --bbox 1,4096,3775,3950
-   ...
 
 .. image:: _static/healing/initial_traces_in_full_image_zoom.png
    :width: 100%
@@ -413,6 +419,8 @@ we can apply all the transformations with a simple execution of the script
      --bbox 1,4096,3775,3950 \
      --verbose
 
+.. code-block:: console
+   :class: my-special-block no-copybutton
 
    >>> File..: reduced_image.fits
    >>> NAXIS1: 4096
@@ -478,8 +486,8 @@ outcomes.
 .. code-block:: console
 
    (megara) $ megaradrp-overplot_traces reduced_image.fits master_traces_healed.json \ 
-   --fibids \
-   --bbox 1,4096,3775,3950
+     --fibids \
+     --bbox 1,4096,3775,3950
 
 Please note that the second parameter is now ``master_traces_healed.json``
 instead of ``master_traces.json``. We have successfully corrected all the
@@ -543,10 +551,10 @@ wavelength axis, NAXIS1). The offset is calculated in pixel units.
 .. code-block:: console
 
    (megara) $ megaradrp-heal_traces \
-   reduced_image.fits \
-   master_traces_LRU_20220325.json \
-   --global_offset 8.9 0.00060 \
-   --updated_traces master_traces_LRU_20220325_healed.json
+     reduced_image.fits \
+     master_traces_LRU_20220325.json \
+     --global_offset 8.9 0.00060 \
+     --updated_traces master_traces_LRU_20220325_healed.json
 
 The execution of this command opens a graphical window that, with the help of
 the zoom button, allows us to easily verify how well the numerical coefficients

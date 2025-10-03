@@ -1,4 +1,3 @@
-(megara) $ megaratools-extract_rings -h
 usage: extract_elliptical_rings_spectrum [-h] [-r RSS-SPECTRUM] [-a] [-b]
                                          [-c CENTRAL-FIBER] [-n NUMBER-RINGS]
                                          [-w RINGS WIDTH] [-s SAVED-RSS]

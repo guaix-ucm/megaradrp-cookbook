@@ -1,4 +1,3 @@
-(megara) $ megaratools-plot_spectrum -h
 usage: plot_spectrum [-h] [-s SPECTRUM/FILE_LIST] [-l] [-t STD-TABLE]
                      [-c LINECAT-TABLE] [-z LINECAT-Z] [-o OUTPUT-PDF] [-e]
                      [-p] [-n] [-L1 INITIAL LAMBDA] [-L2 LAST LAMBDA]
