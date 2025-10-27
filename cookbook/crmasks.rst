@@ -47,11 +47,11 @@ The main workflow for applying the method is as follows:
 3. **Run the MEGARA DRP to generate the reduced scientific result**: Once the
    file ``crmasks.fits`` is placed in the `data/` subdirectory, the MEGARA DRP
    can be run again to generate the reduced scientific result, using for that
-   purpose the corresponding YAML file. During this step, the user must one of
-   the available strategies for combining exposures and removing cosmic rays.
-   Instead of using the default ``median`` combination, specify one of the
-   following methods in the requirements section:
-   ``mediancr``, ``meancrt`` or ``meancr``.
+   purpose the corresponding YAML file. During this step, the user must chose
+   one of the available strategies for combining exposures and removing cosmic
+   rays. Instead of using the default ``median`` combination, one must specify
+   one of the following methods in the requirements section: ``mediancr``,
+   ``meancrt`` or ``meancr``.
 
 .. note::
 
@@ -115,12 +115,14 @@ The recipe is run by doing:
 
    (megara) $ numina run 8_generate_crmasks.yaml -r control.yaml
 
-From this point, follow the description given in this
-`example
-<https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html#example>`_.
-**Important**: in that example the generation of
-the CR masks is carried out by executing the command-line script
+From this point, follow the description given in this `example
+<https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html#example>`_,
+which helps understanding the impact of using different parameters in the
+cosmic-ray pixel detection process. **Important**: in that example the
+generation of the CR masks is carried out by executing the command-line script
 ``numina-crmasks``, which makes use of a slightly different input YAML file.
+However, the code executed is the same as in the **MegaraCrDetection** recipe,
+so the resulting output is identical.
 
 
 Output file ``crmasks.fits``
@@ -214,7 +216,7 @@ suspected of being affected by a cosmic ray in more than one exposure) are
 replaced with the corresponding ``min2d`` value at each pixel. As a result, the
 final image is identical to ``median2d``, except for the corrected pixels.
 
-Note that under the label ```method_kwargs:`` there are several parameters that
+Note that under the label ``method_kwargs:`` there are several parameters that
 control how the information from the ``crmasks.fits`` file is used:
 
 - ``apply_flux_factor:`` When set to ``True``, the factors listed in the
