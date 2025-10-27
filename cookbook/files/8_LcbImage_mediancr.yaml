@@ -6,8 +6,11 @@ frames:
  - 0003978528-20231115-MEGARA-MegaraLcbImage.fits
  - 0003978529-20231115-MEGARA-MegaraLcbImage.fits
 requirements:
- method: mediancr
- crmasks: ../data/crmasks.fits
- extraction_offset: [+3]
- ignored_sky_bundles: [96] #[93, 94, 96, 97, 99, 100]
- reference_extinction: extinction_LP.txt
+  method: mediancr
+  method_kwargs:
+    apply_flux_factor: False
+    use_lamedian: False
+  crmasks: ../data/crmasks.fits
+  extraction_offset: [+3]
+  ignored_sky_bundles: [96] #[93, 94, 96, 97, 99, 100]
+  reference_extinction: extinction_LP.txt

@@ -1,7 +1,62 @@
-id: 8_LcbImage_LR-R_crmasks
+id: 8_LR-R_crmasks
 mode: MegaraCrDetection
 instrument: MEGARA
 frames:
  - 0003978527-20231115-MEGARA-MegaraLcbImage.fits
  - 0003978528-20231115-MEGARA-MegaraLcbImage.fits
  - 0003978529-20231115-MEGARA-MegaraLcbImage.fits
+requirements:
+  crmethod: mm_lacosmic             # lacosmic | mmcosmic | mm_lacosmic
+  use_lamedian: False               # use LAMEDIAN insteand of minimum value
+  interactive: True                 # display and pause between plots
+  flux_factor: none                 # none | auto | [list of values]
+  flux_factor_regions:              # list of regions, FITS criterium
+  # - [xmin, xmax, ymin, ymax]      # <-- format (no need to uncomment this)
+  apply_flux_factor_to: simulated   # original | simulated (data)
+  dilation: 1                       # dilation around suspected pixels (integer)
+  regions_to_be_skipped:            # list of regions, FITS criterium
+  # - [xmin, xmax, ymin, ymax]      # <-- format (no need to uncomment this)
+  pixels_to_be_flagged_as_cr:       # FITS criterium, first pixel is [1, 1]
+  # - [X, Y]                        # <-- format (no need to uncomment this)
+  pixels_to_be_ignored_as_cr:       # FITS criterium, first pixel is [1, 1]
+  # - [X, Y]                        # <-- format (no need to uncomment this)
+  pixels_to_be_replaced_by_local_median:  # FITS criterium
+  # - [X, Y, X_width, Y_width]      # <-- format (no need to uncomment this)
+  verify_cr: False                  # ask for confirmation
+  semiwindow: 15                    # to display residual CR hits
+  color_scale: zscale               # minmax | zscale
+  maxplots: -1                      # -1: all CR detected are plotted
+  #-----------------------------------------------------------------------------
+  # Parameters for L.A. Cosmic (van Dokkum 2001), as implemented in ccdproc
+  # (based in https://github.com/astropy/astroscrappy).
+  # https://ccdproc.readthedocs.io/en/latest/api/ccdproc.cosmicray_lacosmic.html
+  la_gain_apply: True    # Return gain-corrected data
+  la_sigclip: 5.0        # Laplacian-to-noise limit for cosmic ray detection
+  la_sigfrac: 0.3        # Fractional detection limit for neighboring pixels
+  la_objlim: 5.0         # Contrast between Laplacian and fine struct. images
+  la_satlevel: 65535.0   # Saturation level of the image (ADU)
+  la_niter: 4            # Number of iterations to perform
+  la_sepmed: True        # Use the separable median filter (not the full filter)
+  la_cleantype: meanmask # median | medmask | meanmask | idw
+  la_fsmode: convolve    # median | convolve
+  la_psfmodel: gaussxy   # gauss | moffat | gaussx | gaussy | gaussxy
+  la_psffwhm_x: 2.5      # FWHM of the PSF (X direction) to generate the kernel
+  la_psffwhm_y: 2.5      # FWHM of the PSF (Y direction) to generate the kernel
+  la_psfsize: 11         # size of the kernel
+  la_psfbeta: 4.765      # Moffat beta parameter
+  la_verbose: True       # Print to the screen or not
+  #-----------------------------------------------------------------------------
+  # Parameters for the Median-Minimum method (Cardiel et al. 2025)
+  # rectangular region to determine offsets between individual images:
+  mm_crosscorr_region: null  # [xmin, xmax, ymin, ymax] FITS criterium | null
+  mm_boundary_fit: spline    # piecewise | spline
+  mm_knots_splfit: 3         # used only for spline fit
+  mm_fixed_points_in_boundary:
+  # - [x, y, weight]  # weights are optional(ignored) for spline(piecewise) fit
+  mm_nsimulations: 5                  # simulations for each set of images
+  mm_niter_boundary_extension: 3      # iterations to extend the spline fit
+  mm_weight_boundary_extension: 10.0  # multiplicative increment in weigth
+  mm_threshold: 0.0                   # minimum median2d - min2d value
+  mm_minimum_max2d_rnoise: 5.0        # minimum max2d (in readout units)
+  mm_seed: 123456                     # random seed for reproducibility
+  #----------------------------------------------------------------------------
