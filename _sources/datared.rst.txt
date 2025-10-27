@@ -39,7 +39,13 @@ you can comfortably start the reduction of the data:
 .. code-block:: console
 
    (megara) $ tar zxvf megara-cookbook-v2.tar.gz
+
+.. code-block:: console
+
    (megara) $ cd megara-cookbook-v2
+
+.. code-block:: console
+
    (megara) $ source INSTALL.sh
 
 The last command simply replaces the second line of the file
@@ -54,6 +60,10 @@ MEGARA DRP uses its own data organization to work.
 .. code-block:: console
 
    (megara) $ tree -L 2
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    .
    ├── INSTALL.sh
    └── MEGARA
@@ -104,6 +114,10 @@ folder, we recommend to place only one file in each folder.
 .. code-block:: console
 
    (megara) $ tree -L 2 ca3558e3-e50d-4bbc-86bd-da50a0998a48
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    ca3558e3-e50d-4bbc-86bd-da50a0998a48
    ├── LinesCatalog
    │   ├── ThAr
@@ -157,6 +171,10 @@ following:
 .. code-block:: console
 
    (megara) $ tree ca3558e3-e50d-4bbc-86bd-da50a0998a48/ -L 4
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    ca3558e3-e50d-4bbc-86bd-da50a0998a48/
    ├── LinesCatalog
    │   ├── ThAr
@@ -232,6 +250,10 @@ related in which order they are run.
 .. code-block:: console
 
    (megara) $ tree M15_LCB_HR-R 
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    M15_LCB_HR-R
    ├── 0_Bias.yaml
    ├── 1_TraceMap.yaml
@@ -320,6 +342,10 @@ An example of an observation-result file with two blocks is the following:
 .. code-block:: console
 
    (megara) $ more 1_TraceMap.yaml
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    id: 1_TraceMap_HR-R
    mode: MegaraTraceMap
    instrument: MEGARA
@@ -344,8 +370,19 @@ observation-result files (``*.yaml``):
 .. code-block:: console
 
    (megara) $ pwd
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    /Users/janedoe/megara-cookbook-v2/MEGARA/M15_LCB_HR-R
+
+.. code-block:: console
+
    (megara) $ ls
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    0_Bias.yaml             3_WaveCalib_check.yaml  7_StandardStar.yaml
    1_TraceMap.yaml         4_FiberFlat.yaml        8_LcbImage.yaml
    2_ModelMap.yaml         5_TwilightFlat.yaml     data/
@@ -375,6 +412,7 @@ default behavior assumes ``--link-files``.
 Other useful **numina** commands include:
 
 .. code-block:: console
+   :class: no-copybutton
 
    (megara) $ numina show-modes
 
@@ -400,6 +438,10 @@ target M15:
 .. code-block:: console
 
    (megara) $ pwd
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    /Users/janedoe/megara-cookbook-v2/MEGARA/M15_LCB_HR-R
 
 You can easily examine the header of the FITS images using the astropy utility
@@ -407,8 +449,13 @@ You can easily examine the header of the FITS images using the astropy utility
 
 .. code-block:: console
 
-   (megara) $ fitsheader -k VPH -k INSMODE -k OBJECT -k SPECLAMP -k EXPTIME -k DATE-OBS \
-              -f -e 0 data/*.fits
+   (megara) $ fitsheader \
+   -k VPH -k INSMODE -k OBJECT -k SPECLAMP -k EXPTIME -k DATE-OBS \
+   -f -e 0 data/*.fits
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
                             filename                          VPH  INSMODE  OBJECT SPECLAMP EXPTIME        DATE-OBS       
    --------------------------------------------------------- ----- ------- ------- -------- ------- ----------------------
          data/0001251794-20170626-MEGARA-MegaraLCBImage.fits  HR-R     LCB             NONE    60.0 2017-06-27T06:09:11.24
@@ -483,6 +530,10 @@ including the ``master_bias.fits`` file (see **Figure 4**).
 .. code-block:: console
 
    (megara) $ ls obsid0_Bias_work/
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    0001310880-20170827-MEGARA-MegaraBiasImage.fits@
    0001310881-20170827-MEGARA-MegaraBiasImage.fits@
    0001310882-20170827-MEGARA-MegaraBiasImage.fits@
@@ -495,7 +546,14 @@ including the ``master_bias.fits`` file (see **Figure 4**).
    index.pkl
    master_bpm.fits@
 
+
+.. code-block:: console
+
    (megara) $ ls obsid0_Bias_results/
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    master_bias.fits  processing.log    result.json       task.json
    
 Note that the data files in the ``obsid0_Bias_work`` subdirectory are shown
@@ -631,6 +689,10 @@ polynomial are stored in the final ``master_traces.json`` file.
 .. code-block:: console
 
    (megara) $ ls obsid1_TraceMap_HR-R_work/                       
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    0001312246-20170831-MEGARA-MegaraSuccess.fits@
    0001312247-20170831-MEGARA-MegaraSuccess.fits@
    0001312248-20170831-MEGARA-MegaraSuccess.fits@
@@ -664,6 +726,10 @@ polynomial are stored in the final ``master_traces.json`` file.
 .. code-block:: console
 
    (megara) $ ls obsid1_TraceMap_HR-R_results 
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    master_traces.json  reduced_image.fits  result.json
    processing.log      reduced_rss.fits    task.json
 
@@ -776,6 +842,10 @@ shown on top.
 .. code-block:: console
 
    (megara) $ ls obsid2_ModelMap_HR-R_work/
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    0001312246-20170831-MEGARA-MegaraSuccess.fits@
    0001312247-20170831-MEGARA-MegaraSuccess.fits@
    0001312248-20170831-MEGARA-MegaraSuccess.fits@
@@ -797,6 +867,10 @@ shown on top.
 .. code-block:: console
 
    (megara) $ ls obsid2_ModelMap_HR-R_results/
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    master_model.json   reduced_image.fits  result.json
    processing.log      reduced_rss.fits    task.json
 
@@ -927,6 +1001,10 @@ this recipe.
 .. code-block:: console
 
    (megara) $ ls obsid3_WaveCalib_HR-R_work/
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    0001312249-20170831-MEGARA-MegaraSuccess.fits@
    0001312250-20170831-MEGARA-MegaraSuccess.fits@
    0001312251-20170831-MEGARA-MegaraSuccess.fits@
@@ -944,6 +1022,10 @@ this recipe.
 .. code-block:: console
 
    (megara) $ ls obsid3_WaveCalib_HR-R_results/
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    fwhm_image.fits      reduced_image.fits   task.json
    master_wlcalib.json  reduced_rss.fits
    processing.log       result.json
@@ -1061,6 +1143,10 @@ generated for MEGARA LCB HR-R mode.
 .. code-block:: console
 
    (megara) $ ls obsid4_FiberFlat_HR-R_work/
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    0001312246-20170831-MEGARA-MegaraSuccess.fits@
    0001312247-20170831-MEGARA-MegaraSuccess.fits@
    0001312248-20170831-MEGARA-MegaraSuccess.fits@
@@ -1076,6 +1162,10 @@ generated for MEGARA LCB HR-R mode.
 .. code-block:: console
 
    (megara) $ ls obsid4_FiberFlat_HR-R_results/
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    master_fiberflat.fits  reduced_image.fits     result.json
    processing.log         reduced_rss.fits       task.json
 
@@ -1174,6 +1264,10 @@ generated for MEGARA LCB HR-R mode.
 .. code-block:: console
  
    (megara) $ ls obsid5_TwilightFlat_HR-R_work/
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    0001251794-20170626-MEGARA-MegaraLCBImage.fits@
    0001251795-20170626-MEGARA-MegaraLCBImage.fits@
    0001251796-20170626-MEGARA-MegaraLCBImage.fits@
@@ -1187,6 +1281,10 @@ generated for MEGARA LCB HR-R mode.
 .. code-block:: console
 
    (megara) $ ls obsid5_TwilightFlat_HR-R_results/
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    master_twilightflat.fits  reduced_rss.fits
    processing.log            result.json
    reduced_image.fits        task.json
@@ -1292,6 +1390,10 @@ then returned both in mm and arcsec. This information is saved in the
 .. code-block:: console
 
    (megara) $ ls obsid6_LcbImage_HR-R_work/
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    0001286973-20170724-MEGARA-MegaraLcbImage.fits@
    0001286974-20170724-MEGARA-MegaraLcbImage.fits@
    0001286975-20170724-MEGARA-MegaraLcbImage.fits@
@@ -1306,12 +1408,20 @@ then returned both in mm and arcsec. This information is saved in the
 .. code-block:: console
 
    (megara) $ ls obsid6_LcbImage_HR-R_results/
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    final_rss.fits      reduced_image.fits  result.json
    processing.log      reduced_rss.fits    task.json
 
 .. code-block:: console
 
    (megara) $ more obsid6_LcbImage_HR-R_results/processing.log
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    2024-10-15 15:42:50,808 - numina.user.baserun - INFO - running recipe
    2024-10-15 15:42:50,808 - numina.recipes.megara - INFO - starting AC LCB reduction
    ...
@@ -1421,6 +1531,10 @@ atmospheric extinction and compared with the reference spectrum to return the
 .. code-block:: console
 
    (megara) $ ls obsid7_StandardStar_HR-R_work/
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    0001286973-20170724-MEGARA-MegaraLcbImage.fits@
    0001286974-20170724-MEGARA-MegaraLcbImage.fits@
    0001286975-20170724-MEGARA-MegaraLcbImage.fits@
@@ -1435,6 +1549,10 @@ atmospheric extinction and compared with the reference spectrum to return the
 .. code-block:: console
 
    (megara) $ ls obsid7_StandardStar_HR-R_results/
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    fiber_ids.txt            reduced_image.fits       sky_rss.fits
    final_rss.fits           reduced_rss.fits         star_spectrum.fits
    master_sensitivity.fits  result.json              task.json
@@ -1623,6 +1741,10 @@ Notice that ``sky_rss.fits`` is not corrected for extinction.
 .. code-block:: console
 
    (megara) $ ls obsid8_LcbImage_HR-R_M15_work/
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    0001309955-20170822-MEGARA-MegaraLcbAcquisition.fits@
    0001309956-20170822-MEGARA-MegaraLcbAcquisition.fits@
    0001309957-20170822-MEGARA-MegaraLcbAcquisition.fits@
@@ -1638,6 +1760,10 @@ Notice that ``sky_rss.fits`` is not corrected for extinction.
 .. code-block:: console
 
    (megara) $ ls obsid8_LcbImage_HR-R_M15_results/
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    final_rss.fits      reduced_image.fits  result.json         task.json
    processing.log      reduced_rss.fits    sky_rss.fits
 
@@ -1655,6 +1781,10 @@ data reduction:
 .. code-block:: console
 
    (megara) $ ls obsid8_MosImage_LR-R_M71_work/
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    0001288184-20170731-MEGARA-MegaraMosImage.fits@
    0001288185-20170731-MEGARA-MegaraMosImage.fits@
    0001288186-20170731-MEGARA-MegaraMosImage.fits@
@@ -1669,6 +1799,10 @@ data reduction:
 .. code-block:: console
 
    (megara) $ ls obsid8_MosImage_LR-R_M71_results/
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    final_rss.fits      reduced_image.fits  result.json         task.json
    processing.log      reduced_rss.fits    sky_rss.fits
 

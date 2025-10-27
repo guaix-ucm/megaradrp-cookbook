@@ -9,6 +9,8 @@
   <title>Data reduction &mdash; megara-cookbook 2025.05.16 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ac5f0f31" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -16,6 +18,8 @@
       <script src="_static/documentation_options.js?v=cecfaa16"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=4d57d52a"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -132,8 +136,12 @@ have a recent version of megaradrp installed.</p>
 <p>It is advisable to decompress the previous file in a pristine directory where
 you can comfortably start the reduction of the data:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>tar<span class="w"> </span>zxvf<span class="w"> </span>megara-cookbook-v2.tar.gz
-<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>megara-cookbook-v2
-<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>INSTALL.sh
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>megara-cookbook-v2
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>INSTALL.sh
 </pre></div>
 </div>
 <p>The last command simply replaces the second line of the file
@@ -144,7 +152,9 @@ have been deployed.</p>
 <h2>Data organization<a class="headerlink" href="#data-organization" title="Link to this heading"></a></h2>
 <p>MEGARA DRP uses its own data organization to work.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>tree<span class="w"> </span>-L<span class="w"> </span><span class="m">2</span>
-<span class="go">.</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">.</span>
 <span class="go">├── INSTALL.sh</span>
 <span class="go">└── MEGARA</span>
 <span class="go">    ├── M15_LCB_HR-R</span>
@@ -251,7 +261,9 @@ this calibration tree according structure below. Since the DRP would
 read the first file in alphabetical order inside the corresponding
 folder, we recommend to place only one file in each folder.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>tree<span class="w"> </span>-L<span class="w"> </span><span class="m">2</span><span class="w"> </span>ca3558e3-e50d-4bbc-86bd-da50a0998a48
-<span class="go">ca3558e3-e50d-4bbc-86bd-da50a0998a48</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ca3558e3-e50d-4bbc-86bd-da50a0998a48</span>
 <span class="go">├── LinesCatalog</span>
 <span class="go">│   ├── ThAr</span>
 <span class="go">│   └── ThNe</span>
@@ -299,7 +311,9 @@ making abusive use of these prefixes.</p>
 <p>An example of calibration tree with some additional calibration files is the
 following:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>tree<span class="w"> </span>ca3558e3-e50d-4bbc-86bd-da50a0998a48/<span class="w"> </span>-L<span class="w"> </span><span class="m">4</span>
-<span class="go">ca3558e3-e50d-4bbc-86bd-da50a0998a48/</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ca3558e3-e50d-4bbc-86bd-da50a0998a48/</span>
 <span class="go">├── LinesCatalog</span>
 <span class="go">│   ├── ThAr</span>
 <span class="go">│   │   ├── LR-R</span>
@@ -372,7 +386,9 @@ they will be different for each target. In this example, the
 observation-result files in YAML format are named with a first number
 related in which order they are run.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>tree<span class="w"> </span>M15_LCB_HR-R
-<span class="go">M15_LCB_HR-R</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">M15_LCB_HR-R</span>
 <span class="go">├── 0_Bias.yaml</span>
 <span class="go">├── 1_TraceMap.yaml</span>
 <span class="go">├── 2_ModelMap.yaml</span>
@@ -439,7 +455,9 @@ Note that the user can add comments to these YAML files by adding lines
 preceded with a hash sign (<code class="docutils literal notranslate"><span class="pre">#</span></code>).</p>
 <p>An example of an observation-result file with two blocks is the following:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>more<span class="w"> </span>1_TraceMap.yaml
-<span class="go">id: 1_TraceMap_HR-R</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">id: 1_TraceMap_HR-R</span>
 <span class="go">mode: MegaraTraceMap</span>
 <span class="go">instrument: MEGARA</span>
 <span class="go">frames:</span>
@@ -461,9 +479,15 @@ preceded with a hash sign (<code class="docutils literal notranslate"><span clas
 <p>In the directory of our target M15 we have already defined several
 observation-result files (<code class="docutils literal notranslate"><span class="pre">*.yaml</span></code>):</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span><span class="nb">pwd</span>
-<span class="go">/Users/janedoe/megara-cookbook-v2/MEGARA/M15_LCB_HR-R</span>
-<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls
-<span class="go">0_Bias.yaml             3_WaveCalib_check.yaml  7_StandardStar.yaml</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">/Users/janedoe/megara-cookbook-v2/MEGARA/M15_LCB_HR-R</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">0_Bias.yaml             3_WaveCalib_check.yaml  7_StandardStar.yaml</span>
 <span class="go">1_TraceMap.yaml         4_FiberFlat.yaml        8_LcbImage.yaml</span>
 <span class="go">2_ModelMap.yaml         5_TwilightFlat.yaml     data/</span>
 <span class="go">3_WaveCalib.yaml        6_LcbAdquisition.yaml</span>
@@ -485,7 +509,7 @@ parameter <code class="docutils literal notranslate"><span class="pre">--link-fi
 <p><em>Note:</em> in recent versions of <code class="docutils literal notranslate"><span class="pre">numina</span></code> this is no longer necessary since the
 default behavior assumes <code class="docutils literal notranslate"><span class="pre">--link-files</span></code>.</p>
 <p>Other useful <strong>numina</strong> commands include:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>show-modes
+<div class="no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>show-modes
 
 <span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>show-recipes
 
@@ -504,14 +528,19 @@ wavelength and flux calibrated row-stacked spectra (RSS) are detailed. The
 examples are illustrated making use of the cookbook data available for the
 target M15:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span><span class="nb">pwd</span>
-<span class="go">/Users/janedoe/megara-cookbook-v2/MEGARA/M15_LCB_HR-R</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">/Users/janedoe/megara-cookbook-v2/MEGARA/M15_LCB_HR-R</span>
 </pre></div>
 </div>
 <p>You can easily examine the header of the FITS images using the astropy utility
 <code class="docutils literal notranslate"><span class="pre">fitsheader</span></code>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>fitsheader<span class="w"> </span>-k<span class="w"> </span>VPH<span class="w"> </span>-k<span class="w"> </span>INSMODE<span class="w"> </span>-k<span class="w"> </span>OBJECT<span class="w"> </span>-k<span class="w"> </span>SPECLAMP<span class="w"> </span>-k<span class="w"> </span>EXPTIME<span class="w"> </span>-k<span class="w"> </span>DATE-OBS<span class="w"> </span><span class="se">\</span>
-<span class="w">           </span>-f<span class="w"> </span>-e<span class="w"> </span><span class="m">0</span><span class="w"> </span>data/*.fits
-<span class="go">                         filename                          VPH  INSMODE  OBJECT SPECLAMP EXPTIME        DATE-OBS</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>fitsheader<span class="w"> </span><span class="se">\</span>
+-k<span class="w"> </span>VPH<span class="w"> </span>-k<span class="w"> </span>INSMODE<span class="w"> </span>-k<span class="w"> </span>OBJECT<span class="w"> </span>-k<span class="w"> </span>SPECLAMP<span class="w"> </span>-k<span class="w"> </span>EXPTIME<span class="w"> </span>-k<span class="w"> </span>DATE-OBS<span class="w"> </span><span class="se">\</span>
+-f<span class="w"> </span>-e<span class="w"> </span><span class="m">0</span><span class="w"> </span>data/*.fits
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">                         filename                          VPH  INSMODE  OBJECT SPECLAMP EXPTIME        DATE-OBS</span>
 <span class="go">--------------------------------------------------------- ----- ------- ------- -------- ------- ----------------------</span>
 <span class="go">      data/0001251794-20170626-MEGARA-MegaraLCBImage.fits  HR-R     LCB             NONE    60.0 2017-06-27T06:09:11.24</span>
 <span class="go">      data/0001251795-20170626-MEGARA-MegaraLCBImage.fits  HR-R     LCB             NONE    60.0 2017-06-27T06:11:59.96</span>
@@ -585,7 +614,9 @@ median.</p>
 <p>and the products are stored in the directory <code class="docutils literal notranslate"><span class="pre">obsid0_Bias_results/</span></code>,
 including the <code class="docutils literal notranslate"><span class="pre">master_bias.fits</span></code> file (see <strong>Figure 4</strong>).</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid0_Bias_work/
-<span class="go">0001310880-20170827-MEGARA-MegaraBiasImage.fits@</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">0001310880-20170827-MEGARA-MegaraBiasImage.fits@</span>
 <span class="go">0001310881-20170827-MEGARA-MegaraBiasImage.fits@</span>
 <span class="go">0001310882-20170827-MEGARA-MegaraBiasImage.fits@</span>
 <span class="go">0001310883-20170827-MEGARA-MegaraBiasImage.fits@</span>
@@ -596,9 +627,12 @@ including the <code class="docutils literal notranslate"><span class="pre">maste
 <span class="go">0001310888-20170827-MEGARA-MegaraBiasImage.fits@</span>
 <span class="go">index.pkl</span>
 <span class="go">master_bpm.fits@</span>
-
-<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid0_Bias_results/
-<span class="go">master_bias.fits  processing.log    result.json       task.json</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid0_Bias_results/
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">master_bias.fits  processing.log    result.json       task.json</span>
 </pre></div>
 </div>
 <p>Note that the data files in the <code class="docutils literal notranslate"><span class="pre">obsid0_Bias_work</span></code> subdirectory are shown
@@ -705,7 +739,9 @@ beginning and the end of the trace are stored.</p>
 polynomial_degree set to 5 by default. The coefficients of the
 polynomial are stored in the final <code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> file.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid1_TraceMap_HR-R_work/
-<span class="go">0001312246-20170831-MEGARA-MegaraSuccess.fits@</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">0001312246-20170831-MEGARA-MegaraSuccess.fits@</span>
 <span class="go">0001312247-20170831-MEGARA-MegaraSuccess.fits@</span>
 <span class="go">0001312248-20170831-MEGARA-MegaraSuccess.fits@</span>
 <span class="go">cut_col2000_00_8b.png</span>
@@ -736,7 +772,9 @@ polynomial are stored in the final <code class="docutils literal notranslate"><s
 </pre></div>
 </div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid1_TraceMap_HR-R_results
-<span class="go">master_traces.json  reduced_image.fits  result.json</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">master_traces.json  reduced_image.fits  result.json</span>
 <span class="go">processing.log      reduced_rss.fits    task.json</span>
 </pre></div>
 </div>
@@ -820,7 +858,9 @@ profiles, that can be used with raw and reduced images (see <strong>Figure
 of the raw image (right) with the <code class="docutils literal notranslate"><span class="pre">ds9_raw.reg</span></code> tracing the fibers’ path
 shown on top.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid2_ModelMap_HR-R_work/
-<span class="go">0001312246-20170831-MEGARA-MegaraSuccess.fits@</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">0001312246-20170831-MEGARA-MegaraSuccess.fits@</span>
 <span class="go">0001312247-20170831-MEGARA-MegaraSuccess.fits@</span>
 <span class="go">0001312248-20170831-MEGARA-MegaraSuccess.fits@</span>
 <span class="go">ds9.reg</span>
@@ -840,7 +880,9 @@ shown on top.</p>
 </pre></div>
 </div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid2_ModelMap_HR-R_results/
-<span class="go">master_model.json   reduced_image.fits  result.json</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">master_model.json   reduced_image.fits  result.json</span>
 <span class="go">processing.log      reduced_rss.fits    task.json</span>
 </pre></div>
 </div>
@@ -943,7 +985,9 @@ case) is generated when the parameter <code class="docutils literal notranslate"
 set to 1. This requirement should be set to 0 for a faster execution of
 this recipe.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid3_WaveCalib_HR-R_work/
-<span class="go">0001312249-20170831-MEGARA-MegaraSuccess.fits@</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">0001312249-20170831-MEGARA-MegaraSuccess.fits@</span>
 <span class="go">0001312250-20170831-MEGARA-MegaraSuccess.fits@</span>
 <span class="go">0001312251-20170831-MEGARA-MegaraSuccess.fits@</span>
 <span class="go">index.pkl</span>
@@ -959,7 +1003,9 @@ this recipe.</p>
 </pre></div>
 </div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid3_WaveCalib_HR-R_results/
-<span class="go">fwhm_image.fits      reduced_image.fits   task.json</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">fwhm_image.fits      reduced_image.fits   task.json</span>
 <span class="go">master_wlcalib.json  reduced_rss.fits</span>
 <span class="go">processing.log       result.json</span>
 </pre></div>
@@ -1055,7 +1101,9 @@ spectral in order to generate the normalized master_fiberflat image.</p>
 <p><strong>Figure 11:</strong> Example of the <code class="docutils literal notranslate"><span class="pre">master_fiberflat.fits</span></code> file
 generated for MEGARA LCB HR-R mode.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid4_FiberFlat_HR-R_work/
-<span class="go">0001312246-20170831-MEGARA-MegaraSuccess.fits@</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">0001312246-20170831-MEGARA-MegaraSuccess.fits@</span>
 <span class="go">0001312247-20170831-MEGARA-MegaraSuccess.fits@</span>
 <span class="go">0001312248-20170831-MEGARA-MegaraSuccess.fits@</span>
 <span class="go">collapse.txt</span>
@@ -1069,7 +1117,9 @@ generated for MEGARA LCB HR-R mode.</p>
 </pre></div>
 </div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid4_FiberFlat_HR-R_results/
-<span class="go">master_fiberflat.fits  reduced_image.fits     result.json</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">master_fiberflat.fits  reduced_image.fits     result.json</span>
 <span class="go">processing.log         reduced_rss.fits       task.json</span>
 </pre></div>
 </div>
@@ -1158,7 +1208,9 @@ of the <code class="docutils literal notranslate"><span class="pre">reduced_rss.
 <p><strong>Figure 13:</strong> Example of the master_twilightflat.fits file
 generated for MEGARA LCB HR-R mode.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid5_TwilightFlat_HR-R_work/
-<span class="go">0001251794-20170626-MEGARA-MegaraLCBImage.fits@</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">0001251794-20170626-MEGARA-MegaraLCBImage.fits@</span>
 <span class="go">0001251795-20170626-MEGARA-MegaraLCBImage.fits@</span>
 <span class="go">0001251796-20170626-MEGARA-MegaraLCBImage.fits@</span>
 <span class="go">index.pkl</span>
@@ -1170,7 +1222,9 @@ generated for MEGARA LCB HR-R mode.</p>
 </pre></div>
 </div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid5_TwilightFlat_HR-R_results/
-<span class="go">master_twilightflat.fits  reduced_rss.fits</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">master_twilightflat.fits  reduced_rss.fits</span>
 <span class="go">processing.log            result.json</span>
 <span class="go">reduced_image.fits        task.json</span>
 </pre></div>
@@ -1257,7 +1311,9 @@ likely, around the brightest spaxel) in the center of the LCB field are
 then returned both in mm and arcsec. This information is saved in the
 <code class="docutils literal notranslate"><span class="pre">processing.log</span></code> file at the <code class="docutils literal notranslate"><span class="pre">obsid6_LcbImage_HR-R_result/</span></code> directory.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid6_LcbImage_HR-R_work/
-<span class="go">0001286973-20170724-MEGARA-MegaraLcbImage.fits@</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">0001286973-20170724-MEGARA-MegaraLcbImage.fits@</span>
 <span class="go">0001286974-20170724-MEGARA-MegaraLcbImage.fits@</span>
 <span class="go">0001286975-20170724-MEGARA-MegaraLcbImage.fits@</span>
 <span class="go">index.pkl</span>
@@ -1270,12 +1326,16 @@ then returned both in mm and arcsec. This information is saved in the
 </pre></div>
 </div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid6_LcbImage_HR-R_results/
-<span class="go">final_rss.fits      reduced_image.fits  result.json</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">final_rss.fits      reduced_image.fits  result.json</span>
 <span class="go">processing.log      reduced_rss.fits    task.json</span>
 </pre></div>
 </div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>more<span class="w"> </span>obsid6_LcbImage_HR-R_results/processing.log
-<span class="go">2024-10-15 15:42:50,808 - numina.user.baserun - INFO - running recipe</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">2024-10-15 15:42:50,808 - numina.user.baserun - INFO - running recipe</span>
 <span class="go">2024-10-15 15:42:50,808 - numina.recipes.megara - INFO - starting AC LCB reduction</span>
 <span class="go">...</span>
 <span class="go">...</span>
@@ -1366,7 +1426,9 @@ atmospheric extinction and compared with the reference spectrum to return the
 <code class="docutils literal notranslate"><span class="pre">master_sensitivity.fits</span></code>, which is finally stored at the
 <code class="docutils literal notranslate"><span class="pre">obsid7_StandardStar_HR-R_result/</span></code> directory.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid7_StandardStar_HR-R_work/
-<span class="go">0001286973-20170724-MEGARA-MegaraLcbImage.fits@</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">0001286973-20170724-MEGARA-MegaraLcbImage.fits@</span>
 <span class="go">0001286974-20170724-MEGARA-MegaraLcbImage.fits@</span>
 <span class="go">0001286975-20170724-MEGARA-MegaraLcbImage.fits@</span>
 <span class="go">index.pkl</span>
@@ -1379,7 +1441,9 @@ atmospheric extinction and compared with the reference spectrum to return the
 </pre></div>
 </div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid7_StandardStar_HR-R_results/
-<span class="go">fiber_ids.txt            reduced_image.fits       sky_rss.fits</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">fiber_ids.txt            reduced_image.fits       sky_rss.fits</span>
 <span class="go">final_rss.fits           reduced_rss.fits         star_spectrum.fits</span>
 <span class="go">master_sensitivity.fits  result.json              task.json</span>
 <span class="go">processing.log           sensitivity_raw.fits</span>
@@ -1629,7 +1693,9 @@ flux calibrated. If <code class="docutils literal notranslate"><span class="pre"
 <code class="docutils literal notranslate"><span class="pre">final_rss.fits</span></code> and <code class="docutils literal notranslate"><span class="pre">reduced_rss.fits</span></code> will be extinction corrected.
 Notice that <code class="docutils literal notranslate"><span class="pre">sky_rss.fits</span></code> is not corrected for extinction.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid8_LcbImage_HR-R_M15_work/
-<span class="go">0001309955-20170822-MEGARA-MegaraLcbAcquisition.fits@</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">0001309955-20170822-MEGARA-MegaraLcbAcquisition.fits@</span>
 <span class="go">0001309956-20170822-MEGARA-MegaraLcbAcquisition.fits@</span>
 <span class="go">0001309957-20170822-MEGARA-MegaraLcbAcquisition.fits@</span>
 <span class="go">index.pkl</span>
@@ -1643,7 +1709,9 @@ Notice that <code class="docutils literal notranslate"><span class="pre">sky_rss
 </pre></div>
 </div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid8_LcbImage_HR-R_M15_results/
-<span class="go">final_rss.fits      reduced_image.fits  result.json         task.json</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">final_rss.fits      reduced_image.fits  result.json         task.json</span>
 <span class="go">processing.log      reduced_rss.fits    sky_rss.fits</span>
 </pre></div>
 </div>
@@ -1655,7 +1723,9 @@ observing mode.</p>
 <p>The following is an example of the products for M71 MOS observing mode
 data reduction:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid8_MosImage_LR-R_M71_work/
-<span class="go">0001288184-20170731-MEGARA-MegaraMosImage.fits@</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">0001288184-20170731-MEGARA-MegaraMosImage.fits@</span>
 <span class="go">0001288185-20170731-MEGARA-MegaraMosImage.fits@</span>
 <span class="go">0001288186-20170731-MEGARA-MegaraMosImage.fits@</span>
 <span class="go">index.pkl</span>
@@ -1668,7 +1738,9 @@ data reduction:</p>
 </pre></div>
 </div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid8_MosImage_LR-R_M71_results/
-<span class="go">final_rss.fits      reduced_image.fits  result.json         task.json</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">final_rss.fits      reduced_image.fits  result.json         task.json</span>
 <span class="go">processing.log      reduced_rss.fits    sky_rss.fits</span>
 </pre></div>
 </div>
@@ -1688,10 +1760,10 @@ file:</p>
 <span class="linenos"> 6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001309956-20170822-MEGARA-MegaraLcbAcquisition.fits</span>
 <span class="linenos"> 7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001309957-20170822-MEGARA-MegaraLcbAcquisition.fits</span>
 <span class="linenos"> 8</span><span class="nt">requirements</span><span class="p">:</span>
-<span class="linenos"> 9</span><span class="w"> </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+6.5</span><span class="p p-Indicator">]</span>
-<span class="hll"><span class="linenos">10</span><span class="w"> </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
-</span><span class="hll"><span class="linenos">11</span><span class="w"> </span><span class="nt">master_sensitivity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
-</span><span class="linenos">12</span><span class="w"> </span><span class="nt">ignored_sky_bundles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">93</span><span class="p p-Indicator">,</span><span class="nv">95</span><span class="p p-Indicator">,</span><span class="nv">98</span><span class="p p-Indicator">]</span>
+<span class="linenos"> 9</span><span class="w">  </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+6.5</span><span class="p p-Indicator">]</span>
+<span class="hll"><span class="linenos">10</span><span class="w">  </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+</span><span class="hll"><span class="linenos">11</span><span class="w">  </span><span class="nt">master_sensitivity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+</span><span class="linenos">12</span><span class="w">  </span><span class="nt">ignored_sky_bundles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">93</span><span class="p p-Indicator">,</span><span class="nv">95</span><span class="p p-Indicator">,</span><span class="nv">98</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 </section>

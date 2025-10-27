@@ -13,6 +13,10 @@ should create the file if this does not exist):
 .. code-block:: console
 
    (megara) $ more $HOME/.matplotlib/matplotlibrc
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
    backend: TkAgg
 
 Note that TkAgg is the default backend in Mac OS X. If you want to use
@@ -29,6 +33,10 @@ the ``$HOME/.bashrc`` shell configuration file:
 .. code-block:: console
 
     (megara) $ more $HOME/.bashrc
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
     export MACOSX_DEPLOYMENT_TARGET=10.9
 
 Bash shell

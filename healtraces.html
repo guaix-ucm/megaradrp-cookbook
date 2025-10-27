@@ -9,6 +9,8 @@
   <title>Healing Defective Traces &mdash; megara-cookbook 2025.05.16 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ac5f0f31" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -16,6 +18,8 @@
       <script src="_static/documentation_options.js?v=cecfaa16"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=4d57d52a"></script>
       <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -125,7 +129,9 @@ we show an example of how to do this.</p>
 we look at the reduction step where
 the traces are determined, e.g.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>1_tracemap.yaml<span class="w"> </span>-r<span class="w"> </span>../control.yaml
-<span class="go">...</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">...</span>
 <span class="go">...</span>
 <span class="go">INFO: start trace recipe QC</span>
 <span class="go">/Users/cardiel/s/megaradrp/src/megaradrp/recipes/calibration/trace.py:142: UserWarning: In fiber 603, trace end &lt; 4090</span>
@@ -159,7 +165,9 @@ Specifically, the affected fibers are: 603, 604, 606, 607, 610, and 614.</p>
 <p>Identifying faulty traces is straightforward using the
 <code class="docutils literal notranslate"><span class="pre">megaradrp-overplot_traces</span></code> script.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaradrp-overplot_traces<span class="w"> </span>reduced_image.fits<span class="w"> </span>master_traces.json
-<span class="go">&gt;&gt;&gt; File..: reduced_image.fits</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; File..: reduced_image.fits</span>
 <span class="go">&gt;&gt;&gt; NAXIS1: 4096</span>
 <span class="go">&gt;&gt;&gt; NAXIS2: 4112</span>
 
@@ -200,7 +208,6 @@ displaying the fiber number in the same figure.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaradrp-overplot_traces<span class="w"> </span>reduced_image.fits<span class="w"> </span>master_traces.json<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--fibids<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--bbox<span class="w"> </span><span class="m">1</span>,4096,3775,3950
-<span class="go">...</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/initial_traces_in_full_image_zoom.png"><img alt="zoom of initial traces in full image" src="_images/initial_traces_in_full_image_zoom.png" style="width: 100%;" />
@@ -508,9 +515,9 @@ we can apply all the transformations with a simple execution of the script
 <span class="w">  </span>--updated_traces<span class="w"> </span>master_traces_healed.json<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--bbox<span class="w"> </span><span class="m">1</span>,4096,3775,3950<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--verbose
-
-
-<span class="go">&gt;&gt;&gt; File..: reduced_image.fits</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; File..: reduced_image.fits</span>
 <span class="go">&gt;&gt;&gt; NAXIS1: 4096</span>
 <span class="go">&gt;&gt;&gt; NAXIS2: 4112</span>
 
@@ -568,8 +575,8 @@ that all traces have been correctly corrected. This step is crucial since
 improper configuration of the <code class="docutils literal notranslate"><span class="pre">healing.yaml</span></code> file could lead to undesired
 outcomes.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaradrp-overplot_traces<span class="w"> </span>reduced_image.fits<span class="w"> </span>master_traces_healed.json<span class="w"> </span><span class="se">\</span>
---fibids<span class="w"> </span><span class="se">\</span>
---bbox<span class="w"> </span><span class="m">1</span>,4096,3775,3950
+<span class="w">  </span>--fibids<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--bbox<span class="w"> </span><span class="m">1</span>,4096,3775,3950
 </pre></div>
 </div>
 <p>Please note that the second parameter is now <code class="docutils literal notranslate"><span class="pre">master_traces_healed.json</span></code>
@@ -621,10 +628,10 @@ fiber, evaluated at the reference column (key <code class="docutils literal notr
 traces files, which is typically set to 2000, the middle location along the
 wavelength axis, NAXIS1). The offset is calculated in pixel units.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaradrp-heal_traces<span class="w"> </span><span class="se">\</span>
-reduced_image.fits<span class="w"> </span><span class="se">\</span>
-master_traces_LRU_20220325.json<span class="w"> </span><span class="se">\</span>
---global_offset<span class="w"> </span><span class="m">8</span>.9<span class="w"> </span><span class="m">0</span>.00060<span class="w"> </span><span class="se">\</span>
---updated_traces<span class="w"> </span>master_traces_LRU_20220325_healed.json
+<span class="w">  </span>reduced_image.fits<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>master_traces_LRU_20220325.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--global_offset<span class="w"> </span><span class="m">8</span>.9<span class="w"> </span><span class="m">0</span>.00060<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--updated_traces<span class="w"> </span>master_traces_LRU_20220325_healed.json
 </pre></div>
 </div>
 <p>The execution of this command opens a graphical window that, with the help of

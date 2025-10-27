@@ -1,0 +1,19 @@
+/* Style the code block background and text */
+div.my-special-block {
+    background-color: #000088;
+    color: #000000;
+    border-radius: 0px;
+    padding: 0px;
+}
+
+/* Also style the <pre> inside the block */
+div.my-special-block pre {
+    background: #dddddd;
+    color: inherit;
+}
+
+/* Override Pygments token coloring if needed */
+div.my-special-block span {
+    background: transparent !important; /* kill inline bg */
+    color: inherit !important;          /* inherit turquoise */
+}

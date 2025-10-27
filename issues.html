@@ -9,6 +9,8 @@
   <title>Known ISSUES &mdash; megara-cookbook 2025.05.16 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ac5f0f31" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -16,6 +18,8 @@
       <script src="_static/documentation_options.js?v=cecfaa16"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=4d57d52a"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -96,7 +100,9 @@ the <code class="docutils literal notranslate"><span class="pre">libc++abi.dylib
 add the following line to the <code class="docutils literal notranslate"><span class="pre">$HOME/.matplotlib/matplotlibrc</span></code> file (you
 should create the file if this does not exist):</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>more<span class="w"> </span><span class="nv">$HOME</span>/.matplotlib/matplotlibrc
-<span class="go">backend: TkAgg</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">backend: TkAgg</span>
 </pre></div>
 </div>
 <p>Note that TkAgg is the default backend in Mac OS X. If you want to use
@@ -109,7 +115,9 @@ their own, we note that in the case of the distribution of Mac OS X
 10.10 or later they should include the following environment variable in
 the <code class="docutils literal notranslate"><span class="pre">$HOME/.bashrc</span></code> shell configuration file:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>more<span class="w"> </span><span class="nv">$HOME</span>/.bashrc
-<span class="go">export MACOSX_DEPLOYMENT_TARGET=10.9</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go"> export MACOSX_DEPLOYMENT_TARGET=10.9</span>
 </pre></div>
 </div>
 </section>

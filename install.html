@@ -9,6 +9,8 @@
   <title>DRP installation &mdash; megara-cookbook 2025.05.16 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ac5f0f31" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -16,6 +18,8 @@
       <script src="_static/documentation_options.js?v=cecfaa16"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=4d57d52a"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -122,11 +126,11 @@ here, although the <a class="reference external" href="https://virtualenv.pypa.i
 <h3>Create a virtual environment<a class="headerlink" href="#create-a-virtual-environment" title="Link to this heading"></a></h3>
 <p>A virtual environment will have a <em>name</em> and a <em>path</em>.
 In order to create a virtual environment called e.g. megara using venv:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>megara<span class="w"> </span>/path/to/
+<div class="no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>megara<span class="w"> </span>/path/to/
 </pre></div>
 </div>
 <p>With virtualenv:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>virtualenv-3<span class="w"> </span>megara<span class="w"> </span>/path/to/
+<div class="no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>virtualenv-3<span class="w"> </span>megara<span class="w"> </span>/path/to/
 </pre></div>
 </div>
 <p>The directory <code class="docutils literal notranslate"><span class="pre">/path/to</span></code> represents the location of the environment.</p>
@@ -142,11 +146,11 @@ contains a Python tree. One of the directories is
 <code class="docutils literal notranslate"><span class="pre">/path/to/megara/bin</span></code>, which contains a script called <code class="docutils literal notranslate"><span class="pre">activate</span></code>. To
 activate the environment, we source (a bash shell command) this script
 file:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>/path/to/megara/bin/activate
+<div class="no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>/path/to/megara/bin/activate
 </pre></div>
 </div>
 <p>which yields a different system prompt to the user:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$</span>
+<div class="no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$</span>
 </pre></div>
 </div>
 <p>Now, the name of the environment appears before the standard prompt. We
@@ -159,8 +163,10 @@ previously activated it.</p>
 standard Python tool for package management. It will download the
 package and its dependencies, unpack everything and compile when needed.</p>
 <p>What follows is a sample of the output:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="go">pip install megaradrp</span>
-<span class="go">Collecting megaradrp</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>megaradrp
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Collecting megaradrp</span>
 <span class="go">Collecting scikit-image (from megaradrp)</span>
 <span class="go">Downloading https://files.pythonhosted.org/packages/11/c7/ee75c79dcce057a3475763d611ec044737a708eaf5cc53426b0117795ddb/scikit_image-0.14.0-cp35-cp35mu-manylinux1_x86_64.whl (25.4MB)</span>
 <span class="go">Collecting scipy (from megaradrp)</span>
@@ -182,7 +188,9 @@ package and its dependencies, unpack everything and compile when needed.</p>
 <h3>Test the installation<a class="headerlink" href="#test-the-installation" title="Link to this heading"></a></h3>
 <p>Now we can test the installation by running the numina command:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>show-instruments
-<span class="go">INFO: Numina simple recipe runner version 0.34</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">INFO: Numina simple recipe runner version 0.34</span>
 <span class="go">Instrument: MEGARA</span>
 <span class="go">  version is &#39;0.16&#39;</span>
 <span class="go">   has profile &#39;Configuration at LICA&#39; uuid=9a86b2b2-3f7d-48ec-8f4f-3780ec967c90</span>
@@ -208,7 +216,7 @@ should execute:</p>
 <h3>Deactivate the environment<a class="headerlink" href="#deactivate-the-environment" title="Link to this heading"></a></h3>
 <p>To exit the environment is enough to exit the terminal or run the
 command deactivate.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>deactivate
+<div class="no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>deactivate
 <span class="gp">$</span>
 </pre></div>
 </div>
@@ -226,23 +234,23 @@ miniconda provides a light-weight environment and anaconda comes with
 lots of Python packages.</p>
 <p>If you have updated the <code class="docutils literal notranslate"><span class="pre">$PATH</span></code> variable during install, you can call
 conda commands directly in the shell, like this:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda<span class="w"> </span>info
+<div class="no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda<span class="w"> </span>info
 </pre></div>
 </div>
 <p>If not, you will need to add the path to the command (an example path
 could be <code class="docutils literal notranslate"><span class="pre">miniconda3/bin</span></code>), like:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>/path/to/conda/bin/conda<span class="w"> </span>info
+<div class="no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>/path/to/conda/bin/conda<span class="w"> </span>info
 </pre></div>
 </div>
 <p>If that is the case, you should add that path every time you run a conda
 command hereafter. Alternatively, you can initialize conda for your own
 shell by doing:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda<span class="w"> </span>init<span class="w"> </span>bash
+<div class="no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda<span class="w"> </span>init<span class="w"> </span>bash
 </pre></div>
 </div>
 <p>This works as it is if you are using a login-shell (terminal), but if
 you are using an xterm, you might also need to do:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cp<span class="w"> </span>~/.bash_profile<span class="w"> </span>~/.bashrc
+<div class="no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cp<span class="w"> </span>~/.bash_profile<span class="w"> </span>~/.bashrc
 </pre></div>
 </div>
 <p>(do a backup copy of <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> if you have one already),</p>
@@ -257,18 +265,18 @@ following:</p>
 <h3>Create a conda environment<a class="headerlink" href="#create-a-conda-environment" title="Link to this heading"></a></h3>
 <p>We first recommend that you update your conda installation to its latest
 by doing:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>update<span class="w"> </span>conda
+<div class="no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>update<span class="w"> </span>conda
 </pre></div>
 </div>
 <p>With conda, environments are created in a centralised manner (under
 directory <code class="docutils literal notranslate"><span class="pre">./envs</span></code> in your conda tree), we do not pass the path to the
 environment.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>megara<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>
+<div class="no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>megara<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>
 </pre></div>
 </div>
 <p>One could remove this environment (and all its content), if needed, by
 simply doing:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>remove<span class="w"> </span>--name<span class="w"> </span>megara<span class="w"> </span>--all
+<div class="no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>remove<span class="w"> </span>--name<span class="w"> </span>megara<span class="w"> </span>--all
 </pre></div>
 </div>
 </section>
@@ -276,8 +284,10 @@ simply doing:</p>
 <h3>Install megaradrp with conda<a class="headerlink" href="#install-megaradrp-with-conda" title="Link to this heading"></a></h3>
 <p>Packages can be installed before activating the environment. We provide conda
 packages for megaradrp in the  <a class="reference external" href="https://conda-forge.org/">conda-forge channel</a></p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>install<span class="w"> </span>--name<span class="w"> </span>megara<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>megaradrp
-<span class="go">Fetching package metadata .............</span>
+<div class="no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>install<span class="w"> </span>--name<span class="w"> </span>megara<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>megaradrp
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Fetching package metadata .............</span>
 <span class="go">Solving package specifications: .</span>
 <span class="go">Package plan for installation in environment /home/xxx/devel/miniconda3/envs/megara:</span>
 <span class="go">The following NEW packages will be INSTALLED:</span>
@@ -293,7 +303,7 @@ packages for megaradrp in the  <a class="reference external" href="https://conda
 <section id="id2">
 <h3>Activate the environment<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
 <p>The functionality is similar to virtualenv:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>activate<span class="w"> </span>megara
+<div class="no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>activate<span class="w"> </span>megara
 <span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$</span>
 </pre></div>
 </div>
@@ -305,7 +315,9 @@ those consoles / terminals where we have previously activated it.</p>
 <h3>Test the installation<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
 <p>Now we can test the installation by running the numina command:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>show-instruments
-<span class="go">INFO: Numina simple recipe runner version 0.34</span>
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">INFO: Numina simple recipe runner version 0.34</span>
 <span class="go">Instrument: MEGARA</span>
 <span class="go">  version is &#39;0.16&#39;</span>
 <span class="go">   has profile &#39;Configuration at LICA&#39; uuid=9a86b2b2-3f7d-48ec-8f4f-3780ec967c90</span>
@@ -329,7 +341,7 @@ should execute:</p>
 <h3>Deactivate the environment<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
 <p>To exit the environment is enough to exit the terminal or run the
 command source deactivate</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>conda<span class="w"> </span>deactivate
+<div class="no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>conda<span class="w"> </span>deactivate
 <span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$</span>
 </pre></div>
 </div>
@@ -338,12 +350,12 @@ command source deactivate</p>
 <h3>Update outside the environment<a class="headerlink" href="#update-outside-the-environment" title="Link to this heading"></a></h3>
 <p>Once outside the conda environment one can also update the MEGARA DRP
 installation by doing:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>update<span class="w"> </span>megaradrp<span class="w"> </span>-n<span class="w"> </span>megara
+<div class="no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>update<span class="w"> </span>megaradrp<span class="w"> </span>-n<span class="w"> </span>megara
 </pre></div>
 </div>
 <p>If you want to deactivate the conda <em>(base)</em> environment entirely you
 can run again:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>deactivate
+<div class="no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>deactivate
 <span class="gp">$</span>
 </pre></div>
 </div>

@@ -9,6 +9,8 @@
   <title>CR not removed by median stacking &mdash; megara-cookbook 2025.05.16 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ac5f0f31" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -16,6 +18,8 @@
       <script src="_static/documentation_options.js?v=cecfaa16"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=4d57d52a"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -52,27 +56,17 @@
 <li class="toctree-l1"><a class="reference internal" href="healtraces.html">Healing Defective Traces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="brightlines.html">Problem with bright line tails</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">CR not removed by median stacking</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#overall-description">Overall description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#overall-procedure">Overall procedure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#preparing-the-observation-result-file">Preparing the observation result file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#computing-the-cr-masks">Computing the CR masks</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#initial-execution">Initial execution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checking-the-flux-level-of-the-individual-exposures">Checking the flux level of the individual exposures</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#detecting-suspected-double-cosmic-rays-in-the-median-combination">Detecting suspected double cosmic rays in the median combination</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#detecting-cosmic-rays-in-the-mean-combination">Detecting cosmic rays in the mean combination</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#detecting-cosmic-rays-in-the-individual-exposures">Detecting cosmic rays in the individual exposures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#coincident-cosmic-rays-in-the-median-combination">Coincident cosmic rays in the median combination</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#output-file-crmasks-fits">Output file <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#additional-program-parameters">Additional program parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#applying-the-masks">Applying the masks</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#method-mediancr">Method <code class="docutils literal notranslate"><span class="pre">mediancr</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#method-meancrt">Method <code class="docutils literal notranslate"><span class="pre">meancrt</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#method-meancr">Method <code class="docutils literal notranslate"><span class="pre">meancr</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#using-the-command-line-script">Using the command line script</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#step-1-masks-generation">Step 1: masks generation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#step-2-masks-application">Step 2: masks application</a></li>
 </ul>
 </li>
 </ul>
@@ -108,12 +102,6 @@
              
   <section id="cr-not-removed-by-median-stacking">
 <span id="fixing-cr-median"></span><h1>CR not removed by median stacking<a class="headerlink" href="#cr-not-removed-by-median-stacking" title="Link to this heading"></a></h1>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>This functionality is still in the development phase and is not yet fully
-consolidated. Some future modifications may be introduced as more testing
-is conducted with new images.</p>
-</div>
 <p>By default, the various recipes in MEGARA DRP use a median combination of three
 or more images to produce an average exposure and eliminate cosmic rays.
 However, when exposure times are long, it’s not uncommon for the same pixel to
@@ -123,43 +111,22 @@ be hit by a cosmic ray in consecutive exposures.</p>
 using data from neighboring pixels. However, it can be more efficient to use an
 automated procedure that detects and corrects pixels impacted by cosmic rays
 across multiple exposures, eliminating the need for manual intervention.</p>
-<p>Such an automatic method is available in the numina package, and it can be
-easily activated by modifying the default image combination method used by
-MEGARA DRP.</p>
+<p>Such an automatic method is available in the numina subpackage
+<a class="reference external" href="https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html">crmasks</a>, and
+it can be easily activated by modifying the default image combination method
+used by MEGARA DRP.</p>
+<p>This method should only be applied when three or more equivalent exposures are
+available. It works by identifying pixels where the signal has been affected by
+cosmic rays in more than half of the available exposures, such that the median
+combination still retains an erroneous signal.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>It’s important to note that the <em>ad hoc</em> method described here is prone to
-detecting false positives and should be tested and compared against the
-default method (simple median combination).</p>
-<p><strong>This method has only been tested on a limited subset of images and is not
-guaranteed to perform optimally in all cases. Users should be aware of this
-limitation and apply the method at their own discretion.</strong></p>
-<p>By carefully adjusting the detection parameters, typically through trial and
-error, it’s possible to reduce the number of false detections. When a pixel
-is incorrectly flagged as affected by multiple cosmic rays, its signal is
-replaced either by the minimum value across exposures or by the median,
-depending on the selected combination method. As a result, the impact on the
-final combined image is generally minimal. In many cases, the benefit of
-automatically removing pixels affected by multiple cosmic rays across
-exposures outweighs this drawback.</p>
 <p>This method is likely to be useful primarily when reducing science images
 with long exposure times. In general, it is not recommended for the
 reduction of calibration images.</p>
 </div>
-<section id="overall-description">
-<h2>Overall description<a class="headerlink" href="#overall-description" title="Link to this heading"></a></h2>
-<p>This method can only be applied when three or more equivalent exposures are
-available. It works by identifying pixels that deviate unexpectedly in a
-diagnostic diagram constructed using the median and minimum signal values of
-each pixel across the different exposures.</p>
-<p>For the method to function correctly, it’s essential that the exposures are
-truly equivalent, that is, each pixel should exhibit the same signal level
-across exposures, aside from expected random noise. While small variations in
-signal levels are tolerable, significant differences can result in a high
-number of false positives.</p>
-<p>Although the method is designed to be used within the MEGARA DRP, it can also
-be executed directly from the command line using the <code class="docutils literal notranslate"><span class="pre">numina-crmasks</span></code> script,
-which is described later in this document.</p>
+<section id="overall-procedure">
+<h2>Overall procedure<a class="headerlink" href="#overall-procedure" title="Link to this heading"></a></h2>
 <p>The main workflow for applying the method is as follows:</p>
 <ol class="arabic simple">
 <li><p><strong>Prepare the observation result file</strong>: Create the YAML file that lists the
@@ -207,263 +174,107 @@ outputs to determine which works best for your specific dataset.</p>
 begins with the creation of a YAML file, e.g.  <code class="docutils literal notranslate"><span class="pre">8_generate_crmasks.yaml</span></code>,
 which lists the individual exposures to be used in the cosmic ray detection
 step.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8_LcbImage_LR-R_crmasks</span>
-<span class="hll"><span class="linenos">2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraCrDetection</span>
-</span><span class="linenos">3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
-<span class="linenos">4</span><span class="nt">frames</span><span class="p">:</span>
-<span class="linenos">5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978527-20231115-MEGARA-MegaraLcbImage.fits</span>
-<span class="linenos">6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978528-20231115-MEGARA-MegaraLcbImage.fits</span>
-<span class="linenos">7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978529-20231115-MEGARA-MegaraLcbImage.fits</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8_LR-R_crmasks</span>
+<span class="hll"><span class="linenos"> 2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraCrDetection</span>
+</span><span class="linenos"> 3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="hll"><span class="linenos"> 4</span><span class="nt">frames</span><span class="p">:</span>
+</span><span class="linenos"> 5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978527-20231115-MEGARA-MegaraLcbImage.fits</span>
+<span class="linenos"> 6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978528-20231115-MEGARA-MegaraLcbImage.fits</span>
+<span class="linenos"> 7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978529-20231115-MEGARA-MegaraLcbImage.fits</span>
+<span class="hll"><span class="linenos"> 8</span><span class="nt">requirements</span><span class="p">:</span>
+</span><span class="linenos"> 9</span><span class="w">  </span><span class="nt">crmethod</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mm_lacosmic</span><span class="w">             </span><span class="c1"># lacosmic | mmcosmic | mm_lacosmic</span>
+<span class="linenos">10</span><span class="w">  </span><span class="nt">use_lamedian</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span><span class="w">               </span><span class="c1"># use LAMEDIAN insteand of minimum value</span>
+<span class="linenos">11</span><span class="w">  </span><span class="nt">interactive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w">                 </span><span class="c1"># display and pause between plots</span>
+<span class="linenos">12</span><span class="w">  </span><span class="nt">flux_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">none</span><span class="w">                 </span><span class="c1"># none | auto | [list of values]</span>
+<span class="linenos">13</span><span class="w">  </span><span class="nt">flux_factor_regions</span><span class="p">:</span><span class="w">              </span><span class="c1"># list of regions, FITS criterium</span>
+<span class="linenos">14</span><span class="w">  </span><span class="c1"># - [xmin, xmax, ymin, ymax]      # &lt;-- format (no need to uncomment this)</span>
+<span class="linenos">15</span><span class="w">  </span><span class="nt">apply_flux_factor_to</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">simulated</span><span class="w">   </span><span class="c1"># original | simulated (data)</span>
+<span class="linenos">16</span><span class="w">  </span><span class="nt">dilation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w">                       </span><span class="c1"># dilation around suspected pixels (integer)</span>
+<span class="linenos">17</span><span class="w">  </span><span class="nt">regions_to_be_skipped</span><span class="p">:</span><span class="w">            </span><span class="c1"># list of regions, FITS criterium</span>
+<span class="linenos">18</span><span class="w">  </span><span class="c1"># - [xmin, xmax, ymin, ymax]      # &lt;-- format (no need to uncomment this)</span>
+<span class="linenos">19</span><span class="w">  </span><span class="nt">pixels_to_be_flagged_as_cr</span><span class="p">:</span><span class="w">       </span><span class="c1"># FITS criterium, first pixel is [1, 1]</span>
+<span class="linenos">20</span><span class="w">  </span><span class="c1"># - [X, Y]                        # &lt;-- format (no need to uncomment this)</span>
+<span class="linenos">21</span><span class="w">  </span><span class="nt">pixels_to_be_ignored_as_cr</span><span class="p">:</span><span class="w">       </span><span class="c1"># FITS criterium, first pixel is [1, 1]</span>
+<span class="linenos">22</span><span class="w">  </span><span class="c1"># - [X, Y]                        # &lt;-- format (no need to uncomment this)</span>
+<span class="linenos">23</span><span class="w">  </span><span class="nt">pixels_to_be_replaced_by_local_median</span><span class="p">:</span><span class="w">  </span><span class="c1"># FITS criterium</span>
+<span class="linenos">24</span><span class="w">  </span><span class="c1"># - [X, Y, X_width, Y_width]      # &lt;-- format (no need to uncomment this)</span>
+<span class="linenos">25</span><span class="w">  </span><span class="nt">verify_cr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span><span class="w">                  </span><span class="c1"># ask for confirmation</span>
+<span class="linenos">26</span><span class="w">  </span><span class="nt">semiwindow</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span><span class="w">                    </span><span class="c1"># to display residual CR hits</span>
+<span class="linenos">27</span><span class="w">  </span><span class="nt">color_scale</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zscale</span><span class="w">               </span><span class="c1"># minmax | zscale</span>
+<span class="linenos">28</span><span class="w">  </span><span class="nt">maxplots</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-1</span><span class="w">                      </span><span class="c1"># -1: all CR detected are plotted</span>
+<span class="linenos">29</span><span class="w">  </span><span class="c1">#-----------------------------------------------------------------------------</span>
+<span class="linenos">30</span><span class="w">  </span><span class="c1"># Parameters for L.A. Cosmic (van Dokkum 2001), as implemented in ccdproc</span>
+<span class="linenos">31</span><span class="w">  </span><span class="c1"># (based in https://github.com/astropy/astroscrappy).</span>
+<span class="linenos">32</span><span class="w">  </span><span class="c1"># https://ccdproc.readthedocs.io/en/latest/api/ccdproc.cosmicray_lacosmic.html</span>
+<span class="linenos">33</span><span class="w">  </span><span class="nt">la_gain_apply</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w">    </span><span class="c1"># Return gain-corrected data</span>
+<span class="linenos">34</span><span class="w">  </span><span class="nt">la_sigclip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5.0</span><span class="w">        </span><span class="c1"># Laplacian-to-noise limit for cosmic ray detection</span>
+<span class="linenos">35</span><span class="w">  </span><span class="nt">la_sigfrac</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.3</span><span class="w">        </span><span class="c1"># Fractional detection limit for neighboring pixels</span>
+<span class="linenos">36</span><span class="w">  </span><span class="nt">la_objlim</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5.0</span><span class="w">         </span><span class="c1"># Contrast between Laplacian and fine struct. images</span>
+<span class="linenos">37</span><span class="w">  </span><span class="nt">la_satlevel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">65535.0</span><span class="w">   </span><span class="c1"># Saturation level of the image (ADU)</span>
+<span class="linenos">38</span><span class="w">  </span><span class="nt">la_niter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span><span class="w">            </span><span class="c1"># Number of iterations to perform</span>
+<span class="linenos">39</span><span class="w">  </span><span class="nt">la_sepmed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w">        </span><span class="c1"># Use the separable median filter (not the full filter)</span>
+<span class="linenos">40</span><span class="w">  </span><span class="nt">la_cleantype</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">meanmask</span><span class="w"> </span><span class="c1"># median | medmask | meanmask | idw</span>
+<span class="linenos">41</span><span class="w">  </span><span class="nt">la_fsmode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">convolve</span><span class="w">    </span><span class="c1"># median | convolve</span>
+<span class="linenos">42</span><span class="w">  </span><span class="nt">la_psfmodel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gaussxy</span><span class="w">   </span><span class="c1"># gauss | moffat | gaussx | gaussy | gaussxy</span>
+<span class="linenos">43</span><span class="w">  </span><span class="nt">la_psffwhm_x</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.5</span><span class="w">      </span><span class="c1"># FWHM of the PSF (X direction) to generate the kernel</span>
+<span class="linenos">44</span><span class="w">  </span><span class="nt">la_psffwhm_y</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.5</span><span class="w">      </span><span class="c1"># FWHM of the PSF (Y direction) to generate the kernel</span>
+<span class="linenos">45</span><span class="w">  </span><span class="nt">la_psfsize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">11</span><span class="w">         </span><span class="c1"># size of the kernel</span>
+<span class="linenos">46</span><span class="w">  </span><span class="nt">la_psfbeta</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4.765</span><span class="w">      </span><span class="c1"># Moffat beta parameter</span>
+<span class="linenos">47</span><span class="w">  </span><span class="nt">la_verbose</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w">       </span><span class="c1"># Print to the screen or not</span>
+<span class="linenos">48</span><span class="w">  </span><span class="c1">#-----------------------------------------------------------------------------</span>
+<span class="linenos">49</span><span class="w">  </span><span class="c1"># Parameters for the Median-Minimum method (Cardiel et al. 2025)</span>
+<span class="linenos">50</span><span class="w">  </span><span class="c1"># rectangular region to determine offsets between individual images:</span>
+<span class="linenos">51</span><span class="w">  </span><span class="nt">mm_crosscorr_region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span><span class="w">  </span><span class="c1"># [xmin, xmax, ymin, ymax] FITS criterium | null</span>
+<span class="linenos">52</span><span class="w">  </span><span class="nt">mm_boundary_fit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spline</span><span class="w">    </span><span class="c1"># piecewise | spline</span>
+<span class="linenos">53</span><span class="w">  </span><span class="nt">mm_knots_splfit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w">         </span><span class="c1"># used only for spline fit</span>
+<span class="linenos">54</span><span class="w">  </span><span class="nt">mm_fixed_points_in_boundary</span><span class="p">:</span>
+<span class="linenos">55</span><span class="w">  </span><span class="c1"># - [x, y, weight]  # weights are optional(ignored) for spline(piecewise) fit</span>
+<span class="linenos">56</span><span class="w">  </span><span class="nt">mm_nsimulations</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span><span class="w">                  </span><span class="c1"># simulations for each set of images</span>
+<span class="linenos">57</span><span class="w">  </span><span class="nt">mm_niter_boundary_extension</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w">      </span><span class="c1"># iterations to extend the spline fit</span>
+<span class="linenos">58</span><span class="w">  </span><span class="nt">mm_weight_boundary_extension</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0</span><span class="w">  </span><span class="c1"># multiplicative increment in weigth</span>
+<span class="linenos">59</span><span class="w">  </span><span class="nt">mm_threshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span><span class="w">                   </span><span class="c1"># minimum median2d - min2d value</span>
+<span class="linenos">60</span><span class="w">  </span><span class="nt">mm_minimum_max2d_rnoise</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5.0</span><span class="w">        </span><span class="c1"># minimum max2d (in readout units)</span>
+<span class="linenos">61</span><span class="w">  </span><span class="nt">mm_seed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">123456</span><span class="w">                     </span><span class="c1"># random seed for reproducibility</span>
+<span class="linenos">62</span><span class="w">  </span><span class="c1">#----------------------------------------------------------------------------</span>
 </pre></div>
 </div>
-<p>This initial file is quite simple: one only has to take care of specifying
-<code class="docutils literal notranslate"><span class="pre">mode:</span> <span class="pre">MegaraCrDetection</span></code>, so the MEGARA DRP will know that the
-<code class="docutils literal notranslate"><span class="pre">8_generate_crmasks.yaml</span></code> file is intended for generating the CR masks.  It’s
-also essential to ensure that the list of exposures includes three or more
-equivalent exposures, as the method relies on comparing pixel values across
-multiple images.</p>
+<p>Note that in this file is important to specify:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mode:</span> <span class="pre">MegaraCrDetection</span></code>, so the MEGARA DRP will know that the
+<code class="docutils literal notranslate"><span class="pre">8_generate_crmasks.yaml</span></code> file is intended for generating the CR masks.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">frames:</span></code> one should provide here the list of the individual equivalent
+exposures.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">requirements:</span></code> this section contains a large set of parameters whose
+values define the strategy used for the cosmic-ray detection. This section is
+identical to the <code class="docutils literal notranslate"><span class="pre">requirements</span></code> section of the configuration YAML file
+employed by <code class="docutils literal notranslate"><span class="pre">numina-crmasks</span></code>, which is described in detail in this <a class="reference external" href="https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html">link</a>.</p></li>
+</ul>
 </section>
 <section id="computing-the-cr-masks">
 <h2>Computing the CR masks<a class="headerlink" href="#computing-the-cr-masks" title="Link to this heading"></a></h2>
-<section id="initial-execution">
-<h3>Initial execution<a class="headerlink" href="#initial-execution" title="Link to this heading"></a></h3>
+<section id="coincident-cosmic-rays-in-the-median-combination">
+<h3>Coincident cosmic rays in the median combination<a class="headerlink" href="#coincident-cosmic-rays-in-the-median-combination" title="Link to this heading"></a></h3>
 <p>The recipe is run by doing:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>8_generate_crmasks.yaml<span class="w"> </span>-r<span class="w"> </span>control.yaml
 </pre></div>
 </div>
-<p>After a short processing time (typically around one minute, required to perform
-the necessary numerical simulations), the program generates a diagnostic plot
-used to detect double cosmic ray hits in the median combination. This plot is
-saved in the <em>work/</em> subdirectory under the name
-<code class="docutils literal notranslate"><span class="pre">diagnostic_histogram2d.png</span></code>. The figure is also displayed interactively,
-allowing the user to examine it in real time and, if necessary, stop the
-program execution.</p>
-<a class="reference internal image-reference" href="_images/diagnostic_histogram2d_1.png"><img alt="diagnostic diagram to detect double cosmic rays in median combination" src="_images/diagnostic_histogram2d_1.png" style="width: 100%;" />
-</a>
-<p>Once the exposures are preprocessed, the program stacks the three (or more)
-individual exposures into a 3D data cube. From this cube, it generates 2D
-images, each with the same dimensions as the original exposures, that represent
-the minimum <code class="docutils literal notranslate"><span class="pre">min2d</span></code>, maximum <code class="docutils literal notranslate"><span class="pre">max2d</span></code>, and median <code class="docutils literal notranslate"><span class="pre">median2d</span></code> signal values
-at each pixel across the exposures.</p>
-<p>In the previously mentioned diagnostic plot, the vertical axis shows the
-difference between <code class="docutils literal notranslate"><span class="pre">median2d</span></code> and <code class="docutils literal notranslate"><span class="pre">min2d</span></code> for each pixel, while the
-horizontal axis shows <code class="docutils literal notranslate"><span class="pre">min2d</span> <span class="pre">-</span> <span class="pre">bias</span></code>.</p>
-<p>The diagnostic diagram is actually a 2D histogram, and it is displayed in two
-panels:</p>
-<p><strong>Left Panel:</strong>
-This shows the result of a predefined number of simulations (10 by default, but
-this can be adjusted). These simulations use the <code class="docutils literal notranslate"><span class="pre">median2d</span></code> image to generate
-synthetic exposures, based on assumed values for gain, readout noise, and bias.
-For MEGARA data, exposures are preprocessed before this step (including
-overscan subtraction, trimming, and gain correction), so the code assumes:</p>
-<ul class="simple">
-<li><p>gain = 1.0 (the data is transform from ADU to electrons)</p></li>
-<li><p>readout noise = 3.4 electrons (see RDNOISE1 and RDNOISE2 in the FITS headers)</p></li>
-<li><p>bias = 0 electrons</p></li>
-</ul>
-<p><strong>Right Panel:</strong>
-This shows the same diagnostic diagram, but using the actual data from the individual exposures.</p>
-<p>Returning to the left panel, for each bin along the horizontal axis, the
-corresponding 1D histogram is converted into a cumulative distribution function
-(CDF). The red crosses mark the values of <code class="docutils literal notranslate"><span class="pre">median2d</span> <span class="pre">-</span> <span class="pre">min2d</span></code> where the
-probability of finding a pixel above that value is low enough that only one
-such pixel is expected. A blue spline curve is fitted through these red
-crosses.</p>
-<p>To define a more conservative detection boundary, the blue curve is extended
-upward using orange, green, and red lines, which apply increasing weights to
-the vertical distance above the original fit. This final curve serves as the
-threshold: pixels above this line are flagged as likely affected by cosmic rays
-in more than one exposure.</p>
-<p>This detection boundary is also plotted in the right panel. If a large number
-of pixels lie above the boundary, as in the example shown, it indicates that
-the exposures are not equivalent, and the method will likely produce many false
-positives. In such cases, it is advisable to:</p>
-<ul class="simple">
-<li><p>Stop the execution.</p></li>
-<li><p>Modify the YAML file to include the option to rescale the images.</p></li>
-<li><p>Rerun the program with the updated configuration.</p></li>
-</ul>
-</section>
-<section id="checking-the-flux-level-of-the-individual-exposures">
-<h3>Checking the flux level of the individual exposures<a class="headerlink" href="#checking-the-flux-level-of-the-individual-exposures" title="Link to this heading"></a></h3>
-<p>To address the issue of non-equivalent exposures, you can enable automatic
-rescaling by adding the requirement <code class="docutils literal notranslate"><span class="pre">flux_factor</span></code> to the YAML file:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8_LcbImage_LR-R_crmasks</span>
-<span class="linenos">2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraCrDetection</span>
-<span class="linenos">3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
-<span class="linenos">4</span><span class="nt">frames</span><span class="p">:</span>
-<span class="linenos">5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978527-20231115-MEGARA-MegaraLcbImage.fits</span>
-<span class="linenos">6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978528-20231115-MEGARA-MegaraLcbImage.fits</span>
-<span class="linenos">7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978529-20231115-MEGARA-MegaraLcbImage.fits</span>
-<span class="hll"><span class="linenos">8</span><span class="nt">requirements</span><span class="p">:</span>
-</span><span class="hll"><span class="linenos">9</span><span class="w"> </span><span class="nt">flux_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auto</span>
-</span></pre></div>
-</div>
-<p>By default, this parameter is set to <code class="docutils literal notranslate"><span class="pre">none</span></code>, which means the program assumes
-all exposures are equivalent. Internally, this is interpreted as a scaling
-factor of 1.0 for each exposure. Setting it to <code class="docutils literal notranslate"><span class="pre">auto</span></code> allows the program to
-estimate and apply appropriate scaling factors to bring the exposures to a
-common flux level, helping reduce false positives in the cosmic ray detection
-process.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>8_generate_crmasks.yaml<span class="w"> </span>-r<span class="w"> </span>control.yaml
-</pre></div>
-</div>
-<p>In this example, the program generates new 2D histograms to evaluate the
-equivalence of the exposures. It does so by computing the number of pixels for
-various reasonable combinations of the flux ratio between each individual
-exposure and the median of the three exposures.</p>
-<p>Ideally, this ratio should be close to 1.0, indicating that the exposures are
-well matched. However, the program explores a broader range, from 0.5 to 1.5,
-in order to account for potential variations and identify the best scaling
-factors for each exposure.</p>
-<a class="reference internal image-reference" href="_images/flux_factor1.png"><img alt="computation of the flux factor for the first exposure" src="_images/flux_factor1.png" style="width: 100%;" />
-</a>
-<a class="reference internal image-reference" href="_images/flux_factor2.png"><img alt="computation of the flux factor for the second exposure" src="_images/flux_factor2.png" style="width: 100%;" />
-</a>
-<a class="reference internal image-reference" href="_images/flux_factor3.png"><img alt="computation of the flux factor for the third exposure" src="_images/flux_factor3.png" style="width: 100%;" />
-</a>
-<p>The 2D histograms used to estimate flux scaling factors are displayed in two
-panels (note that these plots are also saved in the <em>work/</em> subdirectory, as
-<code class="docutils literal notranslate"><span class="pre">flux_factor1.png</span></code>, <code class="docutils literal notranslate"><span class="pre">flux_factor2.png</span></code> and <code class="docutils literal notranslate"><span class="pre">flux_factor3.png</span></code>):</p>
-<p><strong>Left Panel:</strong>
-This shows the raw 2D histogram, representing the distribution of pixel ratios
-between each individual exposure and the median of the three exposures.
-Ideally, these ratios should cluster around 1.0, but the program evaluates a
-range from 0.5 to 1.5 to account for possible variations.</p>
-<p><strong>Right Panel:</strong>
-This shows the cleaned version of the histogram, where isolated pixels have
-been removed to reduce noise and improve the reliability of the analysis.</p>
-<p>To estimate the scaling factors, the program performs the following steps:</p>
-<ol class="arabic simple">
-<li><p>Spline fits (shown as blue and orange solid lines) are computed on both sides
-of the horizontal bin corresponding to the 1.0 ratio. These fits ignore the
-bin encompassing the 1.0 ratio.</p></li>
-<li><p>The mode (most frequent value) is determined on each side, above and below
-1.0, focusing on pixels with higher signal levels.</p></li>
-<li><p>These modes are used to estimate the approximate scaling factors for each
-exposure.</p></li>
-</ol>
-<p>In the example provided:</p>
-<ul class="simple">
-<li><p>The first exposure has a lower flux, with a scaling factor of approximately
-0.78.</p></li>
-<li><p>The second exposure is nearly equivalent to the median, with a factor of
-1.01.</p></li>
-<li><p>The third exposure shows a slightly higher flux, with a factor of 1.11.</p></li>
-</ul>
-<p>These scaling factors are then applied when generating the simulated diagnostic
-diagram, which, in this case, more closely resembles the one generated from the
-actual data, indicating improved consistency between exposures.</p>
-<a class="reference internal image-reference" href="_images/diagnostic_histogram2d_2.png"><img alt="diagnostic diagram to detect double cosmic rays in median combination" src="_images/diagnostic_histogram2d_2.png" style="width: 100%;" />
-</a>
-<p>If needed, the flux scaling factors can be manually specified in the YAML file
-using the flux_factor requirement. For example: <code class="docutils literal notranslate"><span class="pre">flux_factor:</span> <span class="pre">[0.78,</span> <span class="pre">1.01,</span>
-<span class="pre">1.11]</span></code>. Each value corresponds to one of the individual exposures. This manual
-approach can be useful when automatic estimation is not reliable or when known
-scaling factors are available.</p>
-<p>Additionally, in the final diagnostic diagram, the detection boundary is
-extended below zero and above the maximum value of the <code class="docutils literal notranslate"><span class="pre">min2d</span> <span class="pre">-</span> <span class="pre">bias</span></code> axis.
-This is done by continuing the fitted boundary using the constant value it
-attains at the edges of the fitted range. This extension ensures that the
-boundary fully encompasses the entire range of actual pixel values, improving
-the robustness of the method in identifying outliers potentially affected by
-multiple cosmic ray hits.</p>
-</section>
-<section id="detecting-suspected-double-cosmic-rays-in-the-median-combination">
-<h3>Detecting suspected double cosmic rays in the median combination<a class="headerlink" href="#detecting-suspected-double-cosmic-rays-in-the-median-combination" title="Link to this heading"></a></h3>
-<p>Once the comparison between the simulated and actual diagnostic diagrams is
-satisfactory, the program proceeds using the computed detection boundary.</p>
-<p>At this stage, the diagnostic diagram is displayed again, this time as a
-scatter plot rather than a 2D histogram. In this plot, red crosses mark the
-pixels suspected of being affected by a cosmic ray in more than one exposure.
-The total number of flagged pixels is shown in the legend for reference.</p>
-<p>This plot is saved in the <em>work/</em> subdirectory under the name
-<code class="docutils literal notranslate"><span class="pre">diagnostic_mediancr.png</span></code>, and provides a clear visual summary of the
-detection results.</p>
-<a class="reference internal image-reference" href="_images/diagnostic_mediancr.png"><img alt="diagnostic diagram for mediancr" src="_images/diagnostic_mediancr.png" style="width: 100%;" />
-</a>
-<p>In this example, 256 pixels have been flagged as suspected of being affected by
-a cosmic ray in more than one exposure. To account for nearby pixels that may
-be slightly affected by the same event, these flagged pixels are surrounded by
-a 1-pixel-wide border. This process is known as dilation, and the extent of
-dilation can be controlled using the <code class="docutils literal notranslate"><span class="pre">dilation</span></code> requirement in the YAML file.</p>
-<p>With a dilation factor of 1, the initial 256 pixels expand to 1592 pixels.
-After dilation, the program groups connected pixels into clusters, each
-representing an individual cosmic ray hit affecting contiguous pixels.
-These clusters are then sorted based on their distance above the detection
-boundary, allowing the most likely double cosmic ray hits to be reviewed first.</p>
-<p>For each identified case, the program generates an independent page in the file
-<code class="docutils literal notranslate"><span class="pre">mediancr_identified_cr.pdf</span></code>, which is saved in the <em>work/</em> subdirectory.
-The corresponding plots are not displayed interactively, so users should open
-this file manually after the program finishes execution.</p>
-<p>By default, only the first 10 suspected double cosmic ray hits are displayed.
-This limit can be adjusted using the <code class="docutils literal notranslate"><span class="pre">maxplots</span></code> requirement in the YAML file.</p>
-<p>In this example, a total of 138 suspected double cosmic ray hits have been
-identified, as indicated in the following plot title.</p>
-<a class="reference internal image-reference" href="_images/mediancr_identified_cr.png"><img alt="example of pixels affected by two cosmic rays in a group of 3 exposures" src="_images/mediancr_identified_cr.png" style="width: 100%;" />
-</a>
-<p>The plots are organized into two rows:</p>
-<p><strong>First row:</strong>
-Displays the three individual exposures used in the analysis.</p>
-<p><strong>Second row:</strong></p>
-<ul class="simple">
-<li><p>Left image: The result of a simple median combination of the exposures.</p></li>
-<li><p>Center image: A binary map showing the pixels detected as affected by two
-cosmic rays, highlighted with a 1-pixel-wide border (after dilation).</p></li>
-<li><p>Right image: The corrected median combination, where the affected pixels
-have been replaced by the minimum value from the corresponding pixels in the
-individual exposures.</p></li>
-</ul>
-<p>This layout provides a clear visual comparison between the original data, the
-detected cosmic ray hits, and the corrected result.</p>
-</section>
-<section id="detecting-cosmic-rays-in-the-mean-combination">
-<h3>Detecting cosmic rays in the mean combination<a class="headerlink" href="#detecting-cosmic-rays-in-the-mean-combination" title="Link to this heading"></a></h3>
-<p>After detecting suspected double cosmic ray hits in the median combination, the
-program proceeds to analyze the mean combination. It’s important to note that
-the resulting <code class="docutils literal notranslate"><span class="pre">mean2d</span></code> image includes cosmic rays from all individual
-exposures, making it more sensitive to single cosmic ray events.</p>
-<p>The program then generates a new diagnostic diagram, where red crosses indicate
-pixels suspected of being affected by cosmic rays in the combined exposure.
-This plot is saved in the work/ subdirectory under the name
-<code class="docutils literal notranslate"><span class="pre">diagnostic_meancr.png</span></code>.</p>
-<a class="reference internal image-reference" href="_images/diagnostic_meancr.png"><img alt="diagnostic diagram for mean" src="_images/diagnostic_meancr.png" style="width: 100%;" />
-</a>
-<p>As expected, the number of pixels suspected of being affected by a cosmic ray
-in the mean combination is significantly higher than in the median case. In
-this example, 82171 pixels have been flagged as potential cosmic ray hits.
-After applying a dilation factor of 1, this number increases to 296655 pixels,
-accounting for surrounding pixels that may have been slightly affected by the
-same cosmic ray event.</p>
-</section>
-<section id="detecting-cosmic-rays-in-the-individual-exposures">
-<h3>Detecting cosmic rays in the individual exposures<a class="headerlink" href="#detecting-cosmic-rays-in-the-individual-exposures" title="Link to this heading"></a></h3>
-<p>The program also generates diagnostic diagrams for each individual exposure.
-These plots are saved in the <em>work/</em> subdirectory with the names
-<code class="docutils literal notranslate"><span class="pre">diagnostic_crmask1.png</span></code>, <code class="docutils literal notranslate"><span class="pre">diagnostic_crmask2.png</span></code>, and
-<code class="docutils literal notranslate"><span class="pre">diagnostic_crmask3.png</span></code> (one for each individual exposure).</p>
-<a class="reference internal image-reference" href="_images/diagnostic_crmask1.png"><img alt="diagnostic diagram for first individual exposure" src="_images/diagnostic_crmask1.png" style="width: 30%;" />
-</a>
-<a class="reference internal image-reference" href="_images/diagnostic_crmask2.png"><img alt="diagnostic diagram for second individual exposure" src="_images/diagnostic_crmask2.png" style="width: 30%;" />
-</a>
-<a class="reference internal image-reference" href="_images/diagnostic_crmask3.png"><img alt="diagnostic diagram for third individual exposure" src="_images/diagnostic_crmask3.png" style="width: 30%;" />
-</a>
-<p>In these diagrams, the vertical axis shows the original <code class="docutils literal notranslate"><span class="pre">median2d</span> <span class="pre">-</span> <span class="pre">min2d</span></code>
-values, scaled by the corresponding flux factor for each exposure. This scaling
-ensures consistency when comparing exposures with different flux levels.</p>
-<p>When computing the mask for each individual exposure, the program enforces that
-any pixel masked in an individual exposure must also be masked in the mean
-combination mask described earlier. This constraint ensures that cosmic ray
-detections are consistent across both individual and combined analyses, while
-reducing the number of false positive detections.</p>
+<p>From this point, follow the description given in this
+<a class="reference external" href="https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html#example">example</a>.
+<strong>Important</strong>: in that example the generation of
+the CR masks is carried out by executing the command-line script
+<code class="docutils literal notranslate"><span class="pre">numina-crmasks</span></code>, which makes use of a slightly different input YAML file.</p>
 </section>
 <section id="output-file-crmasks-fits">
 <h3>Output file <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code><a class="headerlink" href="#output-file-crmasks-fits" title="Link to this heading"></a></h3>
 <p>The output file <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code> is generated in the <em>results/</em> subdirectory,
 and contains several extensions:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>obsid8_LcbImage_LR-R_crmasks_results
-<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>fitsinfo<span class="w"> </span>crmasks.fits
-<span class="go">Filename: crmasks.fits</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>fitsinfo<span class="w"> </span>crmasks.fits
+</pre></div>
+</div>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Filename: crmasks.fits</span>
 <span class="go">No.    Name      Ver    Type      Cards   Dimensions   Format</span>
 <span class="go">  0  PRIMARY       1 PrimaryHDU     121   ()</span>
 <span class="go">  1  MEDIANCR      1 ImageHDU         8   (4096, 4112)   uint8</span>
@@ -471,10 +282,11 @@ and contains several extensions:</p>
 <span class="go">  3  CRMASK1       1 ImageHDU         8   (4096, 4112)   uint8</span>
 <span class="go">  4  CRMASK2       1 ImageHDU         8   (4096, 4112)   uint8</span>
 <span class="go">  5  CRMASK3       1 ImageHDU         8   (4096, 4112)   uint8</span>
+<span class="go">  6  LAMEDIAN      1 ImageHDU         8   (4096, 4112)   float32</span>
 </pre></div>
 </div>
 <p>The primary HDU does not contain image data but includes keywords that document the parameters used to generate the masks.</p>
-<p>The extensions store the actual masks computed by the program:</p>
+<p>The next extensions store the actual masks computed by the program:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">MEDIANCR</span></code>: Mask for pixels suspected of being affected by
 two cosmic rays in the median combination.</p></li>
@@ -483,101 +295,15 @@ a cosmic ray in the mean combination.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">CRMASK1</span></code>, <code class="docutils literal notranslate"><span class="pre">CRMASK2</span></code>, <code class="docutils literal notranslate"><span class="pre">CRMASK3</span></code>: Masks for pixels suspected
 of being affected by a cosmic ray in each of the individual exposures.</p></li>
 </ul>
-<p>In all cases, pixels suspected of being affected by a cosmic ray
+<p>In all these masks, pixels suspected of being affected by a cosmic ray
 are set to 1, while the rest of the pixels are set to 0.</p>
+<p>Finally, the extension <code class="docutils literal notranslate"><span class="pre">LAMEDIAN</span></code> contains the corrected image generated by
+the L.A. Cosmic algorithm (van Dokkum 2001).</p>
 <p>Do not forget to copy the file <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code> to the <cite>data/</cite> subdirectory
 before running the MEGARA DRP to generate the reduced scientific result.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>cp<span class="w"> </span>crmasks.fits<span class="w"> </span>../data/
 </pre></div>
 </div>
-</section>
-<section id="additional-program-parameters">
-<h3>Additional program parameters<a class="headerlink" href="#additional-program-parameters" title="Link to this heading"></a></h3>
-<p>The reduction recipe that generates the cosmic ray masks uses several default
-parameter values. However, these parameters can be customized by specifying
-them in the requirements section of the YAML file. This allows users to
-fine-tune the behavior of the detection algorithm to better suit their specific
-data or scientific goals.</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">gain</span></code>: detector gain (electron/ADU). This parameter is retained to allow
-the code to be reused with other instruments.
-As previously mentioned, since
-MEGARA exposures are preprocessed before the CR mask generation (including
-conversion from ADU to electrons), the gain is assumed to be 1.0 by default.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">rnoise</span></code>: readout noise (ADU). For MEGARA, the code assumes
-a value of 3.4 electrons, which corresponds to the detector’s readout noise
-(see the <code class="docutils literal notranslate"><span class="pre">RDNOISE1</span></code> and <code class="docutils literal notranslate"><span class="pre">RDNOISE2</span></code> keywords in the FITS headers).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">bias</span></code> (default value 0.0): bias value (ADU). This should be set to 0.0 for
-MEGARA, as the bias is removed during the preprocessing performed by MEGARA
-DRP.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">flux_factor</span></code> (default <code class="docutils literal notranslate"><span class="pre">none</span></code>): this parameter controls how the relative
-flux levels of individual exposures are handled. This paramewter can be set
-in several ways:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">none</span></code>: Assumes all exposures are equivalent; internally, a flux factor
-of 1.0 is applied to each.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">auto</span></code>: The program automatically estimates the flux factor for each
-exposure by comparing it to the median of all exposures.</p></li>
-<li><p>List of values: You can manually specify a list of flux factors (e.g.,
-<code class="docutils literal notranslate"><span class="pre">[0.78,</span> <span class="pre">1.01,</span> <span class="pre">1.11]</span></code>), with one value per exposure.</p></li>
-<li><p>Single float: A single value (e.g., 1.0) applies the same flux factor to
-all exposures.</p></li>
-</ul>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">knots_splfit</span></code> (default 3): Specifies the total number of knots employed in
-the spline fit that define the detection boundary in the diagnostic diagram.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">nsimulations</span></code> (default 10): Sets the number of simulations to perform for
-each set of exposures when generating the simulated diagnostic diagram.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">niter_boundary_extension</span></code> (default 3): Determines the number of iterations
-used to extend the detection boundary above the red crosses in the simulated
-diagnostic diagram, improving the robustness of cosmic ray detection by
-reducing the number of false positives.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">weight_boundary_extension</span></code> (default 10): Specifies the weight applied to
-the vertical distance between fitted points in the diagnostic diagram when
-extending the detection boundary above the red crosses. During each
-iteration, points above the previous fit are multiplied by this weight raised
-to the power of the iteration number. This forces the fit to better align
-with the upper boundary defined by the red crosses in the simulated
-diagnostic diagram, improving the accuracy of cosmic ray detection.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">threshold</span></code> (default 0.0): Sets a minimum threshold for the <code class="docutils literal notranslate"><span class="pre">median2d</span> <span class="pre">-</span>
-<span class="pre">min2d</span></code> value in the diagnostic diagrams. This acts as an additional
-constraint beyond the detection boundary (pixels with values below this
-threshold are not considered as suspected cosmic ray hits).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">minimum_max2d_rnoise</span></code> (default 5.0): Defines the minimum value of
-<code class="docutils literal notranslate"><span class="pre">max2d</span></code>, expressed in readout noise units, required to consider a pixel as
-a double cosmic ray. This helps avoid false positives caused by large
-negative values in one of the individual exposures.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">interactive</span></code> (default True): Controls whether the program generates
-interactive plots using Matplotlib. If True, the plots are displayed with
-zoom and pan functionality. If False, the program runs in non-interactive
-mode, but all plots are still saved in the <em>work/</em> subdirectory.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">dilation</span></code> (default 1): Specifies the dilation factor used to expand the
-mask around detected cosmic ray pixels. A value of 0 disables dilation. A
-value of 1 is typically recommended, as it helps include the tails of cosmic
-rays, which may have lower signal levels but are still affected.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">seed</span></code> (default None): Sets the random seed used when generating the
-simulated diagnostic diagram. If set to None, the seed is randomly
-generated, resulting in slightly different simulations each time.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">plots</span></code> (default True): If True, the program generates a PDF file named
-<code class="docutils literal notranslate"><span class="pre">mediancr_identified_cr.pdf</span></code> containing visualizations of some or all of
-the identified double cosmic ray hits.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">semiwindow</span></code> (default 15): Defines the semiwindow size (in pixels) used
-when plotting the double cosmic ray hits. This parameter is only used if
-<code class="docutils literal notranslate"><span class="pre">plots</span></code> is set to True.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">color_scale</span></code> (default minmax): Specifies the color scale used in the
-images displayed in the <code class="docutils literal notranslate"><span class="pre">mediancr_identified_cr.pdf</span></code> file. This option is
-only relevant if <code class="docutils literal notranslate"><span class="pre">plots</span></code> is set to True. Valid values are <code class="docutils literal notranslate"><span class="pre">minmax</span></code> and
-<code class="docutils literal notranslate"><span class="pre">zscale</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">maxplots</span></code> (default 10): Sets the maximum number of suspicious double
-cosmic rays to display. Limiting the number of plots is useful when
-experimenting with program parameters, as it helps avoid generating an
-excessive number of plots due to false positives. A negative value means all
-suspected double CRs will be displayed (note that this may significantly
-increase execution time). This option is only used if <code class="docutils literal notranslate"><span class="pre">plots</span></code> is True.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">save_preprocessed</span></code> (default False): If set to True, the program saves the
-preprocessed individual exposures in the <em>work/</em> subdirectory. This can be
-helpful for debugging, but is not required for normal operation.</p></li>
-</ul>
 </section>
 </section>
 <section id="applying-the-masks">
@@ -602,11 +328,14 @@ YAML file, <code class="docutils literal notranslate"><span class="pre">8_LcbIma
 <span class="linenos"> 6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978528-20231115-MEGARA-MegaraLcbImage.fits</span>
 <span class="linenos"> 7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978529-20231115-MEGARA-MegaraLcbImage.fits</span>
 <span class="linenos"> 8</span><span class="nt">requirements</span><span class="p">:</span>
-<span class="hll"><span class="linenos"> 9</span><span class="w"> </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mediancr</span>
-</span><span class="hll"><span class="linenos">10</span><span class="w"> </span><span class="nt">crmasks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../data/crmasks.fits</span>
-</span><span class="linenos">11</span><span class="w"> </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+3</span><span class="p p-Indicator">]</span>
-<span class="linenos">12</span><span class="w"> </span><span class="nt">ignored_sky_bundles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">96</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1">#[93, 94, 96, 97, 99, 100]</span>
-<span class="linenos">13</span><span class="w"> </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extinction_LP.txt</span>
+<span class="hll"><span class="linenos"> 9</span><span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mediancr</span>
+</span><span class="hll"><span class="linenos">10</span><span class="w">  </span><span class="nt">method_kwargs</span><span class="p">:</span>
+</span><span class="hll"><span class="linenos">11</span><span class="w">    </span><span class="nt">apply_flux_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+</span><span class="hll"><span class="linenos">12</span><span class="w">    </span><span class="nt">use_lamedian</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+</span><span class="linenos">13</span><span class="w">  </span><span class="nt">crmasks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../data/crmasks.fits</span>
+<span class="linenos">14</span><span class="w">  </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+3</span><span class="p p-Indicator">]</span>
+<span class="linenos">15</span><span class="w">  </span><span class="nt">ignored_sky_bundles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">96</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1">#[93, 94, 96, 97, 99, 100]</span>
+<span class="linenos">16</span><span class="w">  </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extinction_LP.txt</span>
 </pre></div>
 </div>
 <p>Note that the <code class="docutils literal notranslate"><span class="pre">crmasks</span></code> parameter must be explicitly specified, and it should
@@ -622,6 +351,20 @@ thresholds) to evaluate the impact of using different masks.</p>
 suspected of being affected by a cosmic ray in more than one exposure) are
 replaced with the corresponding <code class="docutils literal notranslate"><span class="pre">min2d</span></code> value at each pixel. As a result, the
 final image is identical to <code class="docutils literal notranslate"><span class="pre">median2d</span></code>, except for the corrected pixels.</p>
+<p>Note that under the label <code class="docutils literal notranslate"><span class="pre">`method_kwargs:</span></code> there are several parameters that
+control how the information from the <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code> file is used:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">apply_flux_factor:</span></code> When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, the factors listed in the
+<code class="docutils literal notranslate"><span class="pre">FLUXF1</span></code>, <code class="docutils literal notranslate"><span class="pre">FLUXF2</span></code>, etc. keywords of the primary HDU in the
+<code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code> file are used to modify the signal of each individual
+exposure before combining them and removing cosmic rays. If this parameter is
+set to <code class="docutils literal notranslate"><span class="pre">False</span></code>, an effective factor of <code class="docutils literal notranslate"><span class="pre">1.0</span></code> is applied (i.e., no change
+is introduced), regardless of the values in the FITS header of the
+<code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code> file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">use_lamedian:</span></code>: When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, the masked pixels are replaced with
+the corrected value obtained using the L.A. Cosmic algorithm, rather than
+using the minimum value in each pixel.</p></li>
+</ul>
 </section>
 <section id="method-meancrt">
 <h3>Method <code class="docutils literal notranslate"><span class="pre">meancrt</span></code><a class="headerlink" href="#method-meancrt" title="Link to this heading"></a></h3>
@@ -633,11 +376,14 @@ final image is identical to <code class="docutils literal notranslate"><span cla
 <span class="linenos"> 6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978528-20231115-MEGARA-MegaraLcbImage.fits</span>
 <span class="linenos"> 7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978529-20231115-MEGARA-MegaraLcbImage.fits</span>
 <span class="linenos"> 8</span><span class="nt">requirements</span><span class="p">:</span>
-<span class="hll"><span class="linenos"> 9</span><span class="w"> </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">meancrt</span>
-</span><span class="hll"><span class="linenos">10</span><span class="w"> </span><span class="nt">crmasks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../data/crmasks.fits</span>
-</span><span class="linenos">11</span><span class="w"> </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+3</span><span class="p p-Indicator">]</span>
-<span class="linenos">12</span><span class="w"> </span><span class="nt">ignored_sky_bundles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">96</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1">#[93, 94, 96, 97, 99, 100]</span>
-<span class="linenos">13</span><span class="w"> </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extinction_LP.txt</span>
+<span class="hll"><span class="linenos"> 9</span><span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">meancrt</span>
+</span><span class="hll"><span class="linenos">10</span><span class="w">  </span><span class="nt">method_kwargs</span><span class="p">:</span>
+</span><span class="hll"><span class="linenos">11</span><span class="w">    </span><span class="nt">apply_flux_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+</span><span class="hll"><span class="linenos">12</span><span class="w">    </span><span class="nt">use_lamedian</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+</span><span class="linenos">13</span><span class="w">  </span><span class="nt">crmasks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../data/crmasks.fits</span>
+<span class="linenos">14</span><span class="w">  </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+3</span><span class="p p-Indicator">]</span>
+<span class="linenos">15</span><span class="w">  </span><span class="nt">ignored_sky_bundles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">96</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1">#[93, 94, 96, 97, 99, 100]</span>
+<span class="linenos">16</span><span class="w">  </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extinction_LP.txt</span>
 </pre></div>
 </div>
 <p>When using <code class="docutils literal notranslate"><span class="pre">method:</span> <span class="pre">meancrt</span></code>, the MEGARA DRP reads the mask stored in
@@ -647,6 +393,8 @@ the corresponding values when using <code class="docutils literal notranslate"><
 <p>As a result, the final image is identical to <code class="docutils literal notranslate"><span class="pre">mean2d</span></code>, except for the
 corrected pixels, where the data is sourced from the image produced by the
 <code class="docutils literal notranslate"><span class="pre">mediancr</span></code> method.</p>
+<p>The parameters under the <code class="docutils literal notranslate"><span class="pre">method_kwargs:</span></code> label play the same role as
+described above for the <code class="docutils literal notranslate"><span class="pre">mediancr</span></code> combination method.</p>
 </section>
 <section id="method-meancr">
 <h3>Method <code class="docutils literal notranslate"><span class="pre">meancr</span></code><a class="headerlink" href="#method-meancr" title="Link to this heading"></a></h3>
@@ -658,11 +406,14 @@ corrected pixels, where the data is sourced from the image produced by the
 <span class="linenos"> 6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978528-20231115-MEGARA-MegaraLcbImage.fits</span>
 <span class="linenos"> 7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978529-20231115-MEGARA-MegaraLcbImage.fits</span>
 <span class="linenos"> 8</span><span class="nt">requirements</span><span class="p">:</span>
-<span class="hll"><span class="linenos"> 9</span><span class="w"> </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">meancr</span>
-</span><span class="hll"><span class="linenos">10</span><span class="w"> </span><span class="nt">crmasks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../data/crmasks.fits</span>
-</span><span class="linenos">11</span><span class="w"> </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+3</span><span class="p p-Indicator">]</span>
-<span class="linenos">12</span><span class="w"> </span><span class="nt">ignored_sky_bundles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">96</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1">#[93, 94, 96, 97, 99, 100]</span>
-<span class="linenos">13</span><span class="w"> </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extinction_LP.txt</span>
+<span class="hll"><span class="linenos"> 9</span><span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">meancr</span>
+</span><span class="hll"><span class="linenos">10</span><span class="w">  </span><span class="nt">method_kwargs</span><span class="p">:</span>
+</span><span class="hll"><span class="linenos">11</span><span class="w">    </span><span class="nt">apply_flux_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+</span><span class="hll"><span class="linenos">12</span><span class="w">    </span><span class="nt">use_lamedian</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+</span><span class="linenos">13</span><span class="w">  </span><span class="nt">crmasks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../data/crmasks.fits</span>
+<span class="linenos">14</span><span class="w">  </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+3</span><span class="p p-Indicator">]</span>
+<span class="linenos">15</span><span class="w">  </span><span class="nt">ignored_sky_bundles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">96</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1">#[93, 94, 96, 97, 99, 100]</span>
+<span class="linenos">16</span><span class="w">  </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extinction_LP.txt</span>
 </pre></div>
 </div>
 <p>When using <code class="docutils literal notranslate"><span class="pre">method:</span> <span class="pre">meancr</span></code>, the MEGARA DRP reads the masks stored in the
@@ -673,163 +424,8 @@ based on its corresponding mask. This allows the program to compute the mean
 along the axis corresponding to the image number, excluding the masked pixels.</p>
 <p>In cases where a pixel is masked in all individual exposures, the corresponding
 pixel in the combined image is set to the <code class="docutils literal notranslate"><span class="pre">min2d</span></code> value at that location.</p>
-</section>
-</section>
-<section id="using-the-command-line-script">
-<h2>Using the command line script<a class="headerlink" href="#using-the-command-line-script" title="Link to this heading"></a></h2>
-<p>It is also possible to compute the CR masks and apply them directly to
-an arbitray set of images using the command-line script
-<code class="docutils literal notranslate"><span class="pre">numina-crmasks</span></code>.</p>
-<p>We will now demonstrate how to do this using the set of preprocessed images
-that the MEGARA DRP uses to generate the cosmic ray masks. Since these
-preprocessed images are not generated by default by the MEGARA reduction
-recipes, a special requirement named <code class="docutils literal notranslate"><span class="pre">save_preprocessed</span></code> must be set to True
-in the requirements section when using the <strong>MegaraCrDetection</strong> recipe. The
-preprocessed images will then be saved in the <em>work/</em> subdirectory with the
-filenames <code class="docutils literal notranslate"><span class="pre">preprocessed_1.fits</span></code>, <code class="docutils literal notranslate"><span class="pre">preprocessed_2.fits</span></code>, and
-<code class="docutils literal notranslate"><span class="pre">preprocessed_3.fits</span></code>.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8_LcbImage_LR-R_crmasks</span>
-<span class="hll"><span class="linenos"> 2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraCrDetection</span>
-</span><span class="linenos"> 3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
-<span class="linenos"> 4</span><span class="nt">frames</span><span class="p">:</span>
-<span class="linenos"> 5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978527-20231115-MEGARA-MegaraLcbImage.fits</span>
-<span class="linenos"> 6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978528-20231115-MEGARA-MegaraLcbImage.fits</span>
-<span class="linenos"> 7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978529-20231115-MEGARA-MegaraLcbImage.fits</span>
-<span class="linenos"> 8</span><span class="nt">requirements</span><span class="p">:</span>
-<span class="linenos"> 9</span><span class="w"> </span><span class="nt">flux_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auto</span>
-<span class="hll"><span class="linenos">10</span><span class="w"> </span><span class="nt">save_preprocessed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
-</span></pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>8_generate_crmasks.yaml<span class="w"> </span>-r<span class="w"> </span>control.yaml
-</pre></div>
-</div>
-<p>After running the previous command, we can easily generate a text file
-containing the names of the preprocessed files.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>obsid8_LcbImage_LR-R_crmasks_work
-<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>preprocessed_*.fits<span class="w"> </span>&gt;<span class="w"> </span>list.txt
-<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>cat<span class="w"> </span>list.txt
-<span class="go">preprocessed_1.fits</span>
-<span class="go">preprocessed_2.fits</span>
-<span class="go">preprocessed_3.fits</span>
-</pre></div>
-</div>
-<p>The script <code class="docutils literal notranslate"><span class="pre">numina-crmasks</span></code> must be executed twice: first to compute the
-CR masks, and then again to apply them to the combination of the individual
-exposures.</p>
-<section id="step-1-masks-generation">
-<h3>Step 1: masks generation<a class="headerlink" href="#step-1-masks-generation" title="Link to this heading"></a></h3>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>$<span class="w"> </span>numina-crmasks<span class="w"> </span>compute<span class="w"> </span><span class="se">\</span>
---inputlist<span class="w"> </span>list.txt<span class="w"> </span><span class="se">\</span>
---gain<span class="w"> </span><span class="m">1</span>.0<span class="w"> </span><span class="se">\</span>
---rnoise<span class="w"> </span><span class="m">3</span>.4<span class="w"> </span><span class="se">\</span>
---flux_factor<span class="w"> </span><span class="s1">&#39;[0.78, 1.01, 1.11]&#39;</span><span class="w"> </span><span class="se">\</span>
---interactive<span class="w"> </span><span class="se">\</span>
---output_masks<span class="w"> </span>crmasks.fits
-</pre></div>
-</div>
-<p>Note that in this case, it is important to specify the gain and readout noise.
-The flux factor must also be provided: here, we supply individual values for
-each exposure. These values should be given as a quoted string. The output file
-is named <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code>, but any other name can be used.</p>
-<p>The full list of available parameters can be obtained by executing:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina-crmasks<span class="w"> </span>compute<span class="w"> </span>--help
-<span class="go">usage: numina-crmasks compute [-h] --inputlist INPUTLIST [--gain GAIN]</span>
-<span class="go">                              [--rnoise RNOISE] [--bias BIAS]</span>
-<span class="go">                              [--flux_factor FLUX_FACTOR]</span>
-<span class="go">                              [--knots_splfit KNOTS_SPLFIT]</span>
-<span class="go">                              [--nsimulations NSIMULATIONS]</span>
-<span class="go">                              [--niter_boundary_extension NITER_BOUNDARY_EXTENSION]</span>
-<span class="go">                              [--weight_boundary_extension WEIGHT_BOUNDARY_EXTENSION]</span>
-<span class="go">                              [--threshold THRESHOLD]</span>
-<span class="go">                              [--minimum_max2d_rnoise MINIMUM_MAX2D_RNOISE]</span>
-<span class="go">                              [--interactive] [--dilation DILATION]</span>
-<span class="go">                              [--output_masks OUTPUT_MASKS] [--plots]</span>
-<span class="go">                              [--semiwindow SEMIWINDOW]</span>
-<span class="go">                              [--color_scale {minmax,zscale}]</span>
-<span class="go">                              [--maxplots MAXPLOTS] [--extname EXTNAME]</span>
-
-<span class="go">options:</span>
-<span class="go">  -h, --help            show this help message and exit</span>
-<span class="go">  --inputlist INPUTLIST</span>
-<span class="go">                        Input text file with list of 2D arrays.</span>
-<span class="go">  --gain GAIN           Detector gain (ADU)</span>
-<span class="go">  --rnoise RNOISE       Readout noise (ADU)</span>
-<span class="go">  --bias BIAS           Detector bias (ADU, default: 0.0)</span>
-<span class="go">  --flux_factor FLUX_FACTOR</span>
-<span class="go">                        Flux factor to be applied to each image</span>
-<span class="go">  --knots_splfit KNOTS_SPLFIT</span>
-<span class="go">                        Total number of knots for the spline fit to the</span>
-<span class="go">                        detection boundary (default: 3)</span>
-<span class="go">  --nsimulations NSIMULATIONS</span>
-<span class="go">                        Number of simulations to compute the detection</span>
-<span class="go">                        boundary (default: 10)</span>
-<span class="go">  --niter_boundary_extension NITER_BOUNDARY_EXTENSION</span>
-<span class="go">                        Number of iterations for the extension of the</span>
-<span class="go">                       detection boundary (default: 3)</span>
-<span class="go">  --weight_boundary_extension WEIGHT_BOUNDARY_EXTENSION</span>
-<span class="go">                        Weight for the detection boundary extension (default:</span>
-<span class="go">                        10)</span>
-<span class="go">  --threshold THRESHOLD</span>
-<span class="go">                        Minimum threshold for median2d - min2d to flag a pixel</span>
-<span class="go">                        (default: None)</span>
-<span class="go">  --minimum_max2d_rnoise MINIMUM_MAX2D_RNOISE</span>
-<span class="go">                        Minimum value for max2d in rnoise units to flag a</span>
-<span class="go">                        pixel (default: 5.0)</span>
-<span class="go">  --interactive         Interactive mode for diagnostic plot (program will</span>
-<span class="go">                        stop after the plot)</span>
-<span class="go">  --dilation DILATION   Dilation factor for cosmic ray mask</span>
-<span class="go">  --output_masks OUTPUT_MASKS</span>
-<span class="go">                        Output FITS file for the cosmic ray masks</span>
-<span class="go">  --plots               Generate plots with detected double cosmic rays</span>
-<span class="go">  --semiwindow SEMIWINDOW</span>
-<span class="go">                        Semiwindow size for plotting double cosmic rays</span>
-<span class="go">  --color_scale {minmax,zscale}</span>
-<span class="go">                        Color scale for the plots (default: &#39;minmax&#39;)</span>
-<span class="go">  --maxplots MAXPLOTS   Maximum number of double cosmic rays to plot (-1 for</span>
-<span class="go">                        all)</span>
-<span class="go">  --extname EXTNAME     Extension name in the input arrays (default:</span>
-<span class="go">                        &#39;PRIMARY&#39;)</span>
-</pre></div>
-</div>
-</section>
-<section id="step-2-masks-application">
-<h3>Step 2: masks application<a class="headerlink" href="#step-2-masks-application" title="Link to this heading"></a></h3>
-<p>The second step is to apply the generated masks using the desired
-combination method: <code class="docutils literal notranslate"><span class="pre">mediancr</span></code>, <code class="docutils literal notranslate"><span class="pre">meancrt</span></code> or <code class="docutils literal notranslate"><span class="pre">meancr</span></code>. For example, to
-apply the mask corresponding to the <code class="docutils literal notranslate"><span class="pre">mediancr</span></code> method, one can execute:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina-crmasks<span class="w"> </span>apply<span class="w"> </span><span class="se">\</span>
---inputlist<span class="w"> </span>list.txt<span class="w"> </span><span class="se">\</span>
---input_mask<span class="w"> </span>crmasks.fits<span class="w"> </span><span class="se">\</span>
---output_combined<span class="w"> </span>result.fits<span class="w"> </span><span class="se">\</span>
---combination<span class="w"> </span>mediancr
-</pre></div>
-</div>
-<p>In this example, the combined image is saved to the file <code class="docutils literal notranslate"><span class="pre">result.fits</span></code>. You
-can choose any filename for the output, depending on your workflow or naming
-conventions.</p>
-<p>Full details of the available parameters can be obtained by executing:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina-crmasks<span class="w"> </span>apply<span class="w"> </span>--help
-<span class="go">usage: numina-crmasks apply [-h] --inputlist INPUTLIST</span>
-<span class="go">                            --input_mask INPUT_MASK</span>
-<span class="go">                            --output_combined OUTPUT_COMBINED</span>
-<span class="go">                            [--combination {mediancr,meancrt,meancr}]</span>
-<span class="go">                            [--extname EXTNAME]</span>
-
-<span class="go">options:</span>
-<span class="go">  -h, --help            show this help message and exit</span>
-<span class="go">  --inputlist INPUTLIST</span>
-<span class="go">                        Input text file with list of 2D arrays.</span>
-<span class="go">  --input_mask INPUT_MASK</span>
-<span class="go">                        Input FITS file with the cosmic ray masks</span>
-<span class="go">  --output_combined OUTPUT_COMBINED</span>
-<span class="go">                        Output FITS file with the combined image</span>
-<span class="go">  --combination {mediancr,meancr,meancrt}</span>
-<span class="go">                        Combination method to apply the masks (default:</span>
-<span class="go">                        mediancr)</span>
-<span class="go">  --extname EXTNAME     Extension name in the input arrays (default:</span>
-<span class="go">                        &#39;PRIMARY&#39;)</span>
-</pre></div>
-</div>
+<p>The parameters under the <code class="docutils literal notranslate"><span class="pre">method_kwargs:</span></code> label play the same role as
+described above for the <code class="docutils literal notranslate"><span class="pre">mediancr</span></code> combination method.</p>
 </section>
 </section>
 </section>
