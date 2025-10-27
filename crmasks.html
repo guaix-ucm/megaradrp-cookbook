@@ -140,11 +140,11 @@ file must be copied to the <cite>data/</cite> subdirectory.</p></li>
 <li><p><strong>Run the MEGARA DRP to generate the reduced scientific result</strong>: Once the
 file <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code> is placed in the <cite>data/</cite> subdirectory, the MEGARA DRP
 can be run again to generate the reduced scientific result, using for that
-purpose the corresponding YAML file. During this step, the user must one of
-the available strategies for combining exposures and removing cosmic rays.
-Instead of using the default <code class="docutils literal notranslate"><span class="pre">median</span></code> combination, specify one of the
-following methods in the requirements section:
-<code class="docutils literal notranslate"><span class="pre">mediancr</span></code>, <code class="docutils literal notranslate"><span class="pre">meancrt</span></code> or <code class="docutils literal notranslate"><span class="pre">meancr</span></code>.</p></li>
+purpose the corresponding YAML file. During this step, the user must chose
+one of the available strategies for combining exposures and removing cosmic
+rays. Instead of using the default <code class="docutils literal notranslate"><span class="pre">median</span></code> combination, one must specify
+one of the following methods in the requirements section: <code class="docutils literal notranslate"><span class="pre">mediancr</span></code>,
+<code class="docutils literal notranslate"><span class="pre">meancrt</span></code> or <code class="docutils literal notranslate"><span class="pre">meancr</span></code>.</p></li>
 </ol>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -258,11 +258,13 @@ employed by <code class="docutils literal notranslate"><span class="pre">numina-
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>8_generate_crmasks.yaml<span class="w"> </span>-r<span class="w"> </span>control.yaml
 </pre></div>
 </div>
-<p>From this point, follow the description given in this
-<a class="reference external" href="https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html#example">example</a>.
-<strong>Important</strong>: in that example the generation of
-the CR masks is carried out by executing the command-line script
-<code class="docutils literal notranslate"><span class="pre">numina-crmasks</span></code>, which makes use of a slightly different input YAML file.</p>
+<p>From this point, follow the description given in this <a class="reference external" href="https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html#example">example</a>,
+which helps understanding the impact of using different parameters in the
+cosmic-ray pixel detection process. <strong>Important</strong>: in that example the
+generation of the CR masks is carried out by executing the command-line script
+<code class="docutils literal notranslate"><span class="pre">numina-crmasks</span></code>, which makes use of a slightly different input YAML file.
+However, the code executed is the same as in the <strong>MegaraCrDetection</strong> recipe,
+so the resulting output is identical.</p>
 </section>
 <section id="output-file-crmasks-fits">
 <h3>Output file <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code><a class="headerlink" href="#output-file-crmasks-fits" title="Link to this heading"></a></h3>
@@ -351,7 +353,7 @@ thresholds) to evaluate the impact of using different masks.</p>
 suspected of being affected by a cosmic ray in more than one exposure) are
 replaced with the corresponding <code class="docutils literal notranslate"><span class="pre">min2d</span></code> value at each pixel. As a result, the
 final image is identical to <code class="docutils literal notranslate"><span class="pre">median2d</span></code>, except for the corrected pixels.</p>
-<p>Note that under the label <code class="docutils literal notranslate"><span class="pre">`method_kwargs:</span></code> there are several parameters that
+<p>Note that under the label <code class="docutils literal notranslate"><span class="pre">method_kwargs:</span></code> there are several parameters that
 control how the information from the <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code> file is used:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">apply_flux_factor:</span></code> When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, the factors listed in the
