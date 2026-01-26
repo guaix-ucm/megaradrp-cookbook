@@ -33,7 +33,8 @@ release = '2025.05.16'
 # ones.
 extensions = [
     'sphinx_rtd_theme',
-    'sphinx_copybutton'
+    'sphinx_copybutton',
+    'sphinx_new_tab_link',   # external links open in new tab
 ]
 copybutton_prompt_text = "(megara) $ "
 copybutton_only_copy_prompt_lines = False
