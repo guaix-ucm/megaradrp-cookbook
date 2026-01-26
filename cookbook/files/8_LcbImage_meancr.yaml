@@ -9,8 +9,7 @@ requirements:
   method: meancr
   method_kwargs:
     apply_flux_factor: False
-    use_lamedian: False
+    use_auxmedian: False
   crmasks: ../data/crmasks.fits
   extraction_offset: [+3]
   ignored_sky_bundles: [96] #[93, 94, 96, 97, 99, 100]
-  reference_extinction: extinction_LP.txt

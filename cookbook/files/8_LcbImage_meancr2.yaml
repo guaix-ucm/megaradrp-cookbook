@@ -6,7 +6,7 @@ frames:
  - 0003978528-20231115-MEGARA-MegaraLcbImage.fits
  - 0003978529-20231115-MEGARA-MegaraLcbImage.fits
 requirements:
-  method: mediancr
+  method: meancr2
   method_kwargs:
     apply_flux_factor: False
     use_auxmedian: False

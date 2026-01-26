@@ -4,26 +4,41 @@
 CR not removed by median stacking
 *********************************
 
-By default, the various recipes in MEGARA DRP use a median combination of three
-or more images to produce an average exposure and eliminate cosmic rays.
-However, when exposure times are long, it’s not uncommon for the same pixel to
-be hit by a cosmic ray in consecutive exposures.
+By default, MEGARA DRP recipes use median combination of three or more images
+to produce an average exposure and eliminate cosmic rays. However, when
+exposure times are long, the same pixel can be hit by cosmic rays in multiple
+consecutive exposures, causing the contamination to persist in the
+median-combined image.
 
 The most straightforward solution is to visually inspect the resulting image
-(e.g., the ``final_rss.fits`` file) and manually interpolate the affected pixels
-using data from neighboring pixels. However, it can be more efficient to use an
-automated procedure that detects and corrects pixels impacted by cosmic rays
-across multiple exposures, eliminating the need for manual intervention.
+(e.g., the ``final_rss.fits`` file) and manually interpolate the affected
+pixels using neighboring data. For MEGARA RSS images, this approach is only
+reliable when performing 1D interpolation along the wavelength direction, since
+the spectra of neighboring fibers in this file do not correspond to neighboring
+spaxels in the field of view. Interactive programs such as `tea-cleanest
+<https://nicocardiel.github.io/teareduce-cookbook/docs/cleanest/cleanest.html>`_
+can facilitate this interpolation task.
 
-Such an automatic method is available in the numina subpackage
-`crmasks <https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html>`_, and
-it can be easily activated by modifying the default image combination method
-used by MEGARA DRP.
+However, removing residual cosmic ray pixels in the RSS image produce worse
+results than correcting the contamination before combining the signal from each
+fiber at a given wavelength. A more efficient approach is to use a
+procedure that detects and corrects cosmic ray-affected pixels across multiple
+exposures *prior to* extracting the resulting spectrum from each fiber.
 
-This method should only be applied when three or more equivalent exposures are
-available. It works by identifying pixels where the signal has been affected by
-cosmic rays in more than half of the available exposures, such that the median
-combination still retains an erroneous signal.
+.. warning::
+
+   The method described here is available in the numina `crmasks
+   <https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html>`_.
+   subpackage. **We strongly recommend that users review that documentation
+   thoroughly before applying it to MEGARA data.** This method can be easily
+   activated by modifying the default image combination settings in the MEGARA
+   DRP.
+
+**Requirements and methodology**
+
+This method requires three or more equivalent exposures. It identifies pixels 
+where cosmic rays have affected the signal in more than half of the available 
+exposures—cases where median combination alone cannot remove the contamination.
 
 .. note::
 
@@ -55,18 +70,20 @@ The main workflow for applying the method is as follows:
 
 .. note::
 
-   The three available combination methods, ``mediancr``, ``meancrt`` and 
-   ``meancr``, produce different results:
+   The available combination methods, ``mediancr``, ``meancrt``, ``meancr`` and 
+   ``meancr2``, produce different results:
 
    - ``mediancr``: performs a median combination, replacing pixels 
      suspected of being affected by cosmic rays in more than one exposure by
-     the minimum value at each pixel across the available exposures.
+     the "minimum value" at each pixel across the available exposures.
    - ``meancrt``: generates the mean combination using of a single mask that
      stores all the cosmic rays detected in all the individual exposures,
      replacing each masked pixels by the value obtained when using the
      ``mediancr`` method.
    - ``meancr``: also performs a mean combination, but uses the individual
      cosmic ray masks specifically computed for each available exposure.
+   - ``meancr2``: makes use of ``meancr`` and interpolates residual cosmic ray
+     pixels detected using the selected method.
 
    Since the mean has a lower standard deviation than the median, the 
    ``meancrt`` and ``meancr`` methods are generally preferable. Among these
@@ -82,7 +99,7 @@ begins with the creation of a YAML file, e.g.  ``8_generate_crmasks.yaml``,
 which lists the individual exposures to be used in the cosmic ray detection
 step.
 
-.. literalinclude:: files/8_generate_crmasks_1.yaml
+.. literalinclude:: files/8_generate_crmasks.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -115,10 +132,10 @@ The recipe is run by doing:
 
    (megara) $ numina run 8_generate_crmasks.yaml -r control.yaml
 
-From this point, follow the description given in this `example
-<https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html#example>`_,
+From this point, follow the description given in these `examples
+<https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html#examples>`_,
 which helps understanding the impact of using different parameters in the
-cosmic-ray pixel detection process. **Important**: in that example the
+cosmic-ray pixel detection process. **Important**: in those examples the
 generation of the CR masks is carried out by executing the command-line script
 ``numina-crmasks``, which makes use of a slightly different input YAML file.
 However, the code executed is the same as in the **MegaraCrDetection** recipe,
@@ -150,7 +167,8 @@ and contains several extensions:
      3  CRMASK1       1 ImageHDU         8   (4096, 4112)   uint8   
      4  CRMASK2       1 ImageHDU         8   (4096, 4112)   uint8   
      5  CRMASK3       1 ImageHDU         8   (4096, 4112)   uint8   
-     6  LAMEDIAN      1 ImageHDU         8   (4096, 4112)   float32 
+     6  MEANCR        1 ImageHDU         8   (4096, 4112)   uint8   
+     7  AUXCLEAN      1 ImageHDU         8   (4096, 4112)   float32 
 
 The primary HDU does not contain image data but includes keywords that document the parameters used to generate the masks.
 
@@ -162,12 +180,14 @@ The next extensions store the actual masks computed by the program:
   a cosmic ray in the mean combination.
 - ``CRMASK1``, ``CRMASK2``, ``CRMASK3``: Masks for pixels suspected
   of being affected by a cosmic ray in each of the individual exposures.
+- ``MEANCR``: Mask computed using the chosen CR detection method on the 
+  masked mean combination.
 
 In all these masks, pixels suspected of being affected by a cosmic ray
 are set to 1, while the rest of the pixels are set to 0.
 
-Finally, the extension ``LAMEDIAN`` contains the corrected image generated by
-the L.A. Cosmic algorithm (van Dokkum 2001).
+Finally, the extension ``AUXCLEAN`` contains the corrected image generated by
+the chosen CR detection algorithm.
 
 Do not forget to copy the file ``crmasks.fits`` to the `data/` subdirectory
 before running the MEGARA DRP to generate the reduced scientific result.
@@ -185,7 +205,7 @@ for this step, depending on the value of ``method`` specified in the
 requirements section of the YAML file used to produce the reduced scientific
 result. Rather than assuming the combination method is ``median`` (the default
 in MEGARA DRP), the user should explicitly specify one of the following
-methods: ``mediancr``, ``meancr`` or ``meancrt``. 
+methods: ``mediancr``, ``meancrt``, ``meancr`` or ``meancr2``.
 
 Method ``mediancr``
 -------------------
@@ -227,9 +247,9 @@ control how the information from the ``crmasks.fits`` file is used:
   is introduced), regardless of the values in the FITS header of the
   ``crmasks.fits`` file.
 
-- ``use_lamedian:``: When set to ``True``, the masked pixels are replaced with
-  the corrected value obtained using the L.A. Cosmic algorithm, rather than
-  using the minimum value in each pixel.
+- ``use_auxmedian:``: When set to ``True``, the masked pixels are replaced with
+  the corrected value obtained using chosen CR detection algorithm, rather than
+  using the "minimum value" in each pixel.
 
 Method ``meancrt``
 ------------------
@@ -269,7 +289,28 @@ based on its corresponding mask. This allows the program to compute the mean
 along the axis corresponding to the image number, excluding the masked pixels.
 
 In cases where a pixel is masked in all individual exposures, the corresponding
-pixel in the combined image is set to the ``min2d`` value at that location.
+pixel in the combined image is set to either the corresponding ``min2d`` value
+(if ``use_auxmedian: False``) or to the value from the median combination
+computed using the ``mediancr`` method (if ``use_auxmedian: True``).
+
+The parameters under the ``method_kwargs:`` label play the same role as
+described above for the ``mediancr`` combination method.
+
+Method ``meancr2``
+------------------
+
+.. literalinclude:: files/8_LcbImage_meancr.yaml
+   :language: yaml
+   :linenos:
+   :lineno-start: 1
+   :emphasize-lines: 2, 9-12
+
+This is a refined version of the median combination. The method begins with the
+result from the previous case (method ``meancr``), which is then cleaned using a
+mask generated by the same method chosen to detect cosmic rays in single
+exposures. Detected cosmic-ray pixels are replaced by either the corresponding
+``min2d`` values (if ``use_auxmedian: False``) or by values from the median
+combination computed using the ``mediancr`` method (if ``use_auxmedian: True``).
 
 The parameters under the ``method_kwargs:`` label play the same role as
 described above for the ``mediancr`` combination method.

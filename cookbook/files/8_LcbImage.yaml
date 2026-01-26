@@ -7,5 +7,4 @@ frames:
  - 0001309957-20170822-MEGARA-MegaraLcbAcquisition.fits
 requirements:
  extraction_offset: [+6.5]
- reference_extinction: extinction_LP.txt
  ignored_sky_bundles: [93,95,98]

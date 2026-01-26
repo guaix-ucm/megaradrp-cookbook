@@ -1,0 +1,96 @@
+id: 8_LR-R_crmasks_mm_pycosmic2
+mode: MegaraCrDetection
+instrument: MEGARA
+frames:
+ - 0003978527-20231115-MEGARA-MegaraLcbImage.fits
+ - 0003978528-20231115-MEGARA-MegaraLcbImage.fits
+ - 0003978529-20231115-MEGARA-MegaraLcbImage.fits
+requirements:
+  # Detection methods:
+  # mm_lacosmic | mm_pycosmic | mm_deepcr | mm_conn |
+  # lacosmic | pycosmic | deepcr | conn
+  crmethod: mm_pycosmic             # any of the above methods
+  use_auxmedian: False              # use aux. Median insteand of minimum value
+  interactive: True                 # display and pause between plots
+  flux_factor: none                 # none | auto | [list of values]
+  flux_factor_regions:              # list of regions, FITS criterium
+  # - [xmin, xmax, ymin, ymax]      # <-- format (no need to uncomment this)
+  apply_flux_factor_to: simulated   # original | simulated (data)
+  dilation: 0                       # global dilation (integer)
+  regions_to_be_skipped:            # list of regions, FITS criterium
+  # - [xmin, xmax, ymin, ymax]      # <-- format (no need to uncomment this)
+  pixels_to_be_flagged_as_cr:       # FITS criterium, first pixel is [1, 1]
+  # - [X, Y]                        # <-- format (no need to uncomment this)
+  pixels_to_be_ignored_as_cr:       # FITS criterium, first pixel is [1, 1]
+  # - [X, Y]                        # <-- format (no need to uncomment this)
+  pixels_to_be_replaced_by_local_median:  # FITS criterium
+  # - [X, Y, X_width, Y_width]      # <-- format (no need to uncomment this)
+  verify_cr: False                  # ask for confirmation
+  semiwindow: 15                    # to display residual CR hits
+  color_scale: zscale               # minmax | zscale
+  maxplots: -1                      # -1: all CR detected are plotted
+  #-----------------------------------------------------------------------------
+  # Parameters for L.A. Cosmic (van Dokkum 2001), as implemented in ccdproc
+  # (based in https://github.com/astropy/astroscrappy).
+  # https://ccdproc.readthedocs.io/en/latest/api/ccdproc.cosmicray_lacosmic.html
+  la_gain_apply: True    # Return gain-corrected data
+  la_sigclip: [5.0,3.0]  # Laplacian-to-noise limit for cosmic ray detection
+  la_sigfrac: [0.3,0.3]  # Fractional detection limit for neighboring pixels
+  la_objlim: [5.0,5.0]   # Contrast between Laplacian and fine struct. images
+  la_satlevel: 65535.0   # Saturation level of the image (ADU)
+  la_niter: 4            # Number of iterations to perform
+  la_sepmed: True        # Use the separable median filter (not the full filter)
+  la_cleantype: meanmask # median | medmask | meanmask | idw
+  la_fsmode: convolve    # median | convolve
+  la_psfmodel: gaussxy   # gauss | moffat | gaussx | gaussy | gaussxy
+  la_psffwhm_x: 2.5      # FWHM of the PSF (X direction) to generate the kernel
+  la_psffwhm_y: 2.5      # FWHM of the PSF (Y direction) to generate the kernel
+  la_psfsize: 11         # size of the kernel
+  la_psfbeta: 4.765      # Moffat beta parameter
+  la_verbose: True       # Print to the screen or not
+  la_padwidth: 10        # Padding to mitigate edge effects [not in original]
+  #-----------------------------------------------------------------------------
+  # Parameters for PyCosmic (Husemann et al. 2012)
+  # Note: gain, rdnoise and bias will be set to the general values
+  pc_sigma_det: [5.0,3.0] # Detection limit above the noise
+  pc_rlim: [1.2,1.2]      # Detection threshold
+  pc_iterations: 5        # Number of iterations
+  pc_fwhm_gauss_x: 2.5    # FWHM of the Gaussian smoothing kernel (X direction)
+  pc_fwhm_gauss_y: 2.5    # FWHM of the Gaussian smoothing kernel (Y direction)
+  pc_replace_box_x: 5     # Median box size (X axis) to estimate replacement
+  pc_replace_box_y: 5     # Median box size (Y axis) to estimate replacement
+  pc_replace_error: 1.0E6 # Error value for bad pixels
+  pc_increase_radius: 0   # Dilation (pixels)
+  pc_verbose: True        # Provide information during the processing
+  #-----------------------------------------------------------------------------
+  # Parameters for deepCR (Zhang & Bloom 2020)
+  dc_mask: ACS-WFC        # ACS-WFC | WFC3-UVIS
+  dc_threshold: 0.5       # Probability threshold to be applied
+  dc_verbose: True        # Provide information during the processing
+  #-----------------------------------------------------------------------------
+  # Parameters for Cosmic-CoNN (Xu et al. 2023)
+  nn_model: ground_imaging # ground_imaging | NRES | HST_ACS_WFC
+  nn_threshold: 0.5        # Probability threshold to be applied
+  nn_verbose: True         # Provide information during the processing
+  #-----------------------------------------------------------------------------
+  # Parameters for the Median-Minimum method (Cardiel et al. 2026)
+  mm_cr_coincidences: 2      # number of CR coincidences to be sought
+  mm_synthetic: single       # median | single (to simulate M.M. diagram)
+  mm_hist2d_min_neighbors: 8 # minimum number of neighbors in hist2d bins
+  mm_ydiag_max: 0            # maximum Y value in hist2d (0=auto)
+  mm_dilation: 1             # dilation around suspected pixels (integer)
+  # rectangular region to determine offsets between individual images:
+  mm_xy_offsets:             # XYoffsets between individual images (pixels)
+  # - [xoffset, yoffset]     # pair of values for each individual exposure
+  mm_crosscorr_region: null  # [xmin, xmax, ymin, ymax] FITS criterium | null
+  mm_boundary_fit: spline    # piecewise | spline
+  mm_knots_splfit: 5         # used only for spline fit
+  mm_fixed_points_in_boundary:
+  # - [x, y, weight]  # weights are optional(ignored) for spline(piecewise) fit
+  mm_nsimulations: 10                 # simulations for each set of images
+  mm_niter_boundary_extension: 10     # iterations to extend the spline fit
+  mm_weight_boundary_extension: 2.0   # multiplicative increment in weigth
+  mm_threshold_rnoise: 3.0            # threshold value (in readout units)
+  mm_minimum_max2d_rnoise: 5.0        # minimum max2d (in readout units)
+  mm_seed: 123456                     # random seed for reproducibility
+  #----------------------------------------------------------------------------
