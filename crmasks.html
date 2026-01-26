@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CR not removed by median stacking &mdash; megara-cookbook 2025.05.16 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ac5f0f31" />
 
@@ -16,8 +16,8 @@
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=cecfaa16"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="_static/copybutton.js?v=4d57d52a"></script>
     <script src="_static/js/theme.js"></script>
@@ -67,6 +67,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#method-mediancr">Method <code class="docutils literal notranslate"><span class="pre">mediancr</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#method-meancrt">Method <code class="docutils literal notranslate"><span class="pre">meancrt</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#method-meancr">Method <code class="docutils literal notranslate"><span class="pre">meancr</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#method-meancr2">Method <code class="docutils literal notranslate"><span class="pre">meancr2</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -102,23 +103,35 @@
              
   <section id="cr-not-removed-by-median-stacking">
 <span id="fixing-cr-median"></span><h1>CR not removed by median stacking<a class="headerlink" href="#cr-not-removed-by-median-stacking" title="Link to this heading"></a></h1>
-<p>By default, the various recipes in MEGARA DRP use a median combination of three
-or more images to produce an average exposure and eliminate cosmic rays.
-However, when exposure times are long, it’s not uncommon for the same pixel to
-be hit by a cosmic ray in consecutive exposures.</p>
+<p>By default, MEGARA DRP recipes use median combination of three or more images
+to produce an average exposure and eliminate cosmic rays. However, when
+exposure times are long, the same pixel can be hit by cosmic rays in multiple
+consecutive exposures, causing the contamination to persist in the
+median-combined image.</p>
 <p>The most straightforward solution is to visually inspect the resulting image
-(e.g., the <code class="docutils literal notranslate"><span class="pre">final_rss.fits</span></code> file) and manually interpolate the affected pixels
-using data from neighboring pixels. However, it can be more efficient to use an
-automated procedure that detects and corrects pixels impacted by cosmic rays
-across multiple exposures, eliminating the need for manual intervention.</p>
-<p>Such an automatic method is available in the numina subpackage
-<a class="reference external" href="https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html">crmasks</a>, and
-it can be easily activated by modifying the default image combination method
-used by MEGARA DRP.</p>
-<p>This method should only be applied when three or more equivalent exposures are
-available. It works by identifying pixels where the signal has been affected by
-cosmic rays in more than half of the available exposures, such that the median
-combination still retains an erroneous signal.</p>
+(e.g., the <code class="docutils literal notranslate"><span class="pre">final_rss.fits</span></code> file) and manually interpolate the affected
+pixels using neighboring data. For MEGARA RSS images, this approach is only
+reliable when performing 1D interpolation along the wavelength direction, since
+the spectra of neighboring fibers in this file do not correspond to neighboring
+spaxels in the field of view. Interactive programs such as <a class="reference external" href="https://nicocardiel.github.io/teareduce-cookbook/docs/cleanest/cleanest.html" rel="noreferrer" target="_blank">tea-cleanest</a>
+can facilitate this interpolation task.</p>
+<p>However, removing residual cosmic ray pixels in the RSS image produce worse
+results than correcting the contamination before combining the signal from each
+fiber at a given wavelength. A more efficient approach is to use a
+procedure that detects and corrects cosmic ray-affected pixels across multiple
+exposures <em>prior to</em> extracting the resulting spectrum from each fiber.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The method described here is available in the numina <a class="reference external" href="https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html" rel="noreferrer" target="_blank">crmasks</a>.
+subpackage. <strong>We strongly recommend that users review that documentation
+thoroughly before applying it to MEGARA data.</strong> This method can be easily
+activated by modifying the default image combination settings in the MEGARA
+DRP.</p>
+</div>
+<p><strong>Requirements and methodology</strong></p>
+<p>This method requires three or more equivalent exposures. It identifies pixels
+where cosmic rays have affected the signal in more than half of the available
+exposures—cases where median combination alone cannot remove the contamination.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This method is likely to be useful primarily when reducing science images
@@ -148,18 +161,20 @@ one of the following methods in the requirements section: <code class="docutils 
 </ol>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The three available combination methods, <code class="docutils literal notranslate"><span class="pre">mediancr</span></code>, <code class="docutils literal notranslate"><span class="pre">meancrt</span></code> and
-<code class="docutils literal notranslate"><span class="pre">meancr</span></code>, produce different results:</p>
+<p>The available combination methods, <code class="docutils literal notranslate"><span class="pre">mediancr</span></code>, <code class="docutils literal notranslate"><span class="pre">meancrt</span></code>, <code class="docutils literal notranslate"><span class="pre">meancr</span></code> and
+<code class="docutils literal notranslate"><span class="pre">meancr2</span></code>, produce different results:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">mediancr</span></code>: performs a median combination, replacing pixels
 suspected of being affected by cosmic rays in more than one exposure by
-the minimum value at each pixel across the available exposures.</p></li>
+the “minimum value” at each pixel across the available exposures.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">meancrt</span></code>: generates the mean combination using of a single mask that
 stores all the cosmic rays detected in all the individual exposures,
 replacing each masked pixels by the value obtained when using the
 <code class="docutils literal notranslate"><span class="pre">mediancr</span></code> method.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">meancr</span></code>: also performs a mean combination, but uses the individual
 cosmic ray masks specifically computed for each available exposure.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">meancr2</span></code>: makes use of <code class="docutils literal notranslate"><span class="pre">meancr</span></code> and interpolates residual cosmic ray
+pixels detected using the selected method.</p></li>
 </ul>
 <p>Since the mean has a lower standard deviation than the median, the
 <code class="docutils literal notranslate"><span class="pre">meancrt</span></code> and <code class="docutils literal notranslate"><span class="pre">meancr</span></code> methods are generally preferable. Among these
@@ -174,7 +189,7 @@ outputs to determine which works best for your specific dataset.</p>
 begins with the creation of a YAML file, e.g.  <code class="docutils literal notranslate"><span class="pre">8_generate_crmasks.yaml</span></code>,
 which lists the individual exposures to be used in the cosmic ray detection
 step.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8_LR-R_crmasks</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8_LR-R_crmasks_mm_pycosmic2</span>
 <span class="hll"><span class="linenos"> 2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraCrDetection</span>
 </span><span class="linenos"> 3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
 <span class="hll"><span class="linenos"> 4</span><span class="nt">frames</span><span class="p">:</span>
@@ -182,60 +197,94 @@ step.</p>
 <span class="linenos"> 6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978528-20231115-MEGARA-MegaraLcbImage.fits</span>
 <span class="linenos"> 7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978529-20231115-MEGARA-MegaraLcbImage.fits</span>
 <span class="hll"><span class="linenos"> 8</span><span class="nt">requirements</span><span class="p">:</span>
-</span><span class="linenos"> 9</span><span class="w">  </span><span class="nt">crmethod</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mm_lacosmic</span><span class="w">             </span><span class="c1"># lacosmic | mmcosmic | mm_lacosmic</span>
-<span class="linenos">10</span><span class="w">  </span><span class="nt">use_lamedian</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span><span class="w">               </span><span class="c1"># use LAMEDIAN insteand of minimum value</span>
-<span class="linenos">11</span><span class="w">  </span><span class="nt">interactive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w">                 </span><span class="c1"># display and pause between plots</span>
-<span class="linenos">12</span><span class="w">  </span><span class="nt">flux_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">none</span><span class="w">                 </span><span class="c1"># none | auto | [list of values]</span>
-<span class="linenos">13</span><span class="w">  </span><span class="nt">flux_factor_regions</span><span class="p">:</span><span class="w">              </span><span class="c1"># list of regions, FITS criterium</span>
-<span class="linenos">14</span><span class="w">  </span><span class="c1"># - [xmin, xmax, ymin, ymax]      # &lt;-- format (no need to uncomment this)</span>
-<span class="linenos">15</span><span class="w">  </span><span class="nt">apply_flux_factor_to</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">simulated</span><span class="w">   </span><span class="c1"># original | simulated (data)</span>
-<span class="linenos">16</span><span class="w">  </span><span class="nt">dilation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w">                       </span><span class="c1"># dilation around suspected pixels (integer)</span>
-<span class="linenos">17</span><span class="w">  </span><span class="nt">regions_to_be_skipped</span><span class="p">:</span><span class="w">            </span><span class="c1"># list of regions, FITS criterium</span>
-<span class="linenos">18</span><span class="w">  </span><span class="c1"># - [xmin, xmax, ymin, ymax]      # &lt;-- format (no need to uncomment this)</span>
-<span class="linenos">19</span><span class="w">  </span><span class="nt">pixels_to_be_flagged_as_cr</span><span class="p">:</span><span class="w">       </span><span class="c1"># FITS criterium, first pixel is [1, 1]</span>
-<span class="linenos">20</span><span class="w">  </span><span class="c1"># - [X, Y]                        # &lt;-- format (no need to uncomment this)</span>
-<span class="linenos">21</span><span class="w">  </span><span class="nt">pixels_to_be_ignored_as_cr</span><span class="p">:</span><span class="w">       </span><span class="c1"># FITS criterium, first pixel is [1, 1]</span>
-<span class="linenos">22</span><span class="w">  </span><span class="c1"># - [X, Y]                        # &lt;-- format (no need to uncomment this)</span>
-<span class="linenos">23</span><span class="w">  </span><span class="nt">pixels_to_be_replaced_by_local_median</span><span class="p">:</span><span class="w">  </span><span class="c1"># FITS criterium</span>
-<span class="linenos">24</span><span class="w">  </span><span class="c1"># - [X, Y, X_width, Y_width]      # &lt;-- format (no need to uncomment this)</span>
-<span class="linenos">25</span><span class="w">  </span><span class="nt">verify_cr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span><span class="w">                  </span><span class="c1"># ask for confirmation</span>
-<span class="linenos">26</span><span class="w">  </span><span class="nt">semiwindow</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span><span class="w">                    </span><span class="c1"># to display residual CR hits</span>
-<span class="linenos">27</span><span class="w">  </span><span class="nt">color_scale</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zscale</span><span class="w">               </span><span class="c1"># minmax | zscale</span>
-<span class="linenos">28</span><span class="w">  </span><span class="nt">maxplots</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-1</span><span class="w">                      </span><span class="c1"># -1: all CR detected are plotted</span>
-<span class="linenos">29</span><span class="w">  </span><span class="c1">#-----------------------------------------------------------------------------</span>
-<span class="linenos">30</span><span class="w">  </span><span class="c1"># Parameters for L.A. Cosmic (van Dokkum 2001), as implemented in ccdproc</span>
-<span class="linenos">31</span><span class="w">  </span><span class="c1"># (based in https://github.com/astropy/astroscrappy).</span>
-<span class="linenos">32</span><span class="w">  </span><span class="c1"># https://ccdproc.readthedocs.io/en/latest/api/ccdproc.cosmicray_lacosmic.html</span>
-<span class="linenos">33</span><span class="w">  </span><span class="nt">la_gain_apply</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w">    </span><span class="c1"># Return gain-corrected data</span>
-<span class="linenos">34</span><span class="w">  </span><span class="nt">la_sigclip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5.0</span><span class="w">        </span><span class="c1"># Laplacian-to-noise limit for cosmic ray detection</span>
-<span class="linenos">35</span><span class="w">  </span><span class="nt">la_sigfrac</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.3</span><span class="w">        </span><span class="c1"># Fractional detection limit for neighboring pixels</span>
-<span class="linenos">36</span><span class="w">  </span><span class="nt">la_objlim</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5.0</span><span class="w">         </span><span class="c1"># Contrast between Laplacian and fine struct. images</span>
-<span class="linenos">37</span><span class="w">  </span><span class="nt">la_satlevel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">65535.0</span><span class="w">   </span><span class="c1"># Saturation level of the image (ADU)</span>
-<span class="linenos">38</span><span class="w">  </span><span class="nt">la_niter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span><span class="w">            </span><span class="c1"># Number of iterations to perform</span>
-<span class="linenos">39</span><span class="w">  </span><span class="nt">la_sepmed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w">        </span><span class="c1"># Use the separable median filter (not the full filter)</span>
-<span class="linenos">40</span><span class="w">  </span><span class="nt">la_cleantype</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">meanmask</span><span class="w"> </span><span class="c1"># median | medmask | meanmask | idw</span>
-<span class="linenos">41</span><span class="w">  </span><span class="nt">la_fsmode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">convolve</span><span class="w">    </span><span class="c1"># median | convolve</span>
-<span class="linenos">42</span><span class="w">  </span><span class="nt">la_psfmodel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gaussxy</span><span class="w">   </span><span class="c1"># gauss | moffat | gaussx | gaussy | gaussxy</span>
-<span class="linenos">43</span><span class="w">  </span><span class="nt">la_psffwhm_x</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.5</span><span class="w">      </span><span class="c1"># FWHM of the PSF (X direction) to generate the kernel</span>
-<span class="linenos">44</span><span class="w">  </span><span class="nt">la_psffwhm_y</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.5</span><span class="w">      </span><span class="c1"># FWHM of the PSF (Y direction) to generate the kernel</span>
-<span class="linenos">45</span><span class="w">  </span><span class="nt">la_psfsize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">11</span><span class="w">         </span><span class="c1"># size of the kernel</span>
-<span class="linenos">46</span><span class="w">  </span><span class="nt">la_psfbeta</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4.765</span><span class="w">      </span><span class="c1"># Moffat beta parameter</span>
-<span class="linenos">47</span><span class="w">  </span><span class="nt">la_verbose</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w">       </span><span class="c1"># Print to the screen or not</span>
-<span class="linenos">48</span><span class="w">  </span><span class="c1">#-----------------------------------------------------------------------------</span>
-<span class="linenos">49</span><span class="w">  </span><span class="c1"># Parameters for the Median-Minimum method (Cardiel et al. 2025)</span>
-<span class="linenos">50</span><span class="w">  </span><span class="c1"># rectangular region to determine offsets between individual images:</span>
-<span class="linenos">51</span><span class="w">  </span><span class="nt">mm_crosscorr_region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span><span class="w">  </span><span class="c1"># [xmin, xmax, ymin, ymax] FITS criterium | null</span>
-<span class="linenos">52</span><span class="w">  </span><span class="nt">mm_boundary_fit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spline</span><span class="w">    </span><span class="c1"># piecewise | spline</span>
-<span class="linenos">53</span><span class="w">  </span><span class="nt">mm_knots_splfit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w">         </span><span class="c1"># used only for spline fit</span>
-<span class="linenos">54</span><span class="w">  </span><span class="nt">mm_fixed_points_in_boundary</span><span class="p">:</span>
-<span class="linenos">55</span><span class="w">  </span><span class="c1"># - [x, y, weight]  # weights are optional(ignored) for spline(piecewise) fit</span>
-<span class="linenos">56</span><span class="w">  </span><span class="nt">mm_nsimulations</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span><span class="w">                  </span><span class="c1"># simulations for each set of images</span>
-<span class="linenos">57</span><span class="w">  </span><span class="nt">mm_niter_boundary_extension</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w">      </span><span class="c1"># iterations to extend the spline fit</span>
-<span class="linenos">58</span><span class="w">  </span><span class="nt">mm_weight_boundary_extension</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0</span><span class="w">  </span><span class="c1"># multiplicative increment in weigth</span>
-<span class="linenos">59</span><span class="w">  </span><span class="nt">mm_threshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span><span class="w">                   </span><span class="c1"># minimum median2d - min2d value</span>
-<span class="linenos">60</span><span class="w">  </span><span class="nt">mm_minimum_max2d_rnoise</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5.0</span><span class="w">        </span><span class="c1"># minimum max2d (in readout units)</span>
-<span class="linenos">61</span><span class="w">  </span><span class="nt">mm_seed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">123456</span><span class="w">                     </span><span class="c1"># random seed for reproducibility</span>
-<span class="linenos">62</span><span class="w">  </span><span class="c1">#----------------------------------------------------------------------------</span>
+</span><span class="linenos"> 9</span><span class="w">  </span><span class="c1"># Detection methods:</span>
+<span class="linenos">10</span><span class="w">  </span><span class="c1"># mm_lacosmic | mm_pycosmic | mm_deepcr | mm_conn |</span>
+<span class="linenos">11</span><span class="w">  </span><span class="c1"># lacosmic | pycosmic | deepcr | conn</span>
+<span class="linenos">12</span><span class="w">  </span><span class="nt">crmethod</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mm_pycosmic</span><span class="w">             </span><span class="c1"># any of the above methods</span>
+<span class="linenos">13</span><span class="w">  </span><span class="nt">use_auxmedian</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span><span class="w">              </span><span class="c1"># use aux. Median insteand of minimum value</span>
+<span class="linenos">14</span><span class="w">  </span><span class="nt">interactive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w">                 </span><span class="c1"># display and pause between plots</span>
+<span class="linenos">15</span><span class="w">  </span><span class="nt">flux_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">none</span><span class="w">                 </span><span class="c1"># none | auto | [list of values]</span>
+<span class="linenos">16</span><span class="w">  </span><span class="nt">flux_factor_regions</span><span class="p">:</span><span class="w">              </span><span class="c1"># list of regions, FITS criterium</span>
+<span class="linenos">17</span><span class="w">  </span><span class="c1"># - [xmin, xmax, ymin, ymax]      # &lt;-- format (no need to uncomment this)</span>
+<span class="linenos">18</span><span class="w">  </span><span class="nt">apply_flux_factor_to</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">simulated</span><span class="w">   </span><span class="c1"># original | simulated (data)</span>
+<span class="linenos">19</span><span class="w">  </span><span class="nt">dilation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w">                       </span><span class="c1"># global dilation (integer)</span>
+<span class="linenos">20</span><span class="w">  </span><span class="nt">regions_to_be_skipped</span><span class="p">:</span><span class="w">            </span><span class="c1"># list of regions, FITS criterium</span>
+<span class="linenos">21</span><span class="w">  </span><span class="c1"># - [xmin, xmax, ymin, ymax]      # &lt;-- format (no need to uncomment this)</span>
+<span class="linenos">22</span><span class="w">  </span><span class="nt">pixels_to_be_flagged_as_cr</span><span class="p">:</span><span class="w">       </span><span class="c1"># FITS criterium, first pixel is [1, 1]</span>
+<span class="linenos">23</span><span class="w">  </span><span class="c1"># - [X, Y]                        # &lt;-- format (no need to uncomment this)</span>
+<span class="linenos">24</span><span class="w">  </span><span class="nt">pixels_to_be_ignored_as_cr</span><span class="p">:</span><span class="w">       </span><span class="c1"># FITS criterium, first pixel is [1, 1]</span>
+<span class="linenos">25</span><span class="w">  </span><span class="c1"># - [X, Y]                        # &lt;-- format (no need to uncomment this)</span>
+<span class="linenos">26</span><span class="w">  </span><span class="nt">pixels_to_be_replaced_by_local_median</span><span class="p">:</span><span class="w">  </span><span class="c1"># FITS criterium</span>
+<span class="linenos">27</span><span class="w">  </span><span class="c1"># - [X, Y, X_width, Y_width]      # &lt;-- format (no need to uncomment this)</span>
+<span class="linenos">28</span><span class="w">  </span><span class="nt">verify_cr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span><span class="w">                  </span><span class="c1"># ask for confirmation</span>
+<span class="linenos">29</span><span class="w">  </span><span class="nt">semiwindow</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span><span class="w">                    </span><span class="c1"># to display residual CR hits</span>
+<span class="linenos">30</span><span class="w">  </span><span class="nt">color_scale</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zscale</span><span class="w">               </span><span class="c1"># minmax | zscale</span>
+<span class="linenos">31</span><span class="w">  </span><span class="nt">maxplots</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-1</span><span class="w">                      </span><span class="c1"># -1: all CR detected are plotted</span>
+<span class="linenos">32</span><span class="w">  </span><span class="c1">#-----------------------------------------------------------------------------</span>
+<span class="linenos">33</span><span class="w">  </span><span class="c1"># Parameters for L.A. Cosmic (van Dokkum 2001), as implemented in ccdproc</span>
+<span class="linenos">34</span><span class="w">  </span><span class="c1"># (based in https://github.com/astropy/astroscrappy).</span>
+<span class="linenos">35</span><span class="w">  </span><span class="c1"># https://ccdproc.readthedocs.io/en/latest/api/ccdproc.cosmicray_lacosmic.html</span>
+<span class="linenos">36</span><span class="w">  </span><span class="nt">la_gain_apply</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w">    </span><span class="c1"># Return gain-corrected data</span>
+<span class="linenos">37</span><span class="w">  </span><span class="nt">la_sigclip</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">5.0</span><span class="p p-Indicator">,</span><span class="nv">3.0</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Laplacian-to-noise limit for cosmic ray detection</span>
+<span class="linenos">38</span><span class="w">  </span><span class="nt">la_sigfrac</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.3</span><span class="p p-Indicator">,</span><span class="nv">0.3</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Fractional detection limit for neighboring pixels</span>
+<span class="linenos">39</span><span class="w">  </span><span class="nt">la_objlim</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">5.0</span><span class="p p-Indicator">,</span><span class="nv">5.0</span><span class="p p-Indicator">]</span><span class="w">   </span><span class="c1"># Contrast between Laplacian and fine struct. images</span>
+<span class="linenos">40</span><span class="w">  </span><span class="nt">la_satlevel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">65535.0</span><span class="w">   </span><span class="c1"># Saturation level of the image (ADU)</span>
+<span class="linenos">41</span><span class="w">  </span><span class="nt">la_niter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span><span class="w">            </span><span class="c1"># Number of iterations to perform</span>
+<span class="linenos">42</span><span class="w">  </span><span class="nt">la_sepmed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w">        </span><span class="c1"># Use the separable median filter (not the full filter)</span>
+<span class="linenos">43</span><span class="w">  </span><span class="nt">la_cleantype</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">meanmask</span><span class="w"> </span><span class="c1"># median | medmask | meanmask | idw</span>
+<span class="linenos">44</span><span class="w">  </span><span class="nt">la_fsmode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">convolve</span><span class="w">    </span><span class="c1"># median | convolve</span>
+<span class="linenos">45</span><span class="w">  </span><span class="nt">la_psfmodel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gaussxy</span><span class="w">   </span><span class="c1"># gauss | moffat | gaussx | gaussy | gaussxy</span>
+<span class="linenos">46</span><span class="w">  </span><span class="nt">la_psffwhm_x</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.5</span><span class="w">      </span><span class="c1"># FWHM of the PSF (X direction) to generate the kernel</span>
+<span class="linenos">47</span><span class="w">  </span><span class="nt">la_psffwhm_y</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.5</span><span class="w">      </span><span class="c1"># FWHM of the PSF (Y direction) to generate the kernel</span>
+<span class="linenos">48</span><span class="w">  </span><span class="nt">la_psfsize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">11</span><span class="w">         </span><span class="c1"># size of the kernel</span>
+<span class="linenos">49</span><span class="w">  </span><span class="nt">la_psfbeta</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4.765</span><span class="w">      </span><span class="c1"># Moffat beta parameter</span>
+<span class="linenos">50</span><span class="w">  </span><span class="nt">la_verbose</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w">       </span><span class="c1"># Print to the screen or not</span>
+<span class="linenos">51</span><span class="w">  </span><span class="nt">la_padwidth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w">        </span><span class="c1"># Padding to mitigate edge effects [not in original]</span>
+<span class="linenos">52</span><span class="w">  </span><span class="c1">#-----------------------------------------------------------------------------</span>
+<span class="linenos">53</span><span class="w">  </span><span class="c1"># Parameters for PyCosmic (Husemann et al. 2012)</span>
+<span class="linenos">54</span><span class="w">  </span><span class="c1"># Note: gain, rdnoise and bias will be set to the general values</span>
+<span class="linenos">55</span><span class="w">  </span><span class="nt">pc_sigma_det</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">5.0</span><span class="p p-Indicator">,</span><span class="nv">3.0</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1"># Detection limit above the noise</span>
+<span class="linenos">56</span><span class="w">  </span><span class="nt">pc_rlim</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1.2</span><span class="p p-Indicator">,</span><span class="nv">1.2</span><span class="p p-Indicator">]</span><span class="w">      </span><span class="c1"># Detection threshold</span>
+<span class="linenos">57</span><span class="w">  </span><span class="nt">pc_iterations</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span><span class="w">        </span><span class="c1"># Number of iterations</span>
+<span class="linenos">58</span><span class="w">  </span><span class="nt">pc_fwhm_gauss_x</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.5</span><span class="w">    </span><span class="c1"># FWHM of the Gaussian smoothing kernel (X direction)</span>
+<span class="linenos">59</span><span class="w">  </span><span class="nt">pc_fwhm_gauss_y</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.5</span><span class="w">    </span><span class="c1"># FWHM of the Gaussian smoothing kernel (Y direction)</span>
+<span class="linenos">60</span><span class="w">  </span><span class="nt">pc_replace_box_x</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span><span class="w">     </span><span class="c1"># Median box size (X axis) to estimate replacement</span>
+<span class="linenos">61</span><span class="w">  </span><span class="nt">pc_replace_box_y</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span><span class="w">     </span><span class="c1"># Median box size (Y axis) to estimate replacement</span>
+<span class="linenos">62</span><span class="w">  </span><span class="nt">pc_replace_error</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0E6</span><span class="w"> </span><span class="c1"># Error value for bad pixels</span>
+<span class="linenos">63</span><span class="w">  </span><span class="nt">pc_increase_radius</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w">   </span><span class="c1"># Dilation (pixels)</span>
+<span class="linenos">64</span><span class="w">  </span><span class="nt">pc_verbose</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w">        </span><span class="c1"># Provide information during the processing</span>
+<span class="linenos">65</span><span class="w">  </span><span class="c1">#-----------------------------------------------------------------------------</span>
+<span class="linenos">66</span><span class="w">  </span><span class="c1"># Parameters for deepCR (Zhang &amp; Bloom 2020)</span>
+<span class="linenos">67</span><span class="w">  </span><span class="nt">dc_mask</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ACS-WFC</span><span class="w">        </span><span class="c1"># ACS-WFC | WFC3-UVIS</span>
+<span class="linenos">68</span><span class="w">  </span><span class="nt">dc_threshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span><span class="w">       </span><span class="c1"># Probability threshold to be applied</span>
+<span class="linenos">69</span><span class="w">  </span><span class="nt">dc_verbose</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w">        </span><span class="c1"># Provide information during the processing</span>
+<span class="linenos">70</span><span class="w">  </span><span class="c1">#-----------------------------------------------------------------------------</span>
+<span class="linenos">71</span><span class="w">  </span><span class="c1"># Parameters for Cosmic-CoNN (Xu et al. 2023)</span>
+<span class="linenos">72</span><span class="w">  </span><span class="nt">nn_model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ground_imaging</span><span class="w"> </span><span class="c1"># ground_imaging | NRES | HST_ACS_WFC</span>
+<span class="linenos">73</span><span class="w">  </span><span class="nt">nn_threshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span><span class="w">        </span><span class="c1"># Probability threshold to be applied</span>
+<span class="linenos">74</span><span class="w">  </span><span class="nt">nn_verbose</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w">         </span><span class="c1"># Provide information during the processing</span>
+<span class="linenos">75</span><span class="w">  </span><span class="c1">#-----------------------------------------------------------------------------</span>
+<span class="linenos">76</span><span class="w">  </span><span class="c1"># Parameters for the Median-Minimum method (Cardiel et al. 2026)</span>
+<span class="linenos">77</span><span class="w">  </span><span class="nt">mm_cr_coincidences</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span><span class="w">      </span><span class="c1"># number of CR coincidences to be sought</span>
+<span class="linenos">78</span><span class="w">  </span><span class="nt">mm_synthetic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">single</span><span class="w">       </span><span class="c1"># median | single (to simulate M.M. diagram)</span>
+<span class="linenos">79</span><span class="w">  </span><span class="nt">mm_hist2d_min_neighbors</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span><span class="w"> </span><span class="c1"># minimum number of neighbors in hist2d bins</span>
+<span class="linenos">80</span><span class="w">  </span><span class="nt">mm_ydiag_max</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w">            </span><span class="c1"># maximum Y value in hist2d (0=auto)</span>
+<span class="linenos">81</span><span class="w">  </span><span class="nt">mm_dilation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w">             </span><span class="c1"># dilation around suspected pixels (integer)</span>
+<span class="linenos">82</span><span class="w">  </span><span class="c1"># rectangular region to determine offsets between individual images:</span>
+<span class="linenos">83</span><span class="w">  </span><span class="nt">mm_xy_offsets</span><span class="p">:</span><span class="w">             </span><span class="c1"># XYoffsets between individual images (pixels)</span>
+<span class="linenos">84</span><span class="w">  </span><span class="c1"># - [xoffset, yoffset]     # pair of values for each individual exposure</span>
+<span class="linenos">85</span><span class="w">  </span><span class="nt">mm_crosscorr_region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span><span class="w">  </span><span class="c1"># [xmin, xmax, ymin, ymax] FITS criterium | null</span>
+<span class="linenos">86</span><span class="w">  </span><span class="nt">mm_boundary_fit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spline</span><span class="w">    </span><span class="c1"># piecewise | spline</span>
+<span class="linenos">87</span><span class="w">  </span><span class="nt">mm_knots_splfit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span><span class="w">         </span><span class="c1"># used only for spline fit</span>
+<span class="linenos">88</span><span class="w">  </span><span class="nt">mm_fixed_points_in_boundary</span><span class="p">:</span>
+<span class="linenos">89</span><span class="w">  </span><span class="c1"># - [x, y, weight]  # weights are optional(ignored) for spline(piecewise) fit</span>
+<span class="linenos">90</span><span class="w">  </span><span class="nt">mm_nsimulations</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w">                 </span><span class="c1"># simulations for each set of images</span>
+<span class="linenos">91</span><span class="w">  </span><span class="nt">mm_niter_boundary_extension</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w">     </span><span class="c1"># iterations to extend the spline fit</span>
+<span class="linenos">92</span><span class="w">  </span><span class="nt">mm_weight_boundary_extension</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.0</span><span class="w">   </span><span class="c1"># multiplicative increment in weigth</span>
+<span class="linenos">93</span><span class="w">  </span><span class="nt">mm_threshold_rnoise</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.0</span><span class="w">            </span><span class="c1"># threshold value (in readout units)</span>
+<span class="linenos">94</span><span class="w">  </span><span class="nt">mm_minimum_max2d_rnoise</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5.0</span><span class="w">        </span><span class="c1"># minimum max2d (in readout units)</span>
+<span class="linenos">95</span><span class="w">  </span><span class="nt">mm_seed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">123456</span><span class="w">                     </span><span class="c1"># random seed for reproducibility</span>
+<span class="linenos">96</span><span class="w">  </span><span class="c1">#----------------------------------------------------------------------------</span>
 </pre></div>
 </div>
 <p>Note that in this file is important to specify:</p>
@@ -247,7 +296,7 @@ exposures.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">requirements:</span></code> this section contains a large set of parameters whose
 values define the strategy used for the cosmic-ray detection. This section is
 identical to the <code class="docutils literal notranslate"><span class="pre">requirements</span></code> section of the configuration YAML file
-employed by <code class="docutils literal notranslate"><span class="pre">numina-crmasks</span></code>, which is described in detail in this <a class="reference external" href="https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html">link</a>.</p></li>
+employed by <code class="docutils literal notranslate"><span class="pre">numina-crmasks</span></code>, which is described in detail in this <a class="reference external" href="https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html" rel="noreferrer" target="_blank">link</a>.</p></li>
 </ul>
 </section>
 <section id="computing-the-cr-masks">
@@ -258,9 +307,9 @@ employed by <code class="docutils literal notranslate"><span class="pre">numina-
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>8_generate_crmasks.yaml<span class="w"> </span>-r<span class="w"> </span>control.yaml
 </pre></div>
 </div>
-<p>From this point, follow the description given in this <a class="reference external" href="https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html#example">example</a>,
+<p>From this point, follow the description given in these <a class="reference external" href="https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html#examples" rel="noreferrer" target="_blank">examples</a>,
 which helps understanding the impact of using different parameters in the
-cosmic-ray pixel detection process. <strong>Important</strong>: in that example the
+cosmic-ray pixel detection process. <strong>Important</strong>: in those examples the
 generation of the CR masks is carried out by executing the command-line script
 <code class="docutils literal notranslate"><span class="pre">numina-crmasks</span></code>, which makes use of a slightly different input YAML file.
 However, the code executed is the same as in the <strong>MegaraCrDetection</strong> recipe,
@@ -284,7 +333,8 @@ and contains several extensions:</p>
 <span class="go">  3  CRMASK1       1 ImageHDU         8   (4096, 4112)   uint8</span>
 <span class="go">  4  CRMASK2       1 ImageHDU         8   (4096, 4112)   uint8</span>
 <span class="go">  5  CRMASK3       1 ImageHDU         8   (4096, 4112)   uint8</span>
-<span class="go">  6  LAMEDIAN      1 ImageHDU         8   (4096, 4112)   float32</span>
+<span class="go">  6  MEANCR        1 ImageHDU         8   (4096, 4112)   uint8</span>
+<span class="go">  7  AUXCLEAN      1 ImageHDU         8   (4096, 4112)   float32</span>
 </pre></div>
 </div>
 <p>The primary HDU does not contain image data but includes keywords that document the parameters used to generate the masks.</p>
@@ -296,11 +346,13 @@ two cosmic rays in the median combination.</p></li>
 a cosmic ray in the mean combination.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">CRMASK1</span></code>, <code class="docutils literal notranslate"><span class="pre">CRMASK2</span></code>, <code class="docutils literal notranslate"><span class="pre">CRMASK3</span></code>: Masks for pixels suspected
 of being affected by a cosmic ray in each of the individual exposures.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MEANCR</span></code>: Mask computed using the chosen CR detection method on the
+masked mean combination.</p></li>
 </ul>
 <p>In all these masks, pixels suspected of being affected by a cosmic ray
 are set to 1, while the rest of the pixels are set to 0.</p>
-<p>Finally, the extension <code class="docutils literal notranslate"><span class="pre">LAMEDIAN</span></code> contains the corrected image generated by
-the L.A. Cosmic algorithm (van Dokkum 2001).</p>
+<p>Finally, the extension <code class="docutils literal notranslate"><span class="pre">AUXCLEAN</span></code> contains the corrected image generated by
+the chosen CR detection algorithm.</p>
 <p>Do not forget to copy the file <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code> to the <cite>data/</cite> subdirectory
 before running the MEGARA DRP to generate the reduced scientific result.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>cp<span class="w"> </span>crmasks.fits<span class="w"> </span>../data/
@@ -316,7 +368,7 @@ for this step, depending on the value of <code class="docutils literal notransla
 requirements section of the YAML file used to produce the reduced scientific
 result. Rather than assuming the combination method is <code class="docutils literal notranslate"><span class="pre">median</span></code> (the default
 in MEGARA DRP), the user should explicitly specify one of the following
-methods: <code class="docutils literal notranslate"><span class="pre">mediancr</span></code>, <code class="docutils literal notranslate"><span class="pre">meancr</span></code> or <code class="docutils literal notranslate"><span class="pre">meancrt</span></code>.</p>
+methods: <code class="docutils literal notranslate"><span class="pre">mediancr</span></code>, <code class="docutils literal notranslate"><span class="pre">meancrt</span></code>, <code class="docutils literal notranslate"><span class="pre">meancr</span></code> or <code class="docutils literal notranslate"><span class="pre">meancr2</span></code>.</p>
 <section id="method-mediancr">
 <h3>Method <code class="docutils literal notranslate"><span class="pre">mediancr</span></code><a class="headerlink" href="#method-mediancr" title="Link to this heading"></a></h3>
 <p>For example, when using the <strong>MegaraLcbImage</strong> recipe, the corresponding
@@ -333,11 +385,10 @@ YAML file, <code class="docutils literal notranslate"><span class="pre">8_LcbIma
 <span class="hll"><span class="linenos"> 9</span><span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mediancr</span>
 </span><span class="hll"><span class="linenos">10</span><span class="w">  </span><span class="nt">method_kwargs</span><span class="p">:</span>
 </span><span class="hll"><span class="linenos">11</span><span class="w">    </span><span class="nt">apply_flux_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
-</span><span class="hll"><span class="linenos">12</span><span class="w">    </span><span class="nt">use_lamedian</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+</span><span class="hll"><span class="linenos">12</span><span class="w">    </span><span class="nt">use_auxmedian</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
 </span><span class="linenos">13</span><span class="w">  </span><span class="nt">crmasks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../data/crmasks.fits</span>
 <span class="linenos">14</span><span class="w">  </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+3</span><span class="p p-Indicator">]</span>
 <span class="linenos">15</span><span class="w">  </span><span class="nt">ignored_sky_bundles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">96</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1">#[93, 94, 96, 97, 99, 100]</span>
-<span class="linenos">16</span><span class="w">  </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extinction_LP.txt</span>
 </pre></div>
 </div>
 <p>Note that the <code class="docutils literal notranslate"><span class="pre">crmasks</span></code> parameter must be explicitly specified, and it should
@@ -363,9 +414,9 @@ exposure before combining them and removing cosmic rays. If this parameter is
 set to <code class="docutils literal notranslate"><span class="pre">False</span></code>, an effective factor of <code class="docutils literal notranslate"><span class="pre">1.0</span></code> is applied (i.e., no change
 is introduced), regardless of the values in the FITS header of the
 <code class="docutils literal notranslate"><span class="pre">crmasks.fits</span></code> file.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">use_lamedian:</span></code>: When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, the masked pixels are replaced with
-the corrected value obtained using the L.A. Cosmic algorithm, rather than
-using the minimum value in each pixel.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">use_auxmedian:</span></code>: When set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, the masked pixels are replaced with
+the corrected value obtained using chosen CR detection algorithm, rather than
+using the “minimum value” in each pixel.</p></li>
 </ul>
 </section>
 <section id="method-meancrt">
@@ -381,11 +432,10 @@ using the minimum value in each pixel.</p></li>
 <span class="hll"><span class="linenos"> 9</span><span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">meancrt</span>
 </span><span class="hll"><span class="linenos">10</span><span class="w">  </span><span class="nt">method_kwargs</span><span class="p">:</span>
 </span><span class="hll"><span class="linenos">11</span><span class="w">    </span><span class="nt">apply_flux_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
-</span><span class="hll"><span class="linenos">12</span><span class="w">    </span><span class="nt">use_lamedian</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+</span><span class="hll"><span class="linenos">12</span><span class="w">    </span><span class="nt">use_auxmedian</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
 </span><span class="linenos">13</span><span class="w">  </span><span class="nt">crmasks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../data/crmasks.fits</span>
 <span class="linenos">14</span><span class="w">  </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+3</span><span class="p p-Indicator">]</span>
 <span class="linenos">15</span><span class="w">  </span><span class="nt">ignored_sky_bundles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">96</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1">#[93, 94, 96, 97, 99, 100]</span>
-<span class="linenos">16</span><span class="w">  </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extinction_LP.txt</span>
 </pre></div>
 </div>
 <p>When using <code class="docutils literal notranslate"><span class="pre">method:</span> <span class="pre">meancrt</span></code>, the MEGARA DRP reads the mask stored in
@@ -411,11 +461,10 @@ described above for the <code class="docutils literal notranslate"><span class="
 <span class="hll"><span class="linenos"> 9</span><span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">meancr</span>
 </span><span class="hll"><span class="linenos">10</span><span class="w">  </span><span class="nt">method_kwargs</span><span class="p">:</span>
 </span><span class="hll"><span class="linenos">11</span><span class="w">    </span><span class="nt">apply_flux_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
-</span><span class="hll"><span class="linenos">12</span><span class="w">    </span><span class="nt">use_lamedian</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+</span><span class="hll"><span class="linenos">12</span><span class="w">    </span><span class="nt">use_auxmedian</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
 </span><span class="linenos">13</span><span class="w">  </span><span class="nt">crmasks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../data/crmasks.fits</span>
 <span class="linenos">14</span><span class="w">  </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+3</span><span class="p p-Indicator">]</span>
 <span class="linenos">15</span><span class="w">  </span><span class="nt">ignored_sky_bundles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">96</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1">#[93, 94, 96, 97, 99, 100]</span>
-<span class="linenos">16</span><span class="w">  </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extinction_LP.txt</span>
 </pre></div>
 </div>
 <p>When using <code class="docutils literal notranslate"><span class="pre">method:</span> <span class="pre">meancr</span></code>, the MEGARA DRP reads the masks stored in the
@@ -425,7 +474,37 @@ of the individual exposures, where each image is represented as a masked array
 based on its corresponding mask. This allows the program to compute the mean
 along the axis corresponding to the image number, excluding the masked pixels.</p>
 <p>In cases where a pixel is masked in all individual exposures, the corresponding
-pixel in the combined image is set to the <code class="docutils literal notranslate"><span class="pre">min2d</span></code> value at that location.</p>
+pixel in the combined image is set to either the corresponding <code class="docutils literal notranslate"><span class="pre">min2d</span></code> value
+(if <code class="docutils literal notranslate"><span class="pre">use_auxmedian:</span> <span class="pre">False</span></code>) or to the value from the median combination
+computed using the <code class="docutils literal notranslate"><span class="pre">mediancr</span></code> method (if <code class="docutils literal notranslate"><span class="pre">use_auxmedian:</span> <span class="pre">True</span></code>).</p>
+<p>The parameters under the <code class="docutils literal notranslate"><span class="pre">method_kwargs:</span></code> label play the same role as
+described above for the <code class="docutils literal notranslate"><span class="pre">mediancr</span></code> combination method.</p>
+</section>
+<section id="method-meancr2">
+<h3>Method <code class="docutils literal notranslate"><span class="pre">meancr2</span></code><a class="headerlink" href="#method-meancr2" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8_LcbImage_LR-R</span>
+<span class="hll"><span class="linenos"> 2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraLcbImage</span>
+</span><span class="linenos"> 3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="linenos"> 4</span><span class="nt">frames</span><span class="p">:</span>
+<span class="linenos"> 5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978527-20231115-MEGARA-MegaraLcbImage.fits</span>
+<span class="linenos"> 6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978528-20231115-MEGARA-MegaraLcbImage.fits</span>
+<span class="linenos"> 7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978529-20231115-MEGARA-MegaraLcbImage.fits</span>
+<span class="linenos"> 8</span><span class="nt">requirements</span><span class="p">:</span>
+<span class="hll"><span class="linenos"> 9</span><span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">meancr</span>
+</span><span class="hll"><span class="linenos">10</span><span class="w">  </span><span class="nt">method_kwargs</span><span class="p">:</span>
+</span><span class="hll"><span class="linenos">11</span><span class="w">    </span><span class="nt">apply_flux_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+</span><span class="hll"><span class="linenos">12</span><span class="w">    </span><span class="nt">use_auxmedian</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+</span><span class="linenos">13</span><span class="w">  </span><span class="nt">crmasks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../data/crmasks.fits</span>
+<span class="linenos">14</span><span class="w">  </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+3</span><span class="p p-Indicator">]</span>
+<span class="linenos">15</span><span class="w">  </span><span class="nt">ignored_sky_bundles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">96</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1">#[93, 94, 96, 97, 99, 100]</span>
+</pre></div>
+</div>
+<p>This is a refined version of the median combination. The method begins with the
+result from the previous case (method <code class="docutils literal notranslate"><span class="pre">meancr</span></code>), which is then cleaned using a
+mask generated by the same method chosen to detect cosmic rays in single
+exposures. Detected cosmic-ray pixels are replaced by either the corresponding
+<code class="docutils literal notranslate"><span class="pre">min2d</span></code> values (if <code class="docutils literal notranslate"><span class="pre">use_auxmedian:</span> <span class="pre">False</span></code>) or by values from the median
+combination computed using the <code class="docutils literal notranslate"><span class="pre">mediancr</span></code> method (if <code class="docutils literal notranslate"><span class="pre">use_auxmedian:</span> <span class="pre">True</span></code>).</p>
 <p>The parameters under the <code class="docutils literal notranslate"><span class="pre">method_kwargs:</span></code> label play the same role as
 described above for the <code class="docutils literal notranslate"><span class="pre">mediancr</span></code> combination method.</p>
 </section>

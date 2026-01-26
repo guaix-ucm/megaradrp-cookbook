@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Data reduction &mdash; megara-cookbook 2025.05.16 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ac5f0f31" />
 
@@ -16,8 +16,8 @@
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=cecfaa16"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="_static/copybutton.js?v=4d57d52a"></script>
     <script src="_static/js/theme.js"></script>
@@ -114,7 +114,7 @@
 <p>The first step to start the data reduction is to activate your
 environment (see details in section <a class="reference internal" href="install.html#drp-installation"><span class="std std-ref">DRP installation</span></a>).</p>
 <p>The next step is to download the data employed in this cookbook:
-<a class="reference external" href="https://guaix.fis.ucm.es/data/megaradrp/megara-cookbook-v2.tar.gz">megara-cookbook-v2.tar.gz</a></p>
+<a class="reference external" href="https://guaix.fis.ucm.es/data/megaradrp/megara-cookbook-v2.tar.gz" rel="noreferrer" target="_blank">megara-cookbook-v2.tar.gz</a></p>
 <p>If you find any trouble trying to download the previous file, try with the
 following command line:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>curl<span class="w"> </span>-O<span class="w"> </span>https://guaix.fis.ucm.es/data/megaradrp/megara-cookbook-v2.tar.gz
@@ -293,7 +293,7 @@ folder, we recommend to place only one file in each folder.</p>
 </div>
 <p>The content for the LinesCatalog/ is specific for each VPH (line lists
 for all VPHs can be found at
-<a class="reference external" href="https://zenodo.org/record/2270518">https://zenodo.org/record/2270518</a>). In the following
+<a class="reference external" href="https://zenodo.org/record/2270518" rel="noreferrer" target="_blank">https://zenodo.org/record/2270518</a>). In the following
 example the calibration files for the HR-R (LCB observing mode) and LR-R
 (MOS observing mode) VPHs are shown. When other VPHs are used, the user
 just needs to create the corresponding folders. It is recommended to
@@ -425,7 +425,7 @@ In order to execute <strong>megaradrp</strong> recipes you should type something
 YAML format, and <code class="docutils literal notranslate"><span class="pre">&lt;requirements_files.yaml&gt;</span></code> is a requirements file, also
 in YAML format (this file is named <code class="docutils literal notranslate"><span class="pre">control.yaml</span></code>).</p>
 <p>YAML is a human-readable data serialization language (for details see
-<a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html">YAML Syntax</a>)</p>
+<a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html" rel="noreferrer" target="_blank">YAML Syntax</a>)</p>
 </div>
 <p>The run mode of <code class="docutils literal notranslate"><span class="pre">numina</span></code> requires:</p>
 <ul class="simple">
@@ -675,7 +675,7 @@ with a Bad-Pixels Mask (BPM) named <code class="docutils literal notranslate"><s
 <code class="docutils literal notranslate"><span class="pre">ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterBPM/</span></code> that was generated as
 part of the AIV activities by processing a set of defocused continuum
 flat images. This image can be also found at
-<a class="reference external" href="https://zenodo.org/record/2270518">https://zenodo.org/record/2270518</a>. Currently, MEGARA
+<a class="reference external" href="https://zenodo.org/record/2270518" rel="noreferrer" target="_blank">https://zenodo.org/record/2270518</a>. Currently, MEGARA
 presents only one (partial) bad column of 120 pixels in length.</p>
 </section>
 <section id="slit-flat-correction">
@@ -901,7 +901,7 @@ created using recipe <strong>MegaraArcCalibration</strong>. To create the disper
 solution the recipe needs raw arc-lamp frames as input (see <strong>Figure 7</strong>). Note
 that although the term used is “arc-lamps” these are ThAr and ThNe
 Hollow-Cathode Lamps (HCL).</p>
-<a class="reference internal image-reference" href="_images/image15.png"><img alt="_images/image15.png" src="_images/image15.png" style="width: 5.0in;" />
+<a class="reference internal image-reference" href="_images/image15.png"><img alt="_images/image15.png" src="_images/image15.png" style="width: 5in;" />
 </a>
 <p><strong>Figure 7:</strong> MEGARA LCB ThNe arc-lamp exposure obtained with the HR-R
 VPH.</p>
@@ -1378,7 +1378,7 @@ individual exposures:</p>
 parameter <code class="docutils literal notranslate"><span class="pre">reference_spectrum</span></code> includes a text file where the flux-calibrated
 spectrum in AB magnitudes is provided.  (the format of these files is the same
 as for those found in the ESO spectrophotometric standard stars database
-located at this <a class="reference external" href="https://www.eso.org/sci/observing/tools/standards/spectra/">ESO web page</a>). This
+located at this <a class="reference external" href="https://www.eso.org/sci/observing/tools/standards/spectra/" rel="noreferrer" target="_blank">ESO web page</a>). This
 parameter can be also specify in the <code class="docutils literal notranslate"><span class="pre">control.yaml</span></code>. The
 <code class="docutils literal notranslate"><span class="pre">reference_extinction</span></code> parameter points to the text file with the information
 to apply the atmospheric extinction correction.  (for processing standard-star
@@ -1452,7 +1452,7 @@ atmospheric extinction and compared with the reference spectrum to return the
 <p>The user can visualize the <code class="docutils literal notranslate"><span class="pre">master_sensitivity.fits</span></code> curve (see <strong>Figure
 14</strong>) running the python script <code class="docutils literal notranslate"><span class="pre">megaratools-plot_spectrum</span></code> that can
 be found in the DRP distribution located at
-<a class="reference external" href="https://github.com/guaix-ucm/megara-tools">https://github.com/guaix-ucm/megara-tools</a> (see section <a class="reference internal" href="megaratools.html#megara-tools"><span class="std std-ref">MEGARA Tools</span></a>).</p>
+<a class="reference external" href="https://github.com/guaix-ucm/megara-tools" rel="noreferrer" target="_blank">https://github.com/guaix-ucm/megara-tools</a> (see section <a class="reference internal" href="megaratools.html#megara-tools"><span class="std std-ref">MEGARA Tools</span></a>).</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>megaratools-plot_spectrum<span class="w"> </span>-s<span class="w"> </span>obsid7_StandardStar_HR-R_results/master_sensitivity.fits
 </pre></div>
 </div>
@@ -1659,8 +1659,7 @@ perform any sky subtraction to the target data.</p>
 <span class="linenos"> 7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001309957-20170822-MEGARA-MegaraLcbAcquisition.fits</span>
 <span class="linenos"> 8</span><span class="nt">requirements</span><span class="p">:</span>
 <span class="linenos"> 9</span><span class="w"> </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+6.5</span><span class="p p-Indicator">]</span>
-<span class="linenos">10</span><span class="w"> </span><span class="nt">reference_extinction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extinction_LP.txt</span>
-<span class="linenos">11</span><span class="w"> </span><span class="nt">ignored_sky_bundles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">93</span><span class="p p-Indicator">,</span><span class="nv">95</span><span class="p p-Indicator">,</span><span class="nv">98</span><span class="p p-Indicator">]</span>
+<span class="linenos">10</span><span class="w"> </span><span class="nt">ignored_sky_bundles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">93</span><span class="p p-Indicator">,</span><span class="nv">95</span><span class="p p-Indicator">,</span><span class="nv">98</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 <p>Then the recipe is run by doing:</p>

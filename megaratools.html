@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MEGARA Tools &mdash; megara-cookbook 2025.05.16 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ac5f0f31" />
 
@@ -16,11 +16,11 @@
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=cecfaa16"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="_static/copybutton.js?v=4d57d52a"></script>
-      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -107,7 +107,7 @@ analyze the products of the MEGARA DRP. The first two tools
 (visualization and cube) are already included as part of the MEGARA DRP
 distribution. The rest conform their own software package
 <strong>megara-tools</strong>, which is also available through GitHub at
-<a class="reference external" href="https://github.com/guaix-ucm/megara-tools">https://github.com/guaix-ucm/megara-tools</a>. The installation requires to
+<a class="reference external" href="https://github.com/guaix-ucm/megara-tools" rel="noreferrer" target="_blank">https://github.com/guaix-ucm/megara-tools</a>. The installation requires to
 follow one of these three strategies:</p>
 <p>To install the latest stable version:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>megara-tools<span class="o">[</span>hypercube<span class="o">]</span>
@@ -116,7 +116,7 @@ follow one of these three strategies:</p>
 <span class="gp"># </span>$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;megara-tools[hypercube]&quot;</span>
 </pre></div>
 </div>
-<p>or, if you do not want <strong>hypercube</strong> to be installed (as it includes <a class="reference external" href="https://pysynphot.readthedocs.io/en/latest/">pysynphot</a> as a dependency, which is no
+<p>or, if you do not want <strong>hypercube</strong> to be installed (as it includes <a class="reference external" href="https://pysynphot.readthedocs.io/en/latest/" rel="noreferrer" target="_blank">pysynphot</a> as a dependency, which is no
 longer actively developed), simply do:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>megara-tools
 </pre></div>
@@ -149,7 +149,7 @@ to 10.15) and linux machines. Some of the examples below make use of
 <section id="downloading-sample-data">
 <h2>Downloading sample data<a class="headerlink" href="#downloading-sample-data" title="Link to this heading"></a></h2>
 <p>The sample data employed in this section is available at this link:
-<a class="reference external" href="https://guaix.fis.ucm.es/data/megaradrp/test-megaratools_v1.tar.gz">test-megaratools_v1.tar.gz</a></p>
+<a class="reference external" href="https://guaix.fis.ucm.es/data/megaradrp/test-megaratools_v1.tar.gz" rel="noreferrer" target="_blank">test-megaratools_v1.tar.gz</a></p>
 <p>If you find any trouble trying to download the previous file, try with the
 following command line:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>curl<span class="w"> </span>-O<span class="w"> </span>https://guaix.fis.ucm.es/data/megaradrp/test-megaratools_v1.tar.gz
@@ -321,13 +321,13 @@ doing:</p>
 options should be fine for regular MEGARA data processed with the DRP.</p>
 <p>An alternative software with similar scope has been developed by Javier
 Zaragoza Cardiel (from INAOE) and can be obtained through GitHub at
-<a class="reference external" href="https://github.com/javierzaragoza/megararss2cube">https://github.com/javierzaragoza/megararss2cube</a>.</p>
+<a class="reference external" href="https://github.com/javierzaragoza/megararss2cube" rel="noreferrer" target="_blank">https://github.com/javierzaragoza/megararss2cube</a>.</p>
 </section>
 <section id="extract-spectrum-megaratools-extract-spectrum">
 <span id="megaratools-extract-spectrum"></span><h2>Extract spectrum: megaratools-extract_spectrum<a class="headerlink" href="#extract-spectrum-megaratools-extract-spectrum" title="Link to this heading"></a></h2>
 <p>This tool is the first being described in this cookbook that is part of
 the <strong>megaratools</strong> package available through GitHub at
-<a class="reference external" href="https://github.com/guaix-ucm/megara-tools">https://github.com/guaix-ucm/megara-tools</a>. The objective of this tool is
+<a class="reference external" href="https://github.com/guaix-ucm/megara-tools" rel="noreferrer" target="_blank">https://github.com/guaix-ucm/megara-tools</a>. The objective of this tool is
 to generate an extracted (1D) spectrum of a given fiber or set of
 fibers. The main parameter determining the fiber(s) to be extracted is
 the fiber number as measured in the pseudo-slit (from 1 to 623 in the
@@ -691,7 +691,7 @@ software tools do not work right away on data from a new instrument,
 although many started from the need of analyzing data from a specific
 spectrograph and survey, such as SAURON (pPXF) or PPaK/CALIFA (Fit3D).
 In the case of MEGARA three different tools are used, one that is based
-on pPXF (see e.g. <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2019ApJ...871....9D/abstract">Dullo et al.
+on pPXF (see e.g. <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2019ApJ...871....9D/abstract" rel="noreferrer" target="_blank">Dullo et al.
 2019</a>;
 not yet public) and two that are designed for the analysis of single
 emission lines on extracted 1D (<code class="docutils literal notranslate"><span class="pre">megaratools-analyze_spectrum</span></code>, below)
