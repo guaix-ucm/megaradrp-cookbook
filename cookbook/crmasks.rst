@@ -131,8 +131,9 @@ Note that in this file is important to specify:
 
      - ``preprocessed_1.fits``, ``preprocessed_2.fits`` and
        ``preprocessed_3.fits``:
-       the preprocessed individual exposures after bias subtraction and
-       flatfielding, in electrons.
+       the preprocessed individual exposures after overscan correction,
+       trimming, bias subtraction, gain correction and flatfielding (the images
+       data values are in electrons).
 
      - ``preprocessed_median.fits``: the median combination of the thre previous
        preprocessed individual images.

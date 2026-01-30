@@ -76,7 +76,7 @@ requirements:
   # Parameters for the Median-Minimum method (Cardiel et al. 2026)
   mm_cr_coincidences: 2      # number of CR coincidences to be sought
   mm_photon_distribution: poisson  # poisson | nbinom
-  mm_nbinom_shape: 10        # shape parameter for negative binomial (nbinom)
+  mm_nbinom_shape: 1000      # shape parameter for negative binomial (nbinom)
   mm_synthetic: single       # median | single (to simulate M.M. diagram)
   mm_hist2d_min_neighbors: 8 # minimum number of neighbors in hist2d bins
   mm_ydiag_max: 0            # maximum Y value in hist2d (0=auto)
