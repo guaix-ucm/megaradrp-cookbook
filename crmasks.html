@@ -267,7 +267,7 @@ step.</p>
 <span class="linenos">76</span><span class="w">  </span><span class="c1"># Parameters for the Median-Minimum method (Cardiel et al. 2026)</span>
 <span class="linenos">77</span><span class="w">  </span><span class="nt">mm_cr_coincidences</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span><span class="w">      </span><span class="c1"># number of CR coincidences to be sought</span>
 <span class="linenos">78</span><span class="w">  </span><span class="nt">mm_photon_distribution</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">poisson</span><span class="w">  </span><span class="c1"># poisson | nbinom</span>
-<span class="linenos">79</span><span class="w">  </span><span class="nt">mm_nbinom_shape</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w">        </span><span class="c1"># shape parameter for negative binomial (nbinom)</span>
+<span class="linenos">79</span><span class="w">  </span><span class="nt">mm_nbinom_shape</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span><span class="w">      </span><span class="c1"># shape parameter for negative binomial (nbinom)</span>
 <span class="linenos">80</span><span class="w">  </span><span class="nt">mm_synthetic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">single</span><span class="w">       </span><span class="c1"># median | single (to simulate M.M. diagram)</span>
 <span class="linenos">81</span><span class="w">  </span><span class="nt">mm_hist2d_min_neighbors</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span><span class="w"> </span><span class="c1"># minimum number of neighbors in hist2d bins</span>
 <span class="linenos">82</span><span class="w">  </span><span class="nt">mm_ydiag_max</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w">            </span><span class="c1"># maximum Y value in hist2d (0=auto)</span>
@@ -312,8 +312,9 @@ images are saved in the corresponding <em>work</em> subdirectory:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">preprocessed_1.fits</span></code>, <code class="docutils literal notranslate"><span class="pre">preprocessed_2.fits</span></code> and
 <code class="docutils literal notranslate"><span class="pre">preprocessed_3.fits</span></code>:
-the preprocessed individual exposures after bias subtraction and
-flatfielding, in electrons.</p></li>
+the preprocessed individual exposures after overscan correction,
+trimming, bias subtraction, gain correction and flatfielding (the images
+data values are in electrons).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">preprocessed_median.fits</span></code>: the median combination of the thre previous
 preprocessed individual images.</p></li>
 </ul>
