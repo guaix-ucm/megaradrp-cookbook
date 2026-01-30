@@ -119,6 +119,39 @@ Note that in this file is important to specify:
   employed by ``numina-crmasks``, which is described in detail in this `link
   <https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html>`_.
 
+.. note::
+
+   In addition to the extensive list of requirements displayed above, inherited
+   from the requirements section of the input YAML file used by
+   **numina-crmasks**, this recipe also accepts two additional requirements
+   useful for debugging purposes:
+
+   - ``save_preprocessed: True`` (False by default): if True, the following
+     images are saved in the corresponding *work* subdirectory:
+
+     - ``preprocessed_1.fits``, ``preprocessed_2.fits`` and
+       ``preprocessed_3.fits``:
+       the preprocessed individual exposures after bias subtraction and
+       flatfielding, in electrons.
+
+     - ``preprocessed_median.fits``: the median combination of the thre previous
+       preprocessed individual images.
+
+   - ``save_postprocessed: True`` (False by default): if True, the following
+     images are also saved in the corresponding *work* subdirectory:
+     ``postprocessed_mean.fits``,
+     ``postprocessed_min.fits``,
+     ``postprocessed_median.fits``,
+     ``postprocessed_mediancr.fits``,
+     ``postprocessed_meancrt.fits``,
+     ``postprocessed_meancr.fits``, and
+     ``postprocessed_meancr2.fits``.
+
+     These files correspond to the different combinations allowed by
+     **numina-crmasks**, as explained in `this link
+     <https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html#script-output>`_.
+     Note that the contents of ``postprocessed_median.fits`` should be identical
+     to ``preprocessed_median.fits``.
 
 Computing the CR masks
 ======================

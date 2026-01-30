@@ -266,25 +266,27 @@ step.</p>
 <span class="linenos">75</span><span class="w">  </span><span class="c1">#-----------------------------------------------------------------------------</span>
 <span class="linenos">76</span><span class="w">  </span><span class="c1"># Parameters for the Median-Minimum method (Cardiel et al. 2026)</span>
 <span class="linenos">77</span><span class="w">  </span><span class="nt">mm_cr_coincidences</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span><span class="w">      </span><span class="c1"># number of CR coincidences to be sought</span>
-<span class="linenos">78</span><span class="w">  </span><span class="nt">mm_synthetic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">single</span><span class="w">       </span><span class="c1"># median | single (to simulate M.M. diagram)</span>
-<span class="linenos">79</span><span class="w">  </span><span class="nt">mm_hist2d_min_neighbors</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span><span class="w"> </span><span class="c1"># minimum number of neighbors in hist2d bins</span>
-<span class="linenos">80</span><span class="w">  </span><span class="nt">mm_ydiag_max</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w">            </span><span class="c1"># maximum Y value in hist2d (0=auto)</span>
-<span class="linenos">81</span><span class="w">  </span><span class="nt">mm_dilation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w">             </span><span class="c1"># dilation around suspected pixels (integer)</span>
-<span class="linenos">82</span><span class="w">  </span><span class="c1"># rectangular region to determine offsets between individual images:</span>
-<span class="linenos">83</span><span class="w">  </span><span class="nt">mm_xy_offsets</span><span class="p">:</span><span class="w">             </span><span class="c1"># XYoffsets between individual images (pixels)</span>
-<span class="linenos">84</span><span class="w">  </span><span class="c1"># - [xoffset, yoffset]     # pair of values for each individual exposure</span>
-<span class="linenos">85</span><span class="w">  </span><span class="nt">mm_crosscorr_region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span><span class="w">  </span><span class="c1"># [xmin, xmax, ymin, ymax] FITS criterium | null</span>
-<span class="linenos">86</span><span class="w">  </span><span class="nt">mm_boundary_fit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spline</span><span class="w">    </span><span class="c1"># piecewise | spline</span>
-<span class="linenos">87</span><span class="w">  </span><span class="nt">mm_knots_splfit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span><span class="w">         </span><span class="c1"># used only for spline fit</span>
-<span class="linenos">88</span><span class="w">  </span><span class="nt">mm_fixed_points_in_boundary</span><span class="p">:</span>
-<span class="linenos">89</span><span class="w">  </span><span class="c1"># - [x, y, weight]  # weights are optional(ignored) for spline(piecewise) fit</span>
-<span class="linenos">90</span><span class="w">  </span><span class="nt">mm_nsimulations</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w">                 </span><span class="c1"># simulations for each set of images</span>
-<span class="linenos">91</span><span class="w">  </span><span class="nt">mm_niter_boundary_extension</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w">     </span><span class="c1"># iterations to extend the spline fit</span>
-<span class="linenos">92</span><span class="w">  </span><span class="nt">mm_weight_boundary_extension</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.0</span><span class="w">   </span><span class="c1"># multiplicative increment in weigth</span>
-<span class="linenos">93</span><span class="w">  </span><span class="nt">mm_threshold_rnoise</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.0</span><span class="w">            </span><span class="c1"># threshold value (in readout units)</span>
-<span class="linenos">94</span><span class="w">  </span><span class="nt">mm_minimum_max2d_rnoise</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5.0</span><span class="w">        </span><span class="c1"># minimum max2d (in readout units)</span>
-<span class="linenos">95</span><span class="w">  </span><span class="nt">mm_seed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">123456</span><span class="w">                     </span><span class="c1"># random seed for reproducibility</span>
-<span class="linenos">96</span><span class="w">  </span><span class="c1">#----------------------------------------------------------------------------</span>
+<span class="linenos">78</span><span class="w">  </span><span class="nt">mm_photon_distribution</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">poisson</span><span class="w">  </span><span class="c1"># poisson | nbinom</span>
+<span class="linenos">79</span><span class="w">  </span><span class="nt">mm_nbinom_shape</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w">        </span><span class="c1"># shape parameter for negative binomial (nbinom)</span>
+<span class="linenos">80</span><span class="w">  </span><span class="nt">mm_synthetic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">single</span><span class="w">       </span><span class="c1"># median | single (to simulate M.M. diagram)</span>
+<span class="linenos">81</span><span class="w">  </span><span class="nt">mm_hist2d_min_neighbors</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span><span class="w"> </span><span class="c1"># minimum number of neighbors in hist2d bins</span>
+<span class="linenos">82</span><span class="w">  </span><span class="nt">mm_ydiag_max</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w">            </span><span class="c1"># maximum Y value in hist2d (0=auto)</span>
+<span class="linenos">83</span><span class="w">  </span><span class="nt">mm_dilation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w">             </span><span class="c1"># dilation around suspected pixels (integer)</span>
+<span class="linenos">84</span><span class="w">  </span><span class="c1"># rectangular region to determine offsets between individual images:</span>
+<span class="linenos">85</span><span class="w">  </span><span class="nt">mm_xy_offsets</span><span class="p">:</span><span class="w">             </span><span class="c1"># XYoffsets between individual images (pixels)</span>
+<span class="linenos">86</span><span class="w">  </span><span class="c1"># - [xoffset, yoffset]     # pair of values for each individual exposure</span>
+<span class="linenos">87</span><span class="w">  </span><span class="nt">mm_crosscorr_region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span><span class="w">  </span><span class="c1"># [xmin, xmax, ymin, ymax] FITS criterium | null</span>
+<span class="linenos">88</span><span class="w">  </span><span class="nt">mm_boundary_fit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spline</span><span class="w">    </span><span class="c1"># piecewise | spline</span>
+<span class="linenos">89</span><span class="w">  </span><span class="nt">mm_knots_splfit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span><span class="w">         </span><span class="c1"># used only for spline fit</span>
+<span class="linenos">90</span><span class="w">  </span><span class="nt">mm_fixed_points_in_boundary</span><span class="p">:</span>
+<span class="linenos">91</span><span class="w">  </span><span class="c1"># - [x, y, weight]  # weights are optional(ignored) for spline(piecewise) fit</span>
+<span class="linenos">92</span><span class="w">  </span><span class="nt">mm_nsimulations</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w">                 </span><span class="c1"># simulations for each set of images</span>
+<span class="linenos">93</span><span class="w">  </span><span class="nt">mm_niter_boundary_extension</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w">     </span><span class="c1"># iterations to extend the spline fit</span>
+<span class="linenos">94</span><span class="w">  </span><span class="nt">mm_weight_boundary_extension</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.0</span><span class="w">   </span><span class="c1"># multiplicative increment in weigth</span>
+<span class="linenos">95</span><span class="w">  </span><span class="nt">mm_threshold_rnoise</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.0</span><span class="w">            </span><span class="c1"># threshold value (in readout units)</span>
+<span class="linenos">96</span><span class="w">  </span><span class="nt">mm_minimum_max2d_rnoise</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5.0</span><span class="w">        </span><span class="c1"># minimum max2d (in readout units)</span>
+<span class="linenos">97</span><span class="w">  </span><span class="nt">mm_seed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">123456</span><span class="w">                     </span><span class="c1"># random seed for reproducibility</span>
+<span class="linenos">98</span><span class="w">  </span><span class="c1">#----------------------------------------------------------------------------</span>
 </pre></div>
 </div>
 <p>Note that in this file is important to specify:</p>
@@ -298,6 +300,40 @@ values define the strategy used for the cosmic-ray detection. This section is
 identical to the <code class="docutils literal notranslate"><span class="pre">requirements</span></code> section of the configuration YAML file
 employed by <code class="docutils literal notranslate"><span class="pre">numina-crmasks</span></code>, which is described in detail in this <a class="reference external" href="https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html" rel="noreferrer" target="_blank">link</a>.</p></li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In addition to the extensive list of requirements displayed above, inherited
+from the requirements section of the input YAML file used by
+<strong>numina-crmasks</strong>, this recipe also accepts two additional requirements
+useful for debugging purposes:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">save_preprocessed:</span> <span class="pre">True</span></code> (False by default): if True, the following
+images are saved in the corresponding <em>work</em> subdirectory:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">preprocessed_1.fits</span></code>, <code class="docutils literal notranslate"><span class="pre">preprocessed_2.fits</span></code> and
+<code class="docutils literal notranslate"><span class="pre">preprocessed_3.fits</span></code>:
+the preprocessed individual exposures after bias subtraction and
+flatfielding, in electrons.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">preprocessed_median.fits</span></code>: the median combination of the thre previous
+preprocessed individual images.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">save_postprocessed:</span> <span class="pre">True</span></code> (False by default): if True, the following
+images are also saved in the corresponding <em>work</em> subdirectory:
+<code class="docutils literal notranslate"><span class="pre">postprocessed_mean.fits</span></code>,
+<code class="docutils literal notranslate"><span class="pre">postprocessed_min.fits</span></code>,
+<code class="docutils literal notranslate"><span class="pre">postprocessed_median.fits</span></code>,
+<code class="docutils literal notranslate"><span class="pre">postprocessed_mediancr.fits</span></code>,
+<code class="docutils literal notranslate"><span class="pre">postprocessed_meancrt.fits</span></code>,
+<code class="docutils literal notranslate"><span class="pre">postprocessed_meancr.fits</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">postprocessed_meancr2.fits</span></code>.</p>
+<p>These files correspond to the different combinations allowed by
+<strong>numina-crmasks</strong>, as explained in <a class="reference external" href="https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html#script-output" rel="noreferrer" target="_blank">this link</a>.
+Note that the contents of <code class="docutils literal notranslate"><span class="pre">postprocessed_median.fits</span></code> should be identical
+to <code class="docutils literal notranslate"><span class="pre">preprocessed_median.fits</span></code>.</p>
+</li>
+</ul>
+</div>
 </section>
 <section id="computing-the-cr-masks">
 <h2>Computing the CR masks<a class="headerlink" href="#computing-the-cr-masks" title="Link to this heading"></a></h2>
