@@ -90,7 +90,7 @@ requirements:
   mm_fixed_points_in_boundary:
   # - [x, y, weight]  # weights are optional(ignored) for spline(piecewise) fit
   mm_nsimulations: 10                 # simulations for each set of images
-  mm_niter_boundary_extension: 10     # iterations to extend the spline fit
+  mm_niter_boundary_extension: 4      # iterations to extend the spline fit
   mm_weight_boundary_extension: 2.0   # multiplicative increment in weigth
   mm_threshold_rnoise: 3.0            # threshold value (in readout units)
   mm_minimum_max2d_rnoise: 5.0        # minimum max2d (in readout units)
