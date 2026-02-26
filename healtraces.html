@@ -128,7 +128,7 @@ we show an example of how to do this.</p>
 <p>Following the instructions in Section <a class="reference internal" href="datared.html#tracing-fibers"><span class="std std-ref">Tracing fibers</span></a>,
 we look at the reduction step where
 the traces are determined, e.g.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>1_tracemap.yaml<span class="w"> </span>-r<span class="w"> </span>../control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>1_tracemap.yaml
 </pre></div>
 </div>
 <div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">...</span>
@@ -593,8 +593,14 @@ pipeline utilizes the corrected file (thereby overwriting the existing</strong>
 <code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> <strong>file in the destination location, if applicable).</strong>
 For example (assuming we are calibrating traces corresponding to the LR-R
 VPH):</p>
+<p>(for data obtained before February 2026)</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>cp<span class="w"> </span>master_traces_healed.json<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>../../MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48/TraceMap/LCB/LR-R/master_traces.json
+<span class="w">  </span>../calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48/TraceMap/LCB/LR-R/master_traces.json
+</pre></div>
+</div>
+<p>(for data obtained after February 2026)</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>cp<span class="w"> </span>master_traces_healed.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>../calibrations/MEGARA/9f3fecbf-376c-47ae-a188-313b7d829104/TraceMap/LCB/LR-R/master_traces.json
 </pre></div>
 </div>
 <p>The file <code class="docutils literal notranslate"><span class="pre">master_traces_healed.json</span></code> has a different <code class="docutils literal notranslate"><span class="pre">uuid</span></code> than the one

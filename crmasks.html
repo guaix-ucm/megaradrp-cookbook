@@ -341,7 +341,7 @@ to <code class="docutils literal notranslate"><span class="pre">preprocessed_med
 <section id="coincident-cosmic-rays-in-the-median-combination">
 <h3>Coincident cosmic rays in the median combination<a class="headerlink" href="#coincident-cosmic-rays-in-the-median-combination" title="Link to this heading"></a></h3>
 <p>The recipe is run by doing:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>8_generate_crmasks.yaml<span class="w"> </span>-r<span class="w"> </span>control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>8_generate_crmasks.yaml
 </pre></div>
 </div>
 <p>From this point, follow the description given in these <a class="reference external" href="https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html#examples" rel="noreferrer" target="_blank">examples</a>,
@@ -433,7 +433,7 @@ point to the <code class="docutils literal notranslate"><span class="pre">crmask
 requirement also gives users the flexibility to rename the file and test
 different versions of it (each potentially created with varying detection
 thresholds) to evaluate the impact of using different masks.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>8_LcbImage.yaml<span class="w"> </span>-r<span class="w"> </span>control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>8_LcbImage.yaml
 </pre></div>
 </div>
 <p>When using <code class="docutils literal notranslate"><span class="pre">method:</span> <span class="pre">mediancr</span></code>, the MEGARA DRP reads the mask stored in the
@@ -527,7 +527,7 @@ described above for the <code class="docutils literal notranslate"><span class="
 <span class="linenos"> 6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978528-20231115-MEGARA-MegaraLcbImage.fits</span>
 <span class="linenos"> 7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0003978529-20231115-MEGARA-MegaraLcbImage.fits</span>
 <span class="linenos"> 8</span><span class="nt">requirements</span><span class="p">:</span>
-<span class="hll"><span class="linenos"> 9</span><span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">meancr</span>
+<span class="hll"><span class="linenos"> 9</span><span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">meancr2</span>
 </span><span class="hll"><span class="linenos">10</span><span class="w">  </span><span class="nt">method_kwargs</span><span class="p">:</span>
 </span><span class="hll"><span class="linenos">11</span><span class="w">    </span><span class="nt">apply_flux_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
 </span><span class="hll"><span class="linenos">12</span><span class="w">    </span><span class="nt">use_auxmedian</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>

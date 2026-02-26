@@ -31,7 +31,7 @@ the traces are determined, e.g.
 
 .. code-block:: console
 
-   (megara) $ numina run 1_tracemap.yaml -r ../control.yaml
+   (megara) $ numina run 1_tracemap.yaml
 
 .. code-block:: console
    :class: my-special-block no-copybutton
@@ -507,10 +507,19 @@ faulty traces, and the obtained result is satisfactory.
    For example (assuming we are calibrating traces corresponding to the LR-R
    VPH):
 
+   (for data obtained before February 2026)
+
    .. code-block:: console
 
       (megara) $ cp master_traces_healed.json \
-        ../../MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48/TraceMap/LCB/LR-R/master_traces.json  
+        ../calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48/TraceMap/LCB/LR-R/master_traces.json  
+
+   (for data obtained after February 2026)
+
+   .. code-block:: console
+
+      (megara) $ cp master_traces_healed.json \
+        ../calibrations/MEGARA/9f3fecbf-376c-47ae-a188-313b7d829104/TraceMap/LCB/LR-R/master_traces.json  
 
    The file ``master_traces_healed.json`` has a different ``uuid`` than the one
    assigned to the file ``master_traces.json``.
