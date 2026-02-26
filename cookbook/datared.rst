@@ -2,6 +2,31 @@
 Data reduction
 **************
 
+.. warning::
+
+   Since February 2026, a new, more simplified data reduction procedure has
+   been implemented. These changes were introduced in **megaradrp
+   version 0.20.0**. 
+
+   In particular:
+
+   - the auxiliary file ``control.yaml`` is no longer necessary
+   - the calibration tree is automatically built using ``megaradrp-inittree``,
+     as explained below
+   - the auxiliary calibration file ``extinction_LP.txt`` is now part of the
+     calibration tree and no longer needs to be stored in the ``data``
+     subdirectory; the requirement ``reference_extinction: extinction_LP.txt``
+     should no longer appear in the observation result file (unless the user
+     needs to use a different extinction table, in which case the requirement
+     can be set and the corresponding file should be placed in the ``data``
+     subdirectory)
+
+   Concerning the label used to identify the calibration path, for observations
+   carried out before February 2026 this label is the original
+   ``ca3558e3-e50d-4bbc-86bd-da50a0998a48`` sequence, whereas for images
+   obtained after February 2026 the label to store the calibrations is
+   ``9f3fecbf-376c-47ae-a188-313b7d829104``.
+
 Getting Started
 ===============
 
@@ -9,8 +34,8 @@ The first step to start the data reduction is to activate your
 environment (see details in section :ref:`DRP_installation`).
 
 The next step is to download the data employed in this cookbook: 
-`megara-cookbook-v2.tar.gz
-<https://guaix.fis.ucm.es/data/megaradrp/megara-cookbook-v2.tar.gz>`_
+`megara-cookbook-v3.tar.gz
+<https://guaix.fis.ucm.es/data/megaradrp/megara-cookbook-v3.tar.gz>`_
 
 If you find any trouble trying to download the previous file, try with the
 following command line:
@@ -18,112 +43,191 @@ following command line:
 
 .. code-block:: console
 
-    (megara) $ curl -O https://guaix.fis.ucm.es/data/megaradrp/megara-cookbook-v2.tar.gz
-
-.. warning::
-
-   Please be aware that this file has been updated as of September 2024.  This
-   change has been motivated by the need to adapt the structure of the
-   ``control.yaml`` file to facilitate the EMIR reduction pipeline in handling
-   data obtained with a detector different from the one originally installed.
-   This type of change requires the use of specific calibration files for the
-   particular detector used at any given time. Once this file is modified for
-   EMIR, MEGARA also inherits the same change (the different pipelines use the
-   same Python package **numina** as the reduction launcher). The modification
-   of the control.yaml file is not backward compatible, so it is necessary to
-   have a recent version of megaradrp installed.
+    (megara) $ curl -O https://guaix.fis.ucm.es/data/megaradrp/megara-cookbook-v3.tar.gz
 
 It is advisable to decompress the previous file in a pristine directory where
 you can comfortably start the reduction of the data:
 
 .. code-block:: console
 
-   (megara) $ tar zxvf megara-cookbook-v2.tar.gz
+   (megara) $ tar zxvf megara-cookbook-v3.tar.gz
 
 .. code-block:: console
 
-   (megara) $ cd megara-cookbook-v2
+   (megara) $ cd megara-cookbook-v3
+   (megara) $ ls
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
+   M15_LCB_HR-R/ M71_MOS_LR-R/
 
 .. code-block:: console
 
-   (megara) $ source INSTALL.sh
-
-The last command simply replaces the second line of the file
-``MEGARA/control.yaml`` to set the proper directory where the cookbook data
-have been deployed.
-
-Data organization
-=================
-
-MEGARA DRP uses its own data organization to work. 
-
-.. code-block:: console
-
-   (megara) $ tree -L 2
+   (megara) $ tree M15_LCB_HR-R
 
 .. code-block:: console
    :class: my-special-block no-copybutton
 
    .
-   ├── INSTALL.sh
-   └── MEGARA
-       ├── M15_LCB_HR-R
-       ├── M71_MOS_LR-R
-       ├── ca3558e3-e50d-4bbc-86bd-da50a0998a48
-       └── control.yaml
+   ├── M15_LCB_HR-R
+   │   ├── 0_Bias.yaml
+   │   ├── 1_TraceMap.yaml
+   │   ├── 2_ModelMap.yaml
+   │   ├── 3_WaveCalib.yaml
+   │   ├── 3_WaveCalib_check.yaml
+   │   ├── 4_FiberFlat.yaml
+   │   ├── 5_TwilightFlat.yaml
+   │   ├── 6_LcbAdquisition.yaml
+   │   ├── 7_StandardStar.yaml
+   │   ├── 8_LcbImage.yaml
+   │   └── data
+   │       ├── 0001251794-20170626-MEGARA-MegaraLCBImage.fits
+   │       ├── 0001251795-20170626-MEGARA-MegaraLCBImage.fits
+   │       ├── 0001251796-20170626-MEGARA-MegaraLCBImage.fits
+   │       ├── 0001286973-20170724-MEGARA-MegaraLcbImage.fits
+   │       ├── 0001286974-20170724-MEGARA-MegaraLcbImage.fits
+   │       ├── 0001286975-20170724-MEGARA-MegaraLcbImage.fits
+   │       ├── 0001309955-20170822-MEGARA-MegaraLcbAcquisition.fits
+   │       ├── 0001309956-20170822-MEGARA-MegaraLcbAcquisition.fits
+   │       ├── 0001309957-20170822-MEGARA-MegaraLcbAcquisition.fits
+   │       ├── 0001310880-20170827-MEGARA-MegaraBiasImage.fits
+   │       ├── 0001310881-20170827-MEGARA-MegaraBiasImage.fits
+   │       ├── 0001310882-20170827-MEGARA-MegaraBiasImage.fits
+   │       ├── 0001310883-20170827-MEGARA-MegaraBiasImage.fits
+   │       ├── 0001310884-20170827-MEGARA-MegaraBiasImage.fits
+   │       ├── 0001310885-20170827-MEGARA-MegaraBiasImage.fits
+   │       ├── 0001310886-20170827-MEGARA-MegaraBiasImage.fits
+   │       ├── 0001310887-20170827-MEGARA-MegaraBiasImage.fits
+   │       ├── 0001310888-20170827-MEGARA-MegaraBiasImage.fits
+   │       ├── 0001312246-20170831-MEGARA-MegaraSuccess.fits
+   │       ├── 0001312247-20170831-MEGARA-MegaraSuccess.fits
+   │       ├── 0001312248-20170831-MEGARA-MegaraSuccess.fits
+   │       ├── 0001312249-20170831-MEGARA-MegaraSuccess.fits
+   │       ├── 0001312250-20170831-MEGARA-MegaraSuccess.fits
+   │       ├── 0001312251-20170831-MEGARA-MegaraSuccess.fits
+   │       ├── master_fiberflat_ones.fits
+   │       └── mbd284211_stis.dat
+   └── M71_MOS_LR-R
+       ├── 1_TraceMap.yaml
+       ├── 2_ModelMap.yaml
+       ├── 3_WaveCalib.yaml
+       ├── 4_FiberFlat.yaml
+       ├── 8_MosImage.yaml
+       └── data
+           ├── 0001288184-20170731-MEGARA-MegaraMosImage.fits
+           ├── 0001288185-20170731-MEGARA-MegaraMosImage.fits
+           ├── 0001288186-20170731-MEGARA-MegaraMosImage.fits
+           ├── 0001288245-20170801-MEGARA-MegaraSuccess.fits
+           ├── 0001288246-20170801-MEGARA-MegaraSuccess.fits
+           ├── 0001288247-20170801-MEGARA-MegaraSuccess.fits
+           ├── 0001312279-20170831-MEGARA-MegaraSuccess.fits
+           ├── 0001312280-20170831-MEGARA-MegaraSuccess.fits
+           ├── 0001312281-20170831-MEGARA-MegaraSuccess.fits
+           └── master_fiberflat_ones.fits
+   
+   5 directories, 51 files
 
 Note that the ``tree`` command shown above might not be available in certain
 unix distributions (you can use `ls` instead).
 
-Under the ``MEGARA/`` directory we need to have the calibration tree with
-the specific name ``ca3558e3-e50d-4bbc-86bd-da50a0998a48/``, which is the
-string that uniquely identifies the instrument configuration (a
-different name was, for example, used during laboratory integration at
-LICA-UCM). Under the ``MEGARA/`` directory we can also have the requirements
-file named ``control.yaml`` needed to run the pipeline (see section
-:ref:`Running_a_recipe`).
 
-The requirements file ``control.yaml`` contains the path for your ``MEGARA/``
-directory (second line of this file; keyword ``rootdir``),
-and useful information for performing the wavelength calibration of each
-VPH, including the number of arc lines and
-degree of polynomial fit to be used by the wavelength calibration
-recipe. In this file you can also specify the name for the extinction
-curve file used for the flux calibration recipe. This is simply an ASCII
-file with two space-separated columns, one with the wavelength in
-Angstroms and another with the magnitudes of extinction per unit airmass
-at the corresponding wavelength, i.e. the same format used for
-extinction curves within IRAF. We strongly recommend to use the standard
-extinction curve of the Roque de los Muchachos Observatory (file
-``extinction_LP.txt`` under the ``data`` subdirectory; see below).
+Data organization
+=================
 
-.. literalinclude:: files/control.yaml
-   :language: yaml
-   :linenos:
-   :lineno-start: 1
+Before starting the reduction procedure, it is important to initialize the
+calibration tree. Since February 2026, this procedure has been simplified
+through the introduction of a new script, ``megaradrp-inittree``.
 
-Another fundamental function of the calibration tree
-(``ca3558e3-e50d-4bbc-86bd-da50a0998a48/``) is to host the calibration
-products that will be used by the corresponding recipes, such as the
-**MasterBias**, **MasterFiberFlat**, **MasterSensitivity**, etc. Thus, once the
-files for these calibrations are generated, they should be copied under
-this calibration tree according structure below. Since the DRP would
-read the first file in alphabetical order inside the corresponding
-folder, we recommend to place only one file in each folder.
+This process is illustrated below using the M15 data set as an example.
 
 .. code-block:: console
 
-   (megara) $ tree -L 2 ca3558e3-e50d-4bbc-86bd-da50a0998a48
+   (megara) $ cd M15_LCB_HR-R
+   (megara) $ megaradrp-inittree
 
 .. code-block:: console
    :class: my-special-block no-copybutton
 
-   ca3558e3-e50d-4bbc-86bd-da50a0998a48
+   ────────────── Megara DRP - Calibration Data Tree Initialization ───────────────
+   Creating calibration data tree structure under base path: calibrations          
+   Downloading and installing calibration data from:                               
+   https://zenodo.org/records/18623771/files/guaix-ucm/megaradrp-calibrations-2026.
+   2.zip                                                                           
+   Downloading data from 'https://zenodo.org/records/18623771/files/guaix-ucm/megaradrp-calibrations-2026.2.zip' to file '/Users/cardiel/w/GTC/megara/20260223_megara-cookbook-v3/work/megara-cookbook-v3/M15_LCB_HR-R/calibrations/calibration_data.zip'.
+   100%|████████████████████████████████████████| 106k/106k [00:00<00:00, 887MB/s]
+   Unzipping contents of '/Users/cardiel/w/GTC/megara/20260223_megara-cookbook-v3/work/megara-cookbook-v3/M15_LCB_HR-R/calibrations/calibration_data.zip' to '/Users/cardiel/w/GTC/megara/20260223_megara-cookbook-v3/work/megara-cookbook-v3/M15_LCB_HR-R/calibrations/.'
+   Found directory to strip: 'guaix-ucm-megaradrp-calibrations-40fb7c2/'           
+   Moving files to base path: 'calibrations'                                       
+   Stripping fixed part of the path: 'guaix-ucm-megaradrp-calibrations-40fb7c2/'   
+   Removing extracted directory:                                                   
+   calibrations/guaix-ucm-megaradrp-calibrations-40fb7c2                           
+   Removing downloaded zip file: calibrations/calibration_data.zip                 
+   Creating new configuration file:                                                
+   /Users/janedoe/work/megara-cookbook-v3/M15_LCB_HR-R/.numina.cfg                                                        
+   Configuration file updated:                                                     
+   /Users/janedoe/work/megara-cookbook-v3/M15_LCB_HR-R/.numina.cfg                                                        
+   Calibration data tree structure created under base path: ./calibrations         
+   ──────────────── Calibration Data Tree Initialization Completed ────────────────
+
+After executing the last script, a new subdirectory ``calibrations`` should
+appear, along with an auxiliary hidden file ``.numina.cfg`` (the contents of
+which can be ignored).
+
+.. code-block:: console
+
+   (megara) $ tree calibrations -L 2
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
+   calibrations
+   └── MEGARA
+       ├── 9f3fecbf-376c-47ae-a188-313b7d829104
+       ├── LICENSE.txt
+       ├── README.md
+       └── ca3558e3-e50d-4bbc-86bd-da50a0998a48
+   
+   4 directories, 2 files
+
+
+The execution of ``megaradrp-inittree`` automatically downloads basic
+calibration files stored at `Zenodo <https://zenodo.org/records/18623771>`_.
+In particular, the files correspond to the instrument status during two
+different epochs:
+
+- ``ca3558e3-e50d-4bbc-86bd-da50a0998a48``: for images obtained before January 2026
+- ``9f3fecbf-376c-47ae-a188-313b7d829104``: for images obtained after January 2026
+
+.. warning::
+
+   Since this cookbook uses data obtained before January 2026, the subdirectory
+   ``calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48`` serves as the
+   root destination path for the various reduced images that will be generated
+   during the reduction procedure. If you are reducing data obtained after
+   January 2026, simply replace
+   ``calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48`` with
+   ``calibrations/MEGARA/9f3fecbf-376c-47ae-a188-313b7d829104``.
+
+For instance, the calibration products generated during the reduction of the
+cookbook data, such as the **MasterBias**, **MasterFiberFlat**,
+**MasterSensitivity**, etc., will be hosted within this calibration tree. Thus,
+once the files for these calibrations are generated, they should be copied
+under this calibration tree according structure below.
+
+.. code-block:: console
+
+   (megara) $ tree -L 2 calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
+   calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48
    ├── LinesCatalog
    │   ├── ThAr
    │   └── ThNe
    ├── MasterBPM
-   │   └── master_bpm.fits
+   │   └── master_bpm.fits.gz
    ├── MasterBias
    ├── MasterFiberFlat
    │   ├── LCB
@@ -138,6 +242,8 @@ folder, we recommend to place only one file in each folder.
    ├── ModelMap
    │   ├── LCB
    │   └── MOS
+   ├── ReferenceExtinctionTable
+   │   └── extinction_LP.txt
    ├── TraceMap
    │   ├── LCB
    │   └── MOS
@@ -145,18 +251,6 @@ folder, we recommend to place only one file in each folder.
        ├── LCB
        └── MOS
    
-
-The content for the LinesCatalog/ is specific for each VPH (line lists
-for all VPHs can be found at
-https://zenodo.org/record/2270518). In the following
-example the calibration files for the HR-R (LCB observing mode) and LR-R
-(MOS observing mode) VPHs are shown. When other VPHs are used, the user
-just needs to create the corresponding folders. It is recommended to
-have only one file in each calibration directory. For example, for the
-same VPH you can have several ``master_traces.json`` files with the
-information to trace the fibers light through the detector at the same
-day but at different ambient temperatures.
-
 Different files can be stored at the same directory, but the DRP is
 going to use the first file it encounters in alphabetical order. The
 user can name the desired file with prefix ``00_`` (e.g.
@@ -165,114 +259,27 @@ DRP. Note that the sorting of files named ``00_`` and ``000_`` might
 be different for the operative system and for the MEGARA DRP, so avoid
 making abusive use of these prefixes.
 
-An example of calibration tree with some additional calibration files is the
-following:
+**Your raw data should always be included in a subdirectory named** ``data/``
+within each working target directory (M15, M71, etc.). Images could be stored
+gzipped but then the observation-result files should list the images with the
+.gz extension.  The different observation-result files (``*.yaml``) used during
+the data reduction process should be also located within each target directory
+as they will be different for each target. In this example, the
+observation-result files in YAML format are named with a first number related
+in which order they are run.
 
 .. code-block:: console
 
-   (megara) $ tree ca3558e3-e50d-4bbc-86bd-da50a0998a48/ -L 4
-
-.. code-block:: console
-   :class: my-special-block no-copybutton
-
-   ca3558e3-e50d-4bbc-86bd-da50a0998a48/
-   ├── LinesCatalog
-   │   ├── ThAr
-   │   │   ├── LR-R
-   │   │   │   └── LR-R_ThAr.lis
-   │   │   .
-   │   │   .
-   │   │   .
-   │   └── ThNe
-   │       ├── HR-R
-   │       │   └── HR-R_ThNe.lis
-   │       .
-   │       .
-   │       .
-   ├── MasterBPM
-   │   └── master_bpm.fits
-   ├── MasterBias
-   │   └── master_bias.fits
-   ├── MasterFiberFlat
-   │   ├── LCB
-   │   │   └── HR-R
-   │   │       └── master_fiberflat.fits
-   │   └── MOS
-   │       └── LR-R
-   │           └── master_fiberflat.fits
-   ├── MasterSensitivity
-   │   ├── LCB
-   │   │   └── HR-R
-   │   │       └── master_sensitivity.fits
-   │   └── MOS
-   │       └── LR-R
-   │           └── master_sensitivity.fits
-   ├── MasterSlitFlat
-   │  
-   ├── MasterTwilightFlat
-   │   └── LCB
-   │       └── HR-R
-   │           └── master_twilightflat.fits
-   ├── ModelMap
-   │   ├── LCB
-   │   │   └── HR-R
-   │   │       └── master_model.json
-   │   └── MOS
-   │       └── LR-R
-   │           └── master_model.json
-   ├── TraceMap
-   │   ├── LCB
-   │   │   └── HR-R
-   │   │       └── master_traces.json
-   │   └── MOS
-   │       └── LR-R
-   │           └── master_traces.json
-   └── WavelengthCalibration
-       ├── LCB
-       │   └── HR-R
-       │       └── master_wlcalib.json
-       └── MOS
-           └── LR-R
-               └── master_wlcalib.json
- 
-Furthermore, the user’s ``MEGARA/`` directory can contain data for your
-targets under different directories (in this example our targets are the
-M15 and M71 globular clusters). **Your raw data should always be
-included in a subdirectory named** ``data/`` within each working target
-directory (M15, M71, etc.). Images could be stored gzipped but then the
-observation-result files should list the images with the .gz extension.
-The different observation-result files (``*.yaml``) used during the data
-reduction process should be also located within each target directory as
-they will be different for each target. In this example, the
-observation-result files in YAML format are named with a first number
-related in which order they are run.
-
-.. code-block:: console
-
-   (megara) $ tree M15_LCB_HR-R 
+   (megara) $ cd M15_LCB_HR-R 
+   (megara) $ ls
 
 .. code-block:: console
    :class: my-special-block no-copybutton
 
-   M15_LCB_HR-R
-   ├── 0_Bias.yaml
-   ├── 1_TraceMap.yaml
-   ├── 2_ModelMap.yaml
-   ├── 3_WaveCalib.yaml
-   ├── 3_WaveCalib_check.yaml
-   ├── 4_FiberFlat.yaml
-   ├── 5_TwilightFlat.yaml
-   ├── 6_LcbAdquisition.yaml
-   ├── 7_StandardStar.yaml
-   ├── 8_LcbImage.yaml
-   └── data
-       ├── 0001251794-20170626-MEGARA-MegaraLCBImage.fits
-       ├── 0001251795-20170626-MEGARA-MegaraLCBImage.fits
-       ├── ...
-       ├── 0001312250-20170831-MEGARA-MegaraSuccess.fits
-       ├── 0001312251-20170831-MEGARA-MegaraSuccess.fits
-       ├── extinction_LP.txt
-       └── mbd284211_stis.dat
+   0_Bias.yaml             3_WaveCalib_check.yaml  7_StandardStar.yaml
+   1_TraceMap.yaml         4_FiberFlat.yaml        8_LcbImage.yaml
+   2_ModelMap.yaml         5_TwilightFlat.yaml     calibrations/
+   3_WaveCalib.yaml        6_LcbAdquisition.yaml   data/
 
 .. _Running_a_recipe:
 
@@ -289,11 +296,10 @@ The MEGARA DRP is run through a command line interface provided by
 
    ::
    
-      (megara) $ numina run <observation_result_file.yaml> -r <requirements_file.yaml>
+      (megara) $ numina run <observation_result_file.yaml>
 
    where ``<observation_result_file.yaml>`` is an observation result file in 
-   YAML format, and ``<requirements_files.yaml>`` is a requirements file, also 
-   in YAML format (this file is named ``control.yaml``).
+   YAML format.
 
    YAML is a human-readable data serialization language (for details see 
    `YAML Syntax
@@ -304,13 +310,11 @@ The run mode of ``numina`` requires:
 
 -  An observation-result file in YAML format.
 
--  A requirements file in YAML format (``control.yaml``).
-
 -  The raw images obtained as part of the user’s observing block.
 
 -  The calibrations required by the recipe.
 
-The observation-result file and the requirements file are created by the
+The observation-result files are created by the
 user. This is an example of the observation result file to compute the
 fibers traces ``1_TraceMap.yaml`` under the subdirectory ``M15_LCB-HR-R``:
 
@@ -374,7 +378,7 @@ observation-result files (``*.yaml``):
 .. code-block:: console
    :class: my-special-block no-copybutton
 
-   /Users/janedoe/megara-cookbook-v2/MEGARA/M15_LCB_HR-R
+   /Users/janedoe/megara-cookbook-v3/M15_LCB_HR-R
 
 .. code-block:: console
 
@@ -390,12 +394,11 @@ observation-result files (``*.yaml``):
    
 
 If we want to run the recipe **MegaraTraceMap** using the observing-result file
-``1_TraceMap.yaml``, with the requirements file ``control.yaml`` (the latter
-located in the directory above the current one), we should execute:
+``1_TraceMap.yaml`` we should execute:
 
 .. code-block:: console
 
-   (megara) $ numina run 1_TraceMap.yaml -r ../control.yaml
+   (megara) $ numina run 1_TraceMap.yaml
 
 When disk space is an issue, it is possible to execute ``numina`` indicating
 that links (instead of actual copies of the original raw files) must be placed
@@ -404,7 +407,7 @@ parameter ``--link-files``:
 
 .. code-block:: console
 
-   (megara) $ numina run 1_TraceMap.yaml --link-files -r ../control.yaml
+   (megara) $ numina run 1_TraceMap.yaml --link-files
 
 *Note:* in recent versions of ``numina`` this is no longer necessary since the
 default behavior assumes ``--link-files``.
@@ -422,7 +425,9 @@ Other useful **numina** commands include:
 
    (megara) $ numina run -h
 
-   (megara) $ numina run 1_TraceMap.yaml -r ../control.yaml –enable <block_id>
+   (megara) $ numina run 1_TraceMap.yaml –enable <block_id>
+
+   (megara) $ numina -d run 1_TraceMap.yaml
 
 
 .. _Data_reduction_process:
@@ -442,7 +447,7 @@ target M15:
 .. code-block:: console
    :class: my-special-block no-copybutton
 
-   /Users/janedoe/megara-cookbook-v2/MEGARA/M15_LCB_HR-R
+   /Users/janedoe/megara-cookbook-v3/MEGARA/M15_LCB_HR-R
 
 You can easily examine the header of the FITS images using the astropy utility
 ``fitsheader``:
@@ -451,7 +456,7 @@ You can easily examine the header of the FITS images using the astropy utility
 
    (megara) $ fitsheader \
    -k VPH -k INSMODE -k OBJECT -k SPECLAMP -k EXPTIME -k DATE-OBS \
-   -f -e 0 data/*.fits
+   -f -e 0 data/0001*.fits
 
 .. code-block:: console
    :class: my-special-block no-copybutton
@@ -522,7 +527,7 @@ The recipe is run as follows,
 
 .. code-block:: console
 
-   (megara) $ numina run 0_Bias.yaml -r ../control.yaml
+   (megara) $ numina run 0_Bias.yaml
 
 and the products are stored in the directory ``obsid0_Bias_results/``,
 including the ``master_bias.fits`` file (see **Figure 4**). 
@@ -544,7 +549,7 @@ including the ``master_bias.fits`` file (see **Figure 4**).
    0001310887-20170827-MEGARA-MegaraBiasImage.fits@
    0001310888-20170827-MEGARA-MegaraBiasImage.fits@
    index.pkl
-   master_bpm.fits@
+   master_bpm.fits.gz@
 
 
 .. code-block:: console
@@ -572,12 +577,21 @@ both amplifiers (instead of adopting a constant value) so the resulting image
 is typically flatter than the example shown here.
 
 The user needs to copy the file ``master_bias.fits`` to the calibration tree at
-``ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterBias/``:
+``calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterBias/``:
 
 .. code-block:: console
 
    (megara) $ cp obsid0_Bias_results/master_bias.fits \
-              ../ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterBias
+      calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterBias/
+
+.. warning::
+
+   Remember: for data obtained after February 2026 you should use
+
+   .. code-block:: console
+
+      (megara) $ cp obsid0_Bias_results/master_bias.fits \
+         calibrations/MEGARA/9f3fecbf-376c-47ae-a188-313b7d829104/MasterBias/
 
 Dark image
 ~~~~~~~~~~
@@ -593,19 +607,18 @@ reduction dark images are neither needed nor used.
 Bad-pixels Mask
 ~~~~~~~~~~~~~~~
 
-Although science-grade CCD detectors show very few bad pixels / bad
-columns there will be a number of pixels (among the ~17 Million pixels
-in the MEGARA CCD) whose response could not be corrected by means of
-using calibration images such as dark frames or flat-field images. These
-pixels, commonly called either dead or hot pixels, should be identified
-and masked so their expected signal could be derived using dithered
-images or, alternatively, locally interpolated. The user is provided
-with a Bad-Pixels Mask (BPM) named ``master_bpm.fits`` and located at
-``ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterBPM/`` that was generated as
-part of the AIV activities by processing a set of defocused continuum
-flat images. This image can be also found at
-https://zenodo.org/record/2270518. Currently, MEGARA
-presents only one (partial) bad column of 120 pixels in length.
+Although science-grade CCD detectors show very few bad pixels / bad columns
+there will be a number of pixels (among the ~17 Million pixels in the MEGARA
+CCD) whose response could not be corrected by means of using calibration images
+such as dark frames or flat-field images. These pixels, commonly called either
+dead or hot pixels, should be identified and masked so their expected signal
+could be derived using dithered images or, alternatively, locally interpolated.
+The user is provided with a Bad-Pixels Mask (BPM) named ``master_bpm.fits.gz``
+and located at
+``calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterBPM/`` that
+was generated as part of the AIV activities by processing a set of defocused
+continuum flat images.  Currently, MEGARA presents only one (partial) bad
+column of 120 pixels in length.
 
 Slit Flat correction
 ~~~~~~~~~~~~~~~~~~~~
@@ -658,7 +671,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 1_TraceMap.yaml -r ../control.yaml
+   (megara) $ numina run 1_TraceMap.yaml
 
 Images listed in the observation-result file are trimmed and corrected
 from overscan, bad-pixel mask (if ``master_bpm.fits`` is present in the
@@ -718,7 +731,7 @@ polynomial are stored in the final ``master_traces.json`` file.
    frontiers_between_pseudoslits.png
    index.pkl
    master_bias.fits@
-   master_bpm.fits@
+   master_bpm.fits.gz@
    offset_borders_cross.png
    reduced_image.fits
 
@@ -761,9 +774,9 @@ using of the additional parameter ``--rawimage``:
               data/0001312246-20170831-MEGARA-MegaraSuccess.fits \
               obsid1_TraceMap_HR-R_results/master_traces.json
 
-respectively for the reduced and raw images. Another way to check the
-tracing is by overplotting the **ds9** region files created by the DRP for
-the traces on top of this ``reduced_image.fits`` by doing (syntax might vary):
+Another way to check the tracing is by overplotting the **ds9** region files
+created by the DRP for the traces on top of this ``reduced_image.fits`` by
+doing (syntax might vary):
 
 .. code-block:: console
 
@@ -781,7 +794,16 @@ corresponds to the VPH HR-R (LCB mode):
 .. code-block:: console
 
    (megara) $ cp obsid1_TraceMap_HR-R_results/master_traces.json \
-              ../ca3558e3-e50d-4bbc-86bd-da50a0998a48/TraceMap/LCB/HR-R
+      calibratons/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48/TraceMap/LCB/HR-R/
+
+.. warning::
+
+   Remember: for data obtained after February 2026 you should use
+
+   .. code-block:: console
+
+      (megara) $ cp obsid1_TraceMap_HR-R_results/master_traces.fits \
+         calibrations/MEGARA/9f3fecbf-376c-47ae-a188-313b7d829104/TraceMap/LCB/HR-R/
 
 Model map
 ^^^^^^^^^
@@ -802,7 +824,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 2_ModelMap.yaml -r ../control.yaml
+   (megara) $ numina run 2_ModelMap.yaml
 
 This processing step might take several minutes (from 10-40 min.)
 depending on the hardware used. When a model map is used the running
@@ -880,7 +902,16 @@ place at the calibration tree.
 .. code-block:: console
 
    (megara) $ cp obsid2_ModelMap_HR-R_results/master_model.json \
-              ../ca3558e3-e50d-4bbc-86bd-da50a0998a48/ModelMap/LCB/HR-R
+      calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48/ModelMap/LCB/HR-R
+
+.. warning::
+
+   Remember: for data obtained after February 2026 you should use
+
+   .. code-block:: console
+
+      (megara) $ cp obsid2_ModelMap_HR-R_results/master_model.json \
+         calibrations/MEGARA/9f3fecbf-376c-47ae-a188-313b7d829104/ModelMap/LCB/HR-R/
 
 .. _Wavelength_Calibration:
 
@@ -929,32 +960,21 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 3_WaveCalib.yaml -r ../control.yaml
+   (megara) $ numina run 3_WaveCalib.yaml
 
 Images provided in ``3_WaveCalib.yaml`` are trimmed and corrected from
 overscan, bad-pixel mask (if ``master_bpm.fits`` is present in the calibration
-tree), bias and dark
-current (if ``master_dark.fits`` is present). The corrected images are then
-stacked using a median. The result of the combination of these images is
-saved as an intermediate result, named ``reduced_image.fits``. The
-apertures in the 2D image are extracted, using the information in
-``master_traces.json`` (or in the ``model_map.json`` if this file is present
-at the calibration tree) and the ``extraction_offset`` parameter set in
-the ``3_WaveCalib.yaml``. The result of the extraction is saved as an
-intermediate result named ``reduced_rss.fits``. The requirement file
-``control.yaml`` has useful information for the wavelength calibration.
-For each fiber in the reduced RSS, the peaks are detected and sorted by
-peak intensity. Then, a total of *nlines* as listed in the
-``control.yaml`` file are used to select the brightest peaks. If it is a
-list, then the peaks are divided, by their position, in as many groups
-as elements in the list, and ``nlines[0]`` peaks are selected in the first
-group, ``nlines[1]`` peaks in the second, etc. The selected peaks are then
-matched against the catalog of lines located in the calibration tree at
-``ca3558e3-e50d-4bbc-86bd-da50a0998a48/LinesCatalog/``. The wavelengths of
-the matched features are fitted to a polynomial of degree equal to
-``polynomial_degree``. The matched lines, the quality of the match and
-other relevant information such as the coefficients of the polynomial
-are stored in the final ``master_wlcalib.json`` for each fiber.
+tree), bias and dark current (if ``master_dark.fits`` is present). The
+corrected images are then stacked using a median. The result of the combination
+of these images is saved as an intermediate result, named
+``reduced_image.fits``. The apertures in the 2D image are extracted, using the
+information in ``master_traces.json`` (or in the ``model_map.json`` if this
+file is present at the calibration tree) and the ``extraction_offset``
+parameter set in the ``3_WaveCalib.yaml``. The result of the extraction is
+saved as an intermediate result named ``reduced_rss.fits``.  The matched lines,
+the quality of the match and other relevant information such as the
+coefficients of the polynomial are stored in the final ``master_wlcalib.json``
+for each fiber.
 
 Finally, the recipe returns different products. At the
 ``obsid3_WaveCalib_HR-R_work/`` directory the files ``wavecal_iter1.pdf`` (for
@@ -1011,7 +1031,7 @@ this recipe.
    index.pkl
    initial_master_wlcalib.json
    master_bias.fits@
-   master_bpm.fits@
+   master_bpm.fits.gz@
    reduced_image.fits
    reduced_rss.fits
    refined_wavecal/
@@ -1036,7 +1056,16 @@ directory to the corresponding place at the calibration tree:
 .. code-block:: console
 
    (megara) $ cp obsid3_WaveCalib_HR-R_results/master_wlcalib.json \
-              ../ca3558e3-e50d-4bbc-86bd-da50a0998a48/WavelengthCalibration/LCB/HR-R
+      calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48/WavelengthCalibration/LCB/HR-R/
+
+.. warning::
+
+   Remember: for data obtained after February 2026 you should use
+
+   .. code-block:: console
+
+      (megara) $ cp obsid3_WaveCalib_HR-R_results/master_wlcalib.json \
+         calibrations/MEGARA/9f3fecbf-376c-47ae-a188-313b7d829104/WavelengthCalibration/LCB/HR-R/
 
 To quickly check the wavelength calibration, it is possible to apply the newly
 calculated calibration to the arc image itself. To do this, we can reduce the
@@ -1060,7 +1089,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 3_WaveCalib_check.yaml -r ../control.yaml
+   (megara) $ numina run 3_WaveCalib_check.yaml
 
 The image to be examined is
 ``obsid3_WaveCalib_check_HR-R_results/reduced_rss.fits``. In this image, all
@@ -1068,7 +1097,8 @@ the arc line must appear as perfectly vertical lines.
 
 .. code-block:: console
 
-   (megara) $ numina-ximshow obsid3_WaveCalib_check_HR-R_results/reduced_rss.fits
+   (megara) $ numina-ximshow obsid3_WaveCalib_check_HR-R_results/reduced_rss.fits \
+      --z1z2 100,1000
 
 .. image:: _static/arc_reduced_rss.png
    :width: 6.5in
@@ -1105,7 +1135,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-  (megara) $ numina run 4_FiberFlat.yaml -r ../control.yaml
+  (megara) $ numina run 4_FiberFlat.yaml
 
 All images listed in the observation-result file are trimmed and corrected from
 overscan, bad pixel mask (if ``master_bpm.fits`` is present in the calibration
@@ -1155,7 +1185,7 @@ generated for MEGARA LCB HR-R mode.
    index.pkl
    mask_noinfo.txt
    master_bias.fits@
-   master_bpm.fits@
+   master_bpm.fits.gz@
    reduced_image.fits
    reduced_rss.fits
 
@@ -1175,7 +1205,16 @@ to the corresponding place at the calibration tree:
 .. code-block:: console
 
    (megara) $ cp obsid4_FiberFlat_HR-R_results/master_fiberflat.fits \
-              ../ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterFiberFlat/LCB/HR-R
+      calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterFiberFlat/LCB/HR-R/
+
+.. warning::
+
+   Remember: for data obtained after February 2026 you should use
+
+   .. code-block:: console
+
+      (megara) $ cp obsid4_FiberFlat_HR-R_results/master_fiberflat.fits \
+         calibrations/MEGARA/9f3fecbf-376c-47ae-a188-313b7d829104/MasterFiberFlat/LCB/HR-R/
 
 Illumination correction
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -1227,7 +1266,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 5_TwilightFlat.yaml -r ../control.yaml
+   (megara) $ numina run 5_TwilightFlat.yaml
 
 Images provided in the observation-result file are trimmed and corrected
 from overscan, bad pixel mask (if ``master_bpm`` is present), bias and
@@ -1273,7 +1312,7 @@ generated for MEGARA LCB HR-R mode.
    0001251796-20170626-MEGARA-MegaraLCBImage.fits@
    index.pkl
    master_bias.fits@
-   master_bpm.fits@
+   master_bpm.fits.gz@
    master_fiberflat.fits@
    reduced_image.fits
    reduced_rss.fits
@@ -1296,7 +1335,16 @@ the calibration tree:
 .. code-block:: console
 
    (megara) $ cp obsid5_TwilightFlat_HR-R_results/master_twilightflat.fits \
-              ../ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterTwilightFlat/LCB/HR-R 
+      calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterTwilightFlat/LCB/HR-R/
+
+.. warning::
+
+   Remember: for data obtained after February 2026 you should use
+
+   .. code-block:: console
+
+      (megara) $ cp obsid5_TwilightFlat_HR-R_results/master_twilightflat.fits \
+         calibrations/MEGARA/9f3fecbf-376c-47ae-a188-313b7d829104/MasterTwilightFlat/LCB/HR-R/
 
 Flux calibration
 ~~~~~~~~~~~~~~~~
@@ -1359,7 +1407,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 6_LcbAdquisition.yaml -r ../control.yaml
+   (megara) $ numina run 6_LcbAdquisition.yaml
 
 Images provided in observation-result file are trimmed and corrected from
 overscan, bad pixel mask (if ``master_bpm.fits`` is present in the calibration
@@ -1399,7 +1447,7 @@ then returned both in mm and arcsec. This information is saved in the
    0001286975-20170724-MEGARA-MegaraLcbImage.fits@
    index.pkl
    master_bias.fits@
-   master_bpm.fits@
+   master_bpm.fits.gz@
    master_fiberflat.fits@
    master_twilightflat.fits@
    reduced_image.fits
@@ -1474,12 +1522,11 @@ parameter ``reference_spectrum`` includes a text file where the flux-calibrated
 spectrum in AB magnitudes is provided.  (the format of these files is the same
 as for those found in the ESO spectrophotometric standard stars database
 located at this `ESO web page
-<https://www.eso.org/sci/observing/tools/standards/spectra/>`_). This
-parameter can be also specify in the ``control.yaml``. The
+<https://www.eso.org/sci/observing/tools/standards/spectra/>`_).  The
 ``reference_extinction`` parameter points to the text file with the information
 to apply the atmospheric extinction correction.  (for processing standard-star
-observations this parameter must be defined in either the ``control.yaml`` of
-``7_StandardStar.yaml`` files or the recipe would fail; in the case of the
+observations this parameter must be defined in the
+``7_StandardStar.yaml`` file or the recipe would fail; in the case of the
 **MegaraLcbImage** or **MegarMosImage** recipes this would only imply that the
 processed data would not be corrected for atmospheric extinction).
 
@@ -1501,7 +1548,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 7_StandardStar.yaml -r ../control.yaml
+   (megara) $ numina run 7_StandardStar.yaml
 
 Images provided in the observation-result file are trimmed and corrected from
 overscan, bad pixel mask (if ``master_bpm.fits`` is present in the calibration
@@ -1540,7 +1587,7 @@ atmospheric extinction and compared with the reference spectrum to return the
    0001286975-20170724-MEGARA-MegaraLcbImage.fits@
    index.pkl
    master_bias.fits@
-   master_bpm.fits@
+   master_bpm.fits.gz@
    master_fiberflat.fits@
    master_twilightflat.fits@
    reduced_image.fits
@@ -1581,7 +1628,16 @@ tree:
 .. code-block:: console
 
    (megara) $ cp obsid7_StandardStar_HR-R_results/master_sensitivity.fits \
-              ../ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterSensitivity/LCB/HR-R/
+      calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterSensitivity/LCB/HR-R/
+
+.. warning::
+
+   Remember: for data obtained after February 2026 you should use
+
+   .. code-block:: console
+
+      (megara) $ cp obsid7_StandardStar_HR-R_results/master_sensitivity.fits \
+         calibrations/MEGARA/9f3fecbf-376c-47ae-a188-313b7d829104/MasterSensitivity/LCB/HR-R/
 
 It is worth noting that the ``master_sensitivity.fits`` file includes on
 its header the information on the spectral ranges that are valid in
@@ -1643,16 +1699,17 @@ corresponding scientific observations with recipes **MegaraLcbImage** or
 MOS).
 
 In this case, the observation-result files are named ``8_LcbImage.yaml`` for
-the LCB and ``8_MosImage.yaml`` for the MOS mode, and include a list of all
-the frames obtained for the target. The ``extraction_offset`` parameter can be
+the LCB and ``8_MosImage.yaml`` for the MOS mode, and include a list of all the
+frames obtained for the target. The ``extraction_offset`` parameter can be
 computed as detailed in section :ref:`Wavelength_Calibration`.  The
 ``reference_extinction`` parameter can be provided here if it is not at the
-``control.yaml`` file. The parameter ``ignored_sky_bundles`` contains the sky
-bundle ids to be ignored when the sky spectrum is computed (see sample .yaml
-file below). In the case of LCB observing mode, the dedicated sky-bundles have,
-by default, all ids in the range 93-100.  These bundles (sorted in blocks of
-seven consecutive fibers) correspond to the individual fiber ids and position
-on the sky (for instrument PA set to zero, i.e. NE) listed in Table below.
+default calibration directory. The parameter ``ignored_sky_bundles`` contains
+the sky bundle ids to be ignored when the sky spectrum is computed (see sample
+.yaml file below). In the case of LCB observing mode, the dedicated sky-bundles
+have, by default, all ids in the range 93-100.  These bundles (sorted in blocks
+of seven consecutive fibers) correspond to the individual fiber ids and
+position on the sky (for instrument PA set to zero, i.e. NE) listed in Table
+below.
 
 +----------+---------------------------+-------------+---------------+
 |Sky-bundle| Sky-fibers ids in each    | On-sky      | Distance to   |
@@ -1707,7 +1764,7 @@ Then the recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 8_LcbImage.yaml -r ../control.yaml
+   (megara) $ numina run 8_LcbImage.yaml
 
 Images provided in the observation-result file are trimmed and corrected
 from overscan, bad pixel mask (if ``master_bpm.fits`` is present in the
@@ -1750,7 +1807,7 @@ Notice that ``sky_rss.fits`` is not corrected for extinction.
    0001309957-20170822-MEGARA-MegaraLcbAcquisition.fits@
    index.pkl
    master_bias.fits@
-   master_bpm.fits@
+   master_bpm.fits.gz@
    master_fiberflat.fits@
    master_sensitivity.fits@
    master_twilightflat.fits@

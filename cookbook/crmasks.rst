@@ -164,7 +164,7 @@ The recipe is run by doing:
 
 .. code-block:: console
 
-   (megara) $ numina run 8_generate_crmasks.yaml -r control.yaml
+   (megara) $ numina run 8_generate_crmasks.yaml
 
 From this point, follow the description given in these `examples
 <https://guaix-ucm.github.io/numina-tools/crmasks/crmasks.html#examples>`_,
@@ -262,7 +262,7 @@ thresholds) to evaluate the impact of using different masks.
 
 .. code-block:: console
 
-   (megara) $ numina run 8_LcbImage.yaml -r control.yaml
+   (megara) $ numina run 8_LcbImage.yaml
 
 When using ``method: mediancr``, the MEGARA DRP reads the mask stored in the
 ``MEDIANCR`` extension of the ``crmasks.fits`` file. The masked pixels (those
@@ -333,7 +333,7 @@ described above for the ``mediancr`` combination method.
 Method ``meancr2``
 ------------------
 
-.. literalinclude:: files/8_LcbImage_meancr.yaml
+.. literalinclude:: files/8_LcbImage_meancr2.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
