@@ -1000,6 +1000,22 @@ exposures. Among the requirements, we are using <code class="docutils literal no
 subdirectory that contains a fictitious flatfield image where all values are
 set to 1.0. For the wavelength calibration check, we do not need to use a
 correct master fiberflat image.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If this file is not present if your data directory, you can easily download
+it from <a class="reference external" href="https://guaix.fis.ucm.es/data/megaradrp/master_fiberflat_ones.fits.gz" rel="noreferrer" target="_blank">master_fiberflat_ones.fits.gz</a>,
+or execute</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>curl<span class="w"> </span>-O<span class="w"> </span>https://guaix.fis.ucm.es/data/megaradrp/master_fiberflat_ones.fits.gz
+</pre></div>
+</div>
+<p>Don’t forger to move this file to the <code class="docutils literal notranslate"><span class="pre">data</span></code> subdirectory and uncompress it</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>data
+<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>mv<span class="w"> </span>~/Downloads/master_fiberflat_ones.fits.gz<span class="w"> </span>.
+<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>gunzip<span class="w"> </span>master_fiberflat_ones.fits.gz
+<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>..
+</pre></div>
+</div>
+</div>
 <p>Then the recipe is run by doing:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>3_WaveCalib_check.yaml
 </pre></div>

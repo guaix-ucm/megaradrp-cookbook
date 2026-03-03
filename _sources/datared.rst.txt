@@ -1083,7 +1083,28 @@ exposures. Among the requirements, we are using ``master_fiberflat:
 master_fiberflat_ones.fits``, a special FITS file located in the data
 subdirectory that contains a fictitious flatfield image where all values are
 set to 1.0. For the wavelength calibration check, we do not need to use a
-correct master fiberflat image.
+correct master fiberflat image. 
+
+.. warning::
+
+   If this file is not present if your data directory, you can easily download
+   it from `master_fiberflat_ones.fits.gz
+   <https://guaix.fis.ucm.es/data/megaradrp/master_fiberflat_ones.fits.gz>`_,
+   or execute
+
+   .. code-block:: console
+
+      (megara) $ curl -O https://guaix.fis.ucm.es/data/megaradrp/master_fiberflat_ones.fits.gz
+
+   Don't forger to move this file to the ``data`` subdirectory and uncompress it
+
+   .. code-block:: console
+
+      (megara) $ cd data
+      (megara) $ mv ~/Downloads/master_fiberflat_ones.fits.gz .
+      (megara) $ gunzip master_fiberflat_ones.fits.gz
+      (megara) $ cd ..
+
 
 Then the recipe is run by doing:
 
