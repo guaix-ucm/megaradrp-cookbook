@@ -805,6 +805,35 @@ corresponds to the VPH HR-R (LCB mode):
       (megara) $ cp obsid1_TraceMap_HR-R_results/master_traces.fits \
          calibrations/MEGARA/9f3fecbf-376c-47ae-a188-313b7d829104/TraceMap/LCB/HR-R/
 
+It is possible to force the generation of plots with the individual fits to
+each fiber using the requirement ``debug_plot``. For example,
+
+.. code-block:: yaml
+
+   requirements:
+     debug_plot: 1
+
+By activating these additional plots, the files ``trace-xy-???.png``
+(y-coordinate vs. x-coordinate used to fit the trace of each fiber) and
+``trace-xz-???.png`` (flux vs. x-coordinate) will be stored in the ``work``
+subdirectory.
+
+.. warning::
+
+   When trying to find the traces corresponding to the VPH LR-U, the fits
+   sometimes yield unexpected results. One solution is to restrict the fitting
+   range in the horizontal direction, decrease the polynomial degree, and
+   extrapolate the fit.  This can be accomplished by adjusting the
+   corresponding arguments. A working example is the following:
+
+   .. code-block:: yaml
+
+      requirements:
+        polynomial_degree: 2
+        xmin_fit: 1
+        xmax_fit: 3000
+        extrapolate_traces: True
+
 Model map
 ^^^^^^^^^
 

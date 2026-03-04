@@ -774,6 +774,31 @@ corresponds to the VPH HR-R (LCB mode):</p>
 </pre></div>
 </div>
 </div>
+<p>It is possible to force the generation of plots with the individual fits to
+each fiber using the requirement <code class="docutils literal notranslate"><span class="pre">debug_plot</span></code>. For example,</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">requirements</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">debug_plot</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</pre></div>
+</div>
+<p>By activating these additional plots, the files <code class="docutils literal notranslate"><span class="pre">trace-xy-???.png</span></code>
+(y-coordinate vs. x-coordinate used to fit the trace of each fiber) and
+<code class="docutils literal notranslate"><span class="pre">trace-xz-???.png</span></code> (flux vs. x-coordinate) will be stored in the <code class="docutils literal notranslate"><span class="pre">work</span></code>
+subdirectory.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When trying to find the traces corresponding to the VPH LR-U, the fits
+sometimes yield unexpected results. One solution is to restrict the fitting
+range in the horizontal direction, decrease the polynomial degree, and
+extrapolate the fit.  This can be accomplished by adjusting the
+corresponding arguments. A working example is the following:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">requirements</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">polynomial_degree</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">  </span><span class="nt">xmin_fit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">xmax_fit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3000</span>
+<span class="w">  </span><span class="nt">extrapolate_traces</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</pre></div>
+</div>
+</div>
 </section>
 <section id="model-map">
 <h4>Model map<a class="headerlink" href="#model-map" title="Link to this heading"></a></h4>
