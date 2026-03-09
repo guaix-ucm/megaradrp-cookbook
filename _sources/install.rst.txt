@@ -3,7 +3,7 @@
 DRP installation
 ================
 
-The MEGARA pipeline is a Python package, for Python 3.9 or greater.
+The MEGARA pipeline is a Python package, for Python 3.10 or greater.
 
 The easiest method of installing **megaradrp** is using ``pip`` inside a
 virtual environment. You can install official relares or the development
