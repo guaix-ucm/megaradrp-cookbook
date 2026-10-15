@@ -6,16 +6,17 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Data reduction &mdash; megara-cookbook 2025.05.16 documentation</title>
+  <title>Data reduction &mdash; megara-cookbook 2026.10.15 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-new-tab-link.css?v=d87cb1ac" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ac5f0f31" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=cecfaa16"></script>
+      <script src="_static/documentation_options.js?v=6d569a1a"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -237,12 +238,12 @@ through the introduction of a new script, <code class="docutils literal notransl
 <span class="go">Downloading and installing calibration data from:</span>
 <span class="go">https://zenodo.org/records/18623771/files/guaix-ucm/megaradrp-calibrations-2026.</span>
 <span class="go">2.zip</span>
-<span class="go">Downloading data from &#39;https://zenodo.org/records/18623771/files/guaix-ucm/megaradrp-calibrations-2026.2.zip&#39; to file &#39;/Users/cardiel/w/GTC/megara/20260223_megara-cookbook-v3/work/megara-cookbook-v3/M15_LCB_HR-R/calibrations/calibration_data.zip&#39;.</span>
+<span class="go">Downloading data from 'https://zenodo.org/records/18623771/files/guaix-ucm/megaradrp-calibrations-2026.2.zip' to file '/Users/cardiel/w/GTC/megara/20260223_megara-cookbook-v3/work/megara-cookbook-v3/M15_LCB_HR-R/calibrations/calibration_data.zip'.</span>
 <span class="go">100%|████████████████████████████████████████| 106k/106k [00:00&lt;00:00, 887MB/s]</span>
-<span class="go">Unzipping contents of &#39;/Users/cardiel/w/GTC/megara/20260223_megara-cookbook-v3/work/megara-cookbook-v3/M15_LCB_HR-R/calibrations/calibration_data.zip&#39; to &#39;/Users/cardiel/w/GTC/megara/20260223_megara-cookbook-v3/work/megara-cookbook-v3/M15_LCB_HR-R/calibrations/.&#39;</span>
-<span class="go">Found directory to strip: &#39;guaix-ucm-megaradrp-calibrations-40fb7c2/&#39;</span>
-<span class="go">Moving files to base path: &#39;calibrations&#39;</span>
-<span class="go">Stripping fixed part of the path: &#39;guaix-ucm-megaradrp-calibrations-40fb7c2/&#39;</span>
+<span class="go">Unzipping contents of '/Users/cardiel/w/GTC/megara/20260223_megara-cookbook-v3/work/megara-cookbook-v3/M15_LCB_HR-R/calibrations/calibration_data.zip' to '/Users/cardiel/w/GTC/megara/20260223_megara-cookbook-v3/work/megara-cookbook-v3/M15_LCB_HR-R/calibrations/.'</span>
+<span class="go">Found directory to strip: 'guaix-ucm-megaradrp-calibrations-40fb7c2/'</span>
+<span class="go">Moving files to base path: 'calibrations'</span>
+<span class="go">Stripping fixed part of the path: 'guaix-ucm-megaradrp-calibrations-40fb7c2/'</span>
 <span class="go">Removing extracted directory:</span>
 <span class="go">calibrations/guaix-ucm-megaradrp-calibrations-40fb7c2</span>
 <span class="go">Removing downloaded zip file: calibrations/calibration_data.zip</span>
@@ -275,16 +276,16 @@ calibration files stored at <a class="reference external" href="https://zenodo.o
 In particular, the files correspond to the instrument status during two
 different epochs:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">ca3558e3-e50d-4bbc-86bd-da50a0998a48</span></code>: for images obtained before January 2026</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">9f3fecbf-376c-47ae-a188-313b7d829104</span></code>: for images obtained after January 2026</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ca3558e3-e50d-4bbc-86bd-da50a0998a48</span></code>: for images obtained before February 2026</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">9f3fecbf-376c-47ae-a188-313b7d829104</span></code>: for images obtained after February 2026</p></li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Since this cookbook uses data obtained before January 2026, the subdirectory
+<p>Since this cookbook uses data obtained before February 2026, the subdirectory
 <code class="docutils literal notranslate"><span class="pre">calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48</span></code> serves as the
 root destination path for the various reduced images that will be generated
 during the reduction procedure. If you are reducing data obtained after
-January 2026, simply replace
+February 2026, simply replace
 <code class="docutils literal notranslate"><span class="pre">calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48</span></code> with
 <code class="docutils literal notranslate"><span class="pre">calibrations/MEGARA/9f3fecbf-376c-47ae-a188-313b7d829104</span></code>.</p>
 </div>
@@ -377,9 +378,18 @@ YAML format.</p>
 <p>The observation-result files are created by the
 user. This is an example of the observation result file to compute the
 fibers traces <code class="docutils literal notranslate"><span class="pre">1_TraceMap.yaml</span></code> under the subdirectory <code class="docutils literal notranslate"><span class="pre">M15_LCB-HR-R</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1_TraceMap_HR-R</span>
+<span class="linenos">2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraTraceMap</span>
+<span class="linenos">3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="linenos">4</span><span class="nt">frames</span><span class="p">:</span>
+<span class="linenos">5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312246-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos">6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312247-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos">7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312248-20170831-MEGARA-MegaraSuccess.fits</span>
+</pre></div>
+</div>
 <p>The <code class="docutils literal notranslate"><span class="pre">id:</span></code> is an identifier of the observing block. The DRP will
 create two directories with the products of the recipe (<code class="docutils literal notranslate"><span class="pre">obsid&lt;id&gt;_work/</span></code> and
-<code class="docutils literal notranslate"><span class="pre">obsid&lt;id&gt;_results/</span></code>) using the <code class="docutils literal notranslate"><span class="pre">id</span></code> identifier as an arbitray label to
+<code class="docutils literal notranslate"><span class="pre">obsid&lt;id&gt;_results/</span></code>) using the <code class="docutils literal notranslate"><span class="pre">id</span></code> identifier as an arbitrary label to
 identify
 the corresponding processing block. The <code class="docutils literal notranslate"><span class="pre">mode:</span></code> is the name of the
 instrument observing mode as returned by numina show-modes. In
@@ -438,15 +448,12 @@ observation-result files (<code class="docutils literal notranslate"><span class
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>1_TraceMap.yaml
 </pre></div>
 </div>
-<p>When disk space is an issue, it is possible to execute <code class="docutils literal notranslate"><span class="pre">numina</span></code> indicating
-that links (instead of actual copies of the original raw files) must be placed
-in the <code class="docutils literal notranslate"><span class="pre">obsid&lt;id&gt;_work/</span></code> subdirectory. This behaviour is set using the
-parameter <code class="docutils literal notranslate"><span class="pre">--link-files</span></code>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>1_TraceMap.yaml<span class="w"> </span>--link-files
+<p>By default, <code class="docutils literal notranslate"><span class="pre">numina</span></code> places in the <code class="docutils literal notranslate"><span class="pre">obsid&lt;id&gt;_work/</span></code> subdirectory links to
+the original raw files (and calibrations), instead of actual copies. If you
+prefer copies of the files, use the parameter <code class="docutils literal notranslate"><span class="pre">--copy-files</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>1_TraceMap.yaml<span class="w"> </span>--copy-files
 </pre></div>
 </div>
-<p><em>Note:</em> in recent versions of <code class="docutils literal notranslate"><span class="pre">numina</span></code> this is no longer necessary since the
-default behavior assumes <code class="docutils literal notranslate"><span class="pre">--link-files</span></code>.</p>
 <p>Other useful <strong>numina</strong> commands include:</p>
 <div class="no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>show-modes
 
@@ -456,7 +463,7 @@ default behavior assumes <code class="docutils literal notranslate"><span class=
 
 <span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>-h
 
-<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>1_TraceMap.yaml<span class="w"> </span>–enable<span class="w"> </span>&lt;block_id&gt;
+<span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>1_TraceMap.yaml<span class="w"> </span>--enable<span class="w"> </span>&lt;block_id&gt;
 
 <span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>-d<span class="w"> </span>run<span class="w"> </span>1_TraceMap.yaml
 </pre></div>
@@ -566,7 +573,6 @@ including the <code class="docutils literal notranslate"><span class="pre">maste
 <span class="go">0001310886-20170827-MEGARA-MegaraBiasImage.fits@</span>
 <span class="go">0001310887-20170827-MEGARA-MegaraBiasImage.fits@</span>
 <span class="go">0001310888-20170827-MEGARA-MegaraBiasImage.fits@</span>
-<span class="go">index.pkl</span>
 <span class="go">master_bpm.fits.gz@</span>
 </pre></div>
 </div>
@@ -659,6 +665,15 @@ of the fibers. The result is stored in a file named
 <code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code>.</p>
 <p>An example of the observation result file <code class="docutils literal notranslate"><span class="pre">1_TraceMap.yaml</span></code> to trace the
 fibers is the following:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1_TraceMap_HR-R</span>
+<span class="linenos">2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraTraceMap</span>
+<span class="linenos">3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="linenos">4</span><span class="nt">frames</span><span class="p">:</span>
+<span class="linenos">5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312246-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos">6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312247-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos">7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312248-20170831-MEGARA-MegaraSuccess.fits</span>
+</pre></div>
+</div>
 <p>Then the recipe is run by doing:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>1_TraceMap.yaml
 </pre></div>
@@ -712,7 +727,6 @@ polynomial are stored in the final <code class="docutils literal notranslate"><s
 <span class="go">ds9.reg</span>
 <span class="go">ds9_raw.reg</span>
 <span class="go">frontiers_between_pseudoslits.png</span>
-<span class="go">index.pkl</span>
 <span class="go">master_bias.fits@</span>
 <span class="go">master_bpm.fits.gz@</span>
 <span class="go">offset_borders_cross.png</span>
@@ -763,13 +777,13 @@ star and object images).</p>
 corresponding place at the calibration tree. In this case, this trace map
 corresponds to the VPH HR-R (LCB mode):</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>cp<span class="w"> </span>obsid1_TraceMap_HR-R_results/master_traces.json<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>calibratons/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48/TraceMap/LCB/HR-R/
+<span class="w">   </span>calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48/TraceMap/LCB/HR-R/
 </pre></div>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Remember: for data obtained after February 2026 you should use</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>cp<span class="w"> </span>obsid1_TraceMap_HR-R_results/master_traces.fits<span class="w"> </span><span class="se">\</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>cp<span class="w"> </span>obsid1_TraceMap_HR-R_results/master_traces.json<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>calibrations/MEGARA/9f3fecbf-376c-47ae-a188-313b7d829104/TraceMap/LCB/HR-R/
 </pre></div>
 </div>
@@ -807,6 +821,15 @@ Map</em> or <em>Fiber Flat</em> modes and returns the fiber profile information
 required to perform <strong>advanced</strong> fiber extraction in other recipes.</p>
 <p>The set of files listed in the observation-result file <code class="docutils literal notranslate"><span class="pre">2_ModelMap.yaml</span></code>
 is the same one used for the Trace Map.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2_ModelMap_HR-R</span>
+<span class="linenos">2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraModelMap</span>
+<span class="linenos">3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="linenos">4</span><span class="nt">frames</span><span class="p">:</span>
+<span class="linenos">5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312246-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos">6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312247-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos">7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312248-20170831-MEGARA-MegaraSuccess.fits</span>
+</pre></div>
+</div>
 <p>Then the recipe is run by doing:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>2_ModelMap.yaml
 </pre></div>
@@ -854,7 +877,6 @@ shown on top.</p>
 <span class="go">...</span>
 <span class="go">fib_622_mean.png</span>
 <span class="go">fib_622_std.png</span>
-<span class="go">index.pkl</span>
 <span class="go">master_bias.fits@</span>
 <span class="go">master_bpm.fits@</span>
 <span class="go">reduced_image.fits</span>
@@ -912,6 +934,18 @@ parameter.</p>
 <p>In this case, the observation-result file is called <code class="docutils literal notranslate"><span class="pre">3_WaveCalib.yaml</span></code>.
 In the example below, three frames for arc lamp exposures are included
 and the offset for the extraction is set to 0 pixels:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3_WaveCalib_HR-R</span>
+<span class="linenos"> 2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraArcCalibration</span>
+<span class="linenos"> 3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="linenos"> 4</span><span class="nt">frames</span><span class="p">:</span>
+<span class="linenos"> 5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312249-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos"> 6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312250-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos"> 7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312251-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos"> 8</span><span class="nt">requirements</span><span class="p">:</span>
+<span class="linenos"> 9</span><span class="w"> </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0</span><span class="p p-Indicator">]</span>
+<span class="linenos">10</span><span class="w"> </span><span class="nt">store_pdf_with_refined_fits</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</pre></div>
+</div>
 <p>Then the recipe is run by doing:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>3_WaveCalib.yaml
 </pre></div>
@@ -922,7 +956,7 @@ tree), bias and dark current (if <code class="docutils literal notranslate"><spa
 corrected images are then stacked using a median. The result of the combination
 of these images is saved as an intermediate result, named
 <code class="docutils literal notranslate"><span class="pre">reduced_image.fits</span></code>. The apertures in the 2D image are extracted, using the
-information in <code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (or in the <code class="docutils literal notranslate"><span class="pre">model_map.json</span></code> if this
+information in <code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (or in the <code class="docutils literal notranslate"><span class="pre">master_model.json</span></code> if this
 file is present at the calibration tree) and the <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code>
 parameter set in the <code class="docutils literal notranslate"><span class="pre">3_WaveCalib.yaml</span></code>. The result of the extraction is
 saved as an intermediate result named <code class="docutils literal notranslate"><span class="pre">reduced_rss.fits</span></code>.  The matched lines,
@@ -945,10 +979,10 @@ wavelength calibration polynomial against the fiber number. Fibers whose
 wavelength calibration polynomial does not fit the expected smooth variation of
 the coefficients are automatically detected. In such cases, an interpolated
 polynomial is used, which provides very good results. The results of this
-refinment are graphically stored in the file <code class="docutils literal notranslate"><span class="pre">wavecal_refine_iter1.pdf</span></code>.</p>
+refinement are graphically stored in the file <code class="docutils literal notranslate"><span class="pre">wavecal_refine_iter1.pdf</span></code>.</p>
 <a class="reference internal image-reference" href="_images/image16.png"><img alt="_images/image16.png" src="_images/image16.png" style="width: 5.91667in; height: 4.14792in;" />
 </a>
-<p><strong>Figure 8:</strong> Some of the plots included in the <code class="docutils literal notranslate"><span class="pre">wavecalib_iter2.pdf</span></code> file
+<p><strong>Figure 8:</strong> Some of the plots included in the <code class="docutils literal notranslate"><span class="pre">wavecal_iter2.pdf</span></code> file
 generated with the <strong>MegaraArcCalibration</strong> recipe.</p>
 <p>Should the user set the <code class="docutils literal notranslate"><span class="pre">store_pdf_with_refined_fits</span></code> parameter to
 <code class="docutils literal notranslate"><span class="pre">store_pdf_with_refined_fits:</span> <span class="pre">1</span></code> at the <code class="docutils literal notranslate"><span class="pre">3_WaveCalib.yaml</span></code>, the recipe will
@@ -958,7 +992,7 @@ information about the refined wavelength calibration (see <strong>Figure 9</stro
 <a class="reference internal image-reference" href="_images/image17.png"><img alt="_images/image17.png" src="_images/image17.png" style="width: 5.41667in; height: 3.83125in;" />
 </a>
 <p><strong>Figure 9:</strong> Example of the refined wavelength calibration result for
-fiber #310. This kind of file (<code class="docutils literal notranslate"><span class="pre">310.pdf</span></code> at <code class="docutils literal notranslate"><span class="pre">refined_wavecalib/</span></code> in this
+fiber #310. This kind of file (<code class="docutils literal notranslate"><span class="pre">310.pdf</span></code> at <code class="docutils literal notranslate"><span class="pre">refined_wavecal/</span></code> in this
 case) is generated when the parameter <code class="docutils literal notranslate"><span class="pre">store_pdf_with_refined_fits</span></code> is
 set to 1. This requirement should be set to 0 for a faster execution of
 this recipe.</p>
@@ -968,7 +1002,6 @@ this recipe.</p>
 <div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">0001312249-20170831-MEGARA-MegaraSuccess.fits@</span>
 <span class="go">0001312250-20170831-MEGARA-MegaraSuccess.fits@</span>
 <span class="go">0001312251-20170831-MEGARA-MegaraSuccess.fits@</span>
-<span class="go">index.pkl</span>
 <span class="go">initial_master_wlcalib.json</span>
 <span class="go">master_bias.fits@</span>
 <span class="go">master_bpm.fits.gz@</span>
@@ -1069,6 +1102,17 @@ illuminating the instrument focal plane with a flat spectral source
 Instrument Calibration Module (ICM).</p>
 <p>In this case, we called the observation result file <code class="docutils literal notranslate"><span class="pre">4_FiberFlat.yaml</span></code>,
 where a total of three continuum halogen exposures are included:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4_FiberFlat_HR-R</span>
+<span class="linenos">2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraFiberFlatImage</span>
+<span class="linenos">3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="linenos">4</span><span class="nt">frames</span><span class="p">:</span>
+<span class="linenos">5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312246-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos">6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312247-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos">7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001312248-20170831-MEGARA-MegaraSuccess.fits</span>
+<span class="linenos">8</span><span class="nt">requirements</span><span class="p">:</span>
+<span class="linenos">9</span><span class="w"> </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
 <p>If the inputs frames are the same used to trace the fiber spectra on the
 detector for the same specific spectral setup, the <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code>
 parameter should be set to 0 pixels. If that is note the case the offset should
@@ -1084,7 +1128,7 @@ from pixel-to-pixel flat if <code class="docutils literal notranslate"><span cla
 images are then stacked using a median. The result of the combination is saved
 as an intermediate result, named <code class="docutils literal notranslate"><span class="pre">reduced_image.fits</span></code>.</p>
 <p>The apertures in the 2D image are extracted, using the information in
-<code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (or in the <code class="docutils literal notranslate"><span class="pre">model_map.json</span></code> if this file is present
+<code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (or in the <code class="docutils literal notranslate"><span class="pre">master_model.json</span></code> if this file is present
 at the calibration tree) and the <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> parameter set in
 the <code class="docutils literal notranslate"><span class="pre">4_FiberFlat.yaml</span></code>, and then it is resampled according to the
 wavelength calibration in <code class="docutils literal notranslate"><span class="pre">master_wlcalib.json</span></code>. The resulting RSS is
@@ -1111,7 +1155,6 @@ generated for MEGARA LCB HR-R mode.</p>
 <span class="go">0001312248-20170831-MEGARA-MegaraSuccess.fits@</span>
 <span class="go">collapse.txt</span>
 <span class="go">collapsed_smooth.png</span>
-<span class="go">index.pkl</span>
 <span class="go">mask_noinfo.txt</span>
 <span class="go">master_bias.fits@</span>
 <span class="go">master_bpm.fits.gz@</span>
@@ -1197,7 +1240,7 @@ pixel-to-pixel flat if <code class="docutils literal notranslate"><span class="p
 images are then stacked using a median. The result of the combination is
 saved as an intermediate result, named <code class="docutils literal notranslate"><span class="pre">reduced_image.fits</span></code>.</p>
 <p>The apertures in the 2D image are extracted, using the information in
-<code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (or in the <code class="docutils literal notranslate"><span class="pre">model_map.json</span></code> if this file is present
+<code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (or in the <code class="docutils literal notranslate"><span class="pre">master_model.json</span></code> if this file is present
 at the calibration tree) and the <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> parameter set in
 the <code class="docutils literal notranslate"><span class="pre">5_TwilightFlat.yaml</span></code>, and then it is resampled according to the
 wavelength calibration in <code class="docutils literal notranslate"><span class="pre">master_wlcalib.json</span></code>. Then, the result is
@@ -1224,7 +1267,6 @@ generated for MEGARA LCB HR-R mode.</p>
 <div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">0001251794-20170626-MEGARA-MegaraLCBImage.fits@</span>
 <span class="go">0001251795-20170626-MEGARA-MegaraLCBImage.fits@</span>
 <span class="go">0001251796-20170626-MEGARA-MegaraLCBImage.fits@</span>
-<span class="go">index.pkl</span>
 <span class="go">master_bias.fits@</span>
 <span class="go">master_bpm.fits.gz@</span>
 <span class="go">master_fiberflat.fits@</span>
@@ -1300,6 +1342,17 @@ star will be later recovered.</p>
 <p>In this case, the observation-result file for determining the star
 centroid is <code class="docutils literal notranslate"><span class="pre">6_LcbAdquisition.yaml</span></code>, where three frames for
 spectrophotometric standard star exposures are here listed:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6_LcbImage_HR-R</span>
+<span class="linenos">2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraLcbAcquisition</span>
+<span class="linenos">3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="linenos">4</span><span class="nt">frames</span><span class="p">:</span>
+<span class="linenos">5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001286973-20170724-MEGARA-MegaraLcbImage.fits</span>
+<span class="linenos">6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001286974-20170724-MEGARA-MegaraLcbImage.fits</span>
+<span class="linenos">7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001286975-20170724-MEGARA-MegaraLcbImage.fits</span>
+<span class="linenos">8</span><span class="nt">requirements</span><span class="p">:</span>
+<span class="linenos">9</span><span class="w"> </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+4.5</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
 <p>The <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> parameter can be computed as detailed in section
 <a class="reference internal" href="#wavelength-calibration"><span class="std std-ref">Wavelength Calibration</span></a>.</p>
 <p>Then the recipe is run by doing:</p>
@@ -1313,7 +1366,7 @@ from pixel-to-pixel flat if <code class="docutils literal notranslate"><span cla
 images are then stacked using a median. The result of the combination is saved
 as an intermediate result, named <code class="docutils literal notranslate"><span class="pre">reduced_image.fits</span></code>.</p>
 <p>The apertures in the 2D image are extracted, using the information in
-<code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (or in the <code class="docutils literal notranslate"><span class="pre">model_map.json</span></code> if this file is present
+<code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (or in the <code class="docutils literal notranslate"><span class="pre">master_model.json</span></code> if this file is present
 at the calibration tree) and the <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> parameter set in
 the <code class="docutils literal notranslate"><span class="pre">6_LcbAdquisition.yaml</span></code>, and then it is resampled according to the
 wavelength calibration in <code class="docutils literal notranslate"><span class="pre">master_wlcalib.json</span></code>. Then it is divided by
@@ -1322,20 +1375,19 @@ result named <code class="docutils literal notranslate"><span class="pre">reduce
 <p>The sky is subtracted by combining the 56 fibers dedicated for this
 purpose in the LCB mode. The RSS with sky subtracted is saved in a file
 named <code class="docutils literal notranslate"><span class="pre">final_rss.fits</span></code> as a result of the recipe. Then, the centroids
-around both the center of the field and the brighest spaxel are computed
+around both the center of the field and the brightest spaxel are computed
 using up the signal from the 3 rings of fibers (37 fibers in total)
 around these two spaxels. The offsets needed to center the object
 (considered to be either the centroid around the central spaxel or, more
 likely, around the brightest spaxel) in the center of the LCB field are
 then returned both in mm and arcsec. This information is saved in the
-<code class="docutils literal notranslate"><span class="pre">processing.log</span></code> file at the <code class="docutils literal notranslate"><span class="pre">obsid6_LcbImage_HR-R_result/</span></code> directory.</p>
+<code class="docutils literal notranslate"><span class="pre">processing.log</span></code> file at the <code class="docutils literal notranslate"><span class="pre">obsid6_LcbImage_HR-R_results/</span></code> directory.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid6_LcbImage_HR-R_work/
 </pre></div>
 </div>
 <div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">0001286973-20170724-MEGARA-MegaraLcbImage.fits@</span>
 <span class="go">0001286974-20170724-MEGARA-MegaraLcbImage.fits@</span>
 <span class="go">0001286975-20170724-MEGARA-MegaraLcbImage.fits@</span>
-<span class="go">index.pkl</span>
 <span class="go">master_bias.fits@</span>
 <span class="go">master_bpm.fits.gz@</span>
 <span class="go">master_fiberflat.fits@</span>
@@ -1378,7 +1430,7 @@ then returned both in mm and arcsec. This information is saved in the
 <span class="go">2024-10-15 15:45:56,853 - megaradrp.processing.centroid - INFO - FWHM , x=1.402805, y=1.400284 arcsec</span>
 </pre></div>
 </div>
-<p>In this example, the brighest spaxel is located at <code class="docutils literal notranslate"><span class="pre">[0.38366336928735895,</span>
+<p>In this example, the brightest spaxel is located at <code class="docutils literal notranslate"><span class="pre">[0.38366336928735895,</span>
 <span class="pre">0.0]</span> <span class="pre">mm</span></code> relative to the center of the field, which is, by definition
 located at <code class="docutils literal notranslate"><span class="pre">[0.0,</span> <span class="pre">0.0]</span> <span class="pre">mm</span></code>. The position of the centroid obtained from
 the 37 fibers around this spaxels is <code class="docutils literal notranslate"><span class="pre">[0.29712138659120624,</span>
@@ -1391,6 +1443,20 @@ setup using the <strong>MegaraLcbStdStar</strong> recipe.</p>
 <p>In this case, the observation-result file was named
 <code class="docutils literal notranslate"><span class="pre">7_StandardStar.yaml</span></code> and includes spectrophotometric standard star
 individual exposures:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7_StandardStar_HR-R</span>
+<span class="linenos"> 2</span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MegaraLcbStdStar</span>
+<span class="linenos"> 3</span><span class="nt">instrument</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEGARA</span>
+<span class="linenos"> 4</span><span class="nt">frames</span><span class="p">:</span>
+<span class="linenos"> 5</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001286973-20170724-MEGARA-MegaraLcbImage.fits</span>
+<span class="linenos"> 6</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001286974-20170724-MEGARA-MegaraLcbImage.fits</span>
+<span class="linenos"> 7</span><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0001286975-20170724-MEGARA-MegaraLcbImage.fits</span>
+<span class="linenos"> 8</span><span class="nt">requirements</span><span class="p">:</span>
+<span class="linenos"> 9</span><span class="w"> </span><span class="nt">extraction_offset</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">+4.5</span><span class="p p-Indicator">]</span>
+<span class="linenos">10</span><span class="w"> </span><span class="nt">reference_spectrum</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mbd284211_stis.dat</span>
+<span class="linenos">11</span><span class="w"> </span><span class="nt">position</span><span class="p">:</span><span class="w">  </span><span class="p p-Indicator">[</span><span class="nv">0.29712138659120624</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.04342557311038363</span><span class="p p-Indicator">]</span>
+<span class="linenos">12</span><span class="w"> </span><span class="nt">sigma_resolution</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+</pre></div>
+</div>
 <p>The <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> parameter can be computed as detailed in section
 <a class="reference internal" href="#wavelength-calibration"><span class="std std-ref">Wavelength Calibration</span></a> (this parameter is the same as in
 <code class="docutils literal notranslate"><span class="pre">6_LcbAdquisition.yaml</span></code> for the same spectrophotometric standard star). The
@@ -1398,12 +1464,14 @@ parameter <code class="docutils literal notranslate"><span class="pre">reference
 spectrum in AB magnitudes is provided.  (the format of these files is the same
 as for those found in the ESO spectrophotometric standard stars database
 located at this <a class="reference external" href="https://www.eso.org/sci/observing/tools/standards/spectra/" rel="noreferrer" target="_blank">ESO web page</a>).  The
-<code class="docutils literal notranslate"><span class="pre">reference_extinction</span></code> parameter points to the text file with the information
-to apply the atmospheric extinction correction.  (for processing standard-star
-observations this parameter must be defined in the
-<code class="docutils literal notranslate"><span class="pre">7_StandardStar.yaml</span></code> file or the recipe would fail; in the case of the
-<strong>MegaraLcbImage</strong> or <strong>MegarMosImage</strong> recipes this would only imply that the
-processed data would not be corrected for atmospheric extinction).</p>
+<code class="docutils literal notranslate"><span class="pre">reference_extinction</span></code> requirement is the text file with the information to
+apply the atmospheric extinction correction. It is not set in the
+<code class="docutils literal notranslate"><span class="pre">7_Standardstar.yaml</span></code> file: the file <code class="docutils literal notranslate"><span class="pre">extinction_LP.txt</span></code> of the calibration
+tree is used (the requirement can be set in the observation result file to use
+a different extinction table, placed in the <code class="docutils literal notranslate"><span class="pre">data/</span></code> directory). For
+processing standard-star observations the extinction table is required; in the
+case of the <strong>MegaraLcbImage</strong> or <strong>MegaraMosImage</strong> recipes, without it the
+processed data would not be corrected for atmospheric extinction.</p>
 <p>By default, the DRP searches for these data files in the
 <code class="docutils literal notranslate"><span class="pre">data/</span></code> directory.  The <code class="docutils literal notranslate"><span class="pre">position</span></code> parameter is the position of the
 reference object, i.e.  the offset in mm at the CCD detector computed with the
@@ -1428,7 +1496,7 @@ from pixel-to-pixel flat if <code class="docutils literal notranslate"><span cla
 images are then stacked using a median. The result of the combination is saved
 as an intermediate result, named <code class="docutils literal notranslate"><span class="pre">reduced_image.fits</span></code>.</p>
 <p>The apertures in the 2D image are extracted, using the information in
-<code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (or in the <code class="docutils literal notranslate"><span class="pre">model_map.json</span></code> if this file is present
+<code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (or in the <code class="docutils literal notranslate"><span class="pre">master_model.json</span></code> if this file is present
 at the calibration tree) and the <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> parameter set in
 the <code class="docutils literal notranslate"><span class="pre">7_StandardStar.yaml</span></code>, and then it is resampled according to the
 wavelength calibration in <code class="docutils literal notranslate"><span class="pre">master_wlcalib.json</span></code>. Then, the result is
@@ -1442,14 +1510,13 @@ given in the <code class="docutils literal notranslate"><span class="pre">positi
 returned. This star spectrum is degraded with a Gaussian filter, corrected by
 atmospheric extinction and compared with the reference spectrum to return the
 <code class="docutils literal notranslate"><span class="pre">master_sensitivity.fits</span></code>, which is finally stored at the
-<code class="docutils literal notranslate"><span class="pre">obsid7_StandardStar_HR-R_result/</span></code> directory.</p>
+<code class="docutils literal notranslate"><span class="pre">obsid7_StandardStar_HR-R_results/</span></code> directory.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls<span class="w"> </span>obsid7_StandardStar_HR-R_work/
 </pre></div>
 </div>
 <div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">0001286973-20170724-MEGARA-MegaraLcbImage.fits@</span>
 <span class="go">0001286974-20170724-MEGARA-MegaraLcbImage.fits@</span>
 <span class="go">0001286975-20170724-MEGARA-MegaraLcbImage.fits@</span>
-<span class="go">index.pkl</span>
 <span class="go">master_bias.fits@</span>
 <span class="go">master_bpm.fits.gz@</span>
 <span class="go">master_fiberflat.fits@</span>
@@ -1586,7 +1653,7 @@ calibration in all fibers (PIXLIMF1-2 and WAVLIMF1-2).</p>
 <p>Once all the calibrations files are derived and copied at the
 corresponding calibration directories, the user can reduce the
 corresponding scientific observations with recipes <strong>MegaraLcbImage</strong> or
-<strong>MegarMosImage</strong> depending on the observing mode (the LCB IFU or the
+<strong>MegaraMosImage</strong> depending on the observing mode (the LCB IFU or the
 MOS).</p>
 <p>In this case, the observation-result files are named <code class="docutils literal notranslate"><span class="pre">8_LcbImage.yaml</span></code> for
 the LCB and <code class="docutils literal notranslate"><span class="pre">8_MosImage.yaml</span></code> for the MOS mode, and include a list of all the
@@ -1701,7 +1768,7 @@ pixel-to-pixel flat if <code class="docutils literal notranslate"><span class="p
 images are then stacked using a median. The result of the combination is
 saved as an intermediate result, named <code class="docutils literal notranslate"><span class="pre">reduced_image.fits</span></code>.</p>
 <p>The apertures in the 2D image are extracted, using the information in
-<code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (or in the <code class="docutils literal notranslate"><span class="pre">model_map.json</span></code> if this file is present
+<code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (or in the <code class="docutils literal notranslate"><span class="pre">master_model.json</span></code> if this file is present
 at the calibration tree) and the <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> parameter set in
 the <code class="docutils literal notranslate"><span class="pre">8_LcbImage.yaml</span></code>. These are then resampled according to the
 wavelength calibration in <code class="docutils literal notranslate"><span class="pre">master_wlcalib.json</span></code>. Then, the result is
@@ -1724,7 +1791,6 @@ Notice that <code class="docutils literal notranslate"><span class="pre">sky_rss
 <div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">0001309955-20170822-MEGARA-MegaraLcbAcquisition.fits@</span>
 <span class="go">0001309956-20170822-MEGARA-MegaraLcbAcquisition.fits@</span>
 <span class="go">0001309957-20170822-MEGARA-MegaraLcbAcquisition.fits@</span>
-<span class="go">index.pkl</span>
 <span class="go">master_bias.fits@</span>
 <span class="go">master_bpm.fits.gz@</span>
 <span class="go">master_fiberflat.fits@</span>
@@ -1754,7 +1820,6 @@ data reduction:</p>
 <div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">0001288184-20170731-MEGARA-MegaraMosImage.fits@</span>
 <span class="go">0001288185-20170731-MEGARA-MegaraMosImage.fits@</span>
 <span class="go">0001288186-20170731-MEGARA-MegaraMosImage.fits@</span>
-<span class="go">index.pkl</span>
 <span class="go">master_bias.fits@</span>
 <span class="go">master_bpm.fits@</span>
 <span class="go">master_fiberflat.fits@</span>
@@ -1807,7 +1872,7 @@ file:</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018-2025, Universidad Complutense de Madrid.</p>
+    <p>&#169; Copyright 2018-2026, Universidad Complutense de Madrid.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

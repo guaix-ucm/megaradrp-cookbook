@@ -6,16 +6,17 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Data description &mdash; megara-cookbook 2025.05.16 documentation</title>
+  <title>Data description &mdash; megara-cookbook 2026.10.15 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-new-tab-link.css?v=d87cb1ac" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ac5f0f31" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=cecfaa16"></script>
+      <script src="_static/documentation_options.js?v=6d569a1a"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -129,9 +130,9 @@ groups along with the recipe that generates them.</p>
 <section id="full-frame-fits-image-products">
 <h3>Full-frame FITS image products<a class="headerlink" href="#full-frame-fits-image-products" title="Link to this heading"></a></h3>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">master_bias.fits</span></code> (<strong>MasterBiasImage</strong>): Final image of the
-MasterBiasImage recipe.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">reduced_image.fits</span></code> (<strong>MegaraDarkImage</strong>, <strong>MasterTraceMap</strong>,
+<li><p><code class="docutils literal notranslate"><span class="pre">master_bias.fits</span></code> (<strong>MegaraBiasImage</strong>): Final image of the
+MegaraBiasImage recipe.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reduced_image.fits</span></code> (<strong>MegaraDarkImage</strong>, <strong>MegaraTraceMap</strong>,
 <strong>MegaraModelMap</strong>, <strong>MegaraFiberFlatImage</strong>, <strong>MegaraArcCalibration</strong>,
 <strong>MegaraTwilightFlatImage</strong>, <strong>MegaraLcbStdStar</strong>, <strong>MegaraLcbAcquisition</strong>,
 <strong>MegaraLcbImage</strong>, <strong>MegaraMosImage</strong>, <strong>MegaraArcCalibration</strong>): Final
@@ -182,9 +183,9 @@ together.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">master_wlcalib.json</span></code> (<strong>MegaraArcCalibration</strong>): File with the
 information on the wavelength calibration solution for every
 fiber.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (<strong>MasterTraceMap</strong>): File with the tracing
+<li><p><code class="docutils literal notranslate"><span class="pre">master_traces.json</span></code> (<strong>MegaraTraceMap</strong>): File with the tracing
 information.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">master_model.json</span></code> (<strong>MasterModelMap</strong>): File with the information on
+<li><p><code class="docutils literal notranslate"><span class="pre">master_model.json</span></code> (<strong>MegaraModelMap</strong>): File with the information on
 how to account for the cross-talk between adjacent fibers in the
 detector.</p></li>
 </ul>
@@ -192,10 +193,10 @@ detector.</p></li>
 generates two different 1D spectra, that of the standard star obtained
 after extracting the 37 spaxels around the centroid identified in the
 observation-result file (<code class="docutils literal notranslate"><span class="pre">star_spectrum.fits</span></code>) and also the resulting
-sensitivity function (<code class="docutils literal notranslate"><span class="pre">master_sentivity.fits</span></code>).</p>
+sensitivity function (<code class="docutils literal notranslate"><span class="pre">master_sensitivity.fits</span></code>).</p>
 <p>In addition to all these files, the results directory of every recipe
-includes also a file named <code class="docutils literal notranslate"><span class="pre">task.yaml</span></code> (file with the description of the
-execution of the recipe), the file <code class="docutils literal notranslate"><span class="pre">result.yaml</span></code> (names of the files
+includes also a file named <code class="docutils literal notranslate"><span class="pre">task.json</span></code> (file with the description of the
+execution of the recipe), the file <code class="docutils literal notranslate"><span class="pre">result.json</span></code> (names of the files
 resulting from the recipe and some quality-control information) and the
 <code class="docutils literal notranslate"><span class="pre">processing.log</span></code> logging file.</p>
 <p>Besides ds9/SAOimage or similar software packages, the FITS products
@@ -216,7 +217,7 @@ generated by the MEGARA DRP can be also visualized using the tool
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018-2025, Universidad Complutense de Madrid.</p>
+    <p>&#169; Copyright 2018-2026, Universidad Complutense de Madrid.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

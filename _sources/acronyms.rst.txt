@@ -4,78 +4,77 @@ Acronyms
 
 .. glossary::
 
-    ADC 
+    ADC
         Analog-Digital Converter / Conversion
 
-    AIV 
+    AIV
         Assembly, Integration and Verification
 
-    BPM 
+    BPM
         Bad-Pixels Mask
 
-    CCD 
+    CCD
         Charged-Coupled Device
 
-    DRP 
+    DRP
         Data Reduction Pipeline
 
-    DU 
+    DU
         Digital Unit
 
-    FC 
+    FC
         Folded-Cassegrain
 
-    FMAT 
+    FMAT
         Fiber-MOS Assignment Tool
 
-    FWHM 
+    FWHM
         Full-Width at Half-Maximum
 
-    GTC 
+    GTC
         Gran Telescopio CANARIAS
 
-    ICM 
+    ICM
         Instrument Calibration Module
 
-    IFU 
+    IFU
         Integral Field Unit
 
-    IFS 
+    IFS
         Integral Field Spectrograph / Integral Field Spectroscopy
 
-    IPA 
+    IPA
         Instrument Position Angle
 
-    JSON 
+    JSON
         JavaScript Object Notation
 
-    LCB 
+    LCB
         Large Compact Bundle
 
-    LICA 
+    LICA
         Laboratorio de Instrumentación Científica Avanzada
 
-    MEGARA 
+    MEGARA
         Multi-Espectrógrafo en GTC de Alta Resolución para Astronomía
 
-    MOS 
+    MOS
         Multi-Object Spectrograph / Multi-Object Spectroscopy
 
-    PA 
+    PA
         Position Angle
 
-    PDF 
+    PDF
         Portable Document Format
 
-    RoN 
+    RoN
         Readout Noise
 
-    RSS 
+    RSS
         Row-Stacked Spectrum
 
-    ROTANG 
+    ROTANG
         Folded-Cassegrain Rotator Angle
 
-    UCM 
+    UCM
         Universidad Complutense de Madrid
-

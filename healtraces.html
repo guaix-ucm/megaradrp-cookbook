@@ -6,16 +6,17 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Healing Defective Traces &mdash; megara-cookbook 2025.05.16 documentation</title>
+  <title>Healing Defective Traces &mdash; megara-cookbook 2026.10.15 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-new-tab-link.css?v=d87cb1ac" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ac5f0f31" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=cecfaa16"></script>
+      <script src="_static/documentation_options.js?v=6d569a1a"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -57,7 +58,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Healing Defective Traces</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#identifying-defective-traces">Identifying defective traces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#strategies-to-fix-defective-traces">Strategies to fix defective traces</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#sandwhich"><code class="docutils literal notranslate"><span class="pre">sandwhich</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sandwich"><code class="docutils literal notranslate"><span class="pre">sandwich</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#extrapolation"><code class="docutils literal notranslate"><span class="pre">extrapolation</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#extrapolation-through-user-points"><code class="docutils literal notranslate"><span class="pre">extrapolation_through_user_points</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fit-through-user-points"><code class="docutils literal notranslate"><span class="pre">fit_through_user_points</span></code></a></li>
@@ -193,7 +194,7 @@ Specifically, the affected fibers are: 603, 604, 606, 607, 610, and 614.</p>
 <span class="go">&gt;&gt;&gt; Using global_offset: 0.0</span>
 <span class="go">Warning ---&gt; Missing fiber: 614  [8a]</span>
 <span class="go">Warning ---&gt; Missing fiber: 623  [8a]</span>
-<span class="go">Press &quot;q&quot; to continue...</span>
+<span class="go">Press "q" to continue...</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/initial_traces_in_full_image.png"><img alt="initial traces in full image" src="_images/initial_traces_in_full_image.png" style="width: 100%;" />
@@ -246,8 +247,8 @@ The corrections to be applied to calculate the new trace for each fiber are
 included in the YAML file in independent blocks separated by the usual YAML
 separator <code class="docutils literal notranslate"><span class="pre">---</span></code> (see a more detailed example in the next section).</p>
 <p>Next we show the different possibilities with some example numbers.</p>
-<section id="sandwhich">
-<h3><code class="docutils literal notranslate"><span class="pre">sandwhich</span></code><a class="headerlink" href="#sandwhich" title="Link to this heading"></a></h3>
+<section id="sandwich">
+<h3><code class="docutils literal notranslate"><span class="pre">sandwich</span></code><a class="headerlink" href="#sandwich" title="Link to this heading"></a></h3>
 <p>Useful for defining a trace using information from two neighboring traces.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">description</span><span class="p">:</span> <span class="n">sandwich</span>
 <span class="n">fibid</span><span class="p">:</span> <span class="mi">610</span>
@@ -399,7 +400,7 @@ functions correctly).</p>
 </div>
 <a class="reference internal image-reference" href="_images/fixing_603_duplicate_trace.png"><img alt="fixing fiber 603 with method duplicate trace" src="_images/fixing_603_duplicate_trace.png" style="width: 100%;" />
 </a>
-<p>In the provided example, the inital trace of fiber 602 duplicaed and vertically
+<p>In the provided example, the initial trace of fiber 602 duplicaed and vertically
 shifted upwards by 13 pixels to replicate the trace of fiber 603.</p>
 </section>
 <section id="renumber-fibids-within-box">
@@ -440,7 +441,7 @@ different sections of the file.</p>
 <span class="linenos"> 6</span><span class="nt">poldeg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
 <span class="linenos"> 7</span><span class="nt">xstart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6</span>
 <span class="linenos"> 8</span><span class="nt">xstop</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4090</span>
-<span class="linenos"> 9</span><span class="nt">user_points</span><span class="p">:</span><span class="w"> </span>
+<span class="linenos"> 9</span><span class="nt">user_points</span><span class="p">:</span>
 <span class="linenos">10</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3500</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3817.0</span><span class="p p-Indicator">]</span>
 <span class="linenos">11</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4000</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3818.0</span><span class="p p-Indicator">]</span>
 <span class="linenos">12</span><span class="nt">refit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
@@ -453,7 +454,7 @@ different sections of the file.</p>
 <span class="linenos">19</span><span class="nt">poldeg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
 <span class="linenos">20</span><span class="nt">xstart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6</span>
 <span class="linenos">21</span><span class="nt">xstop</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4090</span>
-<span class="linenos">22</span><span class="nt">user_points</span><span class="p">:</span><span class="w"> </span>
+<span class="linenos">22</span><span class="nt">user_points</span><span class="p">:</span>
 <span class="linenos">23</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3500</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3823.2</span><span class="p p-Indicator">]</span>
 <span class="linenos">24</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4000</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3824.2</span><span class="p p-Indicator">]</span>
 <span class="linenos">25</span><span class="nt">refit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
@@ -466,7 +467,7 @@ different sections of the file.</p>
 <span class="linenos">32</span><span class="nt">poldeg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
 <span class="linenos">33</span><span class="nt">xstart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6</span>
 <span class="linenos">34</span><span class="nt">xstop</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4090</span>
-<span class="linenos">35</span><span class="nt">user_points</span><span class="p">:</span><span class="w"> </span>
+<span class="linenos">35</span><span class="nt">user_points</span><span class="p">:</span>
 <span class="linenos">36</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3500</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3835.0</span><span class="p p-Indicator">]</span>
 <span class="linenos">37</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4000</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3836.2</span><span class="p p-Indicator">]</span>
 <span class="linenos">38</span><span class="nt">refit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
@@ -493,7 +494,7 @@ different sections of the file.</p>
 <span class="linenos">59</span><span class="nt">poldeg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
 <span class="linenos">60</span><span class="nt">xstart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6</span>
 <span class="linenos">61</span><span class="nt">xstop</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4090</span>
-<span class="linenos">62</span><span class="nt">user_points</span><span class="p">:</span><span class="w"> </span>
+<span class="linenos">62</span><span class="nt">user_points</span><span class="p">:</span>
 <span class="linenos">63</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3500</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3878.1</span><span class="p p-Indicator">]</span>
 <span class="linenos">64</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">4000</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3878.6</span><span class="p p-Indicator">]</span>
 <span class="linenos">65</span><span class="nt">refit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
@@ -550,7 +551,7 @@ we can apply all the transformations with a simple execution of the script
 <span class="gp gp-VirtualEnv">(sandwich)</span> <span class="go">fibid: 610  [8a]</span>
 <span class="gp gp-VirtualEnv">(extrapolation_through_user_points)</span><span class="go">: 613  [8a]</span>
 <span class="gp gp-VirtualEnv">(sandwich)</span> <span class="go">fibid: 614  [8a]</span>
-<span class="go">Press &quot;q&quot; to continue...</span>
+<span class="go">Press "q" to continue...</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/healing_all_traces_zoom.png"><img alt="zoom when applying megaradrp_heal_traces" src="_images/healing_all_traces_zoom.png" style="width: 100%;" />
@@ -669,7 +670,7 @@ subdirectory; see warning note in the previous subsection).</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018-2025, Universidad Complutense de Madrid.</p>
+    <p>&#169; Copyright 2018-2026, Universidad Complutense de Madrid.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

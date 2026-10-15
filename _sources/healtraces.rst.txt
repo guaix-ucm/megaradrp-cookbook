@@ -70,18 +70,18 @@ Move to the subdirectory with the results from the previous step.
    (megara) $ cd obsid1_LR-R_tracemap_results/
 
 Identifying faulty traces is straightforward using the
-``megaradrp-overplot_traces`` script. 
+``megaradrp-overplot_traces`` script.
 
 .. code-block:: console
 
-   (megara) $ megaradrp-overplot_traces reduced_image.fits master_traces.json    
+   (megara) $ megaradrp-overplot_traces reduced_image.fits master_traces.json
 .. code-block:: console
    :class: my-special-block no-copybutton
 
    >>> File..: reduced_image.fits
    >>> NAXIS1: 4096
    >>> NAXIS2: 4112
-   
+
    * Fiber description for INSMODE=LCB
    Box 8a,  fibers 603 - 623
    Box 7a,  fibers 582 - 602
@@ -147,7 +147,7 @@ different options. An example of execution is as follows:
 
    (megara) $ megaradrp-heal_traces reduced_image.fits master_traces.json \
      --fibids --healing healing.yaml \
-     --updated_traces master_traces_healed.json 
+     --updated_traces master_traces_healed.json
 
 The first two parameters are the same as those used with the
 ``megaradrp-overplot_traces`` script (the FITS image and the JSON file with
@@ -162,15 +162,15 @@ information about the calculated traces). The new relevant parameters are:
 
 With the help of the ``<healing.yaml>`` file, we can make use of different
 strategies to correct faulty traces. These strategies are indicated in the
-YAML file using the tag ``description``. 
+YAML file using the tag ``description``.
 The corrections to be applied to calculate the new trace for each fiber are
 included in the YAML file in independent blocks separated by the usual YAML
 separator ``---`` (see a more detailed example in the next section).
 
 Next we show the different possibilities with some example numbers.
 
-``sandwhich``
-.............
+``sandwich``
+............
 
 Useful for defining a trace using information from two neighboring traces.
 
@@ -232,7 +232,7 @@ below.
 .....................................
 
 This method offers a much more reliable extrapolation strategy because the user
-can define a set of additional points that are also used to fit the trace. 
+can define a set of additional points that are also used to fit the trace.
 
 ::
 
@@ -244,7 +244,7 @@ can define a set of additional points that are also used to fit the trace.
    poldeg: 5
    xstart: 6
    xstop: 4090
-   user_points: 
+   user_points:
      - [3500, 3817.0]
      - [4000, 3818.0]
    refit: False
@@ -333,7 +333,7 @@ This method enables the vertical displacement of already fitted fiber traces.
    :alt: fixing fiber 601 with method vertical shift in pixels
 
 In this approach, the fibers whose numbers are between ``fibid_ini`` and
-``fibid_end`` are vertically shifted by ``vshift`` pixels. 
+``fibid_end`` are vertically shifted by ``vshift`` pixels.
 It is also possible to indicate a list of fibers using the tag
 ``fibid_list`` instead of the pair of tags ``fibid_ini`` and ``fibid_end``.
 
@@ -359,7 +359,7 @@ This method duplicates the trace of a fiber and vertically displaces it.
    :width: 100%
    :alt: fixing fiber 603 with method duplicate trace
 
-In the provided example, the inital trace of fiber 602 duplicaed and vertically
+In the provided example, the initial trace of fiber 602 duplicaed and vertically
 shifted upwards by 13 pixels to replicate the trace of fiber 603.
 
 ``renumber_fibids_within_box``
@@ -425,7 +425,7 @@ we can apply all the transformations with a simple execution of the script
    >>> File..: reduced_image.fits
    >>> NAXIS1: 4096
    >>> NAXIS2: 4112
-   
+
    * Fiber description for INSMODE=LCB
    Box 8a,  fibers 603 - 623
    Box 7a,  fibers 582 - 602
@@ -485,7 +485,7 @@ outcomes.
 
 .. code-block:: console
 
-   (megara) $ megaradrp-overplot_traces reduced_image.fits master_traces_healed.json \ 
+   (megara) $ megaradrp-overplot_traces reduced_image.fits master_traces_healed.json \
      --fibids \
      --bbox 1,4096,3775,3950
 
@@ -512,14 +512,14 @@ faulty traces, and the obtained result is satisfactory.
    .. code-block:: console
 
       (megara) $ cp master_traces_healed.json \
-        ../calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48/TraceMap/LCB/LR-R/master_traces.json  
+        ../calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48/TraceMap/LCB/LR-R/master_traces.json
 
    (for data obtained after February 2026)
 
    .. code-block:: console
 
       (megara) $ cp master_traces_healed.json \
-        ../calibrations/MEGARA/9f3fecbf-376c-47ae-a188-313b7d829104/TraceMap/LCB/LR-R/master_traces.json  
+        ../calibrations/MEGARA/9f3fecbf-376c-47ae-a188-313b7d829104/TraceMap/LCB/LR-R/master_traces.json
 
    The file ``master_traces_healed.json`` has a different ``uuid`` than the one
    assigned to the file ``master_traces.json``.
@@ -533,14 +533,14 @@ Obtaining traces for LR-U
 It is challenging to obtain good traces for the VPH LR-U because the continuous
 lamp usually employed to obtain fiber-flat exposures does not provide enough
 signal in the bluest region of the spectrum. For this reason, the
-**MegaraTraceMap** recipe does not provide acceptable traces for this VPH. 
+**MegaraTraceMap** recipe does not provide acceptable traces for this VPH.
 
 In such cases, we can use a historical trace file for this VPH (for example the
 file ``master_traces_LRU_20220325.json`` that can be downloaded `from this link
 <https://guaix.fis.ucm.es/data/megaradrp/master_traces_LRU_20220325.json.gz>`_),
 obtained from twilight exposures with sufficient signal, and transform the
 location of these traces to match the fiber positions in fiber-flat (or
-science) images corresponding to our observation campaign. 
+science) images corresponding to our observation campaign.
 
 In general, simply applying a vertical offset to the initial traces in
 ``master_traces_LRU_20220325.json`` will not be sufficient because we might

@@ -6,7 +6,7 @@ Data reduction
 
    Since February 2026, a new, more simplified data reduction procedure has
    been implemented. These changes were introduced in **megaradrp
-   version 0.20.0**. 
+   version 0.20.0**.
 
    In particular:
 
@@ -33,7 +33,7 @@ Getting Started
 The first step to start the data reduction is to activate your
 environment (see details in section :ref:`DRP_installation`).
 
-The next step is to download the data employed in this cookbook: 
+The next step is to download the data employed in this cookbook:
 `megara-cookbook-v3.tar.gz
 <https://guaix.fis.ucm.es/data/megaradrp/megara-cookbook-v3.tar.gz>`_
 
@@ -125,7 +125,7 @@ you can comfortably start the reduction of the data:
            ├── 0001312280-20170831-MEGARA-MegaraSuccess.fits
            ├── 0001312281-20170831-MEGARA-MegaraSuccess.fits
            └── master_fiberflat_ones.fits
-   
+
    5 directories, 51 files
 
 Note that the ``tree`` command shown above might not be available in certain
@@ -150,24 +150,24 @@ This process is illustrated below using the M15 data set as an example.
    :class: my-special-block no-copybutton
 
    ────────────── Megara DRP - Calibration Data Tree Initialization ───────────────
-   Creating calibration data tree structure under base path: calibrations          
-   Downloading and installing calibration data from:                               
+   Creating calibration data tree structure under base path: calibrations
+   Downloading and installing calibration data from:
    https://zenodo.org/records/18623771/files/guaix-ucm/megaradrp-calibrations-2026.
-   2.zip                                                                           
+   2.zip
    Downloading data from 'https://zenodo.org/records/18623771/files/guaix-ucm/megaradrp-calibrations-2026.2.zip' to file '/Users/cardiel/w/GTC/megara/20260223_megara-cookbook-v3/work/megara-cookbook-v3/M15_LCB_HR-R/calibrations/calibration_data.zip'.
    100%|████████████████████████████████████████| 106k/106k [00:00<00:00, 887MB/s]
    Unzipping contents of '/Users/cardiel/w/GTC/megara/20260223_megara-cookbook-v3/work/megara-cookbook-v3/M15_LCB_HR-R/calibrations/calibration_data.zip' to '/Users/cardiel/w/GTC/megara/20260223_megara-cookbook-v3/work/megara-cookbook-v3/M15_LCB_HR-R/calibrations/.'
-   Found directory to strip: 'guaix-ucm-megaradrp-calibrations-40fb7c2/'           
-   Moving files to base path: 'calibrations'                                       
-   Stripping fixed part of the path: 'guaix-ucm-megaradrp-calibrations-40fb7c2/'   
-   Removing extracted directory:                                                   
-   calibrations/guaix-ucm-megaradrp-calibrations-40fb7c2                           
-   Removing downloaded zip file: calibrations/calibration_data.zip                 
-   Creating new configuration file:                                                
-   /Users/janedoe/work/megara-cookbook-v3/M15_LCB_HR-R/.numina.cfg                                                        
-   Configuration file updated:                                                     
-   /Users/janedoe/work/megara-cookbook-v3/M15_LCB_HR-R/.numina.cfg                                                        
-   Calibration data tree structure created under base path: ./calibrations         
+   Found directory to strip: 'guaix-ucm-megaradrp-calibrations-40fb7c2/'
+   Moving files to base path: 'calibrations'
+   Stripping fixed part of the path: 'guaix-ucm-megaradrp-calibrations-40fb7c2/'
+   Removing extracted directory:
+   calibrations/guaix-ucm-megaradrp-calibrations-40fb7c2
+   Removing downloaded zip file: calibrations/calibration_data.zip
+   Creating new configuration file:
+   /Users/janedoe/work/megara-cookbook-v3/M15_LCB_HR-R/.numina.cfg
+   Configuration file updated:
+   /Users/janedoe/work/megara-cookbook-v3/M15_LCB_HR-R/.numina.cfg
+   Calibration data tree structure created under base path: ./calibrations
    ──────────────── Calibration Data Tree Initialization Completed ────────────────
 
 After executing the last script, a new subdirectory ``calibrations`` should
@@ -187,7 +187,7 @@ which can be ignored).
        ├── LICENSE.txt
        ├── README.md
        └── ca3558e3-e50d-4bbc-86bd-da50a0998a48
-   
+
    4 directories, 2 files
 
 
@@ -196,16 +196,16 @@ calibration files stored at `Zenodo <https://zenodo.org/records/18623771>`_.
 In particular, the files correspond to the instrument status during two
 different epochs:
 
-- ``ca3558e3-e50d-4bbc-86bd-da50a0998a48``: for images obtained before January 2026
-- ``9f3fecbf-376c-47ae-a188-313b7d829104``: for images obtained after January 2026
+- ``ca3558e3-e50d-4bbc-86bd-da50a0998a48``: for images obtained before February 2026
+- ``9f3fecbf-376c-47ae-a188-313b7d829104``: for images obtained after February 2026
 
 .. warning::
 
-   Since this cookbook uses data obtained before January 2026, the subdirectory
+   Since this cookbook uses data obtained before February 2026, the subdirectory
    ``calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48`` serves as the
    root destination path for the various reduced images that will be generated
    during the reduction procedure. If you are reducing data obtained after
-   January 2026, simply replace
+   February 2026, simply replace
    ``calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48`` with
    ``calibrations/MEGARA/9f3fecbf-376c-47ae-a188-313b7d829104``.
 
@@ -250,7 +250,7 @@ under this calibration tree according structure below.
    └── WavelengthCalibration
        ├── LCB
        └── MOS
-   
+
 Different files can be stored at the same directory, but the DRP is
 going to use the first file it encounters in alphabetical order. The
 user can name the desired file with prefix ``00_`` (e.g.
@@ -270,7 +270,7 @@ in which order they are run.
 
 .. code-block:: console
 
-   (megara) $ cd M15_LCB_HR-R 
+   (megara) $ cd M15_LCB_HR-R
    (megara) $ ls
 
 .. code-block:: console
@@ -291,17 +291,17 @@ The MEGARA DRP is run through a command line interface provided by
 
 .. note::
 
-   Remember that the ``numina`` script is the interface with GTC pipelines. 
+   Remember that the ``numina`` script is the interface with GTC pipelines.
    In order to execute **megaradrp** recipes you should type something like:
 
    ::
-   
+
       (megara) $ numina run <observation_result_file.yaml>
 
-   where ``<observation_result_file.yaml>`` is an observation result file in 
+   where ``<observation_result_file.yaml>`` is an observation result file in
    YAML format.
 
-   YAML is a human-readable data serialization language (for details see 
+   YAML is a human-readable data serialization language (for details see
    `YAML Syntax
    <https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html>`_)
 
@@ -318,19 +318,19 @@ The observation-result files are created by the
 user. This is an example of the observation result file to compute the
 fibers traces ``1_TraceMap.yaml`` under the subdirectory ``M15_LCB-HR-R``:
 
-.. literalinclude:: files/1_TraceMap.yaml
+.. literalinclude:: files/1_tracemap.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
 
 The ``id:`` is an identifier of the observing block. The DRP will
 create two directories with the products of the recipe (``obsid<id>_work/`` and
-``obsid<id>_results/``) using the ``id`` identifier as an arbitray label to 
+``obsid<id>_results/``) using the ``id`` identifier as an arbitrary label to
 identify
 the corresponding processing block. The ``mode:`` is the name of the
 instrument observing mode as returned by numina show-modes. In
 ``frames:`` a list of the names of the images obtained as part of the
-observation should be included. 
+observation should be included.
 
 Using the same YAML file the user can process sequentially different sets of
 files with the same recipe. For that purpose, the ``enabled:`` parameter can be
@@ -391,7 +391,7 @@ observation-result files (``*.yaml``):
    1_TraceMap.yaml         4_FiberFlat.yaml        8_LcbImage.yaml
    2_ModelMap.yaml         5_TwilightFlat.yaml     data/
    3_WaveCalib.yaml        6_LcbAdquisition.yaml
-   
+
 
 If we want to run the recipe **MegaraTraceMap** using the observing-result file
 ``1_TraceMap.yaml`` we should execute:
@@ -400,17 +400,13 @@ If we want to run the recipe **MegaraTraceMap** using the observing-result file
 
    (megara) $ numina run 1_TraceMap.yaml
 
-When disk space is an issue, it is possible to execute ``numina`` indicating
-that links (instead of actual copies of the original raw files) must be placed
-in the ``obsid<id>_work/`` subdirectory. This behaviour is set using the
-parameter ``--link-files``:
+By default, ``numina`` places in the ``obsid<id>_work/`` subdirectory links to
+the original raw files (and calibrations), instead of actual copies. If you
+prefer copies of the files, use the parameter ``--copy-files``:
 
 .. code-block:: console
 
-   (megara) $ numina run 1_TraceMap.yaml --link-files
-
-*Note:* in recent versions of ``numina`` this is no longer necessary since the
-default behavior assumes ``--link-files``.
+   (megara) $ numina run 1_TraceMap.yaml --copy-files
 
 Other useful **numina** commands include:
 
@@ -425,7 +421,7 @@ Other useful **numina** commands include:
 
    (megara) $ numina run -h
 
-   (megara) $ numina run 1_TraceMap.yaml –enable <block_id>
+   (megara) $ numina run 1_TraceMap.yaml --enable <block_id>
 
    (megara) $ numina -d run 1_TraceMap.yaml
 
@@ -461,7 +457,7 @@ You can easily examine the header of the FITS images using the astropy utility
 .. code-block:: console
    :class: my-special-block no-copybutton
 
-                            filename                          VPH  INSMODE  OBJECT SPECLAMP EXPTIME        DATE-OBS       
+                            filename                          VPH  INSMODE  OBJECT SPECLAMP EXPTIME        DATE-OBS
    --------------------------------------------------------- ----- ------- ------- -------- ------- ----------------------
          data/0001251794-20170626-MEGARA-MegaraLCBImage.fits  HR-R     LCB             NONE    60.0 2017-06-27T06:09:11.24
          data/0001251795-20170626-MEGARA-MegaraLCBImage.fits  HR-R     LCB             NONE    60.0 2017-06-27T06:11:59.96
@@ -488,7 +484,7 @@ You can easily examine the header of the FITS images using the astropy utility
           data/0001312250-20170831-MEGARA-MegaraSuccess.fits  HR-R     LCB Halogen     ThNe    30.0 2017-08-31T18:15:22.38
           data/0001312251-20170831-MEGARA-MegaraSuccess.fits  HR-R     LCB Halogen     ThNe    30.0 2017-08-31T18:17:06.67
                              data/master_fiberflat_ones.fits    --      --      --       --      --                     --
-        
+
 
 The data available include bias exposures (the VPH is not relevant here),
 halogen exposures (for tracing and flatfielding), ThNe arc exposures (for
@@ -530,7 +526,7 @@ The recipe is run as follows,
    (megara) $ numina run 0_Bias.yaml
 
 and the products are stored in the directory ``obsid0_Bias_results/``,
-including the ``master_bias.fits`` file (see **Figure 4**). 
+including the ``master_bias.fits`` file (see **Figure 4**).
 
 .. code-block:: console
 
@@ -548,7 +544,6 @@ including the ``master_bias.fits`` file (see **Figure 4**).
    0001310886-20170827-MEGARA-MegaraBiasImage.fits@
    0001310887-20170827-MEGARA-MegaraBiasImage.fits@
    0001310888-20170827-MEGARA-MegaraBiasImage.fits@
-   index.pkl
    master_bpm.fits.gz@
 
 
@@ -560,7 +555,7 @@ including the ``master_bias.fits`` file (see **Figure 4**).
    :class: my-special-block no-copybutton
 
    master_bias.fits  processing.log    result.json       task.json
-   
+
 Note that the data files in the ``obsid0_Bias_work`` subdirectory are shown
 with a suffix ``@``, indicating that these files are actually links the the
 original files (stored under the ``data`` subdirectory).
@@ -662,7 +657,7 @@ of the fibers. The result is stored in a file named
 An example of the observation result file ``1_TraceMap.yaml`` to trace the
 fibers is the following:
 
-.. literalinclude:: files/1_TraceMap.yaml
+.. literalinclude:: files/1_tracemap.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -701,7 +696,7 @@ polynomial are stored in the final ``master_traces.json`` file.
 
 .. code-block:: console
 
-   (megara) $ ls obsid1_TraceMap_HR-R_work/                       
+   (megara) $ ls obsid1_TraceMap_HR-R_work/
 
 .. code-block:: console
    :class: my-special-block no-copybutton
@@ -729,7 +724,6 @@ polynomial are stored in the final ``master_traces.json`` file.
    ds9.reg
    ds9_raw.reg
    frontiers_between_pseudoslits.png
-   index.pkl
    master_bias.fits@
    master_bpm.fits.gz@
    offset_borders_cross.png
@@ -738,7 +732,7 @@ polynomial are stored in the final ``master_traces.json`` file.
 
 .. code-block:: console
 
-   (megara) $ ls obsid1_TraceMap_HR-R_results 
+   (megara) $ ls obsid1_TraceMap_HR-R_results
 
 .. code-block:: console
    :class: my-special-block no-copybutton
@@ -761,7 +755,7 @@ can be done by executing:
 
 .. code-block:: console
 
-   (megara) $ megaradrp-overplot_traces \ 
+   (megara) $ megaradrp-overplot_traces \
               obsid1_TraceMap_HR-R_results/reduced_image.fits \
               obsid1_TraceMap_HR-R_results/master_traces.json
 
@@ -794,7 +788,7 @@ corresponds to the VPH HR-R (LCB mode):
 .. code-block:: console
 
    (megara) $ cp obsid1_TraceMap_HR-R_results/master_traces.json \
-      calibratons/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48/TraceMap/LCB/HR-R/
+      calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48/TraceMap/LCB/HR-R/
 
 .. warning::
 
@@ -802,7 +796,7 @@ corresponds to the VPH HR-R (LCB mode):
 
    .. code-block:: console
 
-      (megara) $ cp obsid1_TraceMap_HR-R_results/master_traces.fits \
+      (megara) $ cp obsid1_TraceMap_HR-R_results/master_traces.json \
          calibrations/MEGARA/9f3fecbf-376c-47ae-a188-313b7d829104/TraceMap/LCB/HR-R/
 
 It is possible to force the generation of plots with the individual fits to
@@ -844,7 +838,7 @@ required to perform **advanced** fiber extraction in other recipes.
 The set of files listed in the observation-result file ``2_ModelMap.yaml``
 is the same one used for the Trace Map.
 
-.. literalinclude:: files/2_ModelMap.yaml
+.. literalinclude:: files/2_modelmap.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -910,7 +904,6 @@ shown on top.
    ...
    fib_622_mean.png
    fib_622_std.png
-   index.pkl
    master_bias.fits@
    master_bpm.fits@
    reduced_image.fits
@@ -980,7 +973,7 @@ In this case, the observation-result file is called ``3_WaveCalib.yaml``.
 In the example below, three frames for arc lamp exposures are included
 and the offset for the extraction is set to 0 pixels:
 
-.. literalinclude:: files/3_WaveCalib.yaml
+.. literalinclude:: files/3_wavecalib.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -997,7 +990,7 @@ tree), bias and dark current (if ``master_dark.fits`` is present). The
 corrected images are then stacked using a median. The result of the combination
 of these images is saved as an intermediate result, named
 ``reduced_image.fits``. The apertures in the 2D image are extracted, using the
-information in ``master_traces.json`` (or in the ``model_map.json`` if this
+information in ``master_traces.json`` (or in the ``master_model.json`` if this
 file is present at the calibration tree) and the ``extraction_offset``
 parameter set in the ``3_WaveCalib.yaml``. The result of the extraction is
 saved as an intermediate result named ``reduced_rss.fits``.  The matched lines,
@@ -1022,13 +1015,13 @@ wavelength calibration polynomial against the fiber number. Fibers whose
 wavelength calibration polynomial does not fit the expected smooth variation of
 the coefficients are automatically detected. In such cases, an interpolated
 polynomial is used, which provides very good results. The results of this
-refinment are graphically stored in the file ``wavecal_refine_iter1.pdf``.
+refinement are graphically stored in the file ``wavecal_refine_iter1.pdf``.
 
 .. image:: _static/image16.png
    :width: 5.91667in
    :height: 4.14792in
 
-**Figure 8:** Some of the plots included in the ``wavecalib_iter2.pdf`` file
+**Figure 8:** Some of the plots included in the ``wavecal_iter2.pdf`` file
 generated with the **MegaraArcCalibration** recipe.
 
 Should the user set the ``store_pdf_with_refined_fits`` parameter to
@@ -1042,7 +1035,7 @@ information about the refined wavelength calibration (see **Figure 9**).
    :height: 3.83125in
 
 **Figure 9:** Example of the refined wavelength calibration result for
-fiber #310. This kind of file (``310.pdf`` at ``refined_wavecalib/`` in this
+fiber #310. This kind of file (``310.pdf`` at ``refined_wavecal/`` in this
 case) is generated when the parameter ``store_pdf_with_refined_fits`` is
 set to 1. This requirement should be set to 0 for a faster execution of
 this recipe.
@@ -1057,7 +1050,6 @@ this recipe.
    0001312249-20170831-MEGARA-MegaraSuccess.fits@
    0001312250-20170831-MEGARA-MegaraSuccess.fits@
    0001312251-20170831-MEGARA-MegaraSuccess.fits@
-   index.pkl
    initial_master_wlcalib.json
    master_bias.fits@
    master_bpm.fits.gz@
@@ -1112,7 +1104,7 @@ exposures. Among the requirements, we are using ``master_fiberflat:
 master_fiberflat_ones.fits``, a special FITS file located in the data
 subdirectory that contains a fictitious flatfield image where all values are
 set to 1.0. For the wavelength calibration check, we do not need to use a
-correct master fiberflat image. 
+correct master fiberflat image.
 
 .. warning::
 
@@ -1171,7 +1163,7 @@ Instrument Calibration Module (ICM).
 In this case, we called the observation result file ``4_FiberFlat.yaml``,
 where a total of three continuum halogen exposures are included:
 
-.. literalinclude:: files/4_FiberFlat.yaml
+.. literalinclude:: files/4_fiberflat.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -1195,7 +1187,7 @@ images are then stacked using a median. The result of the combination is saved
 as an intermediate result, named ``reduced_image.fits``.
 
 The apertures in the 2D image are extracted, using the information in
-``master_traces.json`` (or in the ``model_map.json`` if this file is present
+``master_traces.json`` (or in the ``master_model.json`` if this file is present
 at the calibration tree) and the ``extraction_offset`` parameter set in
 the ``4_FiberFlat.yaml``, and then it is resampled according to the
 wavelength calibration in ``master_wlcalib.json``. The resulting RSS is
@@ -1232,7 +1224,6 @@ generated for MEGARA LCB HR-R mode.
    0001312248-20170831-MEGARA-MegaraSuccess.fits@
    collapse.txt
    collapsed_smooth.png
-   index.pkl
    mask_noinfo.txt
    master_bias.fits@
    master_bpm.fits.gz@
@@ -1326,7 +1317,7 @@ images are then stacked using a median. The result of the combination is
 saved as an intermediate result, named ``reduced_image.fits``.
 
 The apertures in the 2D image are extracted, using the information in
-``master_traces.json`` (or in the ``model_map.json`` if this file is present
+``master_traces.json`` (or in the ``master_model.json`` if this file is present
 at the calibration tree) and the ``extraction_offset`` parameter set in
 the ``5_TwilightFlat.yaml``, and then it is resampled according to the
 wavelength calibration in ``master_wlcalib.json``. Then, the result is
@@ -1351,7 +1342,7 @@ of the ``reduced_rss.fits`` image.
 generated for MEGARA LCB HR-R mode.
 
 .. code-block:: console
- 
+
    (megara) $ ls obsid5_TwilightFlat_HR-R_work/
 
 .. code-block:: console
@@ -1360,7 +1351,6 @@ generated for MEGARA LCB HR-R mode.
    0001251794-20170626-MEGARA-MegaraLCBImage.fits@
    0001251795-20170626-MEGARA-MegaraLCBImage.fits@
    0001251796-20170626-MEGARA-MegaraLCBImage.fits@
-   index.pkl
    master_bias.fits@
    master_bpm.fits.gz@
    master_fiberflat.fits@
@@ -1445,7 +1435,7 @@ In this case, the observation-result file for determining the star
 centroid is ``6_LcbAdquisition.yaml``, where three frames for
 spectrophotometric standard star exposures are here listed:
 
-.. literalinclude:: files/6_LcbAdquisition.yaml
+.. literalinclude:: files/6_Lcbadquisition.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -1467,7 +1457,7 @@ images are then stacked using a median. The result of the combination is saved
 as an intermediate result, named ``reduced_image.fits``.
 
 The apertures in the 2D image are extracted, using the information in
-``master_traces.json`` (or in the ``model_map.json`` if this file is present
+``master_traces.json`` (or in the ``master_model.json`` if this file is present
 at the calibration tree) and the ``extraction_offset`` parameter set in
 the ``6_LcbAdquisition.yaml``, and then it is resampled according to the
 wavelength calibration in ``master_wlcalib.json``. Then it is divided by
@@ -1477,13 +1467,13 @@ result named ``reduced_rss.fits``.
 The sky is subtracted by combining the 56 fibers dedicated for this
 purpose in the LCB mode. The RSS with sky subtracted is saved in a file
 named ``final_rss.fits`` as a result of the recipe. Then, the centroids
-around both the center of the field and the brighest spaxel are computed
+around both the center of the field and the brightest spaxel are computed
 using up the signal from the 3 rings of fibers (37 fibers in total)
 around these two spaxels. The offsets needed to center the object
 (considered to be either the centroid around the central spaxel or, more
 likely, around the brightest spaxel) in the center of the LCB field are
 then returned both in mm and arcsec. This information is saved in the
-``processing.log`` file at the ``obsid6_LcbImage_HR-R_result/`` directory.
+``processing.log`` file at the ``obsid6_LcbImage_HR-R_results/`` directory.
 
 .. code-block:: console
 
@@ -1495,7 +1485,6 @@ then returned both in mm and arcsec. This information is saved in the
    0001286973-20170724-MEGARA-MegaraLcbImage.fits@
    0001286974-20170724-MEGARA-MegaraLcbImage.fits@
    0001286975-20170724-MEGARA-MegaraLcbImage.fits@
-   index.pkl
    master_bias.fits@
    master_bpm.fits.gz@
    master_fiberflat.fits@
@@ -1544,7 +1533,7 @@ then returned both in mm and arcsec. This information is saved in the
    2024-10-15 15:45:56,853 - megaradrp.processing.centroid - INFO - FWHM , x=1.402805, y=1.400284 arcsec
 
 
-In this example, the brighest spaxel is located at ``[0.38366336928735895,
+In this example, the brightest spaxel is located at ``[0.38366336928735895,
 0.0] mm`` relative to the center of the field, which is, by definition
 located at ``[0.0, 0.0] mm``. The position of the centroid obtained from
 the 37 fibers around this spaxels is ``[0.29712138659120624,
@@ -1560,7 +1549,7 @@ In this case, the observation-result file was named
 ``7_StandardStar.yaml`` and includes spectrophotometric standard star
 individual exposures:
 
-.. literalinclude:: files/7_StandardStar.yaml
+.. literalinclude:: files/7_Standardstar.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -1573,12 +1562,14 @@ spectrum in AB magnitudes is provided.  (the format of these files is the same
 as for those found in the ESO spectrophotometric standard stars database
 located at this `ESO web page
 <https://www.eso.org/sci/observing/tools/standards/spectra/>`_).  The
-``reference_extinction`` parameter points to the text file with the information
-to apply the atmospheric extinction correction.  (for processing standard-star
-observations this parameter must be defined in the
-``7_StandardStar.yaml`` file or the recipe would fail; in the case of the
-**MegaraLcbImage** or **MegarMosImage** recipes this would only imply that the
-processed data would not be corrected for atmospheric extinction).
+``reference_extinction`` requirement is the text file with the information to
+apply the atmospheric extinction correction. It is not set in the
+``7_Standardstar.yaml`` file: the file ``extinction_LP.txt`` of the calibration
+tree is used (the requirement can be set in the observation result file to use
+a different extinction table, placed in the ``data/`` directory). For
+processing standard-star observations the extinction table is required; in the
+case of the **MegaraLcbImage** or **MegaraMosImage** recipes, without it the
+processed data would not be corrected for atmospheric extinction.
 
 By default, the DRP searches for these data files in the
 ``data/`` directory.  The ``position`` parameter is the position of the
@@ -1608,7 +1599,7 @@ images are then stacked using a median. The result of the combination is saved
 as an intermediate result, named ``reduced_image.fits``.
 
 The apertures in the 2D image are extracted, using the information in
-``master_traces.json`` (or in the ``model_map.json`` if this file is present
+``master_traces.json`` (or in the ``master_model.json`` if this file is present
 at the calibration tree) and the ``extraction_offset`` parameter set in
 the ``7_StandardStar.yaml``, and then it is resampled according to the
 wavelength calibration in ``master_wlcalib.json``. Then, the result is
@@ -1623,7 +1614,7 @@ given in the ``position`` parameter so, finally, the ``star_spectrum.fits`` is
 returned. This star spectrum is degraded with a Gaussian filter, corrected by
 atmospheric extinction and compared with the reference spectrum to return the
 ``master_sensitivity.fits``, which is finally stored at the
-``obsid7_StandardStar_HR-R_result/`` directory.
+``obsid7_StandardStar_HR-R_results/`` directory.
 
 .. code-block:: console
 
@@ -1635,7 +1626,6 @@ atmospheric extinction and compared with the reference spectrum to return the
    0001286973-20170724-MEGARA-MegaraLcbImage.fits@
    0001286974-20170724-MEGARA-MegaraLcbImage.fits@
    0001286975-20170724-MEGARA-MegaraLcbImage.fits@
-   index.pkl
    master_bias.fits@
    master_bpm.fits.gz@
    master_fiberflat.fits@
@@ -1654,7 +1644,7 @@ atmospheric extinction and compared with the reference spectrum to return the
    final_rss.fits           reduced_rss.fits         star_spectrum.fits
    master_sensitivity.fits  result.json              task.json
    processing.log           sensitivity_raw.fits
-   
+
 The user can visualize the ``master_sensitivity.fits`` curve (see **Figure
 14**) running the python script ``megaratools-plot_spectrum`` that can
 be found in the DRP distribution located at
@@ -1745,7 +1735,7 @@ LCB IFU/MOS scientific observation
 Once all the calibrations files are derived and copied at the
 corresponding calibration directories, the user can reduce the
 corresponding scientific observations with recipes **MegaraLcbImage** or
-**MegarMosImage** depending on the observing mode (the LCB IFU or the
+**MegaraMosImage** depending on the observing mode (the LCB IFU or the
 MOS).
 
 In this case, the observation-result files are named ``8_LcbImage.yaml`` for
@@ -1825,7 +1815,7 @@ images are then stacked using a median. The result of the combination is
 saved as an intermediate result, named ``reduced_image.fits``.
 
 The apertures in the 2D image are extracted, using the information in
-``master_traces.json`` (or in the ``model_map.json`` if this file is present
+``master_traces.json`` (or in the ``master_model.json`` if this file is present
 at the calibration tree) and the ``extraction_offset`` parameter set in
 the ``8_LcbImage.yaml``. These are then resampled according to the
 wavelength calibration in ``master_wlcalib.json``. Then, the result is
@@ -1855,7 +1845,6 @@ Notice that ``sky_rss.fits`` is not corrected for extinction.
    0001309955-20170822-MEGARA-MegaraLcbAcquisition.fits@
    0001309956-20170822-MEGARA-MegaraLcbAcquisition.fits@
    0001309957-20170822-MEGARA-MegaraLcbAcquisition.fits@
-   index.pkl
    master_bias.fits@
    master_bpm.fits.gz@
    master_fiberflat.fits@
@@ -1895,7 +1884,6 @@ data reduction:
    0001288184-20170731-MEGARA-MegaraMosImage.fits@
    0001288185-20170731-MEGARA-MegaraMosImage.fits@
    0001288186-20170731-MEGARA-MegaraMosImage.fits@
-   index.pkl
    master_bias.fits@
    master_bpm.fits@
    master_fiberflat.fits@
@@ -1981,4 +1969,3 @@ file:
 .. |image16| image:: _static/image37.png
    :width: 3.5784in
    :height: 2.70836in
-
