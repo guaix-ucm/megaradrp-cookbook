@@ -1,0 +1,5 @@
+[codespell]
+# Names of arc lamps and materials, and the ordinal 2nd split by markup
+ignore-words-list = thne,thar,caf,nd
+# Captured outputs of the tools, their typos are fixed in the tools
+skip = help_*.txt
