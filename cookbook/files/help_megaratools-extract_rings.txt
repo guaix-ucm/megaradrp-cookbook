@@ -2,26 +2,27 @@ usage: extract_elliptical_rings_spectrum [-h] [-r RSS-SPECTRUM] [-a] [-b]
                                          [-c CENTRAL-FIBER] [-n NUMBER-RINGS]
                                          [-w RINGS WIDTH] [-s SAVED-RSS]
                                          [-e ELLIPTICITY] [-pa POSITION ANGLE]
-                                         [-v]
+                                         [-v] [-sp]
 
 Extract spectra based on elliptical rings
 
 options:
   -h, --help            show this help message and exit
-  -r RSS-SPECTRUM, --rss RSS-SPECTRUM
+  -r, --rss RSS-SPECTRUM
                         RSS FITS spectrum
   -a, --accumulate
   -b, --surface_brightness
-  -c CENTRAL-FIBER, --central-fiber CENTRAL-FIBER
+  -c, --central-fiber CENTRAL-FIBER
                         Central fiber
-  -n NUMBER-RINGS, --number-rings NUMBER-RINGS
+  -n, --number-rings NUMBER-RINGS
                         Number of rings
-  -w RINGS WIDTH, --width RINGS WIDTH
+  -w, --width RINGS WIDTH
                         Elliptical rings width (arcsec)
-  -s SAVED-RSS, --saved-rss SAVED-RSS
+  -s, --saved-rss SAVED-RSS
                         Output RSS file
-  -e ELLIPTICITY, --ellipticity ELLIPTICITY
+  -e, --ellipticity ELLIPTICITY
                         Elliptical rings ellipticity
-  -pa POSITION ANGLE, --position-angle POSITION ANGLE
+  -pa, --position-angle POSITION ANGLE
                         Elliptical rings position angle (N->E)
   -v, --verbose
+  -sp, --save-plots

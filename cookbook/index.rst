@@ -12,7 +12,7 @@ also joined this task.
 
 **Important:** We strongly recommend using the most up-to-date information
 available on this `webpage
-<https://guaix-ucm.github.io/megaradrp-cookbook/>`_. 
+<https://guaix-ucm.github.io/megaradrp-cookbook/>`_.
 
 .. warning::
 
@@ -34,4 +34,3 @@ available on this `webpage
    megaratools
    issues
    acronyms
-

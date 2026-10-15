@@ -1,23 +1,29 @@
-usage: visualization.py [-h] [--wcs-grid] [--wcs-pa-from-header]
-                        [--fix-missing]
-                        [--average-region AVERAGE_REGION AVERAGE_REGION]
-                        [--extname EXTNAME] [--column COLUMN]
-                        [--continuum-region CONTINUUM_REGION CONTINUUM_REGION]
-                        [--coordinate-type {pixel,wcs}] [--colormap COLORMAP]
-                        [--plot-sky] [--display-fibid] [--plot-nominal-config]
-                        [--hide-values] [--title TITLE] [--label LABEL]
-                        [--hex-size HEX_SIZE] [--hex-rel-size HEX_REL_SIZE]
-                        [--min-cut MIN_CUT] [--max-cut MAX_CUT]
-                        [--percent PERCENT]
-                        [--stretch {linear,sqrt,power,log,asinh}]
-                        [--contour-pixel-size CONTOUR_PIXEL_SIZE]
-                        [--contour-levels CONTOUR_LEVELS] [--contour]
-                        [--contour-image CONTOUR_IMAGE]
-                        [--contour-image-column CONTOUR_IMAGE_COLUMN]
-                        [--contour-image-save CONTOUR_IMAGE_SAVE]
-                        [--contour-image-region CONTOUR_IMAGE_REGION CONTOUR_IMAGE_REGION]
-                        [--contour-is-density]
-                        RSS [RSS ...]
+usage: python -m megaradrp.visualization [-h] [--wcs-grid]
+                                         [--wcs-pa-from-header]
+                                         [--fix-missing]
+                                         [--average-region AVERAGE_REGION AVERAGE_REGION]
+                                         [--extname EXTNAME] [--column COLUMN]
+                                         [--continuum-region CONTINUUM_REGION CONTINUUM_REGION]
+                                         [--coordinate-type {pixel,wcs}]
+                                         [--colormap COLORMAP] [--plot-sky]
+                                         [--display-fibid]
+                                         [--plot-nominal-config]
+                                         [--hide-values] [--title TITLE]
+                                         [--label LABEL] [--hex-size HEX_SIZE]
+                                         [--hex-rel-size HEX_REL_SIZE]
+                                         [--min-cut MIN_CUT]
+                                         [--max-cut MAX_CUT]
+                                         [--percent PERCENT]
+                                         [--stretch {linear,sqrt,power,log,asinh}]
+                                         [--contour-pixel-size CONTOUR_PIXEL_SIZE]
+                                         [--contour-levels CONTOUR_LEVELS]
+                                         [--contour]
+                                         [--contour-image CONTOUR_IMAGE]
+                                         [--contour-image-column CONTOUR_IMAGE_COLUMN]
+                                         [--contour-image-save CONTOUR_IMAGE_SAVE]
+                                         [--contour-image-region CONTOUR_IMAGE_REGION CONTOUR_IMAGE_REGION]
+                                         [--contour-is-density]
+                                         RSS [RSS ...]
 
 Display MEGARA RSS images
 
@@ -32,10 +38,9 @@ options:
   --fix-missing         Interpolate missing fibers
   --average-region AVERAGE_REGION AVERAGE_REGION
                         Region of the RSS averaged on display
-  --extname EXTNAME, -e EXTNAME
+  --extname, -e EXTNAME
                         Name of the extension used
-  --column COLUMN, -c COLUMN
-                        Column of the RSS on display
+  --column, -c COLUMN   Column of the RSS on display
   --continuum-region CONTINUUM_REGION CONTINUUM_REGION
                         Region of the RSS used for continuum subtraction
   --coordinate-type {pixel,wcs}
@@ -57,7 +62,7 @@ options:
   --max-cut MAX_CUT     Superior cut level
   --percent PERCENT     Compute cuts using percentiles
   --stretch {linear,sqrt,power,log,asinh}
-                        Name of the strech method used for display
+                        Name of the stretch method used for display
 
 contouring:
   --contour-pixel-size CONTOUR_PIXEL_SIZE

@@ -10,19 +10,19 @@ options:
   -h, --help            show this help message and exit
   -l, --is-a-list       Use for -s being a list of FITS spectra
   -c, --is-a-cube       Use for -s being a list of cubes (not rss) spectra
-  -p PIXEL_SIZE, --pixel-size PIXEL_SIZE
+  -p, --pixel-size PIXEL_SIZE
                         Pixel size in arc seconds (default = 0.4)
-  -o OUTFILE, --outfile OUTFILE
+  -o, --outfile OUTFILE
                         Name of the output cube file (default = test
   -d, --disable-scaling
                         Disable flux conservation
-  -m {nn,linear}, --method {nn,linear}
+  -m, --method {nn,linear}
                         Method of interpolation
   --wcs-pa-from-header  Use PA angle from header
   -trim, --trimming     Use for trimming the cubes
   -hyp, --hyper         Use for creating the hypercube
   -helio, --helio       Use for applying heliocentric velocity correction
-  -trimn [TRIMMING_NUMBERS ...], --trimming-numbers [TRIMMING_NUMBERS ...]
+  -trimn, --trimming-numbers [TRIMMING_NUMBERS ...]
                         Use for declare the number of rows and columns you
                         want to trim. [Bottom rows, top rows, left column,
                         right column] (default= 1,2,1,1)

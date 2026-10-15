@@ -7,27 +7,27 @@ Input spectrum and table
 
 options:
   -h, --help            show this help message and exit
-  -s SPECTRUM/FILE_LIST, --spectrum SPECTRUM/FILE_LIST
+  -s, --spectrum SPECTRUM/FILE_LIST
                         FITS spectrum / list of FITS spectra
   -l, --is-a-list       Use for -s being a list of FITS spectra
-  -t STD-TABLE, --std-table STD-TABLE
+  -t, --std-table STD-TABLE
                         Standard-star spectrum table
-  -c LINECAT-TABLE, --catalog LINECAT-TABLE
+  -c, --catalog LINECAT-TABLE
                         Cataloged lines CSV table
-  -z LINECAT-Z, --redshift LINECAT-Z
+  -z, --redshift LINECAT-Z
                         Redshift for catalog lines
-  -o OUTPUT-PDF, --output OUTPUT-PDF
+  -o, --output OUTPUT-PDF
                         Output PDF
   -e, --efficiency      Efficiency?
   -p, --plot            Plot spectrum?
   -n, --no-legend       Legend?
-  -L1 INITIAL LAMBDA, --min-lambda INITIAL LAMBDA
+  -L1, --min-lambda INITIAL LAMBDA
                         Initial (rest-frame) lambda to plot
-  -L2 LAST LAMBDA, --max-lambda LAST LAMBDA
+  -L2, --max-lambda LAST LAMBDA
                         Last (rest-frame) lambda to plot
-  -F1 YMIN FLUX, --min-flambda YMIN FLUX
+  -F1, --min-flambda YMIN FLUX
                         Minimum flux to plot
-  -F2 YMAX FLUX, --max-flambda YMAX FLUX
+  -F2, --max-flambda YMAX FLUX
                         Maximum flux to plot
-  -T PLOT TITLE, --title PLOT TITLE
+  -T, --title PLOT TITLE
                         Title of the plot

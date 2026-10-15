@@ -91,7 +91,7 @@ in Table 1. This table also includes the reciprocal (linear) dispersion
 (CDELT) and wavelength for the initial pixel (CRVAL for CRPIX=1) as
 adopted for the MEGARA DRP for different VPHs. The user is referred to
 different publications to learn more about the MEGARA instrument,
-including 
+including
 `Gil de Paz et al. (2016)
 <https://www.spiedigitallibrary.org/conference-proceedings-of-spie/9908/1/MEGARA-the-new-intermediate-resolution-optical-IFU-and-MOS-for/10.1117/12.2231988.full>`_,
 `Gil de Paz et al. (2018)

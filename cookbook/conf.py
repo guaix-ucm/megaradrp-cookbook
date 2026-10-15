@@ -18,12 +18,12 @@
 # -- Project information -----------------------------------------------------
 
 project = 'megara-cookbook'
-copyright = '2018-2025, Universidad Complutense de Madrid'
+copyright = '2018-2026, Universidad Complutense de Madrid'
 author = 'África Castillo-Morales, Sergio Pascual, Armando Gil de Paz,\nNicolás Cardiel, Mario Chamorro-Cazorla'
 # NOTE: see below for author list in LaTeX document
 
 # The full version, including alpha/beta/rc tags
-release = '2025.05.16'
+release = '2026.10.15'
 
 
 # -- General configuration ---------------------------------------------------
@@ -128,4 +128,3 @@ latex_elements = {
 \end{titlepage}
 ''',
 }
-

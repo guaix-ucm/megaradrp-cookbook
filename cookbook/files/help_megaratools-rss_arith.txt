@@ -7,7 +7,7 @@ positional arguments:
 
 options:
   -h, --help            show this help message and exit
-  -e Equation to evaluate, --equation Equation to evaluate
+  -e, --equation Equation to evaluate
                         Example: '(ima1[:,9] + ima2[:,10])/ ima3[:,3]'
-  -o OUTPUT RSS, --output OUTPUT RSS
+  -o, --output OUTPUT RSS
                         Output RSS

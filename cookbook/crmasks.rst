@@ -36,8 +36,8 @@ exposures *prior to* extracting the resulting spectrum from each fiber.
 
 **Requirements and methodology**
 
-This method requires three or more equivalent exposures. It identifies pixels 
-where cosmic rays have affected the signal in more than half of the available 
+This method requires three or more equivalent exposures. It identifies pixels
+where cosmic rays have affected the signal in more than half of the available
 exposures—cases where median combination alone cannot remove the contamination.
 
 .. note::
@@ -70,10 +70,10 @@ The main workflow for applying the method is as follows:
 
 .. note::
 
-   The available combination methods, ``mediancr``, ``meancrt``, ``meancr`` and 
+   The available combination methods, ``mediancr``, ``meancrt``, ``meancr`` and
    ``meancr2``, produce different results:
 
-   - ``mediancr``: performs a median combination, replacing pixels 
+   - ``mediancr``: performs a median combination, replacing pixels
      suspected of being affected by cosmic rays in more than one exposure by
      the "minimum value" at each pixel across the available exposures.
    - ``meancrt``: generates the mean combination using of a single mask that
@@ -85,7 +85,7 @@ The main workflow for applying the method is as follows:
    - ``meancr2``: makes use of ``meancr`` and interpolates residual cosmic ray
      pixels detected using the selected method.
 
-   Since the mean has a lower standard deviation than the median, the 
+   Since the mean has a lower standard deviation than the median, the
    ``meancrt`` and ``meancr`` methods are generally preferable. Among these
    two, tests suggest that ``meancr`` tends to yield better
    results. However, it is recommended to try all three methods and compare the
@@ -108,10 +108,10 @@ step.
 Note that in this file is important to specify:
 
 - ``mode: MegaraCrDetection``, so the MEGARA DRP will know that the
-  ``8_generate_crmasks.yaml`` file is intended for generating the CR masks. 
+  ``8_generate_crmasks.yaml`` file is intended for generating the CR masks.
 
 - ``frames:`` one should provide here the list of the individual equivalent
-  exposures. 
+  exposures.
 
 - ``requirements:`` this section contains a large set of parameters whose
   values define the strategy used for the cosmic-ray detection. This section is
@@ -135,7 +135,7 @@ Note that in this file is important to specify:
        trimming, bias subtraction, gain correction and flatfielding (the images
        data values are in electrons).
 
-     - ``preprocessed_median.fits``: the median combination of the thre previous
+     - ``preprocessed_median.fits``: the median combination of the three previous
        preprocessed individual images.
 
    - ``save_postprocessed: True`` (False by default): if True, the following
@@ -179,7 +179,7 @@ so the resulting output is identical.
 Output file ``crmasks.fits``
 ----------------------------
 
-The output file ``crmasks.fits`` is generated in the *results/* subdirectory, 
+The output file ``crmasks.fits`` is generated in the *results/* subdirectory,
 and contains several extensions:
 
 .. code-block:: console
@@ -195,14 +195,14 @@ and contains several extensions:
 
    Filename: crmasks.fits
    No.    Name      Ver    Type      Cards   Dimensions   Format
-     0  PRIMARY       1 PrimaryHDU     121   ()      
-     1  MEDIANCR      1 ImageHDU         8   (4096, 4112)   uint8   
-     2  MEANCRT       1 ImageHDU         8   (4096, 4112)   uint8   
-     3  CRMASK1       1 ImageHDU         8   (4096, 4112)   uint8   
-     4  CRMASK2       1 ImageHDU         8   (4096, 4112)   uint8   
-     5  CRMASK3       1 ImageHDU         8   (4096, 4112)   uint8   
-     6  MEANCR        1 ImageHDU         8   (4096, 4112)   uint8   
-     7  AUXCLEAN      1 ImageHDU         8   (4096, 4112)   float32 
+     0  PRIMARY       1 PrimaryHDU     121   ()
+     1  MEDIANCR      1 ImageHDU         8   (4096, 4112)   uint8
+     2  MEANCRT       1 ImageHDU         8   (4096, 4112)   uint8
+     3  CRMASK1       1 ImageHDU         8   (4096, 4112)   uint8
+     4  CRMASK2       1 ImageHDU         8   (4096, 4112)   uint8
+     5  CRMASK3       1 ImageHDU         8   (4096, 4112)   uint8
+     6  MEANCR        1 ImageHDU         8   (4096, 4112)   uint8
+     7  AUXCLEAN      1 ImageHDU         8   (4096, 4112)   float32
 
 The primary HDU does not contain image data but includes keywords that document the parameters used to generate the masks.
 
@@ -214,7 +214,7 @@ The next extensions store the actual masks computed by the program:
   a cosmic ray in the mean combination.
 - ``CRMASK1``, ``CRMASK2``, ``CRMASK3``: Masks for pixels suspected
   of being affected by a cosmic ray in each of the individual exposures.
-- ``MEANCR``: Mask computed using the chosen CR detection method on the 
+- ``MEANCR``: Mask computed using the chosen CR detection method on the
   masked mean combination.
 
 In all these masks, pixels suspected of being affected by a cosmic ray
@@ -294,10 +294,10 @@ Method ``meancrt``
    :lineno-start: 1
    :emphasize-lines: 2, 9-12
 
-When using ``method: meancrt``, the MEGARA DRP reads the mask stored in 
+When using ``method: meancrt``, the MEGARA DRP reads the mask stored in
 the ``MEANCRT`` extension of the file ``crmasks.fits``. The masked pixels,
-which are suspected of being affected by a cosmic ray, are replaced by 
-the corresponding values when using ``method: mediancr``. 
+which are suspected of being affected by a cosmic ray, are replaced by
+the corresponding values when using ``method: mediancr``.
 
 As a result, the final image is identical to ``mean2d``, except for the
 corrected pixels, where the data is sourced from the image produced by the
@@ -348,4 +348,3 @@ combination computed using the ``mediancr`` method (if ``use_auxmedian: True``).
 
 The parameters under the ``method_kwargs:`` label play the same role as
 described above for the ``mediancr`` combination method.
-

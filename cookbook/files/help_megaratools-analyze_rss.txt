@@ -9,78 +9,86 @@ usage: analyze_rss [-h] [-s RSS FILE] [-f FITTING FUNCTION (0,1,2)]
                    [-PW1 LOWER WAVELENGTH - PLOT]
                    [-PW2 UPPER WAVELENGTH - PLOT] [-S2 SCALE FACTOR FOR AMP2]
                    [-z REDSHIFT] [-o OUTPUT-PDF] [-v] [-O OUTPUT RSS FILE]
-                   [-of OUTPUT FIBERS LIST]
+                   [-of OUTPUT FIBERS LIST] [-a] [-i] [-H]
+                   [-co TARGET COORDINATES] [-tm TIME]
 
      __________________  ANALYZE_RSS PROGRAM  __________________
 
      ____________  OUTPUT PARAMETER IN OUTPUT FITS  ____________
      Property  channel description
 
-...  FM        #  0 Fitting method (0=gauss-hermite,1=1gauss,2=2gauss)
-...  CONTINUUM #  1 Continuum level in cgs
-...  NOISE     #  2 rms in cgs
-...  SNR       #  3 S/N at the peak of the line
-...  FLUXD     #  4 Flux from window_data - window_continuum
-...  EWD       #  5 Flux from window_data - window_continuum / mean_continuum
-...  FLUXF     #  6 Flux from best-fitting function(s)
-...  EWF       #  7 EW from best-fitting function(s)
-...  H0        #  8 amplitude for methods 0 & 1 & 2 (first gaussian)
-...  H1        #  9 central lambda for methods 0 & 1 & 2 (first gaussian)
-...  H2        # 10 sigma (in AA) for methods 0 & 1 & 2 (first gaussian)
-...  H3        # 11 h3 for method 0
-...  H4        # 12 h4 for method 0
-...  H0B       # 13 amplitude for method 2 (second gaussian)
-...  H1B       # 14 central lambda for method 2 (second gaussian)  
-...  H2B       # 15 sigma (in AA) for method 2 (second gaussian)
-...  H1KS      # 16 velocity in km/s from H1 (1st g)
-...  H2KS      # 17 sigma in km/s from H2 (1st g)
-...  H2KLC     # 18 sigma in km/s from H2 corrected for instrumental sigma (1st g)
-...  H1KSB     # 19 velocity in km/s from H1B (2nd g)
-...  H2KSB     # 20 sigma in km/s from H2B (2nd g)
-...  H2KLCB    # 21 sigma in km/s from H2 corrected for instrumental sigma (2nd g)
-...  FLUXF1    # 22 Flux from best-fitting 1st gaussian 
-...  FLUXF2    # 23 Flux from best-fitting 2nd gaussian 
-...  EFLUXD    # 24 Error of 4 (Flux from window_data - window_continuum) 
-...  EEWD      # 25 Error of 5 (Flux from window_data - window_continuum / mean_continuum)
-...  EFLUXF    # 26 Error of 6 (Flux from best-fitting function(s))
-...  EEWF      # 27 Error of 7 (EW from best-fitting function(s))
-...  CHI2      # 28 best-fitting chi^2 (cgs)
+...  FM        #  1 Fitting method (0=gauss-hermite,1=1gauss,2=2gauss)
+...  CONTINUUM #  2 Continuum level in cgs
+...  NOISE     #  3 rms in cgs
+...  SNR       #  4 S/N at the peak of the line
+...  FLUXD     #  5 Flux from window_data - window_continuum
+...  EWD       #  6 Flux from window_data - window_continuum / mean_continuum
+...  FLUXF     #  7 Flux from best-fitting function(s)
+...  EWF       #  8 EW from best-fitting function(s)
+...  H0        #  9 amplitude for methods 0 & 1 & 2 (first gaussian)
+...  H1        # 10 central lambda for methods 0 & 1 & 2 (first gaussian)
+...  H2        # 11 sigma (in AA) for methods 0 & 1 & 2 (first gaussian)
+...  H3        # 12 h3 for method 0
+...  H4        # 13 h4 for method 0
+...  H0B       # 14 amplitude for method 2 (second gaussian)
+...  H1B       # 15 central lambda for method 2 (second gaussian)
+...  H2B       # 16 sigma (in AA) for method 2 (second gaussian)
+...  H1KS      # 17 velocity in km/s from H1 (1st g)
+...  H2KS      # 18 sigma in km/s from H2 (1st g)
+...  H2KLC     # 19 sigma in km/s from H2 corrected for instrumental sigma (1st g)
+...  H1KSB     # 20 velocity in km/s from H1B (2nd g)
+...  H2KSB     # 21 sigma in km/s from H2B (2nd g)
+...  H2KLCB    # 22 sigma in km/s from H2 corrected for instrumental sigma (2nd g)
+...  FLUXF1    # 23 Flux from best-fitting 1st gaussian
+...  FLUXF2    # 24 Flux from best-fitting 2nd gaussian
+...  EFLUXD    # 25 Error of 4 (Flux from window_data - window_continuum)
+...  EEWD      # 26 Error of 5 (Flux from window_data - window_continuum / mean_continuum)
+...  EFLUXF    # 27 Error of 6 (Flux from best-fitting function(s))
+...  EEWF      # 28 Error of 7 (EW from best-fitting function(s))
+...  EH1KS     # 29 Error of 16 (velocity in km/s from H1 (1st g))
+...  CHI2      # 30 best-fitting chi^2 (cgs)
 
 options:
   -h, --help            show this help message and exit
-  -s RSS FILE, --spectrum RSS FILE
+  -s, --spectrum RSS FILE
                         RSS input file
-  -f FITTING FUNCTION (0,1,2), --method FITTING FUNCTION (0,1,2)
+  -f, --method FITTING FUNCTION (0,1,2)
                         Fitting function (0=gauss_hermite, 1=gauss, 2=double_gauss)
-  -S MINIMUM S/N, --limsnr MINIMUM S/N
+  -S, --limsnr MINIMUM S/N
                         Mininum Signal-to-noise ratio in each spaxel
-  -w LINE CENTRAL WAVELENGTH, --ctwl LINE CENTRAL WAVELENGTH
+  -w, --ctwl LINE CENTRAL WAVELENGTH
                         Central rest-frame wavelength for line (AA)
   -k, --use-peak        Use peak first guess on central wavelength
-  -LW1 LOWER WAVELENGTH - LINE, --lcut1 LOWER WAVELENGTH - LINE
+  -LW1, --lcut1 LOWER WAVELENGTH - LINE
                         Lower rest-frame wavelength for line (AA)
-  -LW2 UPPER WAVELENGTH - LINE, --lcut2 UPPER WAVELENGTH - LINE
+  -LW2, --lcut2 UPPER WAVELENGTH - LINE
                         Upper rest-frame wavelength for line (AA)
-  -CW1 LOWER WAVELENGTH - CONT, --ccut1 LOWER WAVELENGTH - CONT
+  -CW1, --ccut1 LOWER WAVELENGTH - CONT
                         Lower rest-frame wavelength for cont. (AA)
-  -CW2 UPPER WAVELENGTH - CONT, --ccut2 UPPER WAVELENGTH - CONT
+  -CW2, --ccut2 UPPER WAVELENGTH - CONT
                         Upper rest-frame wavelength for cont. (AA)
-  -ECW1 EXCLUDE FROM CONT. (LOWER WAVELENGTH), --eccut1 EXCLUDE FROM CONT. (LOWER WAVELENGTH)
+  -ECW1, --eccut1 EXCLUDE FROM CONT. (LOWER WAVELENGTH)
                         Lower rest-frame wavelength of range to exclude for cont. (AA)
-  -ECW2 EXCLUDE FROM CONT. (UPPER WAVELENGTH), --eccut2 EXCLUDE FROM CONT. (UPPER WAVELENGTH)
+  -ECW2, --eccut2 EXCLUDE FROM CONT. (UPPER WAVELENGTH)
                         Upper rest-frame wavelength of range to exclude for cont. (AA)
-  -PW1 LOWER WAVELENGTH - PLOT, --pcut1 LOWER WAVELENGTH - PLOT
+  -PW1, --pcut1 LOWER WAVELENGTH - PLOT
                         Lower (observed) wavelength for plot (AA)
-  -PW2 UPPER WAVELENGTH - PLOT, --pcut2 UPPER WAVELENGTH - PLOT
+  -PW2, --pcut2 UPPER WAVELENGTH - PLOT
                         Upper (observed) wavelength for plot (AA)
-  -S2 SCALE FACTOR FOR AMP2, --scale-amp2 SCALE FACTOR FOR AMP2
+  -S2, --scale-amp2 SCALE FACTOR FOR AMP2
                         Scale factor for amplitude 2
-  -z REDSHIFT, --redshift REDSHIFT
+  -z, --redshift REDSHIFT
                         Redshift for target and catalog lines
-  -o OUTPUT-PDF, --output OUTPUT-PDF
+  -o, --output OUTPUT-PDF
                         Output PDF
   -v, --verbose         Verbose mode for fitting results?
-  -O OUTPUT RSS FILE, --output-rss OUTPUT RSS FILE
+  -O, --output-rss OUTPUT RSS FILE
                         Output RSS file
-  -of OUTPUT FIBERS LIST, --output-fibers OUTPUT FIBERS LIST
+  -of, --output-fibers OUTPUT FIBERS LIST
                         Output list of fibers above minimum Signal-to-noise ratio
+  -a, --absorption      Are you analyzing an absorption feature?
+  -i, --index           Measuring spectral indices?
+  -H, --heliocentric    Apply heliocentric correction to velocities?
+  -co, --coord TARGET COORDINATES
+                        Coordinates ("01:58:00 +65:43:05")
+  -tm, --time TIME      Time in format "2019-09-24T02:23:22.19"

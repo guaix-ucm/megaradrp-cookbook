@@ -4,33 +4,36 @@ usage: clean_diffuse_light [-h] [-i INPUT-IMAGE] [-o OUTPUT-IMAGE]
                            [-d DEGREE-POLY-COLS] [-d2 DEGREE-POLY-ROWS]
                            [-p OUTPUT-PLOT] [-b SPECTRAL-BINNING]
                            [-e EXCLUDE-REGION [EXCLUDE-REGION ...]] [-2D]
+                           [-E EXCLUDE EDGE]
 
 Cleaning of diffuse light from a reduced (non-RSS) MEGARA image
 
 options:
   -h, --help            show this help message and exit
-  -i INPUT-IMAGE, --input INPUT-IMAGE
+  -i, --input INPUT-IMAGE
                         Reduced FITS image
-  -o OUTPUT-IMAGE, --output OUTPUT-IMAGE
+  -o, --output OUTPUT-IMAGE
                         Output diffuse-light FITS image
-  -r RESIDUALS-IMAGE, --residuals RESIDUALS-IMAGE
+  -r, --residuals RESIDUALS-IMAGE
                         Output residual FITS image
-  -t MASTER-TRACES, --traces MASTER-TRACES
+  -t, --traces MASTER-TRACES
                         Master traces JSON file
-  -s SHIFT-TRACES, --shift SHIFT-TRACES
+  -s, --shift SHIFT-TRACES
                         Traces shift
-  -w SEARCH-WINDOW, --window SEARCH-WINDOW
+  -w, --window SEARCH-WINDOW
                         Window around traces to search for non-illuminated
                         fibers
-  -d DEGREE-POLY-COLS, --degree DEGREE-POLY-COLS
+  -d, --degree DEGREE-POLY-COLS
                         Degree of polynomial fit for columns
-  -d2 DEGREE-POLY-ROWS, --degree-rows DEGREE-POLY-ROWS
+  -d2, --degree-rows DEGREE-POLY-ROWS
                         Degree of polynomial fit for rows
-  -p OUTPUT-PLOT, --outplot OUTPUT-PLOT
+  -p, --outplot OUTPUT-PLOT
                         Output plots
-  -b SPECTRAL-BINNING, --binning SPECTRAL-BINNING
+  -b, --binning SPECTRAL-BINNING
                         Binning in the spectral direction
-  -e EXCLUDE-REGION [EXCLUDE-REGION ...], --exclude EXCLUDE-REGION [EXCLUDE-REGION ...]
+  -e, --exclude EXCLUDE-REGION [EXCLUDE-REGION ...]
                         Exclude region (c1 c2 r1 r2), e.g. 2407 2720 0 164
   -2D, --two-dimensional
                         Two-dimensional fitting?
+  -E, --edge EXCLUDE EDGE
+                        Exclude this number of pixels from each edge

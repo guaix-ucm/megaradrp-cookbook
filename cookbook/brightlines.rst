@@ -30,13 +30,13 @@ This is another example of a raw Th-Ne arc exposure, using the LR-R VPH:
    :width: 100%
    :alt: single spectrum of raw LR-R exposure of ThNe lamp
 
-**Note that in the spectral cut (in both examples), a logarithmic vertical 
+**Note that in the spectral cut (in both examples), a logarithmic vertical
 scale is being used.**
 
 Although the effect has a very low signal compared to the center of the
 lines, it is important to examine the raw images of the arc exposures to check
 whether the effect is present. This effect can also be detected in exposures of
-scientific objects with intense emission lines. 
+scientific objects with intense emission lines.
 
 **MEGARA DRP does not include any functionality to address this issue.** It is
 recommended to avoid those regions near the tails of very bright lines when

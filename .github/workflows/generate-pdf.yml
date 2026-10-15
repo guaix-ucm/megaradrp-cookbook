@@ -2,8 +2,8 @@ name: generate-pdf
 
 # Run manually
 on: workflow_dispatch
-  
-# This job installs dependencies, builds the cookbook 
+
+# This job installs dependencies, builds the cookbook
 # and creates a pdf file
 jobs:
   generate-pdf:
