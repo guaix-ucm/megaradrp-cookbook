@@ -34,8 +34,18 @@ The first step to start the data reduction is to activate your
 environment (see details in section :ref:`DRP_installation`).
 
 The next step is to download the data employed in this cookbook:
-`megara-cookbook-v3.tar.gz
-<https://guaix.fis.ucm.es/data/megaradrp/megara-cookbook-v3.tar.gz>`_
+`megara-cookbook-v4.tar.gz
+<https://guaix.fis.ucm.es/data/megaradrp/megara-cookbook-v4.tar.gz>`_
+
+.. note::
+
+   The only difference with the previous version, ``megara-cookbook-v3.tar.gz``,
+   is in the headers of six images of the M15 data set: the twilight flats
+   of 2017-06-26 (``0001251794`` to ``0001251796``) did not have the keywords
+   ``UUID`` and ``COVER``, and the images of the standard star of 2017-07-24
+   (``0001286973`` to ``0001286975``) had an integer ``COVER``. With the
+   current headers, the images pass the validation of the headers of the
+   MEGARA DRP.
 
 If you find any trouble trying to download the previous file, try with the
 following command line:
@@ -43,18 +53,18 @@ following command line:
 
 .. code-block:: console
 
-    (megara) $ curl -O https://guaix.fis.ucm.es/data/megaradrp/megara-cookbook-v3.tar.gz
+    (megara) $ curl -O https://guaix.fis.ucm.es/data/megaradrp/megara-cookbook-v4.tar.gz
 
 It is advisable to decompress the previous file in a pristine directory where
 you can comfortably start the reduction of the data:
 
 .. code-block:: console
 
-   (megara) $ tar zxvf megara-cookbook-v3.tar.gz
+   (megara) $ tar zxvf megara-cookbook-v4.tar.gz
 
 .. code-block:: console
 
-   (megara) $ cd megara-cookbook-v3
+   (megara) $ cd megara-cookbook-v4
    (megara) $ ls
 
 .. code-block:: console
@@ -154,9 +164,9 @@ This process is illustrated below using the M15 data set as an example.
    Downloading and installing calibration data from:
    https://zenodo.org/records/18623771/files/guaix-ucm/megaradrp-calibrations-2026.
    2.zip
-   Downloading data from 'https://zenodo.org/records/18623771/files/guaix-ucm/megaradrp-calibrations-2026.2.zip' to file '/Users/cardiel/w/GTC/megara/20260223_megara-cookbook-v3/work/megara-cookbook-v3/M15_LCB_HR-R/calibrations/calibration_data.zip'.
+   Downloading data from 'https://zenodo.org/records/18623771/files/guaix-ucm/megaradrp-calibrations-2026.2.zip' to file '/Users/janedoe/work/megara-cookbook-v4/M15_LCB_HR-R/calibrations/calibration_data.zip'.
    100%|████████████████████████████████████████| 106k/106k [00:00<00:00, 887MB/s]
-   Unzipping contents of '/Users/cardiel/w/GTC/megara/20260223_megara-cookbook-v3/work/megara-cookbook-v3/M15_LCB_HR-R/calibrations/calibration_data.zip' to '/Users/cardiel/w/GTC/megara/20260223_megara-cookbook-v3/work/megara-cookbook-v3/M15_LCB_HR-R/calibrations/.'
+   Unzipping contents of '/Users/janedoe/work/megara-cookbook-v4/M15_LCB_HR-R/calibrations/calibration_data.zip' to '/Users/janedoe/work/megara-cookbook-v4/M15_LCB_HR-R/calibrations/.'
    Found directory to strip: 'guaix-ucm-megaradrp-calibrations-40fb7c2/'
    Moving files to base path: 'calibrations'
    Stripping fixed part of the path: 'guaix-ucm-megaradrp-calibrations-40fb7c2/'
@@ -164,9 +174,9 @@ This process is illustrated below using the M15 data set as an example.
    calibrations/guaix-ucm-megaradrp-calibrations-40fb7c2
    Removing downloaded zip file: calibrations/calibration_data.zip
    Creating new configuration file:
-   /Users/janedoe/work/megara-cookbook-v3/M15_LCB_HR-R/.numina.cfg
+   /Users/janedoe/work/megara-cookbook-v4/M15_LCB_HR-R/.numina.cfg
    Configuration file updated:
-   /Users/janedoe/work/megara-cookbook-v3/M15_LCB_HR-R/.numina.cfg
+   /Users/janedoe/work/megara-cookbook-v4/M15_LCB_HR-R/.numina.cfg
    Calibration data tree structure created under base path: ./calibrations
    ──────────────── Calibration Data Tree Initialization Completed ────────────────
 
@@ -378,7 +388,7 @@ observation-result files (``*.yaml``):
 .. code-block:: console
    :class: my-special-block no-copybutton
 
-   /Users/janedoe/megara-cookbook-v3/M15_LCB_HR-R
+   /Users/janedoe/megara-cookbook-v4/M15_LCB_HR-R
 
 .. code-block:: console
 
@@ -443,7 +453,7 @@ target M15:
 .. code-block:: console
    :class: my-special-block no-copybutton
 
-   /Users/janedoe/megara-cookbook-v3/MEGARA/M15_LCB_HR-R
+   /Users/janedoe/megara-cookbook-v4/MEGARA/M15_LCB_HR-R
 
 You can easily examine the header of the FITS images using the astropy utility
 ``fitsheader``:
