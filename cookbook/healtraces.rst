@@ -4,6 +4,9 @@
 Healing Defective Traces
 ************************
 
+.. Los datos para esta sección están disponibles en
+   ~/w/GTC/megara/20240417_heal_traces/problem_zongnan/obsid02_tracemap_results/
+
 On some occasions, the reduction recipe responsible for determining the
 spectral traces does not work correctly. This may be due to slight detector
 defocus and/or low signal at one of the ends of the observed spectral range. If
