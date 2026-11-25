@@ -3,7 +3,7 @@
 Changes since MEGARA DRP 0.22
 =============================
 
-This section summarizes the changes in MEGARA DRP 0.23 that affect the data
+This section summarizes the changes in MEGARA DRP 0.30 that affect the data
 reduction described in this cookbook: new parameters of the recipes, changes
 of behaviour, and new products. The details are in :ref:`Data_reduction_process`
 and in :ref:`Quality_Control`.
@@ -11,7 +11,7 @@ and in :ref:`Quality_Control`.
 Requirements
 ------------
 
-- MEGARA DRP 0.23 requires Python 3.11 or later and numina 0.42 or later.
+- MEGARA DRP 0.30 requires Python 3.11 or later and numina 0.42 or later.
 - The calibration tree created by ``megaradrp-inittree`` includes the
   dataset of calibrations distributed by the DRP (megaradrp-calibrations,
   2026.11.17): the bad pixel masks, the extinction curve and the

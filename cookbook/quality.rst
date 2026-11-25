@@ -3,7 +3,7 @@
 Quality control, flags and masks
 ================================
 
-Since version 0.23, the calibration recipes of MEGARA DRP check the quality
+Since version 0.30, the calibration recipes of MEGARA DRP check the quality
 of their products, mark the fibers with problems and keep masks of the pixels
 that are not corrected as the rest. This section describes these checks, the
 flags and the masks, and where to find them. The recipes that use each of
@@ -297,7 +297,7 @@ path of air computed with HITRAN and fitted to it (orange): 4.3 m of air
 for the O\ :sub:`2` A band in MR-I, and 0.016 mm of precipitable water for
 the H\ :sub:`2`\ O band at 9300 Å in MR-Z. Right: median of the fibers of
 ``master_fiberflat.fits`` minus 1, without the absorption windows (grey),
-and with them, as in MEGARA DRP 0.23 (blue).
+and with them, as in MEGARA DRP 0.30 (blue).
 
 These absorptions are not part of the response of the instrument. If they
 were left in the fiber flat, dividing by it would add false emission
