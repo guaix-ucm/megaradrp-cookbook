@@ -1141,10 +1141,15 @@ resampled in wavelength by the later recipes. The fibers without a trace
 
 .. image:: _static/image16.png
    :width: 5.91667in
-   :height: 4.14792in
+   :height: 4.45468in
 
 **Figure 8:** Some of the plots included in the ``wavecal_iter2.pdf`` file
-generated with the **MegaraArcCalibration** recipe.
+generated with the **MegaraArcCalibration** recipe: the effective number of
+lines found, the standard deviation of the residuals of the fit, and the
+wavelength of the first pixel and the dispersion of the linear
+approximation of each fiber. The red circles mark the fibers whose
+refinement started from the coefficients interpolated from the other
+fibers (flag ``interpolated``).
 
 Should the user set the ``store_pdf_with_refined_fits`` parameter to
 ``store_pdf_with_refined_fits: 1`` at the ``3_WaveCalib.yaml``, the recipe will
@@ -1375,7 +1380,9 @@ interpolated before the average, so it is not in the average spectrum.
 |image10|
 
 **Figure 11:** Example of the ``master_fiberflat.fits`` file
-generated for MEGARA LCB HR-R mode.
+generated for MEGARA LCB HR-R mode. The zero order of the VPH, which in
+earlier versions of the DRP appeared as a bright arc near the centre of
+the image, is now interpolated in each fiber (see :ref:`Masks`).
 
 .. code-block:: console
 
@@ -2170,10 +2177,10 @@ file:
    :height: 2.28056in
 .. |image10| image:: _static/image19.png
    :width: 6.69306in
-   :height: 1.28472in
+   :height: 1.33580in
 .. |image11| image:: _static/image21.png
    :width: 6.69306in
-   :height: 1.27917in
+   :height: 1.33580in
 .. |image final_rss.fits| image:: _static/image24.png
    :width: 6.69306in
    :height: 1.38125in
