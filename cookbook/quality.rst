@@ -281,6 +281,24 @@ the commissioning data, the deepest bands were H\ :sub:`2`\ O at 9300 Å
 Na D (0.9 % in MR-VR). The water bands change from night to night with the
 humidity of the air.
 
+The lines of the flats are those of the air: a transmission computed line
+by line with HITRAN for a few metres of air follows them one by one
+(**Figure 16c**). The O\ :sub:`2` A and B bands, whose strength differs by
+a factor of about 15, give the same path, 3 to 4.7 m, in five sets of flats
+taken with different VPHs.
+
+.. image:: _static/lamp_tellurics.png
+   :width: 6.0in
+
+**Figure 16c:** Telluric absorption in the flats of the commissioning (2017).
+Left: narrow structure of the mean flat of the halogen lamps (the flat
+divided by its running median of 25 Å, black), and the transmission of a
+path of air computed with HITRAN and fitted to it (orange): 4.3 m of air
+for the O\ :sub:`2` A band in MR-I, and 0.016 mm of precipitable water for
+the H\ :sub:`2`\ O band at 9300 Å in MR-Z. Right: median of the fibers of
+``master_fiberflat.fits`` minus 1, without the absorption windows (grey),
+and with them, as in MEGARA DRP 0.23 (blue).
+
 These absorptions are not part of the response of the instrument. If they
 were left in the fiber flat, dividing by it would add false emission
 features to the science spectra, in the same windows where the science
@@ -344,7 +362,7 @@ the WCS of the cube:
 Since the zero order of the VPH is at fixed columns of the detector, its
 wavelength changes from fiber to fiber. In the cube it is not a plane, but a
 band whose wavelength changes across the field of view, with a pattern that
-follows the position of the fibers in the pseudo-slit (**Figure 16c**). Use
+follows the position of the fibers in the pseudo-slit (**Figure 16d**). Use
 ``FLATMASK`` to find it before interpreting a spatial structure at those
 wavelengths.
 
@@ -356,7 +374,7 @@ wavelengths.
 .. image:: _static/flatmask_cube.png
    :width: 6.0in
 
-**Figure 16c:** Bit 1 of ``FLATMASK`` in the cube of M15 (nearest
+**Figure 16d:** Bit 1 of ``FLATMASK`` in the cube of M15 (nearest
 neighbour, 0.4 arcsec pixels). Left: mean wavelength of the planes flagged
 in each spaxel. It goes from 6609 Å at the top and bottom of the field of
 view to 6616 Å at its centre, following the position of the fibers in the
