@@ -1769,7 +1769,7 @@ be ignored when the sky spectrum is computed (see more details in section
 The ratio between the reference spectrum and the observed spectrum (the raw
 sensitivity, ``sensitivity_raw.fits``) is smoothed with a spline. The spline
 is fitted only in the region of valid flux (``PIXLIMF1``-``PIXLIMF2``, see
-below), and it is extended linearly outside it (see **Figure 14b**). These
+below), and it is extended linearly outside it (see **Figure 14**). These
 parameters control the smoothing:
 
 ``smoothing_knots`` (default ``5``)
@@ -1853,33 +1853,30 @@ atmospheric extinction and compared with the reference spectrum to return the
    master_sensitivity.fits  result.json              task.json
    processing.log           sensitivity_raw.fits
 
-The user can visualize the ``master_sensitivity.fits`` curve (see **Figure
-14**) running the python script ``megaratools-plot_spectrum`` that can
-be found in the DRP distribution located at
-https://github.com/guaix-ucm/megara-tools (see section :ref:`MEGARA_Tools`).
+The sensitivity curve of the cookbook is shown in **Figure 14**. The user
+can visualize the ``master_sensitivity.fits`` curve running the python
+script ``megaratools-plot_spectrum`` that can be found in the
+**megara-tools** package located at https://github.com/guaix-ucm/megara-tools
+(see section :ref:`MEGARA_Tools`), which also shows the ranges WAVLIMM1-2
+and WAVLIMF1-2 described below:
 
 .. code-block:: console
 
    (megara) $ megaratools-plot_spectrum -s obsid7_StandardStar_HR-R_results/master_sensitivity.fits
 
-.. image:: _static/image22.png
-   :width: 4.45in
-   :height: 2.66875in
-
-**Figure 14:** Example of sensitivity curve for MEGARA HR-R VPH. The
-spectral ranges defined by keywords WAVLIMM1-2 and WAVELIMF1-2 are shown
-as cyan and dashed brown lines, respectively (see text for details).
-
 .. image:: _static/sensitivity_smoothing.png
    :width: 6.0in
 
-**Figure 14b:** Raw sensitivity (blue) and smoothed sensitivity (orange) of
-the standard star of the cookbook (HR-R). The grey band is the window of
-H alpha, skipped in the fit: the smoothed sensitivity does not follow the
-residual of the line of the star. The dashed lines are the limits of the
-region of valid flux (``WAVLIMF1`` and ``WAVLIMF2``); outside them the
-spline is extended linearly. The recipe saves a similar plot in
-``smoothed.png``, in the ``work`` directory.
+**Figure 14:** Sensitivity curve of the standard star of the cookbook
+(HR-R): raw sensitivity (``sensitivity_raw.fits``, blue) and smoothed
+sensitivity (``master_sensitivity.fits``, orange). The grey band is the
+window of H alpha, skipped in the fit: the smoothed sensitivity does not
+follow the residual of the line of the star. The spectral ranges defined
+by the keywords WAVLIMM1-2 (covered by all the fibers) and WAVLIMF1-2
+(valid flux calibration) are shown as cyan and dashed brown lines,
+respectively; outside WAVLIMF1-2 the spline is extended linearly. The
+recipe saves a similar plot in ``smoothed.png``, in the ``work``
+directory.
 
 The user needs to copy the file ``master_sensitivity.fits`` to the calibration
 tree:
@@ -1905,7 +1902,7 @@ covered in at least one fiber (PIXLIMR1-2 and WAVLIMR1-2), all fibers
 (PIXLIMM1-2 and WAVLIMM1-2) and with a proper flux calibration
 (PIXLIMF1-2 and WAVLIMF1-2) (see **Table 2**). The latter range is
 limited by the degree of smoothing applied to the sensitivity curve. The
-WAVLIMM1-2 and WAVELIMF1-2 ranges are shown in **Figure 14** using cyan
+WAVLIMM1-2 and WAVLIMF1-2 ranges are shown in **Figure 14** using cyan
 and dashed brown lines, respectively.
 
 +-----------------+-----------------+-----------------+-----------------+
