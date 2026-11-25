@@ -1769,8 +1769,8 @@ be ignored when the sky spectrum is computed (see more details in section
 The ratio between the reference spectrum and the observed spectrum (the raw
 sensitivity, ``sensitivity_raw.fits``) is smoothed with a spline. The spline
 is fitted only in the region of valid flux (``PIXLIMF1``-``PIXLIMF2``, see
-below), and it is extended linearly outside it. These parameters control
-the smoothing:
+below), and it is extended linearly outside it (see **Figure 14b**). These
+parameters control the smoothing:
 
 ``smoothing_knots`` (default ``5``)
    The number of knots of the spline, or a list with their wavelengths.
@@ -1791,17 +1791,6 @@ the smoothing:
 ``extra_skip_windows`` (default ``[]``)
    Other windows to skip, as a list ``[[wl1, wl2], ...]`` of wavelengths in
    Å (in air), for example for a feature of a particular star.
-
-.. image:: _static/sensitivity_smoothing.png
-   :width: 6.0in
-
-**Figure 14b:** Raw sensitivity (blue) and smoothed sensitivity (orange) of
-the standard star of the cookbook (HR-R). The grey band is the window of
-H alpha, skipped in the fit: the smoothed sensitivity does not follow the
-residual of the line of the star. The dashed lines are the limits of the
-region of valid flux (``WAVLIMF1`` and ``WAVLIMF2``); outside them the
-spline is extended linearly. The recipe saves a similar plot in
-``smoothed.png``, in the ``work`` directory.
 
 Then the recipe is run by doing:
 
@@ -1880,6 +1869,17 @@ https://github.com/guaix-ucm/megara-tools (see section :ref:`MEGARA_Tools`).
 **Figure 14:** Example of sensitivity curve for MEGARA HR-R VPH. The
 spectral ranges defined by keywords WAVLIMM1-2 and WAVELIMF1-2 are shown
 as cyan and dashed brown lines, respectively (see text for details).
+
+.. image:: _static/sensitivity_smoothing.png
+   :width: 6.0in
+
+**Figure 14b:** Raw sensitivity (blue) and smoothed sensitivity (orange) of
+the standard star of the cookbook (HR-R). The grey band is the window of
+H alpha, skipped in the fit: the smoothed sensitivity does not follow the
+residual of the line of the star. The dashed lines are the limits of the
+region of valid flux (``WAVLIMF1`` and ``WAVLIMF2``); outside them the
+spline is extended linearly. The recipe saves a similar plot in
+``smoothed.png``, in the ``work`` directory.
 
 The user needs to copy the file ``master_sensitivity.fits`` to the calibration
 tree:
