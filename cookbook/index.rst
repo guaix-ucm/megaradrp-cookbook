@@ -23,7 +23,8 @@ available on this `webpage
 .. note::
 
    MEGARA DRP 0.23 adds quality control of the calibrations, masks of the
-   zero order of the VPH and of the absorption windows, and the automatic
+   zero order of the VPH and of the telluric absorption of the calibration
+   lamps, and the automatic
    measurement of ``extraction_offset``. See :ref:`Changes` and
    :ref:`Quality_Control`.
 

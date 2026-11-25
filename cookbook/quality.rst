@@ -262,6 +262,39 @@ the zero order is light added to the fibers.
 The zero order is not removed from the science images. The twilight flat
 recipe leaves it out of the region used to normalize the fibers.
 
+.. _Lamp_Tellurics:
+
+Telluric absorption in the calibration images
+---------------------------------------------
+
+The light of the calibration lamps crosses several metres of air before it
+reaches the fibers (about 4 m, estimated from the depth of the O\ :sub:`2`
+bands in the flats of the commissioning). The images of the lamps have
+therefore telluric absorption, as the observations of the sky: the bands of
+O\ :sub:`2` (the A band at 7600 Å, the B band at 6870 Å) and of
+H\ :sub:`2`\ O (around 7200, 8200 and 9300 Å). The spectrum of the halogen
+lamps also has the Na D lines (5890 and 5896 Å).
+
+The absorption is weak, but it is not negligible. In the mean fiber flat of
+the commissioning data, the deepest bands were H\ :sub:`2`\ O at 9300 Å
+(3.0 % in LR-Z, 3.5 % in MR-Z), the O\ :sub:`2` A band (1.2 % in MR-I) and
+Na D (0.9 % in MR-VR). The water bands change from night to night with the
+humidity of the air.
+
+These absorptions are not part of the response of the instrument. If they
+were left in the fiber flat, dividing by it would add false emission
+features to the science spectra, in the same windows where the science
+spectra have their own telluric absorption (with a different airmass and
+water content), which has to be corrected later, with a telluric standard.
+
+For this reason, the fiber flat recipe masks the telluric absorption of the
+calibration light: it interpolates the flat of each fiber across the
+windows of the absorptions (see below), and marks them with bit 4 of
+``FLATMASK`` (see :ref:`Masks`). With the interpolation, the deepest
+residual in the commissioning flats is below 0.5 %. The windows of the
+cookbook data (HR-R, 6400-6800 Å) do not include any band, so its
+``FLATMASK`` has no bit 4.
+
 .. _Absorption_Windows:
 
 Absorption windows
@@ -271,11 +304,15 @@ Two tables of windows, distributed with the DRP, are skipped when smooth
 curves are fitted to the spectra:
 
 ``flat_absorption_windows.ecsv``
-   The absorptions of the light of the calibration lamps in its path through
-   the air (O\ :sub:`2` and H\ :sub:`2`\ O bands) and the Na D lines, for the
-   resolution of each family of VPHs (LR, MR and HR). The fiber flat recipe
-   interpolates the flat of each fiber across them (parameter
-   ``skip_absorption_windows``), and marks them with bit 4 of ``FLATMASK``.
+   The telluric absorption of the light of the calibration lamps in its path
+   through the air (O\ :sub:`2` and H\ :sub:`2`\ O lines) and the Na D
+   lines, for the resolution of each family of VPHs (LR, MR and HR). The
+   lines are computed with HITRAN for 4 m of air with 0.03 mm of
+   precipitable water, and each window covers the wavelengths where the
+   absorption is deeper than 0.1 % at the resolution of the family, grown
+   by one resolution element. The fiber flat recipe interpolates the flat of
+   each fiber across them (parameter ``skip_absorption_windows``), and marks
+   them with bit 4 of ``FLATMASK``.
 
 ``sensitivity_skip_windows.ecsv``
    The telluric bands deeper than 3 % at the resolution of the LR VPHs,

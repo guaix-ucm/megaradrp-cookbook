@@ -1328,11 +1328,13 @@ Several parameters control the fiber flat:
    the last knots.
 
 ``skip_absorption_windows`` (default ``True``)
-   The light of the calibration lamps crosses some air before reaching the
-   instrument, so the flats have absorption bands of O\ :sub:`2` and
-   H\ :sub:`2`\ O, and the Na D lines. In these windows (see
-   :ref:`Absorption_Windows`), the flat of each fiber is interpolated, so
-   that the absorptions do not enter the fiber flat.
+   The light of the calibration lamps crosses some metres of air before
+   reaching the instrument, so the flats have telluric absorption bands of
+   O\ :sub:`2` and H\ :sub:`2`\ O (up to 3.5 % deep in the commissioning
+   data), and the Na D lines. In these windows (see :ref:`Lamp_Tellurics`
+   and :ref:`Absorption_Windows`), the flat of each fiber is interpolated,
+   so that the absorptions do not enter the fiber flat, and they are marked
+   with bit 4 of ``FLATMASK``.
 
 ``remove_zero_order`` (default ``True``)
    The zero order of the VPH is diffuse light at a fixed range of columns

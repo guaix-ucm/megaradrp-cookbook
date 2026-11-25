@@ -24,6 +24,11 @@ Quality control and masks
   compute the quality of their products (``GOOD``, ``PARTIAL`` or ``BAD``)
   and add quality flags to the fibers. The products with QC ``BAD`` are not
   used from the registry of the reductions. See :ref:`Quality_Control`.
+- The images of the calibration lamps have telluric absorption (bands of
+  O\ :sub:`2` and H\ :sub:`2`\ O of the air that the light crosses before
+  the fibers, up to 3.5 % deep) and the Na D lines of the lamp. The fiber
+  flat recipe masks them: it interpolates the flat across them and marks
+  them in ``FLATMASK``. See :ref:`Lamp_Tellurics`.
 - The master fiber flat has a new extension, ``FLATMASK``, with the pixels
   of the zero order of the VPH and of the absorption windows. It is copied to
   every RSS corrected with the fiber flat. See :ref:`Masks`.
@@ -89,8 +94,9 @@ Changes of behaviour
   - smooths the average spectrum with knots every 150 Å, follows the fall of
     the spectrum at the borders and extrapolates the smoothing linearly
     there;
-  - interpolates each fiber across the absorptions of the calibration light
-    and across the zero order of the VPH;
+  - interpolates each fiber across the telluric absorption of the
+    calibration light, across the Na D lines of the lamp and across the zero
+    order of the VPH;
   - returns the RSS calibrated in wavelength in ``reduced_rss``;
   - flags the fibers and computes the QC of the fiber flat.
 
