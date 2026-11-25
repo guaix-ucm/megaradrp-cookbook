@@ -166,6 +166,18 @@ doing:
 Default parameters for the ``--disable-scaling`` and ``--wcs-pa-from-header``
 options should be fine for regular MEGARA data processed with the DRP.
 
+The option ``-m`` selects the interpolation: ``nn`` (nearest neighbour, the
+default), ``linear`` or ``quadratic`` (hex-splines of order 1, 2 and 3).
+With ``--fix-missing``, the spectrum of the fiber 623 of the LCB, which has
+no light, is interpolated from the fibers around it.
+
+The extensions ``WLMAP`` and ``FLATMASK`` of the RSS are converted to the
+geometry of the cube (see :ref:`Masks`): ``WLMAP`` is 1 in the pixels of the
+cube with data from all their fibers, and ``FLATMASK`` has in each pixel the
+bits of the fibers that contribute to it. The zero order of the VPH, at
+fixed columns of the detector, appears in the cube as a band whose
+wavelength changes across the field of view.
+
 An alternative software with similar scope has been developed by Javier
 Zaragoza Cardiel (from INAOE) and can be obtained through GitHub at
 https://github.com/javierzaragoza/megararss2cube.

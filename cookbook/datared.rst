@@ -13,7 +13,7 @@ Data reduction
    - the auxiliary file ``control.yaml`` is no longer necessary
    - the calibration tree is automatically built using ``megaradrp-inittree``,
      as explained below
-   - the auxiliary calibration file ``extinction_LP.txt`` is now part of the
+   - the auxiliary calibration file ``extinction_LP`` is now part of the
      calibration tree and no longer needs to be stored in the ``data``
      subdirectory; the requirement ``reference_extinction: extinction_LP.txt``
      should no longer appear in the observation result file (unless the user
@@ -161,18 +161,11 @@ This process is illustrated below using the M15 data set as an example.
 
    ────────────── Megara DRP - Calibration Data Tree Initialization ───────────────
    Creating calibration data tree structure under base path: calibrations
-   Downloading and installing calibration data from:
-   https://zenodo.org/records/18623771/files/guaix-ucm/megaradrp-calibrations-2026.
-   2.zip
-   Downloading data from 'https://zenodo.org/records/18623771/files/guaix-ucm/megaradrp-calibrations-2026.2.zip' to file '/Users/janedoe/work/megara-cookbook-v4/M15_LCB_HR-R/calibrations/calibration_data.zip'.
-   100%|████████████████████████████████████████| 106k/106k [00:00<00:00, 887MB/s]
-   Unzipping contents of '/Users/janedoe/work/megara-cookbook-v4/M15_LCB_HR-R/calibrations/calibration_data.zip' to '/Users/janedoe/work/megara-cookbook-v4/M15_LCB_HR-R/calibrations/.'
-   Found directory to strip: 'guaix-ucm-megaradrp-calibrations-40fb7c2/'
-   Moving files to base path: 'calibrations'
-   Stripping fixed part of the path: 'guaix-ucm-megaradrp-calibrations-40fb7c2/'
-   Removing extracted directory:
-   calibrations/guaix-ucm-megaradrp-calibrations-40fb7c2
-   Removing downloaded zip file: calibrations/calibration_data.zip
+   Downloading calibration data from:
+   https://zenodo.org/records/24321742/files/guaix-ucm/megaradrp-calibrations-2026.
+   11.17.zip
+   32 new files, 0 unchanged, 0 with other contents, in calibrations/MEGARA
+   Installed 32 files in calibrations/MEGARA
    Creating new configuration file:
    /Users/janedoe/work/megara-cookbook-v4/M15_LCB_HR-R/.numina.cfg
    Configuration file updated:
@@ -181,8 +174,9 @@ This process is illustrated below using the M15 data set as an example.
    ──────────────── Calibration Data Tree Initialization Completed ────────────────
 
 After executing the last script, a new subdirectory ``calibrations`` should
-appear, along with an auxiliary hidden file ``.numina.cfg`` (the contents of
-which can be ignored).
+appear, along with an auxiliary hidden file ``.numina.cfg``. This file
+records the calibration tree and the dataset of calibrations installed in it
+(its contents can be ignored).
 
 .. code-block:: console
 
@@ -194,17 +188,34 @@ which can be ignored).
    calibrations
    └── MEGARA
        ├── 9f3fecbf-376c-47ae-a188-313b7d829104
+       ├── CITATION.cff
        ├── LICENSE.txt
+       ├── LinesCatalog
+       ├── MasterBPM
        ├── README.md
+       ├── ReferenceExtinctionTable
        └── ca3558e3-e50d-4bbc-86bd-da50a0998a48
 
-   4 directories, 2 files
+   7 directories, 3 files
 
+The execution of ``megaradrp-inittree`` automatically downloads the dataset
+of calibrations distributed with the DRP, stored at `Zenodo
+<https://zenodo.org/records/24321742>`_ (megaradrp-calibrations 2026.11.17).
+These files are installed directly under ``calibrations/MEGARA``:
 
-The execution of ``megaradrp-inittree`` automatically downloads basic
-calibration files stored at `Zenodo <https://zenodo.org/records/18623771>`_.
-In particular, the files correspond to the instrument status during two
-different epochs:
+- ``LinesCatalog``: the catalogues of the lines of the arc lamps, one per VPH
+  and lamp (for example, ``HR-R_ThNe.ecsv``);
+- ``MasterBPM``: the bad pixel masks, one for each epoch of the instrument;
+- ``ReferenceExtinctionTable``: the extinction curve of the observatory,
+  ``extinction_LP.ecsv``.
+
+Each of these files describes itself (its type, the instrument, the
+configuration and the VPH or lamp to which it applies are in its header or
+metadata), so the DRP finds the right one for each observation without
+depending on the name of the file or on its directory.
+
+The command also creates the directories for the calibrations produced by
+the user, for the two different epochs of the instrument:
 
 - ``ca3558e3-e50d-4bbc-86bd-da50a0998a48``: for images obtained before February 2026
 - ``9f3fecbf-376c-47ae-a188-313b7d829104``: for images obtained after February 2026
@@ -234,29 +245,27 @@ under this calibration tree according structure below.
 
    calibrations/MEGARA/ca3558e3-e50d-4bbc-86bd-da50a0998a48
    ├── LinesCatalog
-   │   ├── ThAr
-   │   └── ThNe
+   │   ├── ThAr
+   │   └── ThNe
    ├── MasterBPM
-   │   └── master_bpm.fits.gz
    ├── MasterBias
    ├── MasterFiberFlat
-   │   ├── LCB
-   │   └── MOS
+   │   ├── LCB
+   │   └── MOS
    ├── MasterSensitivity
-   │   ├── LCB
-   │   └── MOS
+   │   ├── LCB
+   │   └── MOS
    ├── MasterSlitFlat
    ├── MasterTwilightFlat
-   │   ├── LCB
-   │   └── MOS
+   │   ├── LCB
+   │   └── MOS
    ├── ModelMap
-   │   ├── LCB
-   │   └── MOS
+   │   ├── LCB
+   │   └── MOS
    ├── ReferenceExtinctionTable
-   │   └── extinction_LP.txt
    ├── TraceMap
-   │   ├── LCB
-   │   └── MOS
+   │   ├── LCB
+   │   └── MOS
    └── WavelengthCalibration
        ├── LCB
        └── MOS
@@ -554,7 +563,7 @@ including the ``master_bias.fits`` file (see **Figure 4**).
    0001310886-20170827-MEGARA-MegaraBiasImage.fits@
    0001310887-20170827-MEGARA-MegaraBiasImage.fits@
    0001310888-20170827-MEGARA-MegaraBiasImage.fits@
-   master_bpm.fits.gz@
+   master_bpm_ca3558e3.fits.gz@
 
 
 .. code-block:: console
@@ -692,17 +701,31 @@ The fibers are then grouped in packs of different numbers of fibers. To
 match the traces in the image with the corresponding fibers, the DRP
 uses the information provided by the instrument configuration to know
 how fibers are packed and where the different groups of fibers appear in
-the detector. Using the column reference 2000, peaks are detected (using
-an average of 7 columns) and matched to the layout of fibers. Fibers
-without a matching peak are counted and their ids stored in the final
-``master_traces.json`` file. Once the peaks in the reference column are
-found, each one is traced until the border of the image is reached. The
-trace may be lost before reaching the border. In all cases, the
-beginning and the end of the trace are stored.
+the detector. Peaks are detected in a reference column (using an average of
+11 columns, ``reference_column_hw`` at each side) and matched to the layout
+of fibers. By default (``auto_reference_column: True``), the reference
+column is the one where the weakest pseudo-slit box has the most contrast,
+near the column 2000; with ``auto_reference_column: False`` it is the
+column given in ``reference_column`` (in the cookbook data, the column
+chosen is 1700). Fibers without a matching peak are
+counted and their ids stored in the final ``master_traces.json`` file.
+Once the peaks in the reference column are found, each one is traced until
+the border of the image is reached. The trace may be lost before reaching
+the border. In all cases, the beginning and the end of the trace are
+stored.
 
 The Y position of the trace is fitted to a polynomial of degree
 polynomial_degree set to 5 by default. The coefficients of the
 polynomial are stored in the final ``master_traces.json`` file.
+
+By default (``complete_traces: True``), the traces are corrected and
+completed with the shape of the traces of the neighbouring fibers: a trace
+lost before the border is extended following its neighbours. The recipe then
+flags the traces (for example, ``not_completed`` if a trace could not be
+completed, or ``crossing`` if two traces come too close) and computes the
+quality of the trace map, ``GOOD``, ``PARTIAL`` or ``BAD`` (see
+:ref:`Quality_Control`). The invalid traces are not extracted by the later
+recipes.
 
 .. code-block:: console
 
@@ -714,28 +737,11 @@ polynomial are stored in the final ``master_traces.json`` file.
    0001312246-20170831-MEGARA-MegaraSuccess.fits@
    0001312247-20170831-MEGARA-MegaraSuccess.fits@
    0001312248-20170831-MEGARA-MegaraSuccess.fits@
-   cut_col2000_00_8b.png
-   cut_col2000_01_7b.png
-   cut_col2000_02_6b.png
-   cut_col2000_03_5b.png
-   cut_col2000_04_4b.png
-   cut_col2000_05_3b.png
-   cut_col2000_06_2b.png
-   cut_col2000_07_1b.png
-   cut_col2000_08_0.png
-   cut_col2000_09_1a.png
-   cut_col2000_10_2a.png
-   cut_col2000_11_3a.png
-   cut_col2000_12_4a.png
-   cut_col2000_13_5a.png
-   cut_col2000_14_6a.png
-   cut_col2000_15_7a.png
-   cut_col2000_16_8a.png
    ds9.reg
    ds9_raw.reg
    frontiers_between_pseudoslits.png
    master_bias.fits@
-   master_bpm.fits.gz@
+   master_bpm_ca3558e3.fits.gz@
    offset_borders_cross.png
    reduced_image.fits
 
@@ -817,7 +823,9 @@ each fiber using the requirement ``debug_plot``. For example,
    requirements:
      debug_plot: 1
 
-By activating these additional plots, the files ``trace-xy-???.png``
+By activating these additional plots, the files ``cut_colNNNN_*.png``
+(the profile of each pseudo-slit box in the reference column, with the
+peaks found), ``trace-xy-???.png``
 (y-coordinate vs. x-coordinate used to fit the trace of each fiber) and
 ``trace-xz-???.png`` (flux vs. x-coordinate) will be stored in the ``work``
 subdirectory.
@@ -873,11 +881,32 @@ are interpolated to all columns using splines (see **Figure 5**). The
 coefficients of the resulting splines are stored in the final
 ``master_model.json`` file.
 
+Three parameters control the fit of the profiles:
+
+``fit_background`` (default ``True``)
+   Fit a constant background in each local fit of the profiles, for the
+   diffuse light between the fibers.
+
+``width_limits`` (default ``[0.8, 3.5]``)
+   Limits of the width (sigma) of the profiles, in pixels. With ``[]``, the
+   width is bounded around its current value.
+
+``smooth_widths`` (default ``2``)
+   Before the last fit, the widths are replaced by their running median over
+   the fibers, with this half size (in fibers). ``0`` does not smooth them.
+
+The recipe then checks the geometry of the model map: the centres of the
+profiles must not cross, they must be parallel to those of the neighbouring
+fibers, and the widths and the amplitude of each fiber must vary smoothly
+along the detector. The fibers that fail are flagged, and the quality of the
+model map is ``GOOD``, ``PARTIAL`` or ``BAD`` (see :ref:`Quality_Control`).
+
 |image8|\ |image9|
 
 **Figure 5:** Mean position (left) and sigma (right) in pixels for fiber
 #310 along the spectral axis shown as blue points. The red line shows
-the spline fit. Plots for all the fibers are stored in the
+the spline fit. With ``debug_plot: 1``, plots for all the fibers
+(``fib_NNN_mean.png`` and ``fib_NNN_stddev.png``) are stored in the
 ``obsid2_ModelMap_HR-R_work/`` subdirectory.
 
 The recipe also returns the RSS obtained by applying this advanced
@@ -906,16 +935,8 @@ shown on top.
    0001312248-20170831-MEGARA-MegaraSuccess.fits@
    ds9.reg
    ds9_raw.reg
-   fib_001_mean.png
-   fib_001_std.png
-   fib_002_mean.png
-   fib_002_std.png
-   ...
-   ...
-   fib_622_mean.png
-   fib_622_std.png
    master_bias.fits@
-   master_bpm.fits@
+   master_bpm_ca3558e3.fits.gz@
    reduced_image.fits
 
 .. code-block:: console
@@ -979,6 +1000,71 @@ is a positive number. This offset is given in the ``requirements``
 section in the observation-result file using the ``extraction_offset``
 parameter.
 
+.. _Extraction_Offset:
+
+.. rubric:: Measuring the offset of the traces
+
+The offset can also be measured by the DRP. The tool
+``megaradrp-trace_offset`` measures it in an image after the basic
+processing (for example, the ``reduced_image.fits`` of a recipe), with a
+trace map or a model map:
+
+.. code-block:: console
+
+   (megara) $ megaradrp-trace_offset --plot offset.png \
+              obsid5_TwilightFlat_HR-R_results/reduced_image.fits \
+              obsid1_TraceMap_HR-R_results/master_traces.json
+
+.. code-block:: console
+   :class: my-special-block no-copybutton
+
+   extraction_offset: [2.5340, 0.000130587]
+   uncertainty: [0.0008, 8.26e-07]
+   reliable: True
+   alias contrast: 99766.2, bootstrap: 100.0%
+   fibers with signal: 622, width scale: 1.20
+   offset of each band (columns: c0 +- error):
+       38- 102: +2.732 +- 0.007
+      302- 366: +2.703 +- 0.004
+      ...
+     3730-3794: +2.393 +- 0.003
+     3994-4058: +2.367 +- 0.003
+
+In the twilight flat of the cookbook, the offset measured, 2.53 pixels,
+agrees with the value +2.5 estimated by eye on the image. The offset of each
+band shows that it changes slightly along the columns (from 2.73 to 2.37
+pixels); the recipes apply the offset fitted to the whole image.
+
+The image is divided in bands of columns. In each band, the profile of
+the rows is fitted with the traces moved by a trial offset (a gaussian per
+fiber, with free amplitudes, plus a smooth background), and the offset that
+fits best is searched. The result is the offset (``c0``) and its change
+along the slit (``c1``), the coefficients of a polynomial in the position
+of the traces in the reference column, the same format as
+``extraction_offset``. The tool also says whether the measurement is
+reliable: it may not be in images with little light in the fibers, or
+where the light of the fibers is not smooth along the slit.
+
+In the twilight flat, acquisition, standard star and science recipes
+(**MegaraTwilightFlatImage**, **MegaraLcbAcquisition**,
+**MegaraLcbStdStar**, **MegaraMosStdStar**, **MegaraLcbImage** and
+**MegaraMosImage**), the offset can be measured automatically in each
+input image with:
+
+.. code-block:: yaml
+
+   requirements:
+     extraction_offset: auto
+
+The recipe measures the offset in each image, and applies to the combined
+image the mean of the reliable measurements. It warns if the offsets of the
+images differ by more than 0.3 pixels (the images should then be reduced
+separately), and uses an offset of 0 if no measurement is reliable. The
+offset applied is written in the ``HISTORY`` of the products and in the
+``processing.log``. The arc and fiber flat recipes do not accept ``auto``:
+the arc lines are not a smooth spectrum, and the flats are usually the
+images used to compute the traces.
+
 In this case, the observation-result file is called ``3_WaveCalib.yaml``.
 In the example below, three frames for arc lamp exposures are included
 and the offset for the extraction is set to 0 pixels:
@@ -1026,6 +1112,19 @@ wavelength calibration polynomial does not fit the expected smooth variation of
 the coefficients are automatically detected. In such cases, an interpolated
 polynomial is used, which provides very good results. The results of this
 refinement are graphically stored in the file ``wavecal_refine_iter1.pdf``.
+The fibers whose refinement started from interpolated coefficients are
+marked with red circles in the plots of ``wavecal_iter1.pdf`` and
+``wavecal_iter2.pdf``, and their solutions have the flag ``interpolated`` in
+``master_wlcalib.json``.
+
+Finally, the recipe flags the solutions with a large residual or whose
+wavelengths differ from those of the neighbouring fibers, and computes the
+quality of the wavelength calibration, ``GOOD``, ``PARTIAL`` or ``BAD``
+(see :ref:`Quality_Control`). The fibers with an invalid solution are not
+resampled in wavelength by the later recipes. The fibers without a trace
+(for example, those that a model map does not fit) are listed in
+``missing_fibers``, and those where no line is identified in
+``error_fitting``.
 
 .. image:: _static/image16.png
    :width: 5.91667in
@@ -1062,7 +1161,7 @@ this recipe.
    0001312251-20170831-MEGARA-MegaraSuccess.fits@
    initial_master_wlcalib.json
    master_bias.fits@
-   master_bpm.fits.gz@
+   master_bpm_ca3558e3.fits.gz@
    reduced_image.fits
    reduced_rss.fits
    refined_wavecal/
@@ -1201,11 +1300,47 @@ The apertures in the 2D image are extracted, using the information in
 at the calibration tree) and the ``extraction_offset`` parameter set in
 the ``4_FiberFlat.yaml``, and then it is resampled according to the
 wavelength calibration in ``master_wlcalib.json``. The resulting RSS is
-saved as an itnermediate result named ``reduced_rss.fits``. To normalize
+saved as an intermediate result named ``reduced_rss.fits``, and it is also
+returned in the field ``reduced_rss`` of the recipe result. To normalize
 the ``master_fiberflat``, each fiber is divided by the best-fitting spline
 to the average of all valid fibers (see **Figure 10**). The RSS image
 ``master_fiberflat.fits`` is returned as a recipe result (see **Figure
 11**).
+
+Several parameters control the fiber flat:
+
+``smoothing_knot_step`` (default ``150.0``)
+   Distance in Å between the knots of the spline that smooths the average
+   spectrum of the fibers. At the borders of the spectral range, the spline
+   follows the fall of the spectrum, and it is extrapolated linearly beyond
+   the last knots.
+
+``skip_absorption_windows`` (default ``True``)
+   The light of the calibration lamps crosses some air before reaching the
+   instrument, so the flats have absorption bands of O\ :sub:`2` and
+   H\ :sub:`2`\ O, and the Na D lines. In these windows (see
+   :ref:`Absorption_Windows`), the flat of each fiber is interpolated, so
+   that the absorptions do not enter the fiber flat.
+
+``remove_zero_order`` (default ``True``)
+   The zero order of the VPH is diffuse light at a fixed range of columns
+   of the detector. The recipe finds it in the 2D image, between the traces,
+   and when it is brighter than 2 % of the level of the fibers it is
+   interpolated in each fiber before the wavelength calibration. In the
+   cookbook data (HR-R) it is found at the columns 1946-1947 (FWHM 13.4
+   pixels, 7.5 % of the level of the fibers), and it is interpolated in
+   all the fibers, between 6607 and 6618 Å (about 4 Å in each fiber).
+
+The pixels where the fiber flat is interpolated, or where it does not
+correct the light, are marked in a new extension of
+``master_fiberflat.fits``, ``FLATMASK`` (see :ref:`Masks`). The fiber flat
+correction copies this mask to the RSS images that it corrects, so the
+twilight flat, the standard star and the science RSS have it too.
+
+The recipe also flags the fibers (``faint``, ``deviant`` or ``broken``, in
+the keywords ``FIBnnnQF`` of the extension ``FIBERS``) and computes the
+quality of the fiber flat, ``GOOD``, ``PARTIAL`` or ``BAD`` (see
+:ref:`Quality_Control`).
 
 .. image:: _static/image18.png
    :width: 3.41597in
@@ -1236,7 +1371,7 @@ generated for MEGARA LCB HR-R mode.
    collapsed_smooth.png
    mask_noinfo.txt
    master_bias.fits@
-   master_bpm.fits.gz@
+   master_bpm_ca3558e3.fits.gz@
    reduced_image.fits
    reduced_rss.fits
 
@@ -1303,7 +1438,9 @@ the file:
    :lineno-start: 1
 
 The ``extraction_offset`` parameter can be computed as
-detailed in section :ref:`Wavelength_Calibration` (see **Figure 12**).
+detailed in section :ref:`Wavelength_Calibration` (see **Figure 12**), or
+measured in each image by the recipe with ``extraction_offset: auto`` (see
+:ref:`Extraction_Offset`).
 
 .. image:: _static/image20.png
    :width: 5.10903in
@@ -1334,8 +1471,18 @@ wavelength calibration in ``master_wlcalib.json``. Then, the result is
 divided by the ``master_fiberflat``. The resulting RSS is saved as an
 intermediate result named ``reduced_rss.fits``. To normalize the
 ``master_twilightflat`` (see **Figure 13**), each fiber is divided by
-the average of the column range given in ``normalize_region``
-parameter in ``5_TwilightFlat.yaml``. In those cases where the observation of
+its mean in the column range given in the ``normalize_region``
+parameter, divided by the mean of that value over the good fibers (those
+with a wavelength solution and not invalid in the fiber flat). By default
+(``normalize_region: []``), the range starts at the columns 1900-2100, in
+the centre of the spectrum. If a good fiber has there a pixel of the zero
+order of the VPH (that the twilight does not correct) or a pixel without
+coverage, the range is moved in the direction in which the signal grows,
+until it has neither. The pixels marked in ``FLATMASK`` (see :ref:`Masks`)
+are left out of the means of ``normalize_region`` and ``continuum_region``.
+Before combining them, the images are scaled by their normalized median, so
+that the change of the brightness of the twilight sky between the exposures
+does not affect the combination. In those cases where the observation of
 an object includes a bright sky line, this ``normalize_region``
 parameter can be used to obtain a twilight flat image from these science
 observations, especially if twilight frames of the same ROTANG, ELEVAT
@@ -1362,7 +1509,7 @@ generated for MEGARA LCB HR-R mode.
    0001251795-20170626-MEGARA-MegaraLCBImage.fits@
    0001251796-20170626-MEGARA-MegaraLCBImage.fits@
    master_bias.fits@
-   master_bpm.fits.gz@
+   master_bpm_ca3558e3.fits.gz@
    master_fiberflat.fits@
    reduced_image.fits
    reduced_rss.fits
@@ -1496,7 +1643,7 @@ then returned both in mm and arcsec. This information is saved in the
    0001286974-20170724-MEGARA-MegaraLcbImage.fits@
    0001286975-20170724-MEGARA-MegaraLcbImage.fits@
    master_bias.fits@
-   master_bpm.fits.gz@
+   master_bpm_ca3558e3.fits.gz@
    master_fiberflat.fits@
    master_twilightflat.fits@
    reduced_image.fits
@@ -1574,7 +1721,7 @@ located at this `ESO web page
 <https://www.eso.org/sci/observing/tools/standards/spectra/>`_).  The
 ``reference_extinction`` requirement is the text file with the information to
 apply the atmospheric extinction correction. It is not set in the
-``7_Standardstar.yaml`` file: the file ``extinction_LP.txt`` of the calibration
+``7_Standardstar.yaml`` file: the extinction curve ``extinction_LP.ecsv`` of the calibration
 tree is used (the requirement can be set in the observation result file to use
 a different extinction table, placed in the ``data/`` directory). For
 processing standard-star observations the extinction table is required; in the
@@ -1594,6 +1741,43 @@ tabulated spectra have reciprocal dispersions that can be as high as 50
 Å/pixel. The parameter ``ignored_sky_bundles`` contains the fiber bundle ids to
 be ignored when the sky spectrum is computed (see more details in section
 :ref:`Scientific_Observation` below).
+
+The ratio between the reference spectrum and the observed spectrum (the raw
+sensitivity, ``sensitivity_raw.fits``) is smoothed with a spline. The spline
+is fitted only in the region of valid flux (``PIXLIMF1``-``PIXLIMF2``, see
+below), and it is extended linearly outside it. These parameters control
+the smoothing:
+
+``smoothing_knots`` (default ``5``)
+   The number of knots of the spline, or a list with their wavelengths.
+
+``smoothing_adaptive`` (default ``False``)
+   By default, the knots are fixed and equidistant in the region of valid
+   flux, so that the result is reproducible. With ``True``, they are moved to
+   their best positions.
+
+``skip_sensitivity_windows`` (default ``True``)
+   Skip, in the fit, the telluric bands of the atmosphere and the strong
+   lines of the standard stars, listed in a table distributed with the DRP
+   (see :ref:`Absorption_Windows`). The raw sensitivity has these features
+   (the telluric bands of the observation, and the lines of the star, which
+   the degraded reference spectrum does not reproduce exactly), and the
+   spline would follow them.
+
+``extra_skip_windows`` (default ``[]``)
+   Other windows to skip, as a list ``[[wl1, wl2], ...]`` of wavelengths in
+   Å (in air), for example for a feature of a particular star.
+
+.. image:: _static/sensitivity_smoothing.png
+   :width: 6.0in
+
+**Figure 14b:** Raw sensitivity (blue) and smoothed sensitivity (orange) of
+the standard star of the cookbook (HR-R). The grey band is the window of
+H alpha, skipped in the fit: the smoothed sensitivity does not follow the
+residual of the line of the star. The dashed lines are the limits of the
+region of valid flux (``WAVLIMF1`` and ``WAVLIMF2``); outside them the
+spline is extended linearly. The recipe saves a similar plot in
+``smoothed.png``, in the ``work`` directory.
 
 Then the recipe is run by doing:
 
@@ -1637,11 +1821,12 @@ atmospheric extinction and compared with the reference spectrum to return the
    0001286974-20170724-MEGARA-MegaraLcbImage.fits@
    0001286975-20170724-MEGARA-MegaraLcbImage.fits@
    master_bias.fits@
-   master_bpm.fits.gz@
+   master_bpm_ca3558e3.fits.gz@
    master_fiberflat.fits@
    master_twilightflat.fits@
    reduced_image.fits
    reduced_rss.fits
+   smoothed.png
 
 .. code-block:: console
 
@@ -1751,7 +1936,9 @@ MOS).
 In this case, the observation-result files are named ``8_LcbImage.yaml`` for
 the LCB and ``8_MosImage.yaml`` for the MOS mode, and include a list of all the
 frames obtained for the target. The ``extraction_offset`` parameter can be
-computed as detailed in section :ref:`Wavelength_Calibration`.  The
+computed as detailed in section :ref:`Wavelength_Calibration`, or measured
+in each image by the recipe with ``extraction_offset: auto`` (see
+:ref:`Extraction_Offset`).  The
 ``reference_extinction`` parameter can be provided here if it is not at the
 default calibration directory. The parameter ``ignored_sky_bundles`` contains
 the sky bundle ids to be ignored when the sky spectrum is computed (see sample
@@ -1840,6 +2027,12 @@ selected by the user when preparing the MOS observation. The RSS with
 sky subtracted is saved in a file named ``final_rss.fits`` as a result
 of the recipe.
 
+The RSS products have the extensions ``WLMAP``, with the spectral coverage
+of each fiber, and ``FLATMASK``, copied from the ``master_fiberflat.fits``,
+with the pixels of the zero order of the VPH and of the absorption windows
+of the calibration light (see :ref:`Masks`). The sky is computed only from
+the fibers with coverage in each wavelength.
+
 If a ``master_sensitivity.fits`` is provided (optional), RSS products will be
 flux calibrated. If ``reference_extinction`` is provided (optional),
 ``final_rss.fits`` and ``reduced_rss.fits`` will be extinction corrected.
@@ -1856,7 +2049,7 @@ Notice that ``sky_rss.fits`` is not corrected for extinction.
    0001309956-20170822-MEGARA-MegaraLcbAcquisition.fits@
    0001309957-20170822-MEGARA-MegaraLcbAcquisition.fits@
    master_bias.fits@
-   master_bpm.fits.gz@
+   master_bpm_ca3558e3.fits.gz@
    master_fiberflat.fits@
    master_sensitivity.fits@
    master_twilightflat.fits@
@@ -1895,7 +2088,7 @@ data reduction:
    0001288185-20170731-MEGARA-MegaraMosImage.fits@
    0001288186-20170731-MEGARA-MegaraMosImage.fits@
    master_bias.fits@
-   master_bpm.fits@
+   master_bpm_ca3558e3.fits.gz@
    master_fiberflat.fits@
    master_sensitivity.fits@
    reduced_image.fits

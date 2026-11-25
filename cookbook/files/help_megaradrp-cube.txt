@@ -1,5 +1,5 @@
 usage: convert_rss_cube [-h] [-p PIXEL_SIZE] [-o OUTFILE] [-d]
-                        [-m {nn,linear}] [--wcs-pa-from-header]
+                        [-m {nn,linear,quadratic}] [--wcs-pa-from-header]
                         [--fix-missing]
                         rss
 
@@ -14,7 +14,7 @@ options:
                         Name of the output cube file
   -d, --disable-scaling
                         Disable flux conservation
-  -m, --method {nn,linear}
+  -m, --method {nn,linear,quadratic}
                         Method of interpolation
   --wcs-pa-from-header  Use PA angle from header
   --fix-missing         Interpolate missing fibers

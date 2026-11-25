@@ -20,6 +20,13 @@ available on this `webpage
    been implemented. Please, see the section `Data reduction <datared.html>`_
    for details.
 
+.. note::
+
+   MEGARA DRP 0.23 adds quality control of the calibrations, masks of the
+   zero order of the VPH and of the absorption windows, and the automatic
+   measurement of ``extraction_offset``. See :ref:`Changes` and
+   :ref:`Quality_Control`.
+
 .. toctree::
    :maxdepth: 2
 
@@ -28,9 +35,11 @@ available on this `webpage
    install
    datadesc
    datared
+   quality
    healtraces
    brightlines
    crmasks
    megaratools
    issues
+   changes
    acronyms
