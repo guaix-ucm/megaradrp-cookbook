@@ -139,18 +139,28 @@ obtained after February 2026 the label to store the calibrations is
 <p>The first step to start the data reduction is to activate your
 environment (see details in section <a class="reference internal" href="install.html#drp-installation"><span class="std std-ref">DRP installation</span></a>).</p>
 <p>The next step is to download the data employed in this cookbook:
-<a class="reference external" href="https://guaix.fis.ucm.es/data/megaradrp/megara-cookbook-v3.tar.gz" rel="noreferrer" target="_blank">megara-cookbook-v3.tar.gz</a></p>
+<a class="reference external" href="https://guaix.fis.ucm.es/data/megaradrp/megara-cookbook-v4.tar.gz" rel="noreferrer" target="_blank">megara-cookbook-v4.tar.gz</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The only difference with the previous version, <code class="docutils literal notranslate"><span class="pre">megara-cookbook-v3.tar.gz</span></code>,
+is in the headers of six images of the M15 data set: the twilight flats
+of 2017-06-26 (<code class="docutils literal notranslate"><span class="pre">0001251794</span></code> to <code class="docutils literal notranslate"><span class="pre">0001251796</span></code>) did not have the keywords
+<code class="docutils literal notranslate"><span class="pre">UUID</span></code> and <code class="docutils literal notranslate"><span class="pre">COVER</span></code>, and the images of the standard star of 2017-07-24
+(<code class="docutils literal notranslate"><span class="pre">0001286973</span></code> to <code class="docutils literal notranslate"><span class="pre">0001286975</span></code>) had an integer <code class="docutils literal notranslate"><span class="pre">COVER</span></code>. With the
+current headers, the images pass the validation of the headers of the
+MEGARA DRP.</p>
+</div>
 <p>If you find any trouble trying to download the previous file, try with the
 following command line:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>curl<span class="w"> </span>-O<span class="w"> </span>https://guaix.fis.ucm.es/data/megaradrp/megara-cookbook-v3.tar.gz
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>curl<span class="w"> </span>-O<span class="w"> </span>https://guaix.fis.ucm.es/data/megaradrp/megara-cookbook-v4.tar.gz
 </pre></div>
 </div>
 <p>It is advisable to decompress the previous file in a pristine directory where
 you can comfortably start the reduction of the data:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>tar<span class="w"> </span>zxvf<span class="w"> </span>megara-cookbook-v3.tar.gz
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>tar<span class="w"> </span>zxvf<span class="w"> </span>megara-cookbook-v4.tar.gz
 </pre></div>
 </div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>megara-cookbook-v3
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>megara-cookbook-v4
 <span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls
 </pre></div>
 </div>
@@ -238,9 +248,9 @@ through the introduction of a new script, <code class="docutils literal notransl
 <span class="go">Downloading and installing calibration data from:</span>
 <span class="go">https://zenodo.org/records/18623771/files/guaix-ucm/megaradrp-calibrations-2026.</span>
 <span class="go">2.zip</span>
-<span class="go">Downloading data from 'https://zenodo.org/records/18623771/files/guaix-ucm/megaradrp-calibrations-2026.2.zip' to file '/Users/cardiel/w/GTC/megara/20260223_megara-cookbook-v3/work/megara-cookbook-v3/M15_LCB_HR-R/calibrations/calibration_data.zip'.</span>
+<span class="go">Downloading data from 'https://zenodo.org/records/18623771/files/guaix-ucm/megaradrp-calibrations-2026.2.zip' to file '/Users/janedoe/work/megara-cookbook-v4/M15_LCB_HR-R/calibrations/calibration_data.zip'.</span>
 <span class="go">100%|████████████████████████████████████████| 106k/106k [00:00&lt;00:00, 887MB/s]</span>
-<span class="go">Unzipping contents of '/Users/cardiel/w/GTC/megara/20260223_megara-cookbook-v3/work/megara-cookbook-v3/M15_LCB_HR-R/calibrations/calibration_data.zip' to '/Users/cardiel/w/GTC/megara/20260223_megara-cookbook-v3/work/megara-cookbook-v3/M15_LCB_HR-R/calibrations/.'</span>
+<span class="go">Unzipping contents of '/Users/janedoe/work/megara-cookbook-v4/M15_LCB_HR-R/calibrations/calibration_data.zip' to '/Users/janedoe/work/megara-cookbook-v4/M15_LCB_HR-R/calibrations/.'</span>
 <span class="go">Found directory to strip: 'guaix-ucm-megaradrp-calibrations-40fb7c2/'</span>
 <span class="go">Moving files to base path: 'calibrations'</span>
 <span class="go">Stripping fixed part of the path: 'guaix-ucm-megaradrp-calibrations-40fb7c2/'</span>
@@ -248,9 +258,9 @@ through the introduction of a new script, <code class="docutils literal notransl
 <span class="go">calibrations/guaix-ucm-megaradrp-calibrations-40fb7c2</span>
 <span class="go">Removing downloaded zip file: calibrations/calibration_data.zip</span>
 <span class="go">Creating new configuration file:</span>
-<span class="go">/Users/janedoe/work/megara-cookbook-v3/M15_LCB_HR-R/.numina.cfg</span>
+<span class="go">/Users/janedoe/work/megara-cookbook-v4/M15_LCB_HR-R/.numina.cfg</span>
 <span class="go">Configuration file updated:</span>
-<span class="go">/Users/janedoe/work/megara-cookbook-v3/M15_LCB_HR-R/.numina.cfg</span>
+<span class="go">/Users/janedoe/work/megara-cookbook-v4/M15_LCB_HR-R/.numina.cfg</span>
 <span class="go">Calibration data tree structure created under base path: ./calibrations</span>
 <span class="go">──────────────── Calibration Data Tree Initialization Completed ────────────────</span>
 </pre></div>
@@ -431,7 +441,7 @@ observation-result files (<code class="docutils literal notranslate"><span class
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span><span class="nb">pwd</span>
 </pre></div>
 </div>
-<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">/Users/janedoe/megara-cookbook-v3/M15_LCB_HR-R</span>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">/Users/janedoe/megara-cookbook-v4/M15_LCB_HR-R</span>
 </pre></div>
 </div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>ls
@@ -478,7 +488,7 @@ target M15:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span><span class="nb">pwd</span>
 </pre></div>
 </div>
-<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">/Users/janedoe/megara-cookbook-v3/MEGARA/M15_LCB_HR-R</span>
+<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">/Users/janedoe/megara-cookbook-v4/MEGARA/M15_LCB_HR-R</span>
 </pre></div>
 </div>
 <p>You can easily examine the header of the FITS images using the astropy utility
