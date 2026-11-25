@@ -341,9 +341,9 @@ The run mode of ``numina`` requires:
 
 The observation-result files are created by the
 user. This is an example of the observation result file to compute the
-fibers traces ``1_TraceMap.yaml`` under the subdirectory ``M15_LCB-HR-R``:
+fibers traces ``1_TraceMap.yaml`` under the subdirectory ``M15_LCB_HR-R``:
 
-.. literalinclude:: files/1_tracemap.yaml
+.. literalinclude:: files/1_TraceMap.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -366,14 +366,11 @@ This separation line must not appear after the last block.
 Note that the user can add comments to these YAML files by adding lines
 preceded with a hash sign (``#``).
 
-An example of an observation-result file with two blocks is the following:
+An example of an observation-result file with two blocks is the following
+(the second block, with flats of another night, is only an example: those
+images are not in the data of the cookbook):
 
-.. code-block:: console
-
-   (megara) $ more 1_TraceMap.yaml
-
-.. code-block:: console
-   :class: my-special-block no-copybutton
+.. code-block:: yaml
 
    id: 1_TraceMap_HR-R
    mode: MegaraTraceMap
@@ -682,7 +679,7 @@ of the fibers. The result is stored in a file named
 An example of the observation result file ``1_TraceMap.yaml`` to trace the
 fibers is the following:
 
-.. literalinclude:: files/1_tracemap.yaml
+.. literalinclude:: files/1_TraceMap.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -862,7 +859,7 @@ required to perform **advanced** fiber extraction in other recipes.
 The set of files listed in the observation-result file ``2_ModelMap.yaml``
 is the same one used for the Trace Map.
 
-.. literalinclude:: files/2_modelmap.yaml
+.. literalinclude:: files/2_ModelMap.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -1082,7 +1079,7 @@ In this case, the observation-result file is called ``3_WaveCalib.yaml``.
 In the example below, three frames for arc lamp exposures are included
 and the offset for the extraction is set to 0 pixels:
 
-.. literalinclude:: files/3_wavecalib.yaml
+.. literalinclude:: files/3_WaveCalib.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -1290,7 +1287,7 @@ Instrument Calibration Module (ICM).
 In this case, we called the observation result file ``4_FiberFlat.yaml``,
 where a total of three continuum halogen exposures are included:
 
-.. literalinclude:: files/4_fiberflat.yaml
+.. literalinclude:: files/4_FiberFlat.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -1619,7 +1616,7 @@ In this case, the observation-result file for determining the star
 centroid is ``6_LcbAdquisition.yaml``, where three frames for
 spectrophotometric standard star exposures are here listed:
 
-.. literalinclude:: files/6_Lcbadquisition.yaml
+.. literalinclude:: files/6_LcbAdquisition.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -1733,7 +1730,7 @@ In this case, the observation-result file was named
 ``7_StandardStar.yaml`` and includes spectrophotometric standard star
 individual exposures:
 
-.. literalinclude:: files/7_Standardstar.yaml
+.. literalinclude:: files/7_StandardStar.yaml
    :language: yaml
    :linenos:
    :lineno-start: 1
@@ -1748,7 +1745,7 @@ located at this `ESO web page
 <https://www.eso.org/sci/observing/tools/standards/spectra/>`_).  The
 ``reference_extinction`` requirement is the text file with the information to
 apply the atmospheric extinction correction. It is not set in the
-``7_Standardstar.yaml`` file: the extinction curve ``extinction_LP.ecsv`` of the calibration
+``7_StandardStar.yaml`` file: the extinction curve ``extinction_LP.ecsv`` of the calibration
 tree is used (the requirement can be set in the observation result file to use
 a different extinction table, placed in the ``data/`` directory). For
 processing standard-star observations the extinction table is required; in the

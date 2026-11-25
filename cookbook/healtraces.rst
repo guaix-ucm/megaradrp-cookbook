@@ -34,7 +34,7 @@ the traces are determined, e.g.
 
 .. code-block:: console
 
-   (megara) $ numina run 1_tracemap.yaml
+   (megara) $ numina run 1_TraceMap.yaml
 
 .. code-block:: console
    :class: my-special-block no-copybutton
