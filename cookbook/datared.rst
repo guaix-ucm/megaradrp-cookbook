@@ -1035,6 +1035,12 @@ agrees with the value +2.5 estimated by eye on the image. The offset of each
 band shows that it changes slightly along the columns (from 2.73 to 2.37
 pixels); the recipes apply the offset fitted to the whole image.
 
+In the images of the standard star, the offset measured is 5.49 pixels, and
+the value +5.5 is used in ``6_LcbAdquisition.yaml`` and
+``7_StandardStar.yaml``. An offset one pixel off is not obvious in the
+image, but it matters: with +4.5, the flux of the star in the 37 fibers
+used for the sensitivity is about 4 % lower.
+
 The image is divided in bands of columns. In each band, the profile of
 the rows is fitted with the traces moved by a trial offset (a gaussian per
 fiber, with free amplitudes, plus a smooth background), and the offset that
@@ -1666,35 +1672,35 @@ then returned both in mm and arcsec. This information is saved in the
 .. code-block:: console
    :class: my-special-block no-copybutton
 
-   2024-10-15 15:42:50,808 - numina.user.baserun - INFO - running recipe
-   2024-10-15 15:42:50,808 - numina.recipes.megara - INFO - starting AC LCB reduction
+   2026-11-25 17:01:07,198 - numina.user.baserun - INFO - running recipe
+   2026-11-25 17:01:07,198 - megaradrp.recipes.auxiliary.acquisitionlcb - INFO - starting AC LCB reduction
    ...
    ...
    ...
-   2024-10-15 15:45:56,053 - numina.recipes.megara - INFO - end sky subtraction
-   2024-10-15 15:45:56,354 - numina.recipes.megara - DEBUG - LCB configuration is b7dcd9d1-0b60-4b43-b26e-d2c9868d5e20
-   2024-10-15 15:45:56,567 - megaradrp.processing.centroid - DEBUG - LCB configuration is b7dcd9d1-0b60-4b43-b26e-d2c9868d5e20
-   2024-10-15 15:45:56,568 - megaradrp.processing.centroid - INFO - maximum flux in spaxel 311 -- unknown
-   2024-10-15 15:45:56,851 - megaradrp.processing.centroid - DEBUG - LCB configuration is b7dcd9d1-0b60-4b43-b26e-d2c9868d5e20
-   2024-10-15 15:45:56,852 - megaradrp.processing.centroid - DEBUG - adding 3 nrings
-   2024-10-15 15:45:56,852 - megaradrp.processing.centroid - DEBUG - adding 37 fibers
-   2024-10-15 15:45:56,852 - megaradrp.processing.centroid - INFO - Using 37 nearest fibers
-   2024-10-15 15:45:56,852 - megaradrp.processing.centroid - DEBUG - unit is arcsec
-   2024-10-15 15:45:56,852 - megaradrp.processing.centroid - INFO - For point [0.465000003576279, 0.0] arcsec
-   2024-10-15 15:45:56,852 - megaradrp.processing.centroid - INFO - For point [0.38366336928735895, 0.0] mm
-   2024-10-15 15:45:56,852 - megaradrp.processing.centroid - DEBUG - nearest fibers
-   2024-10-15 15:45:56,852 - megaradrp.processing.centroid - DEBUG - [311, 289, 333, 313, 310, 314, 308, 293, 329, 307, 316, 335, 312, 291, 331, 315, 309, 317, 305, 325, 297, 304, 319, 222, 400, 288, 334, 327, 295, 318, 306, 404, 218, 292, 330, 302, 320]
-   2024-10-15 15:45:56,853 - megaradrp.processing.centroid - INFO - centroid: [0.36011112054854194, 0.052631794609784954] arcsec
-   2024-10-15 15:45:56,853 - megaradrp.processing.centroid - INFO - centroid: [0.29712138659120624, 0.04342557311038363] mm
-   2024-10-15 15:45:56,853 - megaradrp.processing.centroid - INFO - 2nd order moments, x2=0.354878, y2=0.353604, xy=-0.006228 arcsec^2
-   2024-10-15 15:45:56,853 - megaradrp.processing.centroid - INFO - FWHM , x=1.402805, y=1.400284 arcsec
+   2026-11-25 17:01:33,293 - megaradrp.recipes.auxiliary.acquisitionlcb - INFO - end sky subtraction
+   2026-11-25 17:01:33,619 - megaradrp.recipes.auxiliary.acquisitionlcb - DEBUG - LCB configuration is b7dcd9d1-0b60-4b43-b26e-d2c9868d5e20
+   2026-11-25 17:01:33,850 - megaradrp.processing.centroid - DEBUG - LCB configuration is b7dcd9d1-0b60-4b43-b26e-d2c9868d5e20
+   2026-11-25 17:01:33,851 - megaradrp.processing.centroid - INFO - maximum flux in spaxel 311 -- unknown
+   2026-11-25 17:01:34,082 - megaradrp.processing.centroid - DEBUG - LCB configuration is b7dcd9d1-0b60-4b43-b26e-d2c9868d5e20
+   2026-11-25 17:01:34,083 - megaradrp.processing.centroid - DEBUG - adding 3 nrings
+   2026-11-25 17:01:34,083 - megaradrp.processing.centroid - DEBUG - adding 37 fibers
+   2026-11-25 17:01:34,083 - megaradrp.processing.centroid - INFO - Using 37 nearest fibers
+   2026-11-25 17:01:34,084 - megaradrp.processing.centroid - DEBUG - unit is arcsec
+   2026-11-25 17:01:34,084 - megaradrp.processing.centroid - INFO - For point [0.465000003576279, 0.0] arcsec
+   2026-11-25 17:01:34,084 - megaradrp.processing.centroid - INFO - For point [0.38366336928735895, 0.0] mm
+   2026-11-25 17:01:34,084 - megaradrp.processing.centroid - DEBUG - nearest fibers
+   2026-11-25 17:01:34,084 - megaradrp.processing.centroid - DEBUG - [311, 289, 333, 310, 313, 314, 308, 329, 293, 316, 307, 335, 312, 291, 331, 315, 309, 317, 305, 325, 297, 304, 319, 222, 400, 288, 334, 327, 295, 318, 306, 404, 218, 292, 330, 302, 320]
+   2026-11-25 17:01:34,084 - megaradrp.processing.centroid - INFO - centroid: [0.3644183391359853, 0.05357011931310853] arcsec
+   2026-11-25 17:01:34,084 - megaradrp.processing.centroid - INFO - centroid: [0.3006751973069186, 0.044199768410155556] mm
+   2026-11-25 17:01:34,084 - megaradrp.processing.centroid - INFO - 2nd order moments, x2=0.353805, y2=0.353930, xy=-0.005749 arcsec^2
+   2026-11-25 17:01:34,084 - megaradrp.processing.centroid - INFO - FWHM , x=1.400682, y=1.400931 arcsec
 
 
 In this example, the brightest spaxel is located at ``[0.38366336928735895,
 0.0] mm`` relative to the center of the field, which is, by definition
 located at ``[0.0, 0.0] mm``. The position of the centroid obtained from
-the 37 fibers around this spaxels is ``[0.29712138659120624,
-0.04342557311038363] mm``. **Note**: these numbers depend on whether you are
+the 37 fibers around this spaxels is ``[0.3006751973069186,
+0.044199768410155556] mm``. **Note**: these numbers depend on whether you are
 using the trace map ``master_traces.json`` or the model map
 ``master_model.json`` (see section :ref:`Tracing_Fibers`).
 

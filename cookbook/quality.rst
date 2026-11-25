@@ -247,6 +247,18 @@ The wavelengths are those of all the fibers: the band is at fixed columns, so
 its wavelength changes along the pseudo-slit, and each fiber covers only a
 part of the range.
 
+.. image:: _static/flatmask_fiberflat.png
+   :width: 6.0in
+
+**Figure 16b:** The zero order of the VPH in the fiber flat of the cookbook
+(HR-R). Left: bit 1 of ``FLATMASK`` in ``master_fiberflat.fits``, for each
+fiber. The band covers about 4 Å in each fiber, between 6607 and 6618 Å,
+and its wavelength changes along the pseudo-slit. Right: excess of light
+around the columns of the zero order in the ``reduced_image.fits`` of the
+fiber flat, at the peaks of the fibers and between them (rows 1501 to
+2500), relative to the level of the fibers. The excess is similar in both:
+the zero order is light added to the fibers.
+
 The zero order is not removed from the science images. The twilight flat
 recipe leaves it out of the region used to normalize the fibers.
 
@@ -295,5 +307,21 @@ the WCS of the cube:
 Since the zero order of the VPH is at fixed columns of the detector, its
 wavelength changes from fiber to fiber. In the cube it is not a plane, but a
 band whose wavelength changes across the field of view, with a pattern that
-follows the position of the fibers in the pseudo-slit. Use ``FLATMASK`` to
-find it before interpreting a spatial structure at those wavelengths.
+follows the position of the fibers in the pseudo-slit (**Figure 16c**). Use
+``FLATMASK`` to find it before interpreting a spatial structure at those
+wavelengths.
+
+.. code-block:: console
+
+   (megara) $ megaradrp-cube -p 0.4 -o cube_M15.fits \
+              obsid8_LcbImage_HR-R_M15_results/final_rss.fits
+
+.. image:: _static/flatmask_cube.png
+   :width: 6.0in
+
+**Figure 16c:** Bit 1 of ``FLATMASK`` in the cube of M15 (nearest
+neighbour, 0.4 arcsec pixels). Left: mean wavelength of the planes flagged
+in each spaxel. It goes from 6609 Å at the top and bottom of the field of
+view to 6616 Å at its centre, following the position of the fibers in the
+pseudo-slit. Right: fraction of the spaxels of the field of view flagged in
+each plane. No plane is flagged in the whole field of view.

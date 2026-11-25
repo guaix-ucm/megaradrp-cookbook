@@ -6,7 +6,7 @@ frames:
  - 0001286974-20170724-MEGARA-MegaraLcbImage.fits
  - 0001286975-20170724-MEGARA-MegaraLcbImage.fits
 requirements:
- extraction_offset: [+4.5]
+ extraction_offset: [+5.5]
  reference_spectrum: mbd284211_stis.dat
- position:  [0.29712138659120624, 0.04342557311038363]
+ position:  [0.3006751973069186, 0.044199768410155556]
  sigma_resolution: 100

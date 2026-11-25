@@ -6,4 +6,4 @@ frames:
  - 0001286974-20170724-MEGARA-MegaraLcbImage.fits
  - 0001286975-20170724-MEGARA-MegaraLcbImage.fits
 requirements:
- extraction_offset: [+4.5]
+ extraction_offset: [+5.5]

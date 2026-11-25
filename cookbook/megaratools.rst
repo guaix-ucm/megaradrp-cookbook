@@ -176,7 +176,7 @@ geometry of the cube (see :ref:`Masks`): ``WLMAP`` is 1 in the pixels of the
 cube with data from all their fibers, and ``FLATMASK`` has in each pixel the
 bits of the fibers that contribute to it. The zero order of the VPH, at
 fixed columns of the detector, appears in the cube as a band whose
-wavelength changes across the field of view.
+wavelength changes across the field of view (see **Figure 16c**).
 
 An alternative software with similar scope has been developed by Javier
 Zaragoza Cardiel (from INAOE) and can be obtained through GitHub at
