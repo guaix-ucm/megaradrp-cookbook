@@ -1363,9 +1363,14 @@ quality of the fiber flat, ``GOOD``, ``PARTIAL`` or ``BAD`` (see
 
 **Figure 10:** Example of the ``collapsed_smooth.png`` file generated as part
 of the **MegaraFiberFlatImage** recipe, which is located at the
-``obsid4_FiberFlat_HR-R_work/`` directory. The green line is a spline fit to
-the average of all valid fibers, which is then used to normalize the extracted
-spectral in order to generate the normalized master_fiberflat image.
+``obsid4_FiberFlat_HR-R_work/`` directory. The blue points are the average
+spectrum of all valid fibers, normalized, against the pixel of the RSS (the
+pixels without data are set to 1). The green dashed line is the spline, with
+knots every 150 Å, which is then used to normalize the extracted spectra in
+order to generate the normalized master_fiberflat image. The orange line, a
+Savitzky-Golay filter of the average spectrum, is plotted only for
+comparison. The zero order of the VPH (pixels 2230-2340, 6607-6618 Å) is
+interpolated before the average, so it is not in the average spectrum.
 
 |image10|
 
