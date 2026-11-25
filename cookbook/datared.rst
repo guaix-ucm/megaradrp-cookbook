@@ -1041,11 +1041,12 @@ agrees with the value +2.5 estimated by eye on the image. The offset of each
 band shows that it changes slightly along the columns (from 2.73 to 2.37
 pixels); the recipes apply the offset fitted to the whole image.
 
-In the images of the standard star, the offset measured is 5.49 pixels, and
-the value +5.5 is used in ``6_LcbAdquisition.yaml`` and
-``7_StandardStar.yaml``. An offset one pixel off is not obvious in the
-image, but it matters: with +4.5, the flux of the star in the 37 fibers
-used for the sensitivity is about 4 % lower.
+In the images of the standard star, the offset measured is 5.49 pixels (with
+the trace map or with the model map), and the value +5.5 is used in
+``6_LcbAdquisition.yaml`` and ``7_StandardStar.yaml``. An offset one pixel
+off is not obvious in the image, but it matters with the model map: with
++4.5, the flux of the star in the 37 fibers used for the sensitivity is
+6 % lower. With the trace map, the difference is only 0.3 %.
 
 The image is divided in bands of columns. In each band, the profile of
 the rows is fitted with the traces moved by a trial offset (a gaussian per
