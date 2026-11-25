@@ -8,7 +8,7 @@ The MEGARA pipeline is a Python package, for Python 3.11 or greater.
 The easiest method of installing **megaradrp** is using ``pip`` inside a
 virtual environment. You can install official relares or the development
 version. All the commands in the following sections, starting with ``$`` are
-to be run under **bash shell**.
+to be run in a **bash** or **zsh** shell (zsh is the default shell in macOS).
 
 Install with pip
 ----------------
@@ -51,8 +51,7 @@ Activate the environment
 After creating the environment, the directory ``/path/to/megara``
 contains a Python tree. One of the directories is
 ``/path/to/megara/bin``, which contains a script called ``activate``. To
-activate the environment, we source (a bash shell command) this script
-file:
+activate the environment, we source this script file:
 
 .. code-block:: console
    :class: no-copybutton
