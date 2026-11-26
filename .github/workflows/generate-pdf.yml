@@ -1,21 +1,46 @@
 name: generate-pdf
 
-# Run manually
-on: workflow_dispatch
+# Build the PDF of the cookbook and upload it to Zenodo as a new version
+# of https://doi.org/10.5281/zenodo.1974953
+#
+# - On a published GitHub release, the PDF is attached to the release and
+#   published in Zenodo. The tag must be equal to `release` in cookbook/conf.py.
+# - Run manually, the PDF is built and, optionally, uploaded to Zenodo as
+#   a draft (to be reviewed and published or discarded in the web interface).
+#
+# The secret ZENODO_TOKEN (Zenodo personal token with scopes deposit:write
+# and deposit:actions, of an owner of the record) is required to upload.
 
-# This job installs dependencies, builds the cookbook
-# and creates a pdf file
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      zenodo:
+        description: 'Upload to Zenodo'
+        type: choice
+        options:
+          - 'no'
+          - draft
+          - publish
+        default: 'no'
+
+env:
+  ZENODO_RECORD: '1974953'  # concept id, resolved to the latest version
+
 jobs:
   generate-pdf:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
     - uses: actions/checkout@v4
 
     - name: Install latex
       run: |
+        sudo apt-get update
         sudo apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
 
-    # Setup python
     - name: Set up Python 3.12
       uses: actions/setup-python@v5
       with:
@@ -23,13 +48,43 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install -r requirements.txt
+        pip install -r requirements.txt requests
 
-    # Build the docs
+    - name: Read the version
+      id: version
+      env:
+        TAG: ${{ github.event.release.tag_name }}
+      run: |
+        version=$(python -c "import runpy; print(runpy.run_path('cookbook/conf.py')['release'])")
+        if [ -n "$TAG" ] && [ "$TAG" != "$version" ]; then
+          echo "::error::the tag $TAG differs from release = '$version' in cookbook/conf.py"
+          exit 1
+        fi
+        echo "version=$version" >> "$GITHUB_OUTPUT"
+
     - name: Build the book
       run: |
         make latexpdf
+        cp build/latex/megara-cookbook.pdf megara-cookbook_v${{ steps.version.outputs.version }}.pdf
 
     - uses: actions/upload-artifact@v4
       with:
-          path: build/latex/megara-cookbook.pdf
+        name: megara-cookbook_v${{ steps.version.outputs.version }}
+        path: megara-cookbook_v${{ steps.version.outputs.version }}.pdf
+
+    - name: Attach the PDF to the release
+      if: github.event_name == 'release'
+      env:
+        GH_TOKEN: ${{ github.token }}
+        TAG: ${{ github.event.release.tag_name }}
+      run: |
+        gh release upload "$TAG" megara-cookbook_v${{ steps.version.outputs.version }}.pdf --clobber
+
+    - name: Upload to Zenodo
+      if: github.event_name == 'release' || inputs.zenodo != 'no'
+      env:
+        ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
+        PUBLISH: ${{ (github.event_name == 'release' || inputs.zenodo == 'publish') && '--publish' || '' }}
+      run: |
+        python tools/zenodo_upload.py megara-cookbook_v${{ steps.version.outputs.version }}.pdf \
+          --record "$ZENODO_RECORD" --version ${{ steps.version.outputs.version }} $PUBLISH

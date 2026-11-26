@@ -117,7 +117,7 @@ latex_elements = {
 
   \vspace{0.5 cm}
 
-  {\large Version: 2025.05.16}
+  {\large Version: @RELEASE@}
 
   {\large The most up-to-date version of this document is available at}
 
@@ -126,5 +126,5 @@ latex_elements = {
   {\large \url{https://guaix-ucm.github.io/megaradrp-cookbook/}}}
   }%end of parbox
 \end{titlepage}
-''',
+'''.replace('@RELEASE@', release),
 }
