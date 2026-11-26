@@ -3,12 +3,12 @@
 DRP installation
 ================
 
-The MEGARA pipeline is a Python package, for Python 3.10 or greater.
+The MEGARA pipeline is a Python package, for Python 3.11 or greater.
 
 The easiest method of installing **megaradrp** is using ``pip`` inside a
 virtual environment. You can install official relares or the development
 version. All the commands in the following sections, starting with ``$`` are
-to be run under **bash shell**.
+to be run in a **bash** or **zsh** shell (zsh is the default shell in macOS).
 
 Install with pip
 ----------------
@@ -51,8 +51,7 @@ Activate the environment
 After creating the environment, the directory ``/path/to/megara``
 contains a Python tree. One of the directories is
 ``/path/to/megara/bin``, which contains a script called ``activate``. To
-activate the environment, we source (a bash shell command) this script
-file:
+activate the environment, we source this script file:
 
 .. code-block:: console
    :class: no-copybutton
@@ -95,21 +94,21 @@ or source distribution, you can use:
    :class: my-special-block no-copybutton
 
    Collecting megaradrp
-     Downloading megaradrp-0.22-py3-none-any.whl.metadata (3.2 kB)
-   Collecting astropy>=6.1.7 (from megaradrp)
-     Downloading astropy-8.0.1-cp311-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (11 kB)
+     Downloading megaradrp-0.30-py3-none-any.whl.metadata (3.2 kB)
+   Collecting astropy>=7.0 (from megaradrp)
+     Downloading astropy-8.0.3-cp311-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (11 kB)
    Collecting attrs (from megaradrp)
      Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
    Collecting jsonschema (from megaradrp)
      Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
    Collecting matplotlib (from megaradrp)
      Downloading matplotlib-3.11.2-cp314-cp314-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (80 kB)
-   Collecting numina>=0.40.0 (from megaradrp)
-     Downloading numina-0.40.0-cp314-cp314-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (3.7 kB)
+   Collecting numina>=0.42.0 (from megaradrp)
+     Downloading numina-0.42.0-cp314-cp314-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (3.6 kB)
    ...
    ...
-   Installing collected packages: slicerator, urllib3, uncertainties, typing-extensions, tqdm, toolz, six, rpds-py, PyYAML, pyparsing, pygments, pyavm, platformdirs, pillow, packaging, numpy, networkx, msgspec, mdurl, locket, kiwisolver, idna, google-crc32c, fsspec, fonttools, dill, cycler, cloudpickle, click, charset_normalizer, certifi, attrs, astropy-iers-data, asteval, tifffile, spherical-geometry, scipy, requests, referencing, python-dateutil, pyerfa, partd, numcodecs, markdown-it-py, lazy-loader, imageio, donfig, contourpy, zarr, scikit-image, rich, pooch, pims, matplotlib, lmfit, jsonschema-specifications, dask, astropy, rich-argparse, jsonschema, astroscrappy, astropy-healpix, teareduce, dask-image, reproject, ccdproc, numina, megaradrp
-   Successfully installed PyYAML-6.0.3 asteval-1.0.10 astropy-8.0.1 astropy-healpix-2.0.1 astropy-iers-data-0.2026.10.12.1.3.27 astroscrappy-1.3.0 attrs-26.1.0 ccdproc-2.5.1 certifi-2026.7.22 charset_normalizer-3.5.2 click-8.5.0 cloudpickle-3.1.2 contourpy-1.4.0 cycler-0.12.1 dask-2026.8.0 dask-image-2026.5.0 dill-0.4.1 donfig-0.8.1.post1 fonttools-4.67.0 fsspec-2026.9.0 google-crc32c-1.9.0 idna-3.20 imageio-2.38.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 kiwisolver-1.5.1 lazy-loader-0.6 lmfit-1.3.4 locket-1.0.0 markdown-it-py-4.2.0 matplotlib-3.11.2 mdurl-0.1.2 megaradrp-0.22 msgspec-0.22.0 networkx-3.7 numcodecs-0.17.0 numina-0.40.0 numpy-2.5.4 packaging-26.3 partd-1.4.2 pillow-12.3.0 pims-0.7 platformdirs-4.13.0 pooch-1.9.0 pyavm-0.9.9 pyerfa-2.0.1.5 pygments-2.21.0 pyparsing-3.3.3 python-dateutil-2.9.0.post0 referencing-0.37.0 reproject-0.21.0 requests-2.34.2 rich-15.0.0 rich-argparse-1.8.0 rpds-py-2026.9.1 scikit-image-0.26.0 scipy-1.18.1 six-1.17.0 slicerator-1.1.0 spherical-geometry-1.4.0 teareduce-0.7.9 tifffile-2026.9.20 toolz-1.2.0 tqdm-4.70.1 typing-extensions-4.16.0 uncertainties-3.2.3 urllib3-2.8.0 zarr-3.4.1
+   Installing collected packages: slicerator, urllib3, uncertainties, tzdata, typing-extensions, tqdm, toolz, rpds-py, PyYAML, pyparsing, pygments, pyavm, pillow, packaging, numpy, networkx, msgspec, mdurl, locket, kiwisolver, idna, google-crc32c, fsspec, fonttools, dill, cycler, cloudpickle, click, charset_normalizer, certifi, attrs, astropy-iers-data, asteval, tifffile, spherical-geometry, scipy, requests, referencing, python-dateutil, pyerfa, partd, numcodecs, markdown-it-py, lazy-loader, imageio, donfig, contourpy, zarr, scikit-image, rich, pims, matplotlib, lmfit, jsonschema-specifications, dask, astropy, rich-argparse, jsonschema, astroscrappy, astropy-healpix, teareduce, dask-image, reproject, ccdproc, numina, megaradrp
+   Successfully installed PyYAML-6.0.4 asteval-1.0.10 astropy-8.0.3 astropy-healpix-2.0.1 astropy-iers-data-0.2026.11.23.0.35.53 astroscrappy-1.3.0 attrs-26.1.0 ccdproc-2.5.1 certifi-2026.11.20 charset_normalizer-3.5.3 click-8.5.1 cloudpickle-3.1.3 contourpy-1.4.0 cycler-0.12.1 dask-2026.11.0 dask-image-2026.5.0 dill-0.4.1 donfig-0.8.1.post1 fonttools-4.69.1 fsspec-2026.9.0 google-crc32c-1.9.0 idna-3.20 imageio-2.38.2 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 kiwisolver-1.5.1 lazy-loader-0.6 lmfit-1.3.4 locket-1.0.0 markdown-it-py-4.3.0 matplotlib-3.11.2 mdurl-0.1.2 megaradrp-0.30 msgspec-0.22.0 networkx-3.7 numcodecs-0.17.1 numina-0.42.0 numpy-2.5.5 packaging-26.4 partd-1.4.2 pillow-13.0.0 pims-0.7 pyavm-0.9.10 pyerfa-2.0.1.5 pygments-2.21.0 pyparsing-3.3.3 python-dateutil-4.0.0 referencing-0.37.0 reproject-0.21.0 requests-2.34.2 rich-15.0.0 rich-argparse-1.8.0 rpds-py-2026.9.1 scikit-image-0.26.0 scipy-1.18.1 slicerator-1.1.0 spherical-geometry-1.4.0 teareduce-0.7.9 tifffile-2026.11.16 toolz-1.2.0 tqdm-4.70.1 typing-extensions-4.16.0 tzdata-2026.6 uncertainties-3.2.3 urllib3-2.8.0 zarr-3.4.2
 
 Test the installation
 ~~~~~~~~~~~~~~~~~~~~~
@@ -123,7 +122,7 @@ Now we can test the installation by running the numina command:
 .. code-block:: console
    :class: my-special-block no-copybutton
 
-   numina 0.40.0
+   numina 0.42.0
 
 .. code-block:: console
 
@@ -132,9 +131,9 @@ Now we can test the installation by running the numina command:
 .. code-block:: console
    :class: my-special-block no-copybutton
 
-   INFO: Numina simple recipe runner version 0.40.0
+   INFO: Numina simple recipe runner version 0.42.0
    Instrument: MEGARA
-    version is '0.22'
+    version is '0.30'
     has profile 'Configuration at LICA' uuid=9a86b2b2-3f7d-48ec-8f4f-3780ec967c90
     has profile 'MEGARA@GTC after November 2025' uuid=9f3fecbf-376c-47ae-a188-313b7d829104
     has profile 'Configuration for the Simulator' uuid=66f2283e-3049-4d4b-8ef1-14d62fcb611d

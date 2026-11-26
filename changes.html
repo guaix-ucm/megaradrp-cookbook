@@ -1,0 +1,328 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Changes since MEGARA DRP 0.22 &mdash; megara-cookbook 2026.10.15 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-new-tab-link.css?v=d87cb1ac" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ac5f0f31" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=6d569a1a"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=4d57d52a"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Acronyms" href="acronyms.html" />
+    <link rel="prev" title="Known ISSUES" href="issues.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            megara-cookbook
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="megaradrp.html">MEGARA Data Reduction Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">DRP installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datadesc.html">Data description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datared.html">Data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quality.html">Quality control, flags and masks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="healtraces.html">Healing Defective Traces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="brightlines.html">Problem with bright line tails</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crmasks.html">CR not removed by median stacking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="megaratools.html">MEGARA Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="issues.html">Known ISSUES</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Changes since MEGARA DRP 0.22</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quality-control-and-masks">Quality control and masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#new-parameters-and-defaults">New parameters and defaults</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-of-behaviour">Changes of behaviour</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="acronyms.html">Acronyms</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">megara-cookbook</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Changes since MEGARA DRP 0.22</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/changes.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="changes-since-megara-drp-0-22">
+<span id="changes"></span><h1>Changes since MEGARA DRP 0.22<a class="headerlink" href="#changes-since-megara-drp-0-22" title="Link to this heading"></a></h1>
+<p>This section summarizes the changes in MEGARA DRP 0.30 that affect the data
+reduction described in this cookbook: new parameters of the recipes, changes
+of behaviour, and new products. The details are in <a class="reference internal" href="datared.html#data-reduction-process"><span class="std std-ref">Data reduction process</span></a>
+and in <a class="reference internal" href="quality.html#quality-control"><span class="std std-ref">Quality control, flags and masks</span></a>.</p>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>MEGARA DRP 0.30 requires Python 3.11 or later and numina 0.42 or later.</p></li>
+<li><p>The calibration tree created by <code class="docutils literal notranslate"><span class="pre">megaradrp-inittree</span></code> includes the
+dataset of calibrations distributed by the DRP (megaradrp-calibrations,
+2026.11.17): the bad pixel masks, the extinction curve and the
+catalogues of the arc lines.</p></li>
+</ul>
+</section>
+<section id="quality-control-and-masks">
+<h2>Quality control and masks<a class="headerlink" href="#quality-control-and-masks" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>The trace map, model map, wavelength calibration and fiber flat recipes
+compute the quality of their products (<code class="docutils literal notranslate"><span class="pre">GOOD</span></code>, <code class="docutils literal notranslate"><span class="pre">PARTIAL</span></code> or <code class="docutils literal notranslate"><span class="pre">BAD</span></code>)
+and add quality flags to the fibers. The products with QC <code class="docutils literal notranslate"><span class="pre">BAD</span></code> are not
+used from the registry of the reductions. See <a class="reference internal" href="quality.html#quality-control"><span class="std std-ref">Quality control, flags and masks</span></a>.</p></li>
+<li><p>The images of the calibration lamps have telluric absorption (bands of
+O<sub>2</sub> and H<sub>2</sub>O of the air that the light crosses before
+the fibers, up to 3.5 % deep) and the Na D lines of the lamp. The fiber
+flat recipe masks them: it interpolates the flat across them and marks
+them in <code class="docutils literal notranslate"><span class="pre">FLATMASK</span></code>. See <a class="reference internal" href="quality.html#lamp-tellurics"><span class="std std-ref">Telluric absorption in the calibration images</span></a>.</p></li>
+<li><p>The master fiber flat has a new extension, <code class="docutils literal notranslate"><span class="pre">FLATMASK</span></code>, with the pixels
+of the zero order of the VPH and of the absorption windows. It is copied to
+every RSS corrected with the fiber flat. See <a class="reference internal" href="quality.html#masks"><span class="std std-ref">Masks of the RSS</span></a>.</p></li>
+<li><p>The fibers with an invalid wavelength solution are not resampled.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">megaradrp-cube</span></code> converts <code class="docutils literal notranslate"><span class="pre">WLMAP</span></code> and <code class="docutils literal notranslate"><span class="pre">FLATMASK</span></code> to the geometry of
+the cube.</p></li>
+</ul>
+</section>
+<section id="new-parameters-and-defaults">
+<h2>New parameters and defaults<a class="headerlink" href="#new-parameters-and-defaults" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Recipe</p></th>
+<th class="head"><p>Parameter</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>MegaraTraceMap</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">auto_reference_column</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p>Search for the peaks in the column where
+the weakest pseudo-slit box has the most
+contrast, instead of <code class="docutils literal notranslate"><span class="pre">reference_column</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>MegaraTraceMap</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">complete_traces</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p>Correct and complete the traces with the
+shape of the traces of the neighbouring
+fibers</p></td>
+</tr>
+<tr class="row-even"><td><p>MegaraModelMap</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fit_background</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p>Fit a constant background in each local
+fit of the profiles</p></td>
+</tr>
+<tr class="row-odd"><td><p>MegaraModelMap</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">width_limits</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[0.8,</span> <span class="pre">3.5]</span></code></p></td>
+<td><p>Limits of the width (sigma) of the
+profiles, in pixels</p></td>
+</tr>
+<tr class="row-even"><td><p>MegaraModelMap</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">smooth_widths</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">2</span></code></p></td>
+<td><p>Half size, in fibers, of the running
+median of the widths before the last fit</p></td>
+</tr>
+<tr class="row-odd"><td><p>MegaraFiberFlatImage</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">smoothing_knot_step</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">150.0</span></code></p></td>
+<td><p>Distance in Å between the knots of the
+spline that smooths the average spectrum</p></td>
+</tr>
+<tr class="row-even"><td><p>MegaraFiberFlatImage</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">skip_absorption_windows</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p>Interpolate the flat across the
+absorptions of the calibration light</p></td>
+</tr>
+<tr class="row-odd"><td><p>MegaraFiberFlatImage</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">remove_zero_order</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p>Find the zero order of the VPH and
+interpolate each fiber across it</p></td>
+</tr>
+<tr class="row-even"><td><p>MegaraLcbStdStar,</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">skip_sensitivity_windows</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p>Skip the telluric bands and the strong</p></td>
+</tr>
+<tr class="row-odd"><td><p>MegaraMosStdStar</p></td>
+<td></td>
+<td></td>
+<td><p>stellar lines when smoothing the
+sensitivity</p></td>
+</tr>
+<tr class="row-even"><td><p>MegaraLcbStdStar,</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">extra_skip_windows</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[]</span></code></p></td>
+<td><p>Other windows <code class="docutils literal notranslate"><span class="pre">[[wl1,</span> <span class="pre">wl2],</span> <span class="pre">...]</span></code> (Å,</p></td>
+</tr>
+<tr class="row-odd"><td><p>MegaraMosStdStar</p></td>
+<td></td>
+<td></td>
+<td><p>air) to skip</p></td>
+</tr>
+<tr class="row-even"><td><p>MegaraLcbStdStar,</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">smoothing_adaptive</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p></td>
+<td><p>Move the knots of the smoothing of the</p></td>
+</tr>
+<tr class="row-odd"><td><p>MegaraMosStdStar</p></td>
+<td></td>
+<td></td>
+<td><p>sensitivity to their best positions</p></td>
+</tr>
+<tr class="row-even"><td><p>MegaraLcbStdStar,</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">smoothing_knots</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">5</span></code> (was <code class="docutils literal notranslate"><span class="pre">3</span></code>)</p></td>
+<td><p>Number of knots (or list of knots) of the</p></td>
+</tr>
+<tr class="row-odd"><td><p>MegaraMosStdStar</p></td>
+<td></td>
+<td></td>
+<td><p>smoothing of the sensitivity</p></td>
+</tr>
+<tr class="row-even"><td><p>MegaraTwilightFlatImage</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">normalize_region</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[]</span></code> (was
+<code class="docutils literal notranslate"><span class="pre">[1900,</span> <span class="pre">2100]</span></code>)</p></td>
+<td><p>Columns used to normalize the fibers;
+<code class="docutils literal notranslate"><span class="pre">[]</span></code> to choose them automatically</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="changes-of-behaviour">
+<h2>Changes of behaviour<a class="headerlink" href="#changes-of-behaviour" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code> accepts the value <code class="docutils literal notranslate"><span class="pre">auto</span></code> in the twilight flat,
+acquisition, standard star and science recipes: the offset of the traces
+is measured in each image. The new tool <code class="docutils literal notranslate"><span class="pre">megaradrp-trace_offset</span></code>
+measures it in any image. See <a class="reference internal" href="datared.html#extraction-offset"><span class="std std-ref">Measuring the offset of the traces</span></a>.</p></li>
+<li><p><strong>MegaraTraceMap</strong> completes the traces that do not reach the borders of
+the detector with the shape of their neighbours, and flags the traces that
+cross.</p></li>
+<li><p><strong>MegaraModelMap</strong> fits a background, limits and smooths the widths of the
+profiles, and checks the geometry of the result.</p></li>
+<li><p><strong>MegaraArcCalibration</strong> flags the solutions with large residuals or
+deviant from their neighbours, lists as missing the fibers without trace,
+and marks the fibers whose refinement started from interpolated
+coefficients.</p></li>
+<li><p><strong>MegaraFiberFlatImage</strong>:</p>
+<ul>
+<li><p>smooths the average spectrum with knots every 150 Å, follows the fall of
+the spectrum at the borders and extrapolates the smoothing linearly
+there;</p></li>
+<li><p>interpolates each fiber across the telluric absorption of the
+calibration light, across the Na D lines of the lamp and across the zero
+order of the VPH;</p></li>
+<li><p>returns the RSS calibrated in wavelength in <code class="docutils literal notranslate"><span class="pre">reduced_rss</span></code>;</p></li>
+<li><p>flags the fibers and computes the QC of the fiber flat.</p></li>
+</ul>
+</li>
+<li><p><strong>MegaraTwilightFlatImage</strong>:</p>
+<ul>
+<li><p>the default of <code class="docutils literal notranslate"><span class="pre">normalize_region</span></code> is now <code class="docutils literal notranslate"><span class="pre">[]</span></code>: the region starts at
+the columns 1900-2100 and moves away from the zero order of the VPH
+and from the pixels without coverage;</p></li>
+<li><p>the pixels of <code class="docutils literal notranslate"><span class="pre">FLATMASK</span></code> are left out of the normalization;</p></li>
+<li><p>the scaling of the images by their median before combining them was
+inverted, and it is fixed;</p></li>
+<li><p>the wavelength calibration is not modified.</p></li>
+</ul>
+</li>
+<li><p><strong>MegaraLcbStdStar</strong> and <strong>MegaraMosStdStar</strong> smooth the sensitivity only
+in the region of valid flux, skipping the telluric bands and the strong
+lines of the star. By default the spline has 5 fixed knots, equidistant
+in the region of valid flux (before, 3 knots were moved to their best
+positions, and the result was not reproducible). The limits of the
+sensitivity (<code class="docutils literal notranslate"><span class="pre">PIXLIMF1</span></code>, <code class="docutils literal notranslate"><span class="pre">PIXLIMF2</span></code>…) are 1-based.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">megaradrp-cube</span></code> has a quadratic interpolation (<code class="docutils literal notranslate"><span class="pre">-m</span> <span class="pre">quadratic</span></code>), its
+sky WCS has a 1-based reference pixel, and its rescaling kernel is
+symmetric.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="issues.html" class="btn btn-neutral float-left" title="Known ISSUES" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="acronyms.html" class="btn btn-neutral float-right" title="Acronyms" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018-2026, Universidad Complutense de Madrid.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -24,7 +24,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Acronyms" href="acronyms.html" />
+    <link rel="next" title="Changes since MEGARA DRP 0.22" href="changes.html" />
     <link rel="prev" title="MEGARA Tools" href="megaratools.html" /> 
 </head>
 
@@ -54,16 +54,13 @@
 <li class="toctree-l1"><a class="reference internal" href="install.html">DRP installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datadesc.html">Data description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datared.html">Data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quality.html">Quality control, flags and masks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="healtraces.html">Healing Defective Traces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="brightlines.html">Problem with bright line tails</a></li>
 <li class="toctree-l1"><a class="reference internal" href="crmasks.html">CR not removed by median stacking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="megaratools.html">MEGARA Tools</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Known ISSUES</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#matplotlib-3-in-mac-os-x">Matplotlib 3 in Mac OS X</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#compiling-in-mac-os-x-10-10-or-later">Compiling in Mac OS X 10.10 or later</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#bash-shell">Bash shell</a></li>
-</ul>
-</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Known ISSUES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">Changes since MEGARA DRP 0.22</a></li>
 <li class="toctree-l1"><a class="reference internal" href="acronyms.html">Acronyms</a></li>
 </ul>
 
@@ -93,42 +90,14 @@
              
   <section id="known-issues">
 <h1>Known ISSUES<a class="headerlink" href="#known-issues" title="Link to this heading"></a></h1>
-<section id="matplotlib-3-in-mac-os-x">
-<h2>Matplotlib 3 in Mac OS X<a class="headerlink" href="#matplotlib-3-in-mac-os-x" title="Link to this heading"></a></h2>
-<p>In the case of using matplotlib 3 under Mac OS X (installations starting
-in 2019), in order to avoid a potential error associated to the use of
-the <code class="docutils literal notranslate"><span class="pre">libc++abi.dylib</span></code> library by the TkAgg backend, we recommend you to
-add the following line to the <code class="docutils literal notranslate"><span class="pre">$HOME/.matplotlib/matplotlibrc</span></code> file (you
-should create the file if this does not exist):</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>more<span class="w"> </span><span class="nv">$HOME</span>/.matplotlib/matplotlibrc
-</pre></div>
-</div>
-<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">backend: TkAgg</span>
-</pre></div>
-</div>
-<p>Note that TkAgg is the default backend in Mac OS X. If you want to use
-alternative ones they also need to be installed, or course.</p>
-</section>
-<section id="compiling-in-mac-os-x-10-10-or-later">
-<h2>Compiling in Mac OS X 10.10 or later<a class="headerlink" href="#compiling-in-mac-os-x-10-10-or-later" title="Link to this heading"></a></h2>
-<p>Should the user be insterested in compiling part of the software on
-their own, we note that in the case of the distribution of Mac OS X
-10.10 or later they should include the following environment variable in
-the <code class="docutils literal notranslate"><span class="pre">$HOME/.bashrc</span></code> shell configuration file:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(megara)</span> <span class="gp">$ </span>more<span class="w"> </span><span class="nv">$HOME</span>/.bashrc
-</pre></div>
-</div>
-<div class="my-special-block no-copybutton highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go"> export MACOSX_DEPLOYMENT_TARGET=10.9</span>
-</pre></div>
-</div>
-</section>
-<section id="bash-shell">
-<h2>Bash shell<a class="headerlink" href="#bash-shell" title="Link to this heading"></a></h2>
-<p>Bash shell is the default shell for using the MEGARA DRP and the
-<strong>megara-tools</strong>. Please, be aware that starting on Mac OS X 10.15
-“Catalina” the default shell is zsh. Tests on zsh have not yet been
-performed to ensure its compatibility MEGARA DRP and <strong>megara-tools</strong>.</p>
-</section>
+<p>There are no known issues with the current versions of MEGARA DRP and
+<strong>megara-tools</strong>. Please, report any problem in the issue tracker of the
+corresponding package on GitHub:</p>
+<ul class="simple">
+<li><p>MEGARA DRP: <a class="reference external" href="https://github.com/guaix-ucm/megaradrp/issues" rel="noreferrer" target="_blank">https://github.com/guaix-ucm/megaradrp/issues</a></p></li>
+<li><p><strong>megara-tools</strong>: <a class="reference external" href="https://github.com/guaix-ucm/megara-tools/issues" rel="noreferrer" target="_blank">https://github.com/guaix-ucm/megara-tools/issues</a></p></li>
+<li><p>this cookbook: <a class="reference external" href="https://github.com/guaix-ucm/megaradrp-cookbook/issues" rel="noreferrer" target="_blank">https://github.com/guaix-ucm/megaradrp-cookbook/issues</a></p></li>
+</ul>
 </section>
 
 
@@ -136,7 +105,7 @@ performed to ensure its compatibility MEGARA DRP and <strong>megara-tools</stron
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="megaratools.html" class="btn btn-neutral float-left" title="MEGARA Tools" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="acronyms.html" class="btn btn-neutral float-right" title="Acronyms" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="changes.html" class="btn btn-neutral float-right" title="Changes since MEGARA DRP 0.22" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

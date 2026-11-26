@@ -53,11 +53,13 @@
 <li class="toctree-l1"><a class="reference internal" href="install.html">DRP installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datadesc.html">Data description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datared.html">Data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quality.html">Quality control, flags and masks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="healtraces.html">Healing Defective Traces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="brightlines.html">Problem with bright line tails</a></li>
 <li class="toctree-l1"><a class="reference internal" href="crmasks.html">CR not removed by median stacking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="megaratools.html">MEGARA Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="issues.html">Known ISSUES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">Changes since MEGARA DRP 0.22</a></li>
 <li class="toctree-l1"><a class="reference internal" href="acronyms.html">Acronyms</a></li>
 </ul>
 
@@ -102,6 +104,14 @@ available on this <a class="reference external" href="https://guaix-ucm.github.i
 been implemented. Please, see the section <a class="reference external" href="datared.html" rel="noreferrer" target="_blank">Data reduction</a>
 for details.</p>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>MEGARA DRP 0.30 adds quality control of the calibrations, masks of the
+zero order of the VPH and of the telluric absorption of the calibration
+lamps, and the automatic
+measurement of <code class="docutils literal notranslate"><span class="pre">extraction_offset</span></code>. See <a class="reference internal" href="changes.html#changes"><span class="std std-ref">Changes since MEGARA DRP 0.22</span></a> and
+<a class="reference internal" href="quality.html#quality-control"><span class="std std-ref">Quality control, flags and masks</span></a>.</p>
+</div>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a><ul>
@@ -126,6 +136,19 @@ for details.</p>
 <li class="toctree-l2"><a class="reference internal" href="datared.html#data-organization">Data organization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datared.html#running-a-recipe">Running a recipe</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datared.html#data-reduction-process">Data reduction process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quality.html">Quality control, flags and masks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quality.html#quality-of-the-products">Quality of the products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quality.html#trace-map">Trace map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quality.html#model-map">Model map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quality.html#wavelength-calibration">Wavelength calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quality.html#fiber-flat">Fiber flat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quality.html#masks-of-the-rss">Masks of the RSS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quality.html#the-zero-order-of-the-vph">The zero order of the VPH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quality.html#telluric-absorption-in-the-calibration-images">Telluric absorption in the calibration images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quality.html#absorption-windows">Absorption windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quality.html#masks-in-the-cubes">Masks in the cubes</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="healtraces.html">Healing Defective Traces</a><ul>
@@ -157,10 +180,12 @@ for details.</p>
 <li class="toctree-l2"><a class="reference internal" href="megaratools.html#megaratools-hypercube">Megaratools-hypercube</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="issues.html">Known ISSUES</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="issues.html#matplotlib-3-in-mac-os-x">Matplotlib 3 in Mac OS X</a></li>
-<li class="toctree-l2"><a class="reference internal" href="issues.html#compiling-in-mac-os-x-10-10-or-later">Compiling in Mac OS X 10.10 or later</a></li>
-<li class="toctree-l2"><a class="reference internal" href="issues.html#bash-shell">Bash shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="issues.html">Known ISSUES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">Changes since MEGARA DRP 0.22</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changes.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes.html#quality-control-and-masks">Quality control and masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes.html#new-parameters-and-defaults">New parameters and defaults</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes.html#changes-of-behaviour">Changes of behaviour</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="acronyms.html">Acronyms</a></li>

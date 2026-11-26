@@ -55,6 +55,7 @@
 <li class="toctree-l1"><a class="reference internal" href="install.html">DRP installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datadesc.html">Data description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datared.html">Data reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quality.html">Quality control, flags and masks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="healtraces.html">Healing Defective Traces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="brightlines.html">Problem with bright line tails</a></li>
 <li class="toctree-l1"><a class="reference internal" href="crmasks.html">CR not removed by median stacking</a></li>
@@ -73,6 +74,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="issues.html">Known ISSUES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">Changes since MEGARA DRP 0.22</a></li>
 <li class="toctree-l1"><a class="reference internal" href="acronyms.html">Acronyms</a></li>
 </ul>
 
@@ -305,7 +307,7 @@ doing:</p>
 </pre></div>
 </div>
 <div class="my-special-block no-copybutton highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">convert_rss_cube</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">PIXEL_SIZE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTFILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="p">]</span>
-                        <span class="p">[</span><span class="o">-</span><span class="n">m</span> <span class="p">{</span><span class="n">nn</span><span class="p">,</span><span class="n">linear</span><span class="p">}]</span> <span class="p">[</span><span class="o">--</span><span class="n">wcs</span><span class="o">-</span><span class="n">pa</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">header</span><span class="p">]</span>
+                        <span class="p">[</span><span class="o">-</span><span class="n">m</span> <span class="p">{</span><span class="n">nn</span><span class="p">,</span><span class="n">linear</span><span class="p">,</span><span class="n">quadratic</span><span class="p">}]</span> <span class="p">[</span><span class="o">--</span><span class="n">wcs</span><span class="o">-</span><span class="n">pa</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">header</span><span class="p">]</span>
                         <span class="p">[</span><span class="o">--</span><span class="n">fix</span><span class="o">-</span><span class="n">missing</span><span class="p">]</span>
                         <span class="n">rss</span>
 
@@ -320,7 +322,7 @@ doing:</p>
                         <span class="n">Name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">output</span> <span class="n">cube</span> <span class="n">file</span>
   <span class="o">-</span><span class="n">d</span><span class="p">,</span> <span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">scaling</span>
                         <span class="n">Disable</span> <span class="n">flux</span> <span class="n">conservation</span>
-  <span class="o">-</span><span class="n">m</span><span class="p">,</span> <span class="o">--</span><span class="n">method</span> <span class="p">{</span><span class="n">nn</span><span class="p">,</span><span class="n">linear</span><span class="p">}</span>
+  <span class="o">-</span><span class="n">m</span><span class="p">,</span> <span class="o">--</span><span class="n">method</span> <span class="p">{</span><span class="n">nn</span><span class="p">,</span><span class="n">linear</span><span class="p">,</span><span class="n">quadratic</span><span class="p">}</span>
                         <span class="n">Method</span> <span class="n">of</span> <span class="n">interpolation</span>
   <span class="o">--</span><span class="n">wcs</span><span class="o">-</span><span class="n">pa</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">header</span>  <span class="n">Use</span> <span class="n">PA</span> <span class="n">angle</span> <span class="kn">from</span><span class="w"> </span><span class="nn">header</span>
   <span class="o">--</span><span class="n">fix</span><span class="o">-</span><span class="n">missing</span>         <span class="n">Interpolate</span> <span class="n">missing</span> <span class="n">fibers</span>
@@ -328,6 +330,16 @@ doing:</p>
 </div>
 <p>Default parameters for the <code class="docutils literal notranslate"><span class="pre">--disable-scaling</span></code> and <code class="docutils literal notranslate"><span class="pre">--wcs-pa-from-header</span></code>
 options should be fine for regular MEGARA data processed with the DRP.</p>
+<p>The option <code class="docutils literal notranslate"><span class="pre">-m</span></code> selects the interpolation: <code class="docutils literal notranslate"><span class="pre">nn</span></code> (nearest neighbour, the
+default), <code class="docutils literal notranslate"><span class="pre">linear</span></code> or <code class="docutils literal notranslate"><span class="pre">quadratic</span></code> (hex-splines of order 1, 2 and 3).
+With <code class="docutils literal notranslate"><span class="pre">--fix-missing</span></code>, the spectrum of the fiber 623 of the LCB, which has
+no light, is interpolated from the fibers around it.</p>
+<p>The extensions <code class="docutils literal notranslate"><span class="pre">WLMAP</span></code> and <code class="docutils literal notranslate"><span class="pre">FLATMASK</span></code> of the RSS are converted to the
+geometry of the cube (see <a class="reference internal" href="quality.html#masks"><span class="std std-ref">Masks of the RSS</span></a>): <code class="docutils literal notranslate"><span class="pre">WLMAP</span></code> is 1 in the pixels of the
+cube with data from all their fibers, and <code class="docutils literal notranslate"><span class="pre">FLATMASK</span></code> has in each pixel the
+bits of the fibers that contribute to it. The zero order of the VPH, at
+fixed columns of the detector, appears in the cube as a band whose
+wavelength changes across the field of view (see <strong>Figure 16d</strong>).</p>
 <p>An alternative software with similar scope has been developed by Javier
 Zaragoza Cardiel (from INAOE) and can be obtained through GitHub at
 <a class="reference external" href="https://github.com/javierzaragoza/megararss2cube" rel="noreferrer" target="_blank">https://github.com/javierzaragoza/megararss2cube</a>.</p>
@@ -573,8 +585,8 @@ range that is common to all fibers (cyan lines) and that where the
 computation (smoothing) of the sensitivity curve yields a reliable flux
 calibration (dashed red lines). In that regard, it is also worth noting
 that this tool can be also used to plot efficiency curves generated by
-the LcbStdStar recipe (e.g. <code class="docutils literal notranslate"><span class="pre">master_sensitivity.fits</span></code>), as shown in
-<strong>Figure 14</strong>, both in their nominal units (electrons/Jy) or in relative
+the LcbStdStar recipe (e.g. <code class="docutils literal notranslate"><span class="pre">master_sensitivity.fits</span></code>, see <strong>Figure
+14</strong>), both in their nominal units (electrons/Jy) or in relative
 efficiency (when the option <code class="docutils literal notranslate"><span class="pre">-e</span></code> is used) assuming 80% pupil losses and
 80% telescope efficiency relative to its effective area.</p>
 </section>
