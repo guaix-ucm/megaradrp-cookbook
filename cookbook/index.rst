@@ -1,10 +1,11 @@
 MEGARA data reduction cookbook
 ==============================
 
-This webpage is an updated version of the original cookbook (dated 07/07/2020),
-available in PDF format at this `zenodo link
-<https://zenodo.org/records/3932063>`_. That document was prepared by África
-Castillo Morales, Sergio Pascual Ramírez and Armando Gil de Paz. As the
+This webpage is an updated version of the original cookbook (dated 07/07/2020).
+The PDF version of this webpage and the previous versions of the cookbook,
+including the original one, are available at `Zenodo
+<https://doi.org/10.5281/zenodo.1974953>`_. The original document was prepared
+by África Castillo Morales, Sergio Pascual Ramírez and Armando Gil de Paz. As the
 aforementioned document has become slightly outdated over time, we have decided
 to move the documentation to this website that allows for easier updates.
 Nicolás Cardiel López, Mario Chamorro Cazorla and María Chillarón Víctor have
