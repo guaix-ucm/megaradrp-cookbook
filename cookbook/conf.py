@@ -23,7 +23,7 @@ author = 'África Castillo-Morales, Sergio Pascual, Armando Gil de Paz,\nNicolá
 # NOTE: see below for author list in LaTeX document
 
 # The full version, including alpha/beta/rc tags
-release = '2026.11.27'
+release = '2026.11.27.1'
 
 
 # -- General configuration ---------------------------------------------------
