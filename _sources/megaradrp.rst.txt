@@ -18,8 +18,9 @@ extraction and absolute flux calibration whenever possible. The MEGARA
 DRP can be obtained through *github* at
 https://github.com/guaix-ucm/megaradrp. Line lists, the
 CCD Bad-Pixels Mask (BPM) and the extinction table are available in the
-dataset of calibrations of MEGARA, at https://zenodo.org/records/18623771
-(installed in the calibration tree with ``megaradrp-inittree``).
+dataset of calibrations of MEGARA, at https://zenodo.org/records/24321742
+(megaradrp-calibrations 2026.11.17, installed in the calibration tree with
+``megaradrp-inittree``).
 
 The MEGARA DRP has been designed to cope with all effects associated to
 the observation with a fiber-fed spectrograph on which the detection of

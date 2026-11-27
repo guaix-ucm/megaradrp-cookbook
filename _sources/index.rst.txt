@@ -45,3 +45,25 @@ available on this `webpage
    issues
    changes
    acronyms
+
+How to cite
+-----------
+
+If you use this cookbook, please cite it as:
+
+   Castillo-Morales, Á., Pascual, S., Gil de Paz, A., Cardiel, N.,
+   Chamorro-Cazorla, M., *MEGARA Data Reduction Cookbook*, Zenodo,
+   https://doi.org/10.5281/zenodo.1974953
+
+This DOI always resolves to the latest version of the cookbook. Each
+version has its own DOI, listed in the Zenodo record.
+
+License
+-------
+
+The text and the figures of this cookbook are licensed under the `Creative
+Commons Attribution 4.0 International License (CC BY 4.0)
+<https://creativecommons.org/licenses/by/4.0/>`_. The source code in the
+`repository of the cookbook <https://github.com/guaix-ucm/megaradrp-cookbook>`_
+(configuration of the documentation, scripts and workflows) is licensed under
+the GNU General Public License v3 (GPLv3).
