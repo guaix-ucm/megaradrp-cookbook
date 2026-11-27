@@ -61,11 +61,15 @@ def main():
     if latest_version == args.version:
         sys.exit(f"error: version {args.version} is already published in Zenodo")
 
-    # New version (a draft). If a draft already exists, Zenodo returns it
-    resp = check(
-        session.post(f"{api}/deposit/depositions/{latest['id']}/actions/newversion"),
-        "creating the new version",
-    )
+    # New version (a draft)
+    resp = session.post(f"{api}/deposit/depositions/{latest['id']}/actions/newversion")
+    if resp.status_code == 400 and "remove all files" in resp.text:
+        # Zenodo refuses a new version while a draft with files is open
+        sys.exit(
+            "error: there is an unpublished draft of a new version in Zenodo;\n"
+            "publish it or discard it in https://zenodo.org/me/uploads and run again"
+        )
+    check(resp, "creating the new version")
     links = resp.json()["links"]
     draft_url = links.get("latest_draft", links["self"])
     draft = check(session.get(draft_url), "reading the draft").json()

@@ -19,6 +19,9 @@ The workflow can also be run manually from the Actions tab, to build the PDF
 only or to upload it to Zenodo as a draft (reviewed and published, or
 discarded, in the web interface of Zenodo).
 
+Zenodo does not create a new version while there is an unpublished draft
+of a new version: publish it or discard it before running the workflow again.
+
 The upload needs the repository secret `ZENODO_TOKEN`, a Zenodo personal
 token of an owner of the record with the scopes `deposit:write` and
 `deposit:actions`.
