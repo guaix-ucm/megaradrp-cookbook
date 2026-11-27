@@ -34,7 +34,7 @@ jobs:
     permissions:
       contents: write
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
     - name: Install latex
       run: |
@@ -42,7 +42,7 @@ jobs:
         sudo apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
 
     - name: Set up Python 3.12
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v7
       with:
         python-version: 3.12
 
@@ -67,7 +67,7 @@ jobs:
         make latexpdf
         cp build/latex/megara-cookbook.pdf megara-cookbook_v${{ steps.version.outputs.version }}.pdf
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       with:
         name: megara-cookbook_v${{ steps.version.outputs.version }}
         path: megara-cookbook_v${{ steps.version.outputs.version }}.pdf
