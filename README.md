@@ -25,3 +25,16 @@ of a new version: publish it or discard it before running the workflow again.
 The upload needs the repository secret `ZENODO_TOKEN`, a Zenodo personal
 token of an owner of the record with the scopes `deposit:write` and
 `deposit:actions`.
+
+## Citation
+
+Cite the cookbook with its DOI, https://doi.org/10.5281/zenodo.1974953
+(see `CITATION.cff`).
+
+## License
+
+The text and the figures of the cookbook (directory `cookbook`) are
+licensed under the Creative Commons Attribution 4.0 International License
+(CC BY 4.0), see `LICENSE-CC-BY-4.0.txt`. The source code (configuration of
+the documentation, scripts and workflows) is licensed under the GNU General
+Public License v3, see `LICENSE.txt`.

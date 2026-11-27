@@ -1,0 +1,54 @@
+cff-version: 1.2.0
+message: "If you use this cookbook, please cite it as below."
+title: "MEGARA Data Reduction Cookbook"
+authors:
+  - family-names: Castillo-Morales
+    given-names: África
+    affiliation: Universidad Complutense de Madrid
+    orcid: "https://orcid.org/0000-0003-4964-3245"
+  - family-names: Pascual
+    given-names: Sergio
+    affiliation: Universidad Complutense de Madrid
+    orcid: "https://orcid.org/0000-0002-9351-6051"
+  - family-names: Gil de Paz
+    given-names: Armando
+    affiliation: Universidad Complutense de Madrid
+    orcid: "https://orcid.org/0000-0001-6150-2854"
+  - family-names: Cardiel
+    given-names: Nicolás
+    affiliation: Universidad Complutense de Madrid
+    orcid: "https://orcid.org/0000-0002-9334-2979"
+  - family-names: Chamorro-Cazorla
+    given-names: Mario
+    affiliation: Universidad Complutense de Madrid
+    orcid: "https://orcid.org/0000-0003-3444-6847"
+doi: 10.5281/zenodo.1974953
+license: CC-BY-4.0
+repository-code: "https://github.com/guaix-ucm/megaradrp-cookbook"
+url: "https://guaix-ucm.github.io/megaradrp-cookbook/"
+keywords:
+  - GTC
+  - MEGARA
+preferred-citation:
+  type: manual
+  title: "MEGARA Data Reduction Cookbook"
+  authors:
+    - family-names: Castillo-Morales
+      given-names: África
+      orcid: "https://orcid.org/0000-0003-4964-3245"
+    - family-names: Pascual
+      given-names: Sergio
+      orcid: "https://orcid.org/0000-0002-9351-6051"
+    - family-names: Gil de Paz
+      given-names: Armando
+      orcid: "https://orcid.org/0000-0001-6150-2854"
+    - family-names: Cardiel
+      given-names: Nicolás
+      orcid: "https://orcid.org/0000-0002-9334-2979"
+    - family-names: Chamorro-Cazorla
+      given-names: Mario
+      orcid: "https://orcid.org/0000-0003-3444-6847"
+  doi: 10.5281/zenodo.1974953
+  publisher:
+    name: Zenodo
+  url: "https://doi.org/10.5281/zenodo.1974953"

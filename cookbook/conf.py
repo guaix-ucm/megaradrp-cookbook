@@ -109,7 +109,7 @@ latex_elements = {
   Mario Chamorro-Cazorla
   \end{tabular}
 
-  \vspace{1 cm}
+  \vspace{0.5 cm}
 
   \centerline{%
   \includegraphics[width=0.95\paperwidth,keepaspectratio]{../../cookbook/_static/logo.png}%
@@ -123,7 +123,11 @@ latex_elements = {
 
   \vspace{2 mm}
 
-  {\large \url{https://guaix-ucm.github.io/megaradrp-cookbook/}}}
+  {\large \url{https://guaix-ucm.github.io/megaradrp-cookbook/}}
+
+  \vspace{2 mm}
+
+  {\normalsize Licensed under CC BY 4.0, \url{https://creativecommons.org/licenses/by/4.0/}}}
   }%end of parbox
 \end{titlepage}
 '''.replace('@RELEASE@', release),
